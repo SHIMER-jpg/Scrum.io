@@ -4,7 +4,15 @@ const fs = require("fs");
 const path = require("path");
 
 const { DB_USER, DB_PASSWORD, DB_HOST } = process.env;
-mongoose.connect(`mongodb+srv://${DB_USER}:${DB_PASSWORD}@${DB_HOST}`);
+const conn = mongoose.createConnection(
+  `mongodb+srv://${DB_USER}:${DB_PASSWORD}@${DB_HOST}`,
+  {
+    useNewUrlParser: true,
+  }
+);
+// mongoose.connect(`mongodb+srv://${DB_USER}:${DB_PASSWORD}@${DB_HOST}`, {
+//   useNewUrlParser: true,
+// });
 
 const basename = path.basename(__filename);
 
@@ -20,8 +28,6 @@ fs.readdirSync(path.join(__dirname, "/models"))
     modelDefiners.push(require(path.join(__dirname, "/models", file)));
   });
 
-console.log(modelDefiners);
-
 module.exports = {
-  conn: mongoose,
+  conn: conn,
 };
