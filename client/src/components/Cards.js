@@ -1,13 +1,12 @@
-import "./App.css";
-import { Card } from "./components/Card";
-import testingTask from "./Testing";
+import { Card } from "./Card";
+import testingTask from "../Testing";
 
-console.log(testingTask);
+import styles from "../styles/Card.module.css";
 
 function Cards() {
   return (
     <div style={{ height: "100px" }}>
-      <div className="Grid">
+      <div className={styles.grid}>
         <Card
           elements={testingTask.filter((e) => e.task === "Stories")}
           name={"Stories"}
