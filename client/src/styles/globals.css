@@ -24,3 +24,8 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.unstyled-link {
+  text-decoration: none;
+  color: unset;
+}

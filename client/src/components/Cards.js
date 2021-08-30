@@ -1,9 +1,12 @@
+import { useAuth0 } from "@auth0/auth0-react";
 import { Card } from "./Card";
 import testingTask from "../Testing";
 
 import styles from "../styles/Card.module.css";
 
 function Cards() {
+  const { logout } = useAuth0();
+
   return (
     <div style={{ height: "100px" }}>
       <div className={styles.grid}>
@@ -28,6 +31,7 @@ function Cards() {
           name={"Done"}
         />
       </div>
+      <button onClick={logout}>Logout!</button>
     </div>
   );
 }
