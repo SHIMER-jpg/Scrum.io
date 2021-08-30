@@ -1,10 +1,10 @@
 import { Router } from 'express';
-const helpTasks = Router();
+const todoHelp = Router();
 
 //hardcoded TODOS
 import PROJECTS from './hardcodingDataBD.js';
 
-helpTasks.get('/:ProjectId', async (req, res, next) => {
+todoHelp.get('/:ProjectId', async (req, res, next) => {
 	try{
 		const { ProjectId } = req.params;
 
@@ -12,9 +12,9 @@ helpTasks.get('/:ProjectId', async (req, res, next) => {
 		const project = PROJECTS.find(pro => pro.id === ProjectId);
 
 		// filtro los TODOS que necesiten ayuda y los guardo para enviar en la respuesta
-		const todoHelp = project.todoList.filter(todo => !!todo.help);
+		const todoHelpList = project.todoList.filter(todo => !!todo.help);
 
-		res.status(200).json(todoHelp);
+		res.status(200).json(todoHelpList);
 	} 
 	catch(error){
 		next(error);

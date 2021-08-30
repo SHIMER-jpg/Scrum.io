@@ -2,12 +2,12 @@
 import { Router } from 'express';
 
 // routes:
-import helpTasks from './helpTasks';
+import todoHelp from './todoHelp';
 import todos from './todos';
 
 const router = Router();
 
-router.use('/helpTasks', helpTasks);
+router.use('/todoHelp', todoHelp);
 router.use('/todos', todos);
 
 export default router;
