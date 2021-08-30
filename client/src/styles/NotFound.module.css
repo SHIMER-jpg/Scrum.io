@@ -1,0 +1,29 @@
+.container {
+  height: 100vh;
+  display: grid;
+  place-items: center;
+  background-color: var(--red);
+}
+
+.notFound {
+  display: flex;
+  flex-direction: column;
+}
+
+.notFound h1 {
+  font-weight: 400;
+  font-size: 45px;
+  color: white;
+}
+
+.notFound button {
+  all: unset;
+  background-color: white;
+  padding: 10px 20px;
+  border-radius: 1000px;
+  color: var(--violet);
+  font-weight: 600;
+  text-align: center;
+  font-size: 24px;
+  align-self: center;
+}

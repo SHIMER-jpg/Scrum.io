@@ -1,14 +1,14 @@
+import Logo from "../components/Logo";
 import { AiOutlineUser } from "react-icons/ai";
 
 import styles from "../styles/LandingPage.module.css";
 import image from "../static/img/stock_image.jpeg";
-import logo from "../static/img/scrumio_logo.png";
 
 const LandingPage = () => {
   return (
     <section className={styles.container}>
       <main className={styles.login}>
-        <img src={logo} alt="Logo de Scrum.io" />
+        <Logo fill="#cc001a" height={80} width={80} />
         <h1>Scrum.io</h1>
         <p>We make IT easy</p>
         <button>

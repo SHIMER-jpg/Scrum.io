@@ -19,10 +19,6 @@
   align-items: center;
 }
 
-.login img {
-  width: 100px;
-}
-
 .login h1 {
   margin: 15px 0 10px;
   font-weight: 600;

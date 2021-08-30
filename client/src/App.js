@@ -2,6 +2,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { Switch, Route } from "react-router-dom";
 
 import Cards from "./components/Cards";
+import NotFound from "./components/NotFound";
 import LandingPage from "./views/LandingPage";
 
 const App = () => {
@@ -15,10 +16,13 @@ const App = () => {
         <>
           {isAuthenticated ? (
             <Switch>
-              <Route path="/" component={Cards} exact />
+              <Route path="/" exact component={Cards} />
             </Switch>
           ) : (
-            <Route path="/" component={LandingPage} />
+            <Switch>
+              <Route path="/" exact component={LandingPage} />
+              <Route component={NotFound} />
+            </Switch>
           )}
         </>
       )}
