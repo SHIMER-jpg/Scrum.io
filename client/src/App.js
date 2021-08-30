@@ -1,23 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import "./App.css";
+import { Stories } from "./components/Stories";
+import testingTask from "./Testing";
+import { ToDo } from "./components/ToDo";
+import { Done } from "./components/Done";
+import { InProgress } from "./components/InProgress";
+import { Testing } from "./components/Testing";
+
+console.log(testingTask);
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Stories element={testingTask} />
+      <InProgress element={testingTask} />
+      <ToDo element={testingTask} />
+      <Testing element={testingTask} />
+      <Done element={testingTask} />
     </div>
   );
 }
