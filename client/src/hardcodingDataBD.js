@@ -16,7 +16,7 @@ const PROJECT_1 = {
 			title:"User Story 2", 
 			description:"como scrummaster, quiero legislar leyes de regulacion laboral",
 			storypoint:15,
-			complexitymatrix: "worth persuing later",
+			complexitymatrix: "strategic initiatives",
 			userId:12,
 			help:false
 		},
@@ -43,7 +43,7 @@ const PROJECT_1 = {
 			title:"User Story 5", 
 			description:"como desarrollador, quiero poder evadir impuestos",
 			storypoint:100,
-			complexitymatrix: "desprioritize",
+			complexitymatrix: "worth_persuing_later",
 			userId:20,
 			help:false
 		}
@@ -68,7 +68,7 @@ const PROJECT_2 = {
 			title:"User Story 2", 
 			description:"como scrummaster, quiero legislar leyes de regulacion laboral",
 			storypoint:15,
-			complexitymatrix: "worth persuing later",
+			complexitymatrix: "strategic initiatives",
 			userId:12,
 			help:false
 		},
@@ -95,7 +95,7 @@ const PROJECT_2 = {
 			title:"User Story 5", 
 			description:"como desarrollador, quiero poder evadir impuestos",
 			storypoint:100,
-			complexitymatrix: "desprioritize",
+			complexitymatrix: "worth_persuing_later",
 			userId:20,
 			help:false
 		}
