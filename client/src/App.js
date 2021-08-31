@@ -1,16 +1,3 @@
-<<<<<<< HEAD
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-
-// components
-import DeveloperView from './components/DeveloperView/DeveloperView.js';
-
-function App() {
-  return (
-    <div className="App">
-      <DeveloperView />
-=======
 import { useAuth0 } from "@auth0/auth0-react";
 import { Switch, Route, Redirect } from "react-router-dom";
 
@@ -25,7 +12,6 @@ const App = () => {
   return isLoading ? (
     <div style={{ height: "100vh", display: "grid", placeItems: "center" }}>
       <div class="lds-dual-ring"></div>
->>>>>>> development
     </div>
   ) : (
     <>
