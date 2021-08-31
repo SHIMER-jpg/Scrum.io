@@ -10,7 +10,9 @@ const App = () => {
   const { isLoading, isAuthenticated } = useAuth0();
 
   return isLoading ? (
-    <h1>Cargando...</h1>
+    <div style={{ height: "100vh", display: "grid", placeItems: "center" }}>
+      <div class="lds-dual-ring"></div>
+    </div>
   ) : (
     <>
       <Switch>

@@ -19,7 +19,9 @@ const Header = () => {
       </header>
       <div className={styles.user}>
         {isLoading ? (
-          <div className={styles.userBox}></div>
+          <div className={styles.userBox}>
+            <Skeleton circle={true} width={35} />
+          </div>
         ) : (
           <div
             role="button"
