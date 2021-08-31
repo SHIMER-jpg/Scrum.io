@@ -2,8 +2,6 @@ import "./App.css";
 import { Card } from "./components/Card";
 import testingTask from "./Testing";
 
-console.log(testingTask);
-
 function Cards() {
   return (
     <div style={{ height: "100px" }}>

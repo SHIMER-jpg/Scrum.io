@@ -1,0 +1,11 @@
+.container {
+  position: relative;
+  background-color: #f3f3f3;
+  height: auto;
+  width: 100%;
+}
+.hairline {
+  width: auto;
+  height: 1px;
+  background-color: grey;
+}
