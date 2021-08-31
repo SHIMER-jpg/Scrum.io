@@ -1,32 +1,32 @@
-import Header from "./Header";
-import { Card } from "./Card";
-import testingTask from "../Testing";
+import { Task } from "./task";
+import testingTask from "./Testing";
+import { useAuth0 } from "@auth0/auth0-react";
+import styles from "../../styles/tasksHolder.module.css";
 
-import styles from "../styles/Card.module.css";
+export default function TasksHolder() {
+  const { logout } = useAuth0();
 
-function Cards() {
   return (
     <>
-      <Header />
       <div style={{ height: "100px" }}>
         <div className={styles.grid}>
-          <Card
+          <Task
             elements={testingTask.filter((e) => e.task === "Stories")}
             name={"Stories"}
           />
-          <Card
+          <Task
             elements={testingTask.filter((e) => e.task === "ToDo")}
             name={"To Dos"}
           />
-          <Card
+          <Task
             elements={testingTask.filter((e) => e.task === "in Progress")}
             name={"In Progress"}
           />
-          <Card
+          <Task
             elements={testingTask.filter((e) => e.task === "Testing")}
             name={"Testing"}
           />
-          <Card
+          <Task
             elements={testingTask.filter((e) => e.task === "Done")}
             name={"Done"}
           />
@@ -35,5 +35,3 @@ function Cards() {
     </>
   );
 }
-
-export default Cards;

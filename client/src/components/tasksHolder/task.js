@@ -1,4 +1,4 @@
-export function Card({ elements, name }) {
+export function Task({ elements, name }) {
   return (
     <div>
       <div>{name}</div>
