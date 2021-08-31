@@ -1,16 +1,16 @@
 import React from 'react';
 
 //components
-import ToDoCard from '../ToDoCard/ToDoCard.js';
+import TodoCard from './TodoCard.js';
 
-export default function ToDos() {
+export default function Todos() {
   return (
-    <div className="ToDos">
-      <div className="ToDos-Header">
+    <div className="Todos">
+      <div className="Todos-Header">
         <h1>To Do</h1>
       </div>
-      <div className="ToDoList">
-        <ToDoCard 
+      <div className="TodoList">
+        <TodoCard 
           name={"Task Name"}
           description={"HolaHola, soy una descripcion de TODO"}
           sp={"99"}

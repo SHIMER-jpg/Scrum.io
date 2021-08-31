@@ -1,7 +1,7 @@
 import React from 'react';
 
 // components
-import ToDos from '../ToDos/ToDos.js';
+import Todos from './Todos';
 
 export default function DeveloperView() {
   return (
@@ -11,10 +11,10 @@ export default function DeveloperView() {
       </div>
       <div className="DeveloperView-Body">
         {/* Componente de TODOS del usuario en este proyecto */}
-        <ToDos/>
+        <Todos/>
 
         {/* Componente de TODOS que necesitan ayuda en este proyecto */}
-        <ToDos/>
+        <Todos/>
       </div>
     </div>
   );
