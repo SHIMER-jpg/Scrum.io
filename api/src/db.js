@@ -10,6 +10,16 @@ const conn = () => {
 };
 
 
+console.log(
+  newUserManager,
+  newUserDev,
+  newUserProyect,
+  newUserProyectDev,
+  newProyect
+  // newTaskOne,
+  // newTaskTwo
+);
+
 module.exports = {
   conn,
 };
