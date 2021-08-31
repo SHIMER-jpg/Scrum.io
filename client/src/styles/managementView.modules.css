@@ -1,9 +1,9 @@
 .container {
-  position: relative;
-  background-color: #f3f3f3;
-  height: auto;
-  width: 100%;
+  background-color: red;
+  height: 100vh;
+  width: 100vw;
 }
+
 .hairline {
   width: auto;
   height: 1px;
