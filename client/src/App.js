@@ -12,17 +12,19 @@ const App = () => {
   return isLoading ? (
     <h1>Cargando...</h1>
   ) : (
-    <Switch>
-      <Route
-        path="/"
-        exact
-        render={() =>
-          isAuthenticated ? <Redirect to="/home" /> : <LandingPage />
-        }
-      />
-      <PrivateRoute path="/home" exact component={Cards} />
-      <Route component={NotFound} />
-    </Switch>
+    <>
+      <Switch>
+        <Route
+          path="/"
+          exact
+          render={() =>
+            isAuthenticated ? <Redirect to="/home" /> : <LandingPage />
+          }
+        />
+        <PrivateRoute path="/home" exact component={Cards} />
+        <Route component={NotFound} />
+      </Switch>
+    </>
   );
 };
 
