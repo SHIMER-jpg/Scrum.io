@@ -10,7 +10,7 @@ async function getTodosByUser(user, project){
   //      user: user
   //   }
   // })
-  var projectFound = PROJECTS.find((p) => p.projectId === project);
+  var projectFound = PROJECTS.find((p) => p.id === project);
   return projectFound.todoList.filter((t) => t.userId === user);
 }
 
