@@ -16,7 +16,7 @@ const taskSchema = new mongoose.Schema({
     type: String,
     enum: ["Easy Win", "Depriorize", "Worth Pursuing", "Strategic Initiative"],
   },
-  details: {},
+  details: { type: String },
   helpNeeded: { type: Boolean },
   proyect: { type: Schema.Types.ObjectId, ref: "Proyect" },
 });
