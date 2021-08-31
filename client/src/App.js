@@ -1,25 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import { useAuth0 } from "@auth0/auth0-react";
+import { Switch, Route, Redirect } from "react-router-dom";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+import Cards from "./components/Cards";
+import NotFound from "./components/NotFound";
+import PrivateRoute from "./components/PrivateRoute";
+import LandingPage from "./views/LandingPage";
+
+const App = () => {
+  const { isLoading, isAuthenticated } = useAuth0();
+
+  return isLoading ? (
+    <div style={{ height: "100vh", display: "grid", placeItems: "center" }}>
+      <div class="lds-dual-ring"></div>
     </div>
+  ) : (
+    <>
+      <Switch>
+        <Route
+          path="/"
+          exact
+          render={() =>
+            isAuthenticated ? <Redirect to="/home" /> : <LandingPage />
+          }
+        />
+        <PrivateRoute path="/home" exact component={Cards} />
+        <Route component={NotFound} />
+      </Switch>
+    </>
   );
-}
+};
 
 export default App;
