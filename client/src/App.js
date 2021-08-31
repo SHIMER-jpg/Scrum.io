@@ -5,6 +5,7 @@ import Cards from "./components/Cards";
 import NotFound from "./components/NotFound";
 import PrivateRoute from "./components/PrivateRoute";
 import LandingPage from "./views/LandingPage";
+import DeveloperView from "./components/DeveloperView";
 
 const App = () => {
   const { isLoading, isAuthenticated } = useAuth0();
@@ -24,6 +25,7 @@ const App = () => {
           }
         />
         <PrivateRoute path="/home" exact component={Cards} />
+        <PrivateRoute path="/developer_view" exact component={DeveloperView} />
         <Route component={NotFound} />
       </Switch>
     </>
