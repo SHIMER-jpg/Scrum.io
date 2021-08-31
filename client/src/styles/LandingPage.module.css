@@ -1,0 +1,55 @@
+.container {
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.container > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.login {
+  align-self: center;
+  justify-self: center;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+}
+
+.login h1 {
+  margin: 15px 0 10px;
+  font-weight: 600;
+  font-size: 44px;
+  color: var(--red);
+  text-align: center;
+}
+
+.login p {
+  margin: 0;
+  font-weight: 500;
+  color: var(--violet);
+  font-size: 22px;
+}
+
+.login button {
+  all: unset;
+  margin-top: 35px;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 20px;
+  background-color: var(--violet);
+  color: white;
+  border-radius: 1000px;
+  font-weight: 500;
+  transition: all 0.25s ease-in-out;
+  cursor: pointer;
+}
+
+.login button:hover {
+  filter: brightness(1.2);
+}
