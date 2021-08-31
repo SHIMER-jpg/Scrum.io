@@ -1,8 +1,8 @@
-import { Router } from 'express';
+const { Router } = require('express');
 const todoHelp = Router();
 
 //hardcoded TODOS
-import PROJECTS from './hardcodingDataBD.js';
+const { PROJECTS } = require('./hardcodingDataBD.js');
 
 todoHelp.get('/:ProjectId', async (req, res, next) => {
 	try{
@@ -15,8 +15,10 @@ todoHelp.get('/:ProjectId', async (req, res, next) => {
 		const todoHelpList = project.todoList.filter(todo => !!todo.help);
 
 		res.status(200).json(todoHelpList);
-	} 
+	}
 	catch(error){
 		next(error);
 	}
 });
+
+module.exports = todoHelp;
