@@ -1,5 +1,4 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import Header from "./components/Header/Header.js";
 import { Switch, Route, Redirect } from "react-router-dom";
 
 //components
@@ -25,7 +24,7 @@ const App = () => {
         placeItems: "center",
       }}
     >
-      <div class="lds-dual-ring"></div>
+      <div className="lds-dual-ring"></div>
     </div>
   ) : (
     <>
