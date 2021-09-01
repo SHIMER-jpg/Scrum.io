@@ -17,7 +17,14 @@ const App = () => {
   const { isLoading, isAuthenticated } = useAuth0();
 
   return isLoading ? (
-    <div style={{ height: "100vh", display: "grid", placeItems: "center" }}>
+    <div
+      style={{
+        height: "100vh",
+        backgroundColor: "white",
+        display: "grid",
+        placeItems: "center",
+      }}
+    >
       <div class="lds-dual-ring"></div>
     </div>
   ) : (

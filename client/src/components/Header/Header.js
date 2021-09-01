@@ -11,12 +11,12 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <section className={styles.container}>
-      <header className={styles.header}>
+    <header className={styles.container}>
+      <section className={styles.header}>
         <Link to="/home" className="unstyled-link">
           Scrum.io
         </Link>
-      </header>
+      </section>
       <div className={styles.user}>
         {isLoading ? (
           <div className={styles.userBox}>
@@ -45,7 +45,7 @@ const Header = () => {
           </div>
         )}
       </div>
-    </section>
+    </header>
   );
 };
 

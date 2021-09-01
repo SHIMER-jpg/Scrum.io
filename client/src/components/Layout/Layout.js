@@ -5,7 +5,7 @@ const Layout = ({ children }) => {
   return (
     <>
       <Header />
-      <main style={{ display: "flex" }}>
+      <main style={{ display: "flex", minHeight: "calc(100vh - 70px)" }}>
         <Sidebar />
         {children}
       </main>

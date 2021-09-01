@@ -1,22 +1,19 @@
-.conteiner{
-    background-color: #e5e5e5;
-    padding: 10px 25px;
-    margin-left: 180px;
-
-    height: 100vh;
+.conteiner {
+  padding: 10px 25px;
+  min-height: calc(100vh - 70px);
 }
 
-.conteinerHeader{
-    padding: 10px 20px;
-    border-bottom: 2px solid #949494;
-    margin-bottom: 50px;
+.conteinerHeader {
+  padding: 10px 20px;
+  border-bottom: 2px solid #949494;
+  margin-bottom: 50px;
 
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
-.conteinerBody{
-    display: flex;
-    justify-content: flex-start;
-    gap:10px;
+.conteinerBody {
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
 }
