@@ -1,1 +1,10 @@
-//Hay que integrar todo lo que haya en reducer parts en un mismo reducer
+import { combineReducers } from "redux";
+
+import developerViewReducer from './DeveloperView/DeveloperViewReducer';
+
+const rootReducer = combineReducers({
+    developerView: developerViewReducer,
+    // Aca van agregando los siguientes reducers
+});
+
+export default rootReducer;
