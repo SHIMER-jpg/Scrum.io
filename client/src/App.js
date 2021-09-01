@@ -6,10 +6,12 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import PrivateRoute from "./components/HOCS/PrivateRoute";
 
 // views
+import Home from "./views/Home";
 import NotFound from "./views/NotFound/NotFound";
 import LandingPage from "./views/LandingPage/LandingPage";
 import DeveloperView from "./views/DeveloperView/DeveloperView";
 import ManagerView from "./views/ManagerView/ManagerView";
+import Layout from "./components/Layout/Layout.js";
 
 const App = () => {
   const { isLoading, isAuthenticated } = useAuth0();
@@ -29,8 +31,14 @@ const App = () => {
             isAuthenticated ? <Redirect to="/home" /> : <LandingPage />
           }
         />
-        <PrivateRoute path="/home" exact component={ManagerView} />
-        <PrivateRoute path="/developer_view" exact component={DeveloperView} />
+        <Layout>
+          <PrivateRoute path="/home" exact component={Home} />
+          <PrivateRoute
+            path="/developer_view"
+            exact
+            component={DeveloperView}
+          />
+        </Layout>
         <Route component={NotFound} />
       </Switch>
     </>
