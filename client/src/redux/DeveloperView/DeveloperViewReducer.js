@@ -1,4 +1,4 @@
-import CONSTANTS from '../constants/index.js';
+import { CONSTANTS } from '../constants/index.js';
 
 const initialState = {
   tasks: [],
