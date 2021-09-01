@@ -2,9 +2,9 @@ import Header from "./Header";
 import { Card } from "./Card";
 import testingTask from "../Testing";
 
-import styles from "../styles/Card.module.css";
+// import styles from './ManagerView.module.css';
 
-function Cards() {
+export default function ManagerView() {
   return (
     <>
       <Header />
@@ -35,5 +35,3 @@ function Cards() {
     </>
   );
 }
-
-export default Cards;

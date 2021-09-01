@@ -1,20 +1,20 @@
 import React from 'react';
-import styles from '../styles/TodoCard.module.css';
+import styles from './TaskCard.module.css';
 
 //components
-import TodoCard from './TodoCard.js';
+import TaskCard from './TaskCard.js';
 
 // coso
 import PROJECTS from './../../../hardcodingDataBD';
 
-export default function Todos() {
+export default function Tasks() {
   return (
-    <div className={styles.Todos}>
-      <div className={styles.Todos_Header}>
+    <div className={styles.tasks}>
+      <div className={styles.tasks_Header}>
         <h2>To Do</h2>
       </div>
-      <div className={styles.TodoList}>
-        {PROJECTS.length > 0 && PROJECTS[0].todoList.map(pro => <TodoCard 
+      <div className={styles.taskList}>
+        {PROJECTS.length > 0 && PROJECTS[0].taskList.map(pro => <TodoCard 
           name={pro.title}
           description={pro.description}
           sp={pro.storypoint}
