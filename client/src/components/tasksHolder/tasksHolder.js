@@ -1,31 +1,32 @@
-import Header from "../../components/Header/Header";
-import Tasks from "../../components/Tasks/Task";
-import testingTask from "./mockupData";
-import styles from "./ManagerView.module.css";
+import { Task } from "./task";
+import testingTask from "./Testing";
+import { useAuth0 } from "@auth0/auth0-react";
+import styles from "../../styles/tasksHolder.module.css";
 
-export default function ManagerView() {
+export default function TasksHolder() {
+  const { logout } = useAuth0();
+
   return (
     <>
-      <Header />
       <div style={{ height: "100px" }}>
         <div className={styles.grid}>
-          <Tasks
+          <Task
             elements={testingTask.filter((e) => e.task === "Stories")}
             name={"Stories"}
           />
-          <Tasks
+          <Task
             elements={testingTask.filter((e) => e.task === "ToDo")}
             name={"To Dos"}
           />
-          <Tasks
+          <Task
             elements={testingTask.filter((e) => e.task === "in Progress")}
             name={"In Progress"}
           />
-          <Tasks
+          <Task
             elements={testingTask.filter((e) => e.task === "Testing")}
             name={"Testing"}
           />
-          <Tasks
+          <Task
             elements={testingTask.filter((e) => e.task === "Done")}
             name={"Done"}
           />

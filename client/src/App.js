@@ -1,20 +1,15 @@
 import { useAuth0 } from "@auth0/auth0-react";
+import Header from "./components/Header/Header.js";
 import { Switch, Route, Redirect } from "react-router-dom";
 
-<<<<<<< HEAD
-import ManagerView from "./components/ManagerView";
-import NotFound from "./components/NotFound";
-import PrivateRoute from "./components/PrivateRoute";
-=======
 //components
 import PrivateRoute from "./components/HOCS/PrivateRoute";
 
 // views
-import NotFound from "./views/NotFound";
->>>>>>> 256a501e788a2924fe1b9363d960d8c81329a679
-import LandingPage from "./views/LandingPage";
-import DeveloperView from "./views/DeveloperView";
-import ManagerView from "./views/ManagerView";
+import NotFound from "./views/NotFound/NotFound";
+import LandingPage from "./views/LandingPage/LandingPage";
+import DeveloperView from "./views/DeveloperView/DeveloperView";
+import ManagerView from "./views/ManagerView/ManagerView";
 
 const App = () => {
   const { isLoading, isAuthenticated } = useAuth0();
@@ -25,6 +20,7 @@ const App = () => {
     </div>
   ) : (
     <>
+      <Route path="/home" component={Header} />
       <Switch>
         <Route
           path="/"

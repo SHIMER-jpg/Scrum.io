@@ -5,8 +5,8 @@ import Auth0ProviderWithHistory from "./auth/auth0provider";
 import { Provider } from "react-redux";
 
 import App from "./App";
-import store from './redux/indexStore';
-import "./styles/globals.css";
+import store from "./redux/store/indexStore";
+import "./globals.css";
 
 ReactDOM.render(
   <Provider store={store}>
