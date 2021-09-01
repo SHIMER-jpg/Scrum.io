@@ -10,7 +10,7 @@ const initialState = {
   tasks: [],
 };
 
-const reducer = (state = initialState, action) => {
+const managerViewReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_PROJECT_BY_ID:
       return {
@@ -27,4 +27,4 @@ const reducer = (state = initialState, action) => {
   }
 };
 
-export default reducer;
+export default managerViewReducer;
