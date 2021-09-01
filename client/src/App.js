@@ -1,7 +1,7 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { Switch, Route, Redirect } from "react-router-dom";
 
-import Cards from "./components/Cards";
+import ManagerView from "./components/ManagerView";
 import NotFound from "./components/NotFound";
 import PrivateRoute from "./components/PrivateRoute";
 import LandingPage from "./views/LandingPage";
@@ -24,7 +24,7 @@ const App = () => {
             isAuthenticated ? <Redirect to="/home" /> : <LandingPage />
           }
         />
-        <PrivateRoute path="/home" exact component={Cards} />
+        <PrivateRoute path="/home" exact component={ManagerView} />
         <PrivateRoute path="/developer_view" exact component={DeveloperView} />
         <Route component={NotFound} />
       </Switch>
