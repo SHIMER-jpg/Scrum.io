@@ -31,7 +31,6 @@ export default function ManagerView() {
 
   function handleSubmit(e){
     e.preventDefault()
-    console.log("entro al handle", postTask())
     dispatch(postTask(createTask))
   }
 
