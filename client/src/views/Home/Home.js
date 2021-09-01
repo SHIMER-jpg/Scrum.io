@@ -11,7 +11,13 @@ import data from "../../__mocks__/homeUsersData";
 // a11y
 Modal.setAppElement("#root");
 Modal.defaultStyles.overlay.backgroundColor = "rgba(0,0,0,0.5)";
+Modal.defaultStyles.overlay.display = "grid";
+Modal.defaultStyles.overlay.placeItems = "center";
+// Modal.defaultStyles.overlay.inset = "initial";
+
 Modal.defaultStyles.content.padding = "40px";
+Modal.defaultStyles.content.inset = "unset";
+Modal.defaultStyles.content.width = "100%";
 Modal.defaultStyles.content.borderRadius = "8px";
 
 const Home = () => {
@@ -23,6 +29,7 @@ const Home = () => {
     springsAmount: "",
     springDuration: "",
     users: [],
+    description: "",
   });
   const [query, setQuery, filteredUsers] = useSearch(data);
 
@@ -47,6 +54,21 @@ const Home = () => {
     setValues({
       ...values,
       users: values.users.filter((u) => u !== user.id),
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    console.log(values);
+
+    setValues({
+      title: "",
+      requiredDate: "",
+      springsAmount: "",
+      springDuration: "",
+      users: [],
+      description: "",
     });
   };
 
@@ -88,17 +110,14 @@ const Home = () => {
           </div>
         </article>
       </main>
-      <Modal
-        style={{ content: { maxWidth: "650px", margin: "0 auto" } }}
-        isOpen={isModalOpen}
-      >
+      <Modal style={{ content: { maxWidth: "650px" } }} isOpen={isModalOpen}>
         <header className={styles.modalHeader}>
           <h2>Create project</h2>
           <button onClick={() => setIsModalOpen(false)}>
             <IoClose size={30} />
           </button>
         </header>
-        <main className={styles.modalBody}>
+        <form onSubmit={handleSubmit} className={styles.modalBody}>
           <div className={styles.modalFormGroup}>
             <label htmlFor="title">Title</label>
             <input
@@ -176,21 +195,34 @@ const Home = () => {
                 <p>There's no user with that name :(</p>
               )}
             </div>
-            <div className={styles.addedUsers}>
-              {data
-                .filter((user) => values.users.includes(user.id))
-                .map((user) => (
-                  <article key={user.id} className={styles.addedUsersCard}>
-                    <img src={user.picture} alt={user.name} />
-                    <p>{user.name.split(" ")[0]}</p>
-                    <button onClick={() => handleRemoveUser(user)}>
-                      <IoClose size={15} />
-                    </button>
-                  </article>
-                ))}
-            </div>
           </div>
-        </main>
+          <div className={styles.addedUsers}>
+            {data
+              .filter((user) => values.users.includes(user.id))
+              .map((user) => (
+                <article key={user.id} className={styles.addedUsersCard}>
+                  <img src={user.picture} alt={user.name} />
+                  <p>{user.name.split(" ")[0]}</p>
+                  <button onClick={() => handleRemoveUser(user)}>
+                    <IoClose size={15} />
+                  </button>
+                </article>
+              ))}
+          </div>
+          <div className={styles.modalFormGroup}>
+            <label htmlFor="description">Description</label>
+            <textarea
+              name="description"
+              id="description"
+              cols="15"
+              value={values.description}
+              onChange={handleChange}
+            ></textarea>
+          </div>
+          <div className={styles.modalFormGroup}>
+            <button type="submit">Create project</button>
+          </div>
+        </form>
       </Modal>
     </section>
   );
