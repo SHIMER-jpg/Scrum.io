@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const PROJECTS = require("./../../../hardCodingDataBD.js");
+const PROJECTS = require("../../../hardCodingDataBD.js");
 
 const todos = Router();
 
