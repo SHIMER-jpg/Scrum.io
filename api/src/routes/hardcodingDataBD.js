@@ -105,4 +105,4 @@ const PROJECT_2 = {
 
 const PROJECTS = [PROJECT_1, PROJECT_2];
 
-export default PROJECTS;
+module.exports = PROJECTS;

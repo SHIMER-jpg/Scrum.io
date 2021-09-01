@@ -1,6 +1,7 @@
 //objeto de respuesta
-exports.success = function (res, message, status = 200) {
-  res.status(status || 200).send({ error: null, body: message });
+// Data can be a message or data.
+exports.success = function (res, data, status = 200) {
+  res.status(status).send({ error: null, body: data });
 };
 
 exports.error = function (res, message, status = 500, details) {
