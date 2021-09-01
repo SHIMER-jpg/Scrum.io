@@ -19,7 +19,6 @@ const taskSchema = new mongoose.Schema({
   },
   details: { type: String },
   helpNeeded: { type: Boolean, default: false },
-  proyect: { type: Schema.Types.ObjectId, ref: "Proyect" }, //este se borra
   notes: [Note.schema],
 });
 

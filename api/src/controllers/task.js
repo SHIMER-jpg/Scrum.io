@@ -9,7 +9,6 @@ const postTask = async (req, res, next) => {
       storyPoints: req.body.storyPoints,
       prorization: req.body.priorization,
       details: req.body.details,
-      proyect: req.body.proyect,
     });
     await newTask.save();
 
