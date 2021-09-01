@@ -1,29 +1,8 @@
 const { Router } = require("express");
-const PROJECTS = require("../../../hardCodingDataBD.js");
+const { getProjectById } = require("../controllers/projects.js");
+const task = Router();
 
-const todos = Router();
+// Get project by id.
+task.get("/:projectId", getProjectById);
 
-//FUNCTIONS
-async function getTodosByUser(user, project){
-  // return await Todo.findAll({
-  //   where: {
-  //      user: user
-  //   }
-  // })
-  var projectFound = PROJECTS.find((p) => p.id === project);
-  return projectFound.todoList.filter((t) => t.userId === user);
-}
-
-//GET /todos
-todos.get("/", async function(req, res, next){
-  try{
-    var {user, project} = req.body;
-    var userTodos = await getTodosByUser(user, project);
-    return res.json(userTodos);
-  }
-  catch(err){
-    next(err);
-  }
-});
-
-module.exports = todos;
+module.exports = task;
