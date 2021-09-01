@@ -15,7 +15,7 @@ export default function DeveloperView() {
         <TaskHolder />
 
         {/* Componente de TODOS que necesitan ayuda en este proyecto */}
-        <TaskHolder />
+        <TaskHolder helpNeeded={true}/>
       </div>
     </div>
   );
