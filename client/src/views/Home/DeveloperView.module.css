@@ -1,0 +1,17 @@
+.DeveloperView{
+    background-color: #e5e5e5;
+    padding: 10px 25px;
+    margin-left: 180px;
+    margin-top: 70px;
+}
+
+.DeveloperView_Header{
+    padding: 10px 20px;
+    border-bottom: 2px solid #949494;
+    margin-bottom: 50px;
+}
+
+.DeveloperView_Body{
+    display: flex;
+    justify-content: flex-end;
+}
