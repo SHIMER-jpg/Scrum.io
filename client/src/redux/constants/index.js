@@ -1,0 +1,5 @@
+//Constantes
+export default CONSTANTS = {
+  GET_USER_TODOS: "GET_USER_TODOS",
+  GET_HELP_TODOS: "GET_HELP_TODOS"
+}

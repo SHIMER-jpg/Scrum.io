@@ -1,7 +1,0 @@
-.grid {
-  height: 100%;
-  position: relative;
-  display: grid;
-  font-size: 20px;
-  grid-template-columns: 1.5fr 1.5fr 1.5fr 1.5fr 1.5fr;
-}

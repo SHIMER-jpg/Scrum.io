@@ -1,8 +1,9 @@
 //objeto de ruteo
-const { Router } = require("express");
+const { Router } = require('express');
 
 // routes:
-const task = require("./task");
+const todoHelp = require('./todoHelp');
+const todos = require('./todos');
 
 const router = Router();
 
