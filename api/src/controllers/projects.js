@@ -1,4 +1,4 @@
-const PROJECTS = require("../../../client/src/hardcodingDataBD");
+const PROJECTS = require("../hardcodingDataBD");
 const Project = require("../models/Project.js");
 
 //SANTI: Che, no se si tiene mucho sentido que esto devuelva una list de todos cuando dice devolver el proyecto
