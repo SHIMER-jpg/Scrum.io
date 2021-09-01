@@ -1,16 +1,22 @@
-import { React, useState } from "react";
-
+import { React, useEffect, useState } from "react";
+import { postTask } from "../../redux/ManagerView/actions";
+import { useDispatch } from "react-redux"
 import Modal from "react-modal";
 import TaskHolder from "../../components/TaskHolder/TaskHolder";
 
 import managerStyle from "./ManagerView.module.css";
 
+
+
 export default function ManagerView() {
+
+  const dispatch = useDispatch()
+
   const [modalOpen, setModalOpen] = useState(false);
 
   const [createTask, setCreateTask] = useState({
     title: "",
-    asignedDev: "",
+    asignedTo: "",
     storyPoints: "",
     priorization: "to do",
     details: "",
@@ -23,6 +29,13 @@ export default function ManagerView() {
     });
   }
 
+  function handleSubmit(e){
+    e.preventDefault()
+    console.log("entro al handle", postTask())
+    dispatch(postTask(createTask))
+  }
+
+
   return (
     <>
       <div>
@@ -30,7 +43,7 @@ export default function ManagerView() {
           <div>
             <span>Entraste a MODALSXd</span>
             <button onClick={() => setModalOpen(false)}>X</button>
-            <form>
+            <form onSubmit = {(e) => handleSubmit(e)}>
               <div>
                 <label>Title</label>
                 <input
@@ -43,9 +56,9 @@ export default function ManagerView() {
               <div>
                 <label>Asigned Dev</label>
                 <input
-                  name="asignedDev"
+                  name="asignedTo"
                   type="text"
-                  value={createTask.asignedDev}
+                  value={createTask.asignedTo}
                   onChange={(e) => handleInput(e)}
                 ></input>
               </div>
