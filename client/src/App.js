@@ -29,7 +29,7 @@ const App = () => {
             isAuthenticated ? <Redirect to="/home" /> : <LandingPage />
           }
         />
-        <PrivateRoute path="/home" exact component={ManagerView} />
+        <PrivateRoute path="/manager_view" exact component={ManagerView} />
         <PrivateRoute path="/developer_view" exact component={DeveloperView} />
         <Route component={NotFound} />
       </Switch>
