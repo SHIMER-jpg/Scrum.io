@@ -7,6 +7,7 @@ import ManagementPage from "./views/ManagementPage";
 import NotFound from "./components/NotFound";
 import PrivateRoute from "./components/PrivateRoute";
 import LandingPage from "./views/LandingPage";
+import DeveloperView from "./components/DeveloperView";
 
 const App = () => {
   const { isLoading, isAuthenticated } = useAuth0();
@@ -26,8 +27,8 @@ const App = () => {
             isAuthenticated ? <Redirect to="/home" /> : <LandingPage />
           }
         />
-        {/* <PrivateRoute path="/home" exact component={ManagementPage} /> */}
-        <Route path="/home" exact component={ManagementPage} />
+        <PrivateRoute path="/home" exact component={Cards} />
+        <PrivateRoute path="/developer_view" exact component={DeveloperView} />
         <Route component={NotFound} />
       </Switch>
     </>
