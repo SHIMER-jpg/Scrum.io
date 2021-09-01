@@ -1,8 +1,8 @@
-import React from 'react';
-import styles from './DeveloperView.module.css';
+import React from "react";
+import styles from "./DeveloperView.module.css";
 
 // components
-import Tasks from './../../components/Tasks/Tasks';
+import Tasks from "../../components/Tasks/Task";
 
 export default function DeveloperView() {
   return (
@@ -12,10 +12,10 @@ export default function DeveloperView() {
       </div>
       <div className={styles.DeveloperView_Body}>
         {/* Componente de TODOS del usuario en este proyecto */}
-        <Todos/>
+        <Tasks />
 
         {/* Componente de TODOS que necesitan ayuda en este proyecto */}
-        <Todos/>
+        <Tasks />
       </div>
     </div>
   );

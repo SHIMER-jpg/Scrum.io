@@ -1,8 +1,7 @@
-import Header from "./Header";
-import { Card } from "./Card";
-import testingTask from "../Testing";
-
-// import styles from './ManagerView.module.css';
+import Header from "../../components/Header/Header";
+import Tasks from "../../components/Tasks/Task";
+import testingTask from "./mockupData";
+import styles from "./ManagerView.module.css";
 
 export default function ManagerView() {
   return (
@@ -10,23 +9,23 @@ export default function ManagerView() {
       <Header />
       <div style={{ height: "100px" }}>
         <div className={styles.grid}>
-          <Card
+          <Tasks
             elements={testingTask.filter((e) => e.task === "Stories")}
             name={"Stories"}
           />
-          <Card
+          <Tasks
             elements={testingTask.filter((e) => e.task === "ToDo")}
             name={"To Dos"}
           />
-          <Card
+          <Tasks
             elements={testingTask.filter((e) => e.task === "in Progress")}
             name={"In Progress"}
           />
-          <Card
+          <Tasks
             elements={testingTask.filter((e) => e.task === "Testing")}
             name={"Testing"}
           />
-          <Card
+          <Tasks
             elements={testingTask.filter((e) => e.task === "Done")}
             name={"Done"}
           />

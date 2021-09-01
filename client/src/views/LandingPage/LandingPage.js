@@ -1,9 +1,9 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import Logo from "../components/Logo";
+import Logo from "../../components/Logo/Logo.js";
 import { AiOutlineUser } from "react-icons/ai";
 
-import styles from "../styles/LandingPage.module.css";
-import image from "../static/img/stock_image.jpeg";
+import styles from "./LandingPage.module.css";
+import image from "../../static/img/stock_image.jpeg";
 
 const LandingPage = () => {
   const { loginWithRedirect } = useAuth0();

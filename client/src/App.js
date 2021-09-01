@@ -1,15 +1,15 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import Header from "./components/Header";
+import Header from "./components/Header/Header.js";
 import { Switch, Route, Redirect } from "react-router-dom";
 
 //components
 import PrivateRoute from "./components/HOCS/PrivateRoute";
 
 // views
-import NotFound from "./views/NotFound";
-import LandingPage from "./views/LandingPage";
-import DeveloperView from "./views/DeveloperView";
-import ManagerView from "./views/ManagerView";
+import NotFound from "./views/NotFound/NotFound";
+import LandingPage from "./views/LandingPage/LandingPage";
+import DeveloperView from "./views/DeveloperView/DeveloperView";
+import ManagerView from "./views/ManagerView/ManagerView";
 
 const App = () => {
   const { isLoading, isAuthenticated } = useAuth0();
