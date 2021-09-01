@@ -1,13 +1,11 @@
 //objeto de ruteo
-import { Router } from 'express';
+const { Router } = require("express");
 
 // routes:
-import todoHelp from './todoHelp';
-import todos from './todos';
+const task = require("./task");
 
 const router = Router();
 
-router.use('/todoHelp', todoHelp);
-router.use('/todos', todos);
+router.use("/task", task);
 
-export default router;
+module.exports = router;
