@@ -1,8 +1,8 @@
-const { Task } = require("../models/Task");
+const Task = require("../models/Task");
 
 const postTask = async (req, res, next) => {
   try {
-    var newTask = new Task({
+    var newTask = new Task.model({
       title: req.body.title,
       asignedTo: req.body.user,
       status: req.body.status,
