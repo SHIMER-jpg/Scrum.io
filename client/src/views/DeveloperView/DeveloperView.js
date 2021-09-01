@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./DeveloperView.module.css";
 
 // components
-import Tasks from "../../components/Tasks/Task";
+import TaskHolder from "../../components/TaskHolder/TaskHolder";
 
 export default function DeveloperView() {
   return (
@@ -12,10 +12,10 @@ export default function DeveloperView() {
       </div>
       <div className={styles.DeveloperView_Body}>
         {/* Componente de TODOS del usuario en este proyecto */}
-        <Tasks />
+        <TaskHolder />
 
         {/* Componente de TODOS que necesitan ayuda en este proyecto */}
-        <Tasks />
+        <TaskHolder />
       </div>
     </div>
   );

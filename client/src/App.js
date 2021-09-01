@@ -6,7 +6,7 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import PrivateRoute from "./components/HOCS/PrivateRoute";
 
 // views
-import Home from "./views/Home";
+import Home from "./views/Home/Home";
 import NotFound from "./views/NotFound/NotFound";
 import LandingPage from "./views/LandingPage/LandingPage";
 import DeveloperView from "./views/DeveloperView/DeveloperView";
@@ -22,7 +22,6 @@ const App = () => {
     </div>
   ) : (
     <>
-      <Route path="/home" component={Header} />
       <Switch>
         <Route
           path="/"
@@ -33,6 +32,7 @@ const App = () => {
         />
         <Layout>
           <PrivateRoute path="/home" exact component={Home} />
+          <PrivateRoute path="/manager_view" exact component={ManagerView} />
           <PrivateRoute
             path="/developer_view"
             exact

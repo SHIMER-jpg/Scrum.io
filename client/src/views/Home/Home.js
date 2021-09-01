@@ -1,8 +1,8 @@
-import styles from "../styles/Home.module.css";
+import styles from "./Home.module.css";
 
 const DeveloperView = () => {
   return (
-    <section>
+    <section className={styles.header}>
       <header className={styles.header}>
         <h1 className={styles.heading}>My projects</h1>
       </header>
