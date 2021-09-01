@@ -1,8 +1,8 @@
 import React from 'react';
-import styles from '../styles/DeveloperView.module.css';
+import styles from './DeveloperView.module.css';
 
 // components
-import Todos from './Todos';
+import Tasks from './../../components/Tasks/Tasks';
 
 export default function DeveloperView() {
   return (

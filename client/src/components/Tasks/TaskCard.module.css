@@ -1,4 +1,4 @@
-.Todos {
+.tasks {
   background-color: #f3f3f3;
   box-shadow: 0px 0px 3px 1px rgba(10, 10, 10, 0.11);
   padding: 10px 25px;
@@ -8,7 +8,7 @@
   border-radius: 5px;
 }
 
-.TodoCard {
+.taskCard {
   position: relative;
   background-color: #e5e5e5;
   box-shadow: 0px 0px 3px 1px rgba(10, 10, 10, 0.11);
@@ -19,20 +19,20 @@
   transition: 0.5s all ease;
 }
 
-.TodoCard:hover {
+.taskCard:hover {
   cursor: pointer;
   box-shadow: 0px 0px 3px 1px rgba(10, 10, 10, 0.5);
 }
 
-.TodoCard_Header h3 {
+.taskCard_Header h3 {
   margin: 0;
 }
-.TodoCard_Header {
+.taskCard_Header {
   display: flex;
   justify-content: space-between;
 }
 
-.TodoCard_StoryPoints {
+.taskCard_StoryPoints {
   background-color: #a12464;
   color: #f3f3f3;
   font-size: 12px;
@@ -45,7 +45,7 @@
   margin-right: 0;
 }
 
-.TodoCard_ComplexColorLine {
+.taskCard_ComplexColorLine {
   position: absolute;
   bottom: 0;
   left: 0;
