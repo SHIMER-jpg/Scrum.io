@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const Task = require("./Task");
 
-const proyectSchema = new mongoose.Schema({
+const projectSchema = new mongoose.Schema({
   proyectName: { type: String, required: true },
   creationDate: { type: Date, default: Date.now },
   requiredDate: { type: Date }, //, required: true
@@ -15,6 +15,6 @@ const proyectSchema = new mongoose.Schema({
 });
 
 module.exports = {
-  schema: proyectSchema,
-  model: new mongoose.model("Proyect", proyectSchema),
+  schema: projectSchema,
+  model: new mongoose.model("Project", projectSchema),
 };

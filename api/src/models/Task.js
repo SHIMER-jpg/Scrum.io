@@ -19,11 +19,11 @@ const taskSchema = new mongoose.Schema({
   },
   details: { type: String },
   helpNeeded: { type: Boolean, default: false },
-  proyect: { type: Schema.Types.ObjectId, ref: "Proyect" },
+  proyect: { type: Schema.Types.ObjectId, ref: "Proyect" }, //este se borra
   notes: [Note.schema],
 });
 
 module.exports = {
   schema: taskSchema,
-  model: new mongoose.model("Task", taskSchema),
+  Task: new mongoose.model("Task", taskSchema),
 };
