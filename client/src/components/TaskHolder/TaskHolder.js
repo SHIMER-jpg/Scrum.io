@@ -1,20 +1,23 @@
 import React from "react";
-import styles from "./TaskCard.module.css";
+import styles from "./../Tasks/TaskCard.module.css";
 
 //components
-import TaskCard from "./TaskCard.js";
+import TaskCard from "../Tasks/TaskCard.js";
 
 // coso
-import PROJECTS from "../../hardcodingDataBD";
 
-export default function Tasks() {
+import PROJECTS from "./../../hardcodingDataBD";
+
+export default function TaskHolder() {
+  console.log(PROJECTS);
   return (
     <div className={styles.tasks}>
       <div className={styles.tasks_Header}>
         <h2>To Do</h2>
       </div>
       <div className={styles.taskList}>
-        {PROJECTS.length > 0 &&
+        {PROJECTS !== undefined &&
+          PROJECTS.length > 0 &&
           PROJECTS[0].taskList.map((pro) => (
             <TaskCard
               name={pro.title}
