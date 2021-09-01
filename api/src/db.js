@@ -9,7 +9,6 @@ const conn = () => {
   });
 };
 
-
 module.exports = {
   conn,
 };

@@ -4,7 +4,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import Skeleton from "react-loading-skeleton";
 import { FiChevronDown } from "react-icons/fi";
 
-import styles from "../styles/Header.module.css";
+import styles from "./Header.module.css";
 
 const Header = () => {
   const { user = {}, isLoading, logout } = useAuth0();

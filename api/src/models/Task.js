@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
+const Note = require("./Note.js");
 
 const taskSchema = new mongoose.Schema({
   title: { type: String },
@@ -17,8 +18,12 @@ const taskSchema = new mongoose.Schema({
     enum: ["Easy Win", "Depriorize", "Worth Pursuing", "Strategic Initiative"],
   },
   details: { type: String },
-  helpNeeded: { type: Boolean },
+  helpNeeded: { type: Boolean, default: false },
   proyect: { type: Schema.Types.ObjectId, ref: "Proyect" },
+  notes: [Note.schema],
 });
 
-module.exports = new mongoose.model("Task", taskSchema);
+module.exports = {
+  schema: taskSchema,
+  model: new mongoose.model("Task", taskSchema),
+};
