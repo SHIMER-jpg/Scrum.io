@@ -1,5 +1,5 @@
-import { Router } from "express";
-import PROJECTS = from "hardCodingDataBD.js";
+const { Router } = require("express");
+const PROJECTS = require("./../../../hardCodingDataBD.js");
 
 const todos = Router();
 

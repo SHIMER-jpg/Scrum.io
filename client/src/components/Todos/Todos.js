@@ -5,7 +5,7 @@ import styles from '../styles/TodoCard.module.css';
 import TodoCard from './TodoCard.js';
 
 // coso
-import PROJECTS from '../hardcodingDataBD';
+import PROJECTS from './../../../hardcodingDataBD';
 
 export default function Todos() {
   return (
