@@ -1,6 +1,7 @@
 :root {
   --red: #cc001a;
   --violet: #a12464;
+  --inactive-menu-item: #707070;
 }
 
 *,
@@ -55,4 +56,8 @@ code {
   100% {
     transform: rotate(360deg);
   }
+}
+
+button {
+  cursor: pointer !important;
 }

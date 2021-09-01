@@ -1,8 +1,36 @@
 .container {
+  padding: 13px;
+  width: auto;
   display: flex;
-  width: 100%;
-  max-width: 260px;
+  flex-direction: column;
   background-color: white;
   border-top: 1px solid rgba(0, 0, 0, 0.212);
   box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.212);
+}
+
+.item {
+  margin: 8px 0;
+}
+
+.item a {
+  padding: 13px 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--inactive-menu-item);
+  font-size: 18px;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: all 0.12s ease-in-out;
+}
+
+.item a:hover {
+  background-color: rgba(204, 0, 27, 0.1);
+}
+
+/* Elemento activo del menu */
+.item a[aria-current="page"] {
+  background-color: rgba(204, 0, 26, 0.2);
+  color: var(--red);
 }
