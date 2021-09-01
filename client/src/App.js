@@ -6,8 +6,8 @@ import PrivateRoute from "./components/HOCS/PrivateRoute";
 
 // views
 import NotFound from "./views/NotFound";
-import LandingPage from "./views/LandingPage";
-import DeveloperView from "./views/DeveloperView";
+import LandingPage from "./views/LandingPage/LandingPage";
+import DeveloperView from "./views/DeveloperView/DeveloperView";
 import ManagerView from "./views/ManagerView";
 
 const App = () => {
