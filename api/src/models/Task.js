@@ -19,10 +19,12 @@ const taskSchema = new mongoose.Schema({
   },
   details: { type: String },
   helpNeeded: { type: Boolean, default: false },
-  notes: [Note.schema],
+
+  projectId: { type: Schema.Types.ObjectId, ref: "Project" },
+  noteIds: [{ type: Schema.Types.ObjectId, ref: "Note" }],
 });
 
 module.exports = {
   schema: taskSchema,
-  Task: new mongoose.model("Task", taskSchema),
+  model: new mongoose.model("Task", taskSchema),
 };

@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { Schema } = mongoose;
 
 const Task = require("./Task");
 
@@ -11,7 +12,8 @@ const projectSchema = new mongoose.Schema({
   currentSprint: { type: Number, required: true },
   sprintDuration: { type: Number, required: true },
   status: { type: Number, min: 0, max: 100 },
-  tasks: [Task.schema],
+  // tasks: [Task.schema], //quiza sacamos esto,
+  taskIds: [{ type: Schema.Types.ObjectId, ref: "Task" }], //quiza sacamos esto,
 });
 
 module.exports = {
