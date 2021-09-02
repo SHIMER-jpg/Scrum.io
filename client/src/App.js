@@ -3,8 +3,6 @@ import { Switch, Route, Redirect } from "react-router-dom";
 
 //components
 import PrivateRoute from "./components/HOCS/PrivateRoute";
-import TaskDetail from "./components/TaskDetail/TaskDetail";
-import yo from "./components/TaskDetail/mockupDataDetail";
 
 // views
 import Home from "./views/Home/Home";
