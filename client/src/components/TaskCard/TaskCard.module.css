@@ -1,11 +1,3 @@
-.tasks {
-  background-color: #f3f3f3;
-  box-shadow: 0px 0px 3px 1px rgba(10, 10, 10, 0.11);
-  padding: 10px 25px;
-  width: 35%;
-
-  border-radius: 5px;
-}
 
 .taskCard {
   position: relative;
@@ -25,9 +17,18 @@
 .taskCard_Header h3 {
   margin: 0;
 }
+
+.tasks_Header {
+}
+
 .taskCard_Header {
   display: flex;
   justify-content: space-between;
+}
+
+.tasks_Header {
+  font-weight: 400;
+  font-size: 22px;
 }
 
 .taskCard_StoryPoints {

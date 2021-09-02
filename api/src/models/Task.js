@@ -19,8 +19,9 @@ const taskSchema = new mongoose.Schema({
   },
   details: { type: String },
   helpNeeded: { type: Boolean, default: false },
-  proyect: { type: Schema.Types.ObjectId, ref: "Proyect" },
-  notes: [Note.schema],
+
+  projectId: { type: Schema.Types.ObjectId, ref: "Project" },
+  noteIds: [{ type: Schema.Types.ObjectId, ref: "Note" }],
 });
 
 module.exports = {

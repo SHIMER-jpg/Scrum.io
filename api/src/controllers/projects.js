@@ -1,16 +1,24 @@
-const PROJECTS = require("../hardcodingDataBD");
+const Project = require("../models/Project");
 
+// obtiene el proyecto por id
 const getProjectById = async (req, res, next) => {
   try {
     const { projectId } = req.params;
 
-    // busco el proyecto que coincida con la id pasada
-    const project = PROJECTS.find((pro) => pro.id === projectId);
+    const project = await Project.model.findById(projectId);
+    res.status(200).json(project);
+  } catch (error) {
+    next(error);
+  }
+};
 
-    // filtro los TODOS que necesiten ayuda y los guardo para enviar en la respuesta
-    const todoHelpList = project.todoList.filter((todo) => !!todo.help);
+const createProject = async (req, res, next) => {
+  try {
+    const newProject = new Project.model(req.body);
 
-    res.status(200).json(todoHelpList);
+    await newProject.save();
+
+    res.status(201).json(newProject);
   } catch (error) {
     next(error);
   }
@@ -18,4 +26,5 @@ const getProjectById = async (req, res, next) => {
 
 module.exports = {
   getProjectById,
+  createProject,
 };

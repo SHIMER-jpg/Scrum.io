@@ -1,6 +1,7 @@
 :root {
   --red: #cc001a;
   --violet: #a12464;
+  --inactive-menu-item: #707070;
 }
 
 *,
@@ -17,7 +18,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  min-height: 100vh;
+  background-color: #e5e5e5;
 }
 
 code {
@@ -55,4 +56,27 @@ code {
   100% {
     transform: rotate(360deg);
   }
+}
+
+button {
+  cursor: pointer !important;
+}
+
+.btn-primary {
+  all: unset;
+  padding: 10px 20px 10px 15px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: white;
+  font-weight: 600;
+  border-radius: 8px;
+  background: var(--violet);
+}
+
+.main-heading {
+  margin: 0;
+  font-size: 35px;
+  font-weight: 600;
+  margin: 0;
 }

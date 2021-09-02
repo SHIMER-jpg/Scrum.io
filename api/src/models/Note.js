@@ -8,6 +8,7 @@ const noteSchema = new mongoose.Schema({
     required: true,
   },
   creationDate: { type: Date, default: Date.now() },
+  taskId: { type: Schema.Types.ObjectId, ref: "Task" },
 });
 
 module.exports = {

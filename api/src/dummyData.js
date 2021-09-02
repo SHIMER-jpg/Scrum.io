@@ -1,20 +1,33 @@
 // const Task = require("./models/Task");
 // const Note = require("./models/Note");
-// const Proyect = require("./models/Proyect");
+// const Project = require("./models/Project");
 // const User = require("./models/User");
-// const UserProyect = require("./models/UserProyects");
+// const UserProject = require("./models/UserProject");
 
+// //CREO EL USUARIO MANAGER
 // const newUserManager = new User.model();
 // newUserManager.username = "Lamaolo";
 // newUserManager.name = "Lucero";
 // newUserManager.email = "lamaolo@gmail.com";
-// newUserManager.save();
 
+// //CREO EL USUARIO DEV
 // const newUserDev = new User.model();
 // newUserDev.username = "fedeJava";
 // newUserDev.name = "Federico";
 // newUserDev.email = "fedeJavaz@gmail.com";
-// newUserDev.save();
+
+// const newTaskOne = new Task.model();
+// newTaskOne.title = "Task One";
+// newTaskOne.asignedTo = newUserDev._id;
+// newTaskOne.storyPoints = 10;
+// newTaskOne.priorization = "Easy Win";
+
+// const newProject = new Project.model();
+// newProject.proyectName = "Dummy Project";
+// newProject.sprintCount = 4;
+// newProject.currentSprint = 1;
+// newProject.sprintDuration = 2;
+// newProject.status = 10;
 
 // const newNoteOne = new Note.model();
 // newNoteOne.userId = newUserDev._id;
@@ -25,14 +38,6 @@
 // newNoteTwo.userId = newUserManager._id;
 // newNoteTwo.content = "ahjdgjnfalsnsdkkfahjdgjnfalsnsdkkfahjdgjnfalsnsdkkf";
 
-// const newTaskOne = new Task.model();
-// newTaskOne.title = "Task One";
-// newTaskOne.asignedTo = newUserDev._id;
-// newTaskOne.storyPoints = 10;
-// newTaskOne.priorization = "Easy Win";
-// newTaskOne.notes.push(newNoteOne);
-// newTaskOne.notes.push(newNoteTwo);
-
 // const newTaskTwo = new Task.model();
 // newTaskTwo.title = "Task Two";
 // newTaskTwo.asignedTo = newUserDev._id;
@@ -40,24 +45,39 @@
 // newTaskTwo.priorization = "Strategic Initiative";
 // newTaskTwo.helpNeeded = true;
 
-// const newProyect = new Proyect.model();
-// newProyect.proyectName = "Dummy Proyect";
-// newProyect.sprintCount = 4;
-// newProyect.currentSprint = 1;
-// newProyect.sprintDuration = 2;
-// newProyect.status = 10;
-// newProyect.tasks.push(newTaskOne);
-// newProyect.tasks.push(newTaskTwo);
-// newProyect.save();
+// //ASIIGNACIONES NEW NOTE
+// newNoteOne.taskId = newTaskOne._id;
+// newNoteTwo.taskId = newTaskOne._id;
 
-// const newUserProyect = new UserProyect();
-// newUserProyect.proyectId = newProyect._id;
-// newUserProyect.userId = newUserManager._id;
-// newUserProyect.role = "scrumMaster";
-// newUserProyect.save();
+// //ASIGNACIONES NEW TASK ONE
+// newTaskOne.noteIds.push(newNoteOne._id);
+// newTaskOne.noteIds.push(newNoteTwo._id);
+// newTaskOne.projectId = newProject._id;
 
-// const newUserProyectDev = new UserProyect();
-// newUserProyectDev.proyectId = newProyect._id;
-// newUserProyectDev.userId = newUserDev._id;
-// newUserProyectDev.role = "developer";
-// newUserProyectDev.save();
+// //ASIGNACIOENS NEW TASK TWO
+// newTaskTwo.projectId = newProject._id;
+
+// //ASIGNACIONES DEL PROYECTO
+// newProject.taskIds.push(newTaskOne._id);
+// newProject.taskIds.push(newTaskTwo._id);
+
+// //ASIGNACIONES DE USUARIO A PROYECTO
+// const newUserProject = new UserProject.model();
+// newUserProject.projectId = newProject._id;
+// newUserProject.userId = newUserManager._id;
+// newUserProject.role = "scrumMaster";
+
+// const newUserProjectDev = new UserProject.model();
+// newUserProjectDev.projectId = newProject._id;
+// newUserProjectDev.userId = newUserDev._id;
+// newUserProjectDev.role = "developer";
+
+// newUserManager.save();
+// newUserDev.save();
+// newNoteOne.save();
+// newNoteTwo.save();
+// newTaskOne.save();
+// newTaskTwo.save();
+// newProject.save();
+// newUserProject.save();
+// newUserProjectDev.save();
