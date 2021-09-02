@@ -9,6 +9,7 @@ import {
 require("dotenv").config();
 const { BACKEND_HOST, BACKEND_PORT } = process.env;
 
+
 export function getProyectByID(projectId) {
   return function (dispatch) {
     axios
@@ -19,7 +20,21 @@ export function getProyectByID(projectId) {
   };
 }
 
-export function getTasksByProject(projectId) {
+
+export function postTask(task) {
+  return function(dispatch){
+    axios.post(`http://${BACKEND_HOST}:${BACKEND_PORT}/task/createTask`, task)
+    .then((resp) => {
+      dispatch({type:"asdas"})
+      return  resp.data
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+  }
+}
+
+export function getTasksByProject() {
   //not any paload since it uses the already stored project
   return function (dispatch) {
     axios
