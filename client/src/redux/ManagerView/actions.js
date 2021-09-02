@@ -19,7 +19,25 @@ export function getProyectByID(projectId) {
   };
 }
 
-export function getTasksByProject() {
+export function getTasksByProject(projectId) {
   //not any paload since it uses the already stored project
-  return { type: GET_TASKS_BY_PROJECT };
+  return function (dispatch) {
+    axios
+      .get(`http://${BACKEND_HOST}:${BACKEND_PORT}/task/${projectId}`)
+      .then((json) => {
+        dispatch({ type: GET_TASKS_BY_PROJECT, payload: json.data });
+      });
+  };
+}
+
+export function getAsignedUsers(projectId) {
+  return function (dispatch) {
+    axios
+      .get(
+        `http://${BACKEND_HOST}:${BACKEND_PORT}/user/project?id=${projectId}`
+      )
+      .then((json) => {
+        dispatch({ type: GET_ASIGNED_USERS, payload: json.data });
+      });
+  };
 }

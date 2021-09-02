@@ -16,7 +16,12 @@ const managerViewReducer = (state = initialState, action) => {
     case GET_TASKS_BY_PROJECT:
       return {
         ...state,
-        tasks: [...state.project.tasks],
+        tasks: [...action.payload],
+      };
+    case GET_ASIGNED_USERS:
+      return {
+        ...state,
+        tasks: [...action.payload],
       };
     default:
       return state;
