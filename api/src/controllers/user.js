@@ -1,12 +1,13 @@
 const User = require("../models/User");
 const UserProject = require("../models/UserProject");
+const mongoose = require("mongoose");
 
 const getUsersByProjectId = async (req, res, next) => {
   try {
     const { id } = req.query;
-    // var data = await UserProject.model.find({ projectId: id });
-    var data = await UserProject.model.aggregate([
-      //TERMINAR DE VER COMO CARAJO MATCHEARLO AL PROJECT ID
+    const mongooseId = mongoose.Types.ObjectId(id);
+    const data = await UserProject.model.aggregate([
+      { $match: { projectId: mongooseId } },
       {
         $lookup: {
           from: "users",

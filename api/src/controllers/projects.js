@@ -12,6 +12,19 @@ const getProjectById = async (req, res, next) => {
   }
 };
 
+const createProject = async (req, res, next) => {
+  try {
+    const newProject = new Project.model(req.body);
+
+    await newProject.save();
+
+    res.status(201).json(newProject);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
-  getProjectById
+  getProjectById,
+  createProject,
 };

@@ -1,6 +1,9 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getTasksByUser, getHelpTasks } from "../../redux/DeveloperView/DeveloperViewActions.js";
+import {
+  getTasksByUser,
+  getHelpTasks,
+} from "../../redux/DeveloperView/DeveloperViewActions.js";
 import styles from "./DeveloperView.module.css";
 
 // components
@@ -12,11 +15,12 @@ export default function DeveloperView() {
   var helpTaskList = useSelector((state) => state.developerView.helpTasks);
 
   useEffect(() => {
-    dispatch(getTasksByUser(2, 12));  //ids hardcodeados
-    dispatch(getHelpTasks(2));  //id hardcodeada
-  }, [])
+    dispatch(getTasksByUser(2, 12)); //ids hardcodeados
+    dispatch(getHelpTasks(2)); //id hardcodeada
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  console.log(helpTaskList)
+  console.log(helpTaskList);
 
   return (
     <div className={styles.DeveloperView}>
@@ -25,10 +29,10 @@ export default function DeveloperView() {
       </div>
       <div className={styles.DeveloperView_Body}>
         {/* Componente de TODOS del usuario en este proyecto */}
-        <TaskHolder taskList={userTaskList}/>
+        <TaskHolder taskList={userTaskList} />
 
         {/* Componente de TODOS que necesitan ayuda en este proyecto */}
-        <TaskHolder helpNeeded={true} taskList={helpTaskList}/>
+        <TaskHolder helpNeeded={true} taskList={helpTaskList} />
       </div>
     </div>
   );
