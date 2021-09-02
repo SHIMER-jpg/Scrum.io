@@ -1,5 +1,7 @@
-import React from "react";
-import styles from "./../TaskCard/TaskCard.module.css";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getTasksByUser, getHelpTasks } from "../../redux/DeveloperView/DeveloperViewActions.js";
+import styles from "./TaskHolder.module.css";
 
 //components
 import TaskCard from "../TaskCard/TaskCard.js";
@@ -7,9 +9,24 @@ import TaskCard from "../TaskCard/TaskCard.js";
 // coso
 import PROJECTS from "./../../hardcodingDataBD";
 
+<<<<<<< HEAD
 export default function TaskHolder({tasks, status, helpNeeded}) {
   var taskList = []; // lista de tareas a mapear con TaskCard
   
+=======
+export default function TaskHolder({status, helpNeeded}) {
+  const dispatch = useDispatch();
+  var taskList = useSelector((state) => state.tasks);
+  var helpTaskList = useSelector((state) => state.helpTasks);
+
+  useEffect(() => {
+    dispatch(getTasksByUser(2, 12));  //ids hardcodeados
+    dispatch(getHelpTasks(2));  //id hardcodeada
+  }, [])
+
+  // var taskList = []; // lista de tareas a mapear con TaskCard
+
+>>>>>>> 7e1ec297a686b236a62a7082791eacca31036907
   // si se pasa un status, se filtran las tareas y se mapean solo las que tengan ese status
   if(status){
     taskList = PROJECTS[0].taskList.filter(task => task.status === status)
@@ -30,7 +47,7 @@ export default function TaskHolder({tasks, status, helpNeeded}) {
       </div>
       <div className={styles.taskList}>
         {
-          taskList.length > 0 ? 
+          taskList.length > 0 ?
             taskList.map((pro) => (
               <TaskCard
                 name={pro.title}
@@ -39,7 +56,7 @@ export default function TaskHolder({tasks, status, helpNeeded}) {
                 complex={pro.complexitymatrix}
               />
             ))
-            
+
           : <h3>No Tasks...</h3>
         }
       </div>
