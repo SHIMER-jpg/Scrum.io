@@ -25,9 +25,18 @@
 .taskCard_Header h3 {
   margin: 0;
 }
+
+.tasks_Header {
+}
+
 .taskCard_Header {
   display: flex;
   justify-content: space-between;
+}
+
+.tasks_Header {
+  font-weight: 400;
+  font-size: 22px;
 }
 
 .taskCard_StoryPoints {

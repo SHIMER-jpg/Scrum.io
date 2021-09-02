@@ -1,15 +1,16 @@
 .conteiner {
-  padding: 10px 25px;
+  padding: 25px 30px;
+  width: 100%;
   min-height: calc(100vh - 70px);
 }
 
 .conteinerHeader {
-  padding: 10px 20px;
-  border-bottom: 2px solid #949494;
   margin-bottom: 50px;
-
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgb(179, 179, 179);
+  padding-bottom: 20px;
 }
 
 .conteinerBody {
