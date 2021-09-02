@@ -1,8 +1,9 @@
 const mongoose = require("mongoose");
+const { Schema } = mongoose;
 
 const Task = require("./Task");
 
-const proyectSchema = new mongoose.Schema({
+const projectSchema = new mongoose.Schema({
   proyectName: { type: String, required: true },
   creationDate: { type: Date, default: Date.now },
   requiredDate: { type: Date }, //, required: true
@@ -11,10 +12,11 @@ const proyectSchema = new mongoose.Schema({
   currentSprint: { type: Number, required: true },
   sprintDuration: { type: Number, required: true },
   status: { type: Number, min: 0, max: 100 },
-  tasks: [Task.schema],
+  // tasks: [Task.schema], //quiza sacamos esto,
+  taskIds: [{ type: Schema.Types.ObjectId, ref: "Task" }], //quiza sacamos esto,
 });
 
 module.exports = {
-  schema: proyectSchema,
-  model: new mongoose.model("Proyect", proyectSchema),
+  schema: projectSchema,
+  model: new mongoose.model("Project", projectSchema),
 };
