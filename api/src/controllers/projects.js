@@ -22,11 +22,6 @@ const getProjectById = async (req, res, next) => {
     const { projectId } = req.params;
 
     const project = await Project.model.findById(projectId);
-    // busco el proyecto que coincida con la id pasada
-    // const project = PROJECTS.find((pro) => pro.id === projectId);
-
-    // filtro los TODOS que necesiten ayuda y los guardo para enviar en la respuesta
-    // const todoHelpList = project.todoList.filter((todo) => !!todo.help);
 
     res.status(200).json(project);
   } catch (error) {
@@ -34,6 +29,19 @@ const getProjectById = async (req, res, next) => {
   }
 };
 
+const createProject = async (req, res, next) => {
+  try {
+    const newProject = new Project.model(req.body);
+
+    await newProject.save();
+
+    res.status(201).json(newProject);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   getProjectById,
+  createProject,
 };
