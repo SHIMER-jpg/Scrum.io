@@ -98,7 +98,7 @@ export default function ManagerView() {
             {/* In progress Tasks */}
             <TaskHolder status={"In progress"} />
             {/* Completed Tasks */}
-            <TaskHolder status={"Completed"}/>
+            <TaskHolder status={"Completed"} />
             {/* Testing Tasks */}
             <TaskHolder status={"Testing"} />
           </div>

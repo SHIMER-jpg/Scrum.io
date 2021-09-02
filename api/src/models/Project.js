@@ -4,8 +4,8 @@ const { Schema } = mongoose;
 const Task = require("./Task");
 
 const projectSchema = new mongoose.Schema({
-  proyectName: { type: String, required: true },
-  creationDate: { type: Date, default: Date.now },
+  projectName: { type: String, required: true },
+  creationDate: { type: Date, default: Date.now() },
   requiredDate: { type: Date }, //, required: true
   description: { type: String },
   sprintCount: { type: Number, required: true },

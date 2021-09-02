@@ -1,8 +1,4 @@
-import {
-  GET_TASKS_BY_PROJECT,
-  GET_ASIGNED_USERS,
-  GET_PROJECT_BY_ID,
-} from "./constants";
+import { GET_TASKS_BY_PROJECT, GET_PROJECT_BY_ID } from "./constants";
 
 const initialState = {
   project: {},

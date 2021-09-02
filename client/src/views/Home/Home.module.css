@@ -1,0 +1,272 @@
+.container {
+  padding: 25px 30px;
+  width: 100%;
+}
+
+.header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgb(179, 179, 179);
+  padding-bottom: 20px;
+}
+
+.header h1 {
+  font-size: 35px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.header button {
+  all: unset;
+  padding: 10px 20px 10px 15px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: white;
+  font-weight: 600;
+  border-radius: 8px;
+  background: var(--violet);
+}
+
+.projects {
+  margin-top: 30px;
+}
+
+.project {
+  max-width: 500px;
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  background: white;
+  border-radius: 8px;
+}
+
+.projectItem {
+  margin-bottom: 25px;
+}
+
+.project > h2 {
+  margin: 0 0 25px;
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.projectItem > p {
+  margin: 0;
+}
+
+.projectItemTitle {
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+}
+
+.projectItemTitle > p {
+  margin: 0;
+  padding-right: 25px;
+  font-weight: 600;
+  font-size: 20px;
+}
+
+.projectItemTitle > div {
+  background: rgb(180, 180, 180);
+  height: 1px;
+  width: 100%;
+}
+
+.progress {
+  position: relative;
+  height: 15px;
+  border-radius: 1000px;
+  background: rgb(214, 214, 214);
+}
+
+.progress > div {
+  height: 100%;
+  width: 75%;
+  background: var(--red);
+  border-radius: 1000px;
+}
+
+.progress > p {
+  position: absolute;
+  right: 0;
+  bottom: -43px;
+  font-weight: 600;
+}
+
+.projectItem:last-child {
+  margin: 35px 0 0;
+}
+
+.projectItem > button {
+  all: unset;
+  width: 100%;
+  padding: 7px 0;
+  border-radius: 8px;
+  background: var(--violet);
+  font-size: 17px;
+  color: white;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* MODAL STYLES ===================================================== */
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgb(204, 204, 204);
+}
+
+.modalHeader > h2 {
+  margin: 0;
+  font-weight: 600;
+  font-size: 32px;
+}
+
+.modalHeader > button {
+  all: unset;
+  display: flex;
+  align-items: center;
+}
+
+.modalBody {
+  margin-top: 25px;
+}
+
+.modalFormGroup {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.modalFormGroup label {
+  font-weight: 600;
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.modalFormGroup input,
+textarea {
+  all: unset;
+  border-radius: 8px;
+  padding: 10px;
+  border: 1px solid rgb(204, 204, 204);
+  transition: all 0.1s ease-in-out;
+}
+
+.modalFormGroup input:focus,
+textarea:focus {
+  border: 2px solid var(--violet);
+  box-shadow: 0 0 0 3px rgba(161, 36, 101, 0.4);
+}
+
+.selectUserContainer {
+  position: relative;
+}
+
+.modalSelectUser {
+  position: absolute;
+  top: 120%;
+  display: flex;
+  flex-direction: column;
+  max-height: 145px;
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid rgb(204, 204, 204);
+  background: white;
+  overflow-y: auto;
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.15s ease-in-out;
+  z-index: 1000;
+}
+
+.modalSelectUser.visible {
+  visibility: visible;
+  opacity: 1;
+}
+
+.modalSelectUser > p {
+  margin: 15px;
+  color: rgb(255, 86, 86);
+  font-weight: 600;
+}
+
+.modalUser {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-weight: 500;
+  padding: 10px;
+  transition: all 0.15s ease-in-out;
+}
+
+.modalUser:hover {
+  background: rgba(161, 36, 101, 0.2);
+  cursor: pointer;
+}
+
+.modalUser img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid rgb(204, 204, 204);
+}
+
+.modalUser p {
+  margin: 0;
+}
+
+.addedUsers:not(:empty) {
+  width: 100%;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.addedUsersCard {
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+  background: rgb(238, 238, 238);
+  border: 1px solid rgb(238, 238, 238);
+  overflow: hidden;
+  gap: 10px;
+  padding-right: 10px;
+}
+
+.addedUsersCard img {
+  width: 32px;
+  height: 32px;
+  background: white;
+}
+
+.addedUsersCard p {
+  margin: 0;
+  font-weight: 600;
+}
+
+.addedUsersCard button {
+  all: unset;
+  display: flex;
+  align-items: center;
+}
+
+button[type="submit"] {
+  all: unset;
+  background: var(--violet);
+  padding: 10px 15px;
+  border-radius: 8px;
+  color: white;
+  font-weight: 600;
+  font-size: 18px;
+  align-self: flex-end;
+}
