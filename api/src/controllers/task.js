@@ -1,5 +1,15 @@
 const Task = require("../models/Task");
 
+const getTasksByProjectId = async (req, res, next) => {
+  try {
+    const { projectId } = req.params;
+    const data = await Task.model.find({ projectId: projectId });
+    res.status(200).json(data);
+  } catch (error) {
+    next(error);
+  }
+};
+
 const postTask = async (req, res, next) => {
   try {
     var newTask = new Task.model({
@@ -20,4 +30,5 @@ const postTask = async (req, res, next) => {
 
 module.exports = {
   postTask,
+  getTasksByProjectId,
 };
