@@ -1,16 +1,33 @@
 import { React, useEffect, useState } from "react";
-import { postTask } from "../../redux/ManagerView/actions";
-import { useDispatch } from "react-redux"
+import {
+  postTask,
+  getProjectById,
+  getTasksByProject,
+  getAsignedUsers,
+} from "../../redux/ManagerView/actions";
+import { useDispatch, useSelector } from "react-redux";
 import Modal from "react-modal";
 import TaskHolder from "../../components/TaskHolder/TaskHolder";
 
+import { useParams } from "react-router-dom";
+
 import managerStyle from "./ManagerView.module.css";
 
+export default function ManagerView(props) {
+  const dispatch = useDispatch();
+  // const { projectId } = props.match.params;
+  const project = useSelector((state) => state.managerView.project);
+  const asignedUsers = useSelector((state) => state.managerView.asignedUsers);
+  const tasks = useSelector((state) => state.managerView.tasks);
 
-
-export default function ManagerView() {
-
-  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(getProjectById("6130d98660befaed28495ae9"));
+    dispatch(getTasksByProject("6130d98660befaed28495ae9"));
+    dispatch(getAsignedUsers("6130d98660befaed28495ae9"));
+    // dispatch(getProjectById(projectId));
+    // dispatch(getTasksByProject(projectId));
+    // dispatch(getAsignedUsers(projectId));
+  }, []);
 
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -29,11 +46,10 @@ export default function ManagerView() {
     });
   }
 
-  function handleSubmit(e){
-    e.preventDefault()
-    dispatch(postTask(createTask))
+  function handleSubmit(e) {
+    e.preventDefault();
+    dispatch(postTask(createTask));
   }
-
 
   return (
     <>
@@ -42,7 +58,7 @@ export default function ManagerView() {
           <div>
             <span>Entraste a MODALSXd</span>
             <button onClick={() => setModalOpen(false)}>X</button>
-            <form onSubmit = {(e) => handleSubmit(e)}>
+            <form onSubmit={(e) => handleSubmit(e)}>
               <div>
                 <label>Title</label>
                 <input
@@ -106,13 +122,25 @@ export default function ManagerView() {
           </div>
           <div className={managerStyle.conteinerBody}>
             {/* Pending Tasks */}
-            <TaskHolder status={"Pending"} />
+            <TaskHolder
+              status={"Pending"}
+              tasks={tasks.filter((task) => task.status == "Pending")}
+            />
             {/* In progress Tasks */}
-            <TaskHolder status={"In progress"} />
-            {/* Completed Tasks */}
-            <TaskHolder status={"Completed"} />
+            <TaskHolder
+              status={"In progress"}
+              tasks={tasks.filter((task) => task.status == "In progress")}
+            />
             {/* Testing Tasks */}
-            <TaskHolder status={"Testing"} />
+            <TaskHolder
+              status={"Testing"}
+              tasks={tasks.filter((task) => task.status == "Testing")}
+            />
+            {/* Completed Tasks */}
+            <TaskHolder
+              status={"Completed"}
+              tasks={tasks.filter((task) => task.status == "Completed")}
+            />
           </div>
         </div>
       </div>

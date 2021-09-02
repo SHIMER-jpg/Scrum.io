@@ -1,4 +1,8 @@
-import { GET_TASKS_BY_PROJECT, GET_PROJECT_BY_ID } from "./constants";
+import {
+  GET_TASKS_BY_PROJECT,
+  GET_PROJECT_BY_ID,
+  GET_ASIGNED_USERS,
+} from "./constants";
 
 const initialState = {
   project: {},
@@ -21,7 +25,7 @@ const managerViewReducer = (state = initialState, action) => {
     case GET_ASIGNED_USERS:
       return {
         ...state,
-        tasks: [...action.payload],
+        asignedUsers: [...action.payload],
       };
     default:
       return state;
