@@ -1,4 +1,4 @@
-import { CONSTANTS } from '../constants/index.js';
+import { CONSTANTS } from './constants.js';
 import PROJECTS from './../../hardcodingDataBD.js';
 
 export function getTasksByUser(projectId, userId){
