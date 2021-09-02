@@ -2,6 +2,8 @@ import { useState } from "react";
 import Modal from "react-modal";
 import { BsPlus } from "react-icons/bs";
 import { IoClose } from "react-icons/io5";
+import { useDispatch } from "react-redux";
+import { createProject } from "../../redux/Home/actions";
 
 import { useSearch } from "../../hooks/useSearch";
 
@@ -11,6 +13,7 @@ import data from "../../__mocks__/homeUsersData";
 // a11y
 Modal.setAppElement("#root");
 // styles
+
 const customStyles = {
   content: {
     padding: "40px",
@@ -34,10 +37,12 @@ const Home = () => {
     requiredDate: "",
     sprintCount: "",
     sprintDuration: "",
-    users: [],
+    Users: [],
     description: "",
   });
   const [query, setQuery, filteredUsers] = useSearch(data);
+
+  const dispatch = useDispatch();
 
   const handleChange = (e) => {
     setValues({
@@ -47,10 +52,10 @@ const Home = () => {
   };
 
   const handleAddUser = (user) => {
-    if (!values.users.includes(user.id)) {
+    if (!values.Users.includes(user.id)) {
       setValues({
         ...values,
-        users: [...values.users, user.id],
+        Users: [...values.Users, user.id],
       });
     }
     setQuery("");
@@ -59,13 +64,13 @@ const Home = () => {
   const handleRemoveUser = (user) => {
     setValues({
       ...values,
-      users: values.users.filter((u) => u !== user.id),
+      Users: values.Users.filter((u) => u !== user.id),
     });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    dispatch(createProject(values));
     console.log(values);
 
     setValues({
@@ -73,7 +78,7 @@ const Home = () => {
       requiredDate: "",
       springsAmount: "",
       springDuration: "",
-      users: [],
+      Users: [],
       description: "",
     });
   };
@@ -176,7 +181,7 @@ const Home = () => {
               onBlur={() => setIsSelectUsersOpen(false)}
               onFocus={() => setIsSelectUsersOpen(true)}
               type="text"
-              name="users"
+              name="Users"
               value={query}
               autoComplete="off"
               onChange={(e) => setQuery(e.target.value)}
