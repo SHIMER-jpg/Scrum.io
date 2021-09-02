@@ -1,7 +1,7 @@
 import { CONSTANTS } from '../constants/index.js';
 
 const initialState = {
-  tasks: [],
+  userTasks: [],
   helpTasks: []
 };
 
@@ -10,7 +10,7 @@ export default function reducer(state = initialState, action) {
     case CONSTANTS.GET_USER_TASKS:
       return {
         ...state,
-        tasks: action.payload
+        userTasks: action.payload
       }
     case CONSTANTS.GET_HELP_TASKS:
       return {
