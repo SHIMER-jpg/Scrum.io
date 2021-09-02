@@ -131,6 +131,7 @@ const Home = () => {
               onChange={handleChange}
               autoComplete="off"
               name="projectName"
+              placeholder="Type the name of the project"
               id="projectName"
               type="text"
             />
@@ -147,22 +148,24 @@ const Home = () => {
             />
           </div>
           <div className={styles.modalFormGroup}>
-            <label htmlFor="sprintCount">Amount of springs</label>
+            <label htmlFor="sprintCount">Amount of sprints</label>
             <input
               autoComplete="off"
               name="sprintCount"
               id="sprintCount"
+              placeholder="Type the amount of sprints"
               type="number"
               value={values.sprintCount}
               onChange={handleChange}
             />
           </div>
           <div className={styles.modalFormGroup}>
-            <label htmlFor="sprintDuration">Spring duration</label>
+            <label htmlFor="sprintDuration">Sprint duration</label>
             <input
               autoComplete="off"
               name="sprintDuration"
               id="sprintDuration"
+              placeholder="Type the duration of the sprints"
               type="number"
               value={values.sprintDuration}
               onChange={handleChange}
@@ -176,6 +179,7 @@ const Home = () => {
               onBlur={() => setIsSelectUsersOpen(false)}
               onFocus={() => setIsSelectUsersOpen(true)}
               type="text"
+              placeholder="Search users by their name"
               name="users"
               value={query}
               autoComplete="off"
@@ -221,6 +225,7 @@ const Home = () => {
               name="description"
               id="description"
               cols="15"
+              placeholder="Type a description..."
               value={values.description}
               onChange={handleChange}
             ></textarea>
