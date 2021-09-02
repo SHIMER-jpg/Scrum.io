@@ -23,6 +23,13 @@ export default function TaskDetail(){
       })
    }
 
+   function handlearea(e){
+      setStatus({
+         ...status,
+         [e.target.name] : e.target.value
+      })
+   }
+
    return (
       <div>
          <div className={styles.titles}>{title}</div>
@@ -39,6 +46,7 @@ export default function TaskDetail(){
          <div className={styles.titles}>Details: </div>
          <p>{details}</p>
          <div className={styles.titles}>Notes: </div>
+         <textarea className={styles.notas} name="Notes" id="" cols="30" rows="10" onChange ={(e) => handlearea(e)}></textarea>
          <div>{notes}</div>
          <button>🤔 Ask for help</button>
          <select onChange={(e) => handleStatusSelect(e)}>
