@@ -5,7 +5,7 @@ import Auth0ProviderWithHistory from "./auth/auth0provider";
 import { Provider } from "react-redux";
 
 import App from "./App";
-import store from './redux/store/indexStore';
+import store from "./redux/store/indexStore";
 import "./globals.css";
 
 ReactDOM.render(

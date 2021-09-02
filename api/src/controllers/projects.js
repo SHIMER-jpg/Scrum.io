@@ -1,4 +1,4 @@
-const PROJECTS = require("../../../hardcodingDataBD");
+const PROJECTS = require("../hardcodingDataBD");
 
 const getProjectById = async (req, res, next) => {
   try {

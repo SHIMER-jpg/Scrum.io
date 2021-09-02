@@ -3,14 +3,20 @@ const mongoose = require("mongoose");
 const userSchema = new mongoose.Schema({
   username: { type: String, required: true },
   name: { type: String, required: true },
-  email: { type: String, required: true },
-  role: { type: String, required: true, enum: ["scrumMaster", "developer"] },
-  //   profileImg: {
-  //     data: Buffer,
-  //     contentType: String,
-  //   },
-  // https://www.geeksforgeeks.org/upload-and-retrieve-image-on-mongodb-using-mongoose/
-  // para mas tarde, como storear imagenes
+  email: {
+    type: String,
+    required: true,
+    // validate: [
+    //   { validator: validators.notEmpty, msg: "Email is empty" },
+    //   { validator: validators.isEmail, msg: "Invalid email" },
+    // ],
+  },
+  picture: { type: String },
+  // password: { type: String },
 });
 
-module.exports = new mongoose.model("User", userSchema);
+//falta agregar validacion de email, y passwords
+module.exports = {
+  schema: userSchema,
+  model: new mongoose.model("User", userSchema),
+};
