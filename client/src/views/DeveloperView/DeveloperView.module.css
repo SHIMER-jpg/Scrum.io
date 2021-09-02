@@ -13,5 +13,6 @@
 
 .DeveloperView_Body{
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
+    padding: 0 50px;
 }
