@@ -30,10 +30,10 @@ const Home = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSelectUsersOpen, setIsSelectUsersOpen] = useState(false);
   const [values, setValues] = useState({
-    title: "",
+    projectName: "",
     requiredDate: "",
-    springsAmount: "",
-    springDuration: "",
+    sprintCount: "",
+    sprintDuration: "",
     users: [],
     description: "",
   });
@@ -125,13 +125,13 @@ const Home = () => {
         </header>
         <form onSubmit={handleSubmit} className={styles.modalBody}>
           <div className={styles.modalFormGroup}>
-            <label htmlFor="title">Title</label>
+            <label htmlFor="projectName">Title</label>
             <input
-              value={values.title}
+              value={values.projectName}
               onChange={handleChange}
               autoComplete="off"
-              name="title"
-              id="title"
+              name="projectName"
+              id="projectName"
               type="text"
             />
           </div>
@@ -147,24 +147,24 @@ const Home = () => {
             />
           </div>
           <div className={styles.modalFormGroup}>
-            <label htmlFor="springsAmount">Amount of springs</label>
+            <label htmlFor="sprintCount">Amount of springs</label>
             <input
               autoComplete="off"
-              name="springsAmount"
-              id="springsAmount"
+              name="sprintCount"
+              id="sprintCount"
               type="number"
-              value={values.springsAmount}
+              value={values.sprintCount}
               onChange={handleChange}
             />
           </div>
           <div className={styles.modalFormGroup}>
-            <label htmlFor="springDuration">Spring duration</label>
+            <label htmlFor="sprintDuration">Spring duration</label>
             <input
               autoComplete="off"
-              name="springDuration"
-              id="springDuration"
+              name="sprintDuration"
+              id="sprintDuration"
               type="number"
-              value={values.springDuration}
+              value={values.sprintDuration}
               onChange={handleChange}
             />
           </div>
