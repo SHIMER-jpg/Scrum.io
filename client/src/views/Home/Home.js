@@ -10,15 +10,21 @@ import data from "../../__mocks__/homeUsersData";
 
 // a11y
 Modal.setAppElement("#root");
-Modal.defaultStyles.overlay.backgroundColor = "rgba(0,0,0,0.5)";
-Modal.defaultStyles.overlay.display = "grid";
-Modal.defaultStyles.overlay.placeItems = "center";
-// Modal.defaultStyles.overlay.inset = "initial";
-
-Modal.defaultStyles.content.padding = "40px";
-Modal.defaultStyles.content.inset = "unset";
-Modal.defaultStyles.content.width = "100%";
-Modal.defaultStyles.content.borderRadius = "8px";
+// styles
+const customStyles = {
+  content: {
+    padding: "40px",
+    inset: "unset",
+    width: "100%",
+    borderRadius: "8px",
+    maxWidth: "650px",
+  },
+  overlay: {
+    backgroundColor: "rgba(0,0,0,0.5)",
+    display: "grid",
+    placeItems: "center",
+  },
+};
 
 const Home = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -110,7 +116,7 @@ const Home = () => {
           </div>
         </article>
       </main>
-      <Modal style={{ content: { maxWidth: "650px" } }} isOpen={isModalOpen}>
+      <Modal style={customStyles} isOpen={isModalOpen}>
         <header className={styles.modalHeader}>
           <h2>Create project</h2>
           <button onClick={() => setIsModalOpen(false)}>
