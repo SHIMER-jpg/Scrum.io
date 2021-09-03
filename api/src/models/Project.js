@@ -10,7 +10,7 @@ const projectSchema = new mongoose.Schema({
   requiredDate: { type: Date }, //, required: true
   description: { type: String },
   sprintCount: { type: Number, required: true },
-  currentSprint: { type: Number, required: true },
+  currentSprint: { type: Number },
   sprintDuration: { type: Number, required: true },
   status: { type: Number, min: 0, max: 100 },
   // tasks: [Task.schema], //quiza sacamos esto,

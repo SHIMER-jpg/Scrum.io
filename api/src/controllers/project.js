@@ -30,7 +30,9 @@ const createProject = async (req, res, next) => {
       req.body.scrumMaster,
       newProject._id
     );
-    await UserAndProject.save();
+    // await UserAndProject.save();
+
+    await newProject.save();
     res.status(201).json(newProject);
   } catch (error) {
     next(error);
