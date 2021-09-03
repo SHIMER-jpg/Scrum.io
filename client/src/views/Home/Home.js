@@ -44,6 +44,8 @@ const Home = () => {
 
   const dispatch = useDispatch();
 
+  console.log(data);
+
   const handleChange = (e) => {
     setValues({
       ...values,
@@ -52,10 +54,11 @@ const Home = () => {
   };
 
   const handleAddUser = (user) => {
-    if (!values.Users.includes(user.id)) {
+    console.log(user);
+    if (!values.Users.includes(user._id)) {
       setValues({
         ...values,
-        Users: [...values.Users, user.id],
+        Users: [...values.Users, user._id],
       });
     }
     setQuery("");
@@ -64,7 +67,7 @@ const Home = () => {
   const handleRemoveUser = (user) => {
     setValues({
       ...values,
-      Users: values.Users.filter((u) => u !== user.id),
+      Users: values.Users.filter((u) => u !== user._id),
     });
   };
 
@@ -198,7 +201,7 @@ const Home = () => {
                 filteredUsers.map((user) => (
                   <article
                     onClick={() => handleAddUser(user)}
-                    key={user.id}
+                    key={user._id}
                     className={styles.modalUser}
                   >
                     <img src={user.picture} alt={user.name} />
@@ -212,9 +215,9 @@ const Home = () => {
           </div>
           <div className={styles.addedUsers}>
             {data
-              .filter((user) => values.Users.includes(user.id))
+              .filter((user) => values.Users.includes(user._id))
               .map((user) => (
-                <article key={user.id} className={styles.addedUsersCard}>
+                <article key={user._id} className={styles.addedUsersCard}>
                   <img src={user.picture} alt={user.name} />
                   <p>{user.name.split(" ")[0]}</p>
                   <button onClick={() => handleRemoveUser(user)}>
