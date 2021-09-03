@@ -13,6 +13,17 @@ const getProjectById = async (req, res, next) => {
   }
 };
 
+const getProjectByUserId = async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+
+    const userProjects = await UserProject.model.find(userId: userId);
+    res.status(200).json(project);
+  } catch (error) {
+    next(error);
+  }
+};
+
 const createProject = async (req, res, next) => {
   try {
     const newProject = new Project.model({
@@ -42,4 +53,5 @@ const createProject = async (req, res, next) => {
 module.exports = {
   getProjectById,
   createProject,
+  getProjectByUserId,
 };

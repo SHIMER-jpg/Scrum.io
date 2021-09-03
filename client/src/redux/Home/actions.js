@@ -21,6 +21,23 @@ export function createProject(project) {
   };
 }
 
+export function getProjectByUserId(){ // el filtrado por userId se hace en el reducer con el userLogged del state
+  return function (dispatch) {
+    axios
+      .post(
+        `http://${REACT_APP_BACKEND_HOST}:${REACT_APP_BACKEND_PORT}/project/createProject`,
+        project
+      )
+      .then((response) => {
+        dispatch({ type: CREATE_PROJECT });
+        return response.data;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+}
+
 export function fetchUsers() {
   return function (dispatch) {
     axios(

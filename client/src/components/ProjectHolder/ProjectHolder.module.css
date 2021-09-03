@@ -1,0 +1,12 @@
+.projects {
+    padding: 25px;
+    width: 90%;
+    border-radius: 5px;
+}
+
+.projects_Header h2 {
+    margin: 0;
+    font-weight: 600;
+    font-size: 27px;
+}
+  
