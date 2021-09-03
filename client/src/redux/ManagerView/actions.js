@@ -4,6 +4,7 @@ import {
   GET_TASKS_BY_PROJECT,
   GET_ASIGNED_USERS,
   GET_PROJECT_BY_ID,
+  UPDATE_TASK,
 } from "./constants";
 
 require("dotenv").config();
@@ -62,3 +63,10 @@ export function getAsignedUsers(projectId) {
       });
   };
 }
+
+// export function updateTask(change) {
+//   console.log("action", change);
+//   return function (dispatch) {
+//     dispatch({ type: UPDATE_TASK, payload: change });
+//   };
+// }

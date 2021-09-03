@@ -4,7 +4,22 @@
 // const io = require("socket.io")(server);
 const socketIO = require("socket.io");
 const socket = {};
-// const server = require("./app.js");
+const server = require("./app.js");
+
+const io = require("socket.io")(server, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"],
+  },
+});
+
+io.on("connection", (socket) => {
+  console.log("socket.io: User connected: ", socket.id);
+
+  socket.on("disconnect", () => {
+    console.log("socket.io: User disconnected: ", socket.id);
+  });
+});
 
 // const io = require("socket.io")(server, {
 //   cors: {
@@ -30,37 +45,8 @@ const socket = {};
 //   });
 // }
 
-// const io = require("socket.io")(server, {
-//   cors: {
-//     origin: "*",
-//     methods: ["GET", "POST"],
-//   },
-// });
-
-// io.of("/api/socket").on("connection", (socket) => {
-//   console.log("socket.io: User connected: ", socket.id);
-
-//   socket.on("disconnect", () => {
-//     console.log("socket.io: User disconnected: ", socket.id);
-//   });
-// });
-
-module.exports = {
-  connect,
-  socket,
-};
-// // const io = require("socket.io")(server, {
-// //   serveClient: false,
-// //   // below are engine.IO options
-// //   pingInterval: 10000,
-// //   pingTimeout: 5000,
-// //   cookie: false,
-// // });
-
-// io.on("connection", (socket) => {
-//   console.log("socket.io: User connected: ", socket.id);
-
-//   socket.on("disconnect", () => {
-//     console.log("socket.io: User disconnected: ", socket.id);
-//   });
-// });
+module.exports = io;
+// module.exports = {
+//   connect,
+//   socket,
+// };
