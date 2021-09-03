@@ -212,7 +212,7 @@ const Home = () => {
           </div>
           <div className={styles.addedUsers}>
             {data
-              .filter((user) => values.users.includes(user.id))
+              .filter((user) => values.Users.includes(user.id))
               .map((user) => (
                 <article key={user.id} className={styles.addedUsersCard}>
                   <img src={user.picture} alt={user.name} />
