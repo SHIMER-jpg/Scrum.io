@@ -1,34 +1,39 @@
-const PROJECTS = require("../hardcodingDataBD");
-const Project = require("../models/Project.js");
+const Project = require("../models/Project");
+const UserProject = require("../models/UserProject");
 
-//SANTI: Che, no se si tiene mucho sentido que esto devuelva una list de todos cuando dice devolver el proyecto
-// const getProjectById = async (req, res, next) => {
-//   try {
-//     const { projectId } = req.params;
-
-//     // busco el proyecto que coincida con la id pasada
-//     const project = PROJECTS.find((pro) => pro.id === projectId);
-
-//     // filtro los TODOS que necesiten ayuda y los guardo para enviar en la respuesta
-//     const todoHelpList = project.todoList.filter((todo) => !!todo.help);
-
-//     res.status(200).json(todoHelpList);
-//   } catch (error) {
-//     next(error);
-//   }
-// };
+// obtiene el proyecto por id
 const getProjectById = async (req, res, next) => {
   try {
     const { projectId } = req.params;
 
     const project = await Project.model.findById(projectId);
-    // busco el proyecto que coincida con la id pasada
-    // const project = PROJECTS.find((pro) => pro.id === projectId);
-
-    // filtro los TODOS que necesiten ayuda y los guardo para enviar en la respuesta
-    // const todoHelpList = project.todoList.filter((todo) => !!todo.help);
-
     res.status(200).json(project);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const createProject = async (req, res, next) => {
+  try {
+    const newProject = new Project.model({
+      projectName: req.body.projectName,
+      creationDate: req.body.creationDate,
+      requiredDate: req.body.requiredDate,
+      description: req.body.description,
+      sprintCount: req.body.sprintCount,
+      currentSprint: req.body.currentSprint,
+      sprintDuration: req.body.sprintDuration,
+    });
+
+    newProject.asignUsersToNewProject(
+      req.body.Users,
+      req.body.scrumMaster,
+      newProject._id
+    );
+    // await UserAndProject.save();
+
+    await newProject.save();
+    res.status(201).json(newProject);
   } catch (error) {
     next(error);
   }
@@ -36,4 +41,5 @@ const getProjectById = async (req, res, next) => {
 
 module.exports = {
   getProjectById,
+  createProject,
 };

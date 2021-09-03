@@ -2,8 +2,9 @@ import React from "react";
 import styles from "./TaskCard.module.css";
 
 export default function TaskCard({ name, description, sp, complex }) {
+  console.log("description: ", complex);
   return (
-    <div className={styles.taskCard}>
+    <div className={`${styles.taskCard} ${styles[complex]}`}>
       <div className={styles.taskCard_Header}>
         <h3>{name}</h3>
         <span className={styles.taskCard_StoryPoints}>{sp} SP</span>

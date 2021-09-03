@@ -1,8 +1,7 @@
 import axios from "axios";
 
-import { CREATE_PROJECT } from "./constants";
+import { CREATE_PROJECT, GET_ALL_USERS, SET_USER } from "./constants";
 
-require("dotenv").config();
 const { REACT_APP_BACKEND_HOST, REACT_APP_BACKEND_PORT } = process.env;
 
 export function createProject(project) {
@@ -21,3 +20,18 @@ export function createProject(project) {
       });
   };
 }
+
+export function fetchUsers() {
+  return function (dispatch) {
+    axios(
+      `http://${REACT_APP_BACKEND_HOST}:${REACT_APP_BACKEND_PORT}/user/getAll`
+    )
+      .then(({ data }) => dispatch({ type: GET_ALL_USERS, payload: data }))
+      .catch(console.log);
+  };
+}
+
+export const setUser = (payload) => ({
+  type: SET_USER,
+  payload,
+});

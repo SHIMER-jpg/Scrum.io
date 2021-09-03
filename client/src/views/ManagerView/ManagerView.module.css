@@ -16,5 +16,5 @@
 .conteinerBody {
   display: flex;
   justify-content: flex-start;
-  gap: 10px;
+  gap: 20px;
 }

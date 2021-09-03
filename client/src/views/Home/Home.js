@@ -1,33 +1,8 @@
-import { useState } from "react";
-import Modal from "react-modal";
+import { useState, useDispatch } from "react";
 import { BsPlus } from "react-icons/bs";
-import { IoClose } from "react-icons/io5";
-import { useDispatch } from "react-redux";
-import { createProject } from "../../redux/Home/actions";
-
-import { useSearch } from "../../hooks/useSearch";
+import HomeModal from "../../components/HomeModal/HomeModal";
 
 import styles from "./Home.module.css";
-import data from "../../__mocks__/homeUsersData";
-
-// a11y
-Modal.setAppElement("#root");
-// styles
-
-const customStyles = {
-  content: {
-    padding: "40px",
-    inset: "unset",
-    width: "100%",
-    borderRadius: "8px",
-    maxWidth: "650px",
-  },
-  overlay: {
-    backgroundColor: "rgba(0,0,0,0.5)",
-    display: "grid",
-    placeItems: "center",
-  },
-};
 
 const Home = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -121,120 +96,9 @@ const Home = () => {
           </div>
         </article>
       </main>
-      <Modal style={customStyles} isOpen={isModalOpen}>
-        <header className={styles.modalHeader}>
-          <h2>Create project</h2>
-          <button onClick={() => setIsModalOpen(false)}>
-            <IoClose size={30} />
-          </button>
-        </header>
-        <form onSubmit={handleSubmit} className={styles.modalBody}>
-          <div className={styles.modalFormGroup}>
-            <label htmlFor="projectName">Title</label>
-            <input
-              value={values.projectName}
-              onChange={handleChange}
-              autoComplete="off"
-              name="projectName"
-              id="projectName"
-              type="text"
-            />
-          </div>
-          <div className={styles.modalFormGroup}>
-            <label htmlFor="requiredDate">Required date</label>
-            <input
-              autoComplete="off"
-              name="requiredDate"
-              id="requiredDate"
-              type="date"
-              value={values.requiredDate}
-              onChange={handleChange}
-            />
-          </div>
-          <div className={styles.modalFormGroup}>
-            <label htmlFor="sprintCount">Amount of springs</label>
-            <input
-              autoComplete="off"
-              name="sprintCount"
-              id="sprintCount"
-              type="number"
-              value={values.sprintCount}
-              onChange={handleChange}
-            />
-          </div>
-          <div className={styles.modalFormGroup}>
-            <label htmlFor="sprintDuration">Spring duration</label>
-            <input
-              autoComplete="off"
-              name="sprintDuration"
-              id="sprintDuration"
-              type="number"
-              value={values.sprintDuration}
-              onChange={handleChange}
-            />
-          </div>
-          <div
-            className={`${styles.modalFormGroup} ${styles.selectUserContainer}`}
-          >
-            <label>Users</label>
-            <input
-              onBlur={() => setIsSelectUsersOpen(false)}
-              onFocus={() => setIsSelectUsersOpen(true)}
-              type="text"
-              name="Users"
-              value={query}
-              autoComplete="off"
-              onChange={(e) => setQuery(e.target.value)}
-            />
-            <div
-              className={`${styles.modalSelectUser} ${
-                isSelectUsersOpen ? styles.visible : undefined
-              }`}
-            >
-              {filteredUsers.length ? (
-                filteredUsers.map((user) => (
-                  <article
-                    onClick={() => handleAddUser(user)}
-                    key={user.id}
-                    className={styles.modalUser}
-                  >
-                    <img src={user.picture} alt={user.name} />
-                    <p>{user.name}</p>
-                  </article>
-                ))
-              ) : (
-                <p>There's no user with that name :(</p>
-              )}
-            </div>
-          </div>
-          <div className={styles.addedUsers}>
-            {data
-              .filter((user) => values.users.includes(user.id))
-              .map((user) => (
-                <article key={user.id} className={styles.addedUsersCard}>
-                  <img src={user.picture} alt={user.name} />
-                  <p>{user.name.split(" ")[0]}</p>
-                  <button onClick={() => handleRemoveUser(user)}>
-                    <IoClose size={15} />
-                  </button>
-                </article>
-              ))}
-          </div>
-          <div className={styles.modalFormGroup}>
-            <label htmlFor="description">Description</label>
-            <textarea
-              name="description"
-              id="description"
-              cols="15"
-              value={values.description}
-              onChange={handleChange}
-            ></textarea>
-          </div>
-          <div className={styles.modalFormGroup}>
-            <button type="submit">Create project</button>
-          </div>
-        </form>
-      </Modal>
+      {isModalOpen && (
+        <HomeModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+      )}
     </section>
   );
 };

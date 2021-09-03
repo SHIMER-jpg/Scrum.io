@@ -6,14 +6,27 @@ import {
   getProjectById,
   getTasksByProject,
   getAsignedUsers,
+  updateTask,
 } from "../../redux/ManagerView/actions";
 import { useDispatch, useSelector } from "react-redux";
 import Modal from "react-modal";
 import TaskHolder from "../../components/TaskHolder/TaskHolder";
-
+import io from "socket.io-client";
 import managerStyle from "./ManagerView.module.css";
 
 export default function ManagerView(props) {
+  useEffect(() => {
+    const socket = io("http://localhost:3001/");
+    // client-side
+    socket.on("connect", () => {
+      console.log(socket.id); // x8WIv7-mJelg7on_ALbx
+    });
+
+    socket.on("taskChange", (change) => {
+      dispatch(getTasksByProject("61313b4dfc13ae1dd2000cf8"));
+    });
+  }, []);
+
   const dispatch = useDispatch();
   // const { projectId } = props.match.params;
   const project = useSelector((state) => state.managerView.project);
@@ -21,9 +34,9 @@ export default function ManagerView(props) {
   const tasks = useSelector((state) => state.managerView.tasks);
 
   useEffect(() => {
-    dispatch(getProjectById("6130d98660befaed28495ae9"));
-    dispatch(getTasksByProject("6130d98660befaed28495ae9"));
-    dispatch(getAsignedUsers("6130d98660befaed28495ae9"));
+    dispatch(getProjectById("61313b4dfc13ae1dd2000cf8"));
+    dispatch(getTasksByProject("61313b4dfc13ae1dd2000cf8"));
+    dispatch(getAsignedUsers("61313b4dfc13ae1dd2000cf8"));
     // dispatch(getProjectById(projectId));
     // dispatch(getTasksByProject(projectId));
     // dispatch(getAsignedUsers(projectId));

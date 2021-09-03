@@ -23,7 +23,7 @@
 // newTaskOne.priorization = "Easy Win";
 
 // const newProject = new Project.model();
-// newProject.proyectName = "Dummy Project";
+// newProject.projectName = "Dummy Project";
 // newProject.sprintCount = 4;
 // newProject.currentSprint = 1;
 // newProject.sprintDuration = 2;
