@@ -1,4 +1,4 @@
-import { useState, useDispatch } from "react";
+import { useState } from "react";
 import { BsPlus } from "react-icons/bs";
 import HomeModal from "../../components/HomeModal/HomeModal";
 
@@ -6,57 +6,6 @@ import styles from "./Home.module.css";
 
 const Home = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isSelectUsersOpen, setIsSelectUsersOpen] = useState(false);
-  const [values, setValues] = useState({
-    projectName: "",
-    requiredDate: "",
-    sprintCount: "",
-    sprintDuration: "",
-    users: [],
-    description: "",
-  });
-  const [query, setQuery, filteredUsers] = useSearch(data);
-
-  const dispatch = useDispatch();
-
-  const handleChange = (e) => {
-    setValues({
-      ...values,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleAddUser = (user) => {
-    if (!values.Users.includes(user.id)) {
-      setValues({
-        ...values,
-        Users: [...values.Users, user.id],
-      });
-    }
-    setQuery("");
-  };
-
-  const handleRemoveUser = (user) => {
-    setValues({
-      ...values,
-      Users: values.Users.filter((u) => u !== user.id),
-    });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(createProject(values));
-    console.log(values);
-
-    setValues({
-      title: "",
-      requiredDate: "",
-      springsAmount: "",
-      springDuration: "",
-      Users: [],
-      description: "",
-    });
-  };
 
   return (
     <section className={styles.container}>

@@ -6,6 +6,7 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
 import { setUser } from "./redux/Home/actions";
+import { setUser as setDevUser } from "./redux/DeveloperView/actions";
 //components
 import PrivateRoute from "./components/HOCS/PrivateRoute";
 
@@ -41,6 +42,7 @@ const App = () => {
         );
 
         dispatch(setUser(data));
+        dispatch(setDevUser(data));
       })();
   }, [isAuthenticated]);
 

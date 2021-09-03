@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   getTasksByUser,
   getHelpTasks,
-} from "../../redux/DeveloperView/DeveloperViewActions.js";
+} from "../../redux/DeveloperView/actions.js";
 import styles from "./DeveloperView.module.css";
 
 // components
@@ -15,8 +15,8 @@ export default function DeveloperView() {
   var helpTaskList = useSelector((state) => state.developerView.helpTasks);
 
   useEffect(() => {
-    dispatch(getTasksByUser(2, 12)); //ids hardcodeados
-    dispatch(getHelpTasks(2)); //id hardcodeada
+    dispatch(getTasksByUser('61313b4dfc13ae1dd2000cf8')); //aca iria la id del proyecto al que se ingreso por home
+    dispatch(getHelpTasks('61313b4dfc13ae1dd2000cf8')); //aca iria la id del proyecto al que se ingreso por home
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
