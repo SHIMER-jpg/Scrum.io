@@ -45,7 +45,9 @@ const Home = () => {
           </div>
         </article>
       </main>
-      <HomeModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+      {isModalOpen && (
+        <HomeModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+      )}
     </section>
   );
 };

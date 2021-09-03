@@ -1,5 +1,9 @@
 const CREATE_PROJECT = "CREATE_PROJECT";
+const GET_ALL_USERS = "GET_ALL_USERS";
+const SET_USER = "SET_USER";
 
 module.exports = {
   CREATE_PROJECT,
+  GET_ALL_USERS,
+  SET_USER,
 };

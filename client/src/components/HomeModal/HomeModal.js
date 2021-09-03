@@ -1,12 +1,12 @@
-import { IoClose } from "react-icons/io5";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+/* eslint-disable react-hooks/exhaustive-deps */
 import Modal from "react-modal";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { IoClose } from "react-icons/io5";
 
 import { useSearch } from "../../hooks/useSearch";
-import { createProject } from "../../redux/Home/actions";
+import { fetchUsers, createProject } from "../../redux/Home/actions";
 
-import data from "../../__mocks__/homeUsersData";
 import styles from "./HomeModal.module.css";
 
 Modal.setAppElement("#root");
@@ -28,7 +28,12 @@ const customStyles = {
 };
 
 const HomeModal = ({ isModalOpen, setIsModalOpen }) => {
+  const dispatch = useDispatch();
   const [isSelectUsersOpen, setIsSelectUsersOpen] = useState(false);
+
+  const users = useSelector((state) => state.home.users);
+  const loggedUser = useSelector((state) => state.home.loggedUser);
+
   const [values, setValues] = useState({
     projectName: "",
     requiredDate: "",
@@ -37,9 +42,12 @@ const HomeModal = ({ isModalOpen, setIsModalOpen }) => {
     Users: [],
     description: "",
   });
-  const [query, setQuery, filteredUsers] = useSearch(data);
 
-  const dispatch = useDispatch();
+  const [query, setQuery, filteredUsers] = useSearch();
+
+  useEffect(() => {
+    dispatch(fetchUsers());
+  }, []);
 
   const handleChange = (e) => {
     setValues({
@@ -49,7 +57,6 @@ const HomeModal = ({ isModalOpen, setIsModalOpen }) => {
   };
 
   const handleAddUser = (user) => {
-    console.log(user);
     if (!values.Users.includes(user._id)) {
       setValues({
         ...values,
@@ -69,14 +76,15 @@ const HomeModal = ({ isModalOpen, setIsModalOpen }) => {
   //FALTA VALIDAR EL FORM NO NOS OLVIDEMOS
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createProject(values));
     console.log(values);
-    setIsModalOpen(false);
+
+    dispatch(createProject({ ...values, scrumMaster: loggedUser._id }));
+    // setIsModalOpen(false);
     setValues({
-      title: "",
+      projectName: "",
       requiredDate: "",
-      springsAmount: "",
-      springDuration: "",
+      sprintCount: "",
+      sprintDuration: "",
       Users: [],
       description: "",
     });
@@ -173,7 +181,7 @@ const HomeModal = ({ isModalOpen, setIsModalOpen }) => {
           </div>
         </div>
         <div className={styles.addedUsers}>
-          {data
+          {users
             .filter((user) => values.Users.includes(user._id))
             .map((user) => (
               <article key={user._id} className={styles.addedUsersCard}>
