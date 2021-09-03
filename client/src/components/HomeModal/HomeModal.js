@@ -43,7 +43,7 @@ const HomeModal = ({ isModalOpen, setIsModalOpen }) => {
     description: "",
   });
 
-  const [query, setQuery, filteredUsers] = useSearch();
+  const [query, setQuery, filteredUsers] = useSearch(users);
 
   useEffect(() => {
     dispatch(fetchUsers());
