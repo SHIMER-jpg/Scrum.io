@@ -1,5 +1,6 @@
 const Project = require("../models/Project");
 const UserProject = require("../models/UserProject");
+const mongoose = require("mongoose");
 
 // obtiene el proyecto por id
 const getProjectById = async (req, res, next) => {
@@ -15,10 +16,23 @@ const getProjectById = async (req, res, next) => {
 
 const getProjectByUserId = async (req, res, next) => {
   try {
-    const { userId } = req.params;
-
-    const userProjects = await UserProject.model.find(userId: userId);
-    res.status(200).json(project);
+    const { id } = req.query;
+    const mongooseId = mongoose.Types.ObjectId(id);
+    const data = await UserProject.model.aggregate([
+      { $match: { userId: mongooseId } },
+      {
+        $lookup: {
+          from: "projects",
+          localField: "projectId",
+          foreignField: "_id",
+          as: "project",
+        },
+      },
+      {
+        $unwind: "$project",
+      },
+    ]);
+    res.status(200).json(data);
   } catch (error) {
     next(error);
   }
