@@ -24,12 +24,13 @@ export default function TaskHolder({ status, helpNeeded, taskList }) {
       <div className={styles.taskList}>
         {taskList && taskList.length > 0 ? (
           taskList.map((pro) => (
-            <TaskCard
+            <TaskCard 
               key={pro._id}
-              name={pro.title}
-              description={pro.details}
-              sp={pro.storyPoints}
-              complex={pro.priorization?.replaceAll(" ", "_").toLowerCase()}
+              {...pro}
+              // name={pro.title}
+              // description={pro.details}
+              // sp={pro.storyPoints}
+              // complex={pro.priorization?.replaceAll(" ", "_").toLowerCase()}
             />
           ))
         ) : (

@@ -1,14 +1,23 @@
 import React, {useState} from "react";
 import styles from './TaskDetail.module.css';
 import yo from './mockupDataDetail';
+import { sendForm } from "../../redux/DeveloperView/DeveloperViewActions"
+import { useDispatch, useSelector } from "react-redux";
+
 
 
 export default function TaskDetail(){
+
    const {title, scenario, assignedTo, creationDate, completedDate, taskBreakout, details, notes} = yo
    const [status, setStatus] = useState('')
    const [storyPoints, setStoryPoints] = useState('')
+   
+   const dispatch = useDispatch()
 
 
+   const taskDetails = useSelector(({developerView}) => {
+      return developerView.taskDetails
+   }) 
 
    function handleStatusSelect(e){
       setStatus({
@@ -16,6 +25,7 @@ export default function TaskDetail(){
          [e.target.name] : e.target.value
       })
    }
+   
    function handleStoryPointsSelect(e){
       setStoryPoints({
          ...storyPoints,
@@ -23,11 +33,15 @@ export default function TaskDetail(){
       })
    }
 
-   function handlearea(e){
+   function handleArea(e){
       setStatus({
          ...status,
          [e.target.name] : e.target.value
       })
+   }
+
+   function handleSubmit(e){
+      dispatch(sendForm(e))
    }
 
    return (
@@ -46,7 +60,10 @@ export default function TaskDetail(){
          <div className={styles.titles}>Details: </div>
          <p>{details}</p>
          <div className={styles.titles}>Notes: </div>
-         <textarea className={styles.notas} name="Notes" id="" cols="30" rows="10" onChange ={(e) => handlearea(e)}></textarea>
+         <form onSubmit={(e) => handleSubmit(e)}>
+         <textarea className={styles.notas} name="notes" id="" cols="30" rows="10" onChange ={(e) => handleArea(e)}></textarea>
+         <button type="submit">Create</button>
+         </form>
          <div>{notes}</div>
          <button>🤔 Ask for help</button>
          <select onChange={(e) => handleStatusSelect(e)}>

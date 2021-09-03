@@ -22,3 +22,18 @@ export function getHelpTasks(projectId){
     })
   }
 }
+
+
+export function setTaskDetails(task){
+  return {type: CONSTANTS.SET_TASK_DETAILS, payload: task}
+}
+
+
+export function sendForm (note) {
+  return async function(dispatch){
+    return dispatch({
+      type: CONSTANTS.POST_NOTE, 
+      payload: note
+    })
+  }
+}
