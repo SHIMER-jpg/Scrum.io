@@ -11,6 +11,7 @@ const userSchema = new mongoose.Schema({
     //   { validator: validators.isEmail, msg: "Invalid email" },
     // ],
   },
+  providerId: { type: String },
   picture: { type: String },
   // password: { type: String },
 });
