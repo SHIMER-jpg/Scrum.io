@@ -24,15 +24,18 @@ projectSchema.methods.asignUsersToNewProject = async (
 ) => {
   console.log(devArray, scrumManager, projectId);
 
-  await UserProject.model.insertMany(
-    devArray.map((id) => {
-      return {
-        projectId: projectId,
-        userId: id,
-        role: "developer",
-      };
-    })
-  );
+  devArray
+    ? await UserProject.model.insertMany(
+        devArray.map((id) => {
+          console.log("entre");
+          return {
+            projectId: projectId,
+            userId: id,
+            role: "developer",
+          };
+        })
+      )
+    : "";
 
   await new UserProject.model({
     userId: scrumManager,

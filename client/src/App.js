@@ -1,3 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import axios from "axios";
+import { useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Switch, Route, Redirect } from "react-router-dom";
 
@@ -12,8 +15,29 @@ import DeveloperView from "./views/DeveloperView/DeveloperView";
 import ManagerView from "./views/ManagerView/ManagerView";
 import Layout from "./components/Layout/Layout.js";
 
+const BACKEND_HOST = process.env.REACT_APP_BACKEND_HOST;
+const BACKEND_PORT = process.env.REACT_APP_BACKEND_PORT;
+
 const App = () => {
-  const { isLoading, isAuthenticated } = useAuth0();
+  const { isLoading, isAuthenticated, getIdTokenClaims } = useAuth0();
+
+  useEffect(() => {
+    isAuthenticated &&
+      (async () => {
+        const tokenClaims = await getIdTokenClaims();
+
+        await axios.post(
+          `http://${BACKEND_HOST}:${BACKEND_PORT}/user/findOrCreate`,
+          {
+            providerId: tokenClaims.sub,
+            picture: tokenClaims.picture,
+            username: tokenClaims.nickname,
+            email: tokenClaims.email,
+            name: tokenClaims.name,
+          }
+        );
+      })();
+  }, [isAuthenticated]);
 
   return isLoading ? (
     <div
