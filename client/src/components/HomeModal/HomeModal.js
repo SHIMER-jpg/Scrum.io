@@ -66,11 +66,12 @@ const HomeModal = ({ isModalOpen, setIsModalOpen }) => {
     });
   };
 
+  //FALTA VALIDAR EL FORM NO NOS OLVIDEMOS
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(createProject(values));
     console.log(values);
-
+    setIsModalOpen(false);
     setValues({
       title: "",
       requiredDate: "",
