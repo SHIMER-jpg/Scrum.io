@@ -1,6 +1,6 @@
 module.exports = [
   {
-    _id: { $oid: "61313b4dfc13ae1dd2000cf8" },
+    _id: "61313b4dfc13ae1dd2000cf8",
     projectName: "Regrant",
     creationDate: "2020-11-26T22:45:54Z",
     requiredDate: "2021-02-06T22:54:37Z",

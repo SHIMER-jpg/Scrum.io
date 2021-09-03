@@ -27,7 +27,6 @@ projectSchema.methods.asignUsersToNewProject = async (
   devArray
     ? await UserProject.model.insertMany(
         devArray.map((id) => {
-          console.log("entre");
           return {
             projectId: projectId,
             userId: id,

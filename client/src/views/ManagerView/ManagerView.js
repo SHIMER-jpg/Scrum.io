@@ -23,7 +23,7 @@ export default function ManagerView(props) {
     });
 
     socket.on("taskChange", (change) => {
-      dispatch(getTasksByProject("61323b6e5cbbcd0b0b5e1697"));
+      dispatch(getTasksByProject("61313b4dfc13ae1dd2000cf8"));
     });
   }, []);
 
@@ -34,9 +34,9 @@ export default function ManagerView(props) {
   const tasks = useSelector((state) => state.managerView.tasks);
 
   useEffect(() => {
-    dispatch(getProjectById("61323b6e5cbbcd0b0b5e1697"));
-    dispatch(getTasksByProject("61323b6e5cbbcd0b0b5e1697"));
-    dispatch(getAsignedUsers("61323b6e5cbbcd0b0b5e1697"));
+    dispatch(getProjectById("61313b4dfc13ae1dd2000cf8"));
+    dispatch(getTasksByProject("61313b4dfc13ae1dd2000cf8"));
+    dispatch(getAsignedUsers("61313b4dfc13ae1dd2000cf8"));
     // dispatch(getProjectById(projectId));
     // dispatch(getTasksByProject(projectId));
     // dispatch(getAsignedUsers(projectId));
