@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const Task = require("./Task");
+const UserProject = require("./UserProject");
 
 const projectSchema = new mongoose.Schema({
   projectName: { type: String, required: true },
@@ -15,6 +16,30 @@ const projectSchema = new mongoose.Schema({
   // tasks: [Task.schema], //quiza sacamos esto,
   taskIds: [{ type: Schema.Types.ObjectId, ref: "Task" }], //quiza sacamos esto,
 });
+
+projectSchema.methods.asignUsersToNewProject = async (
+  devArray,
+  scrumManager,
+  projectId
+) => {
+  console.log(devArray, scrumManager, projectId);
+
+  await UserProject.model.insertMany(
+    devArray.map((id) => {
+      return {
+        projectId: projectId,
+        userId: id,
+        role: "developer",
+      };
+    })
+  );
+
+  await new UserProject.model({
+    userId: scrumManager,
+    projectId: projectId,
+    role: "scrumMaster",
+  }).save();
+};
 
 module.exports = {
   schema: projectSchema,
