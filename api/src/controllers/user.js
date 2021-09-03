@@ -26,6 +26,24 @@ const getUsersByProjectId = async (req, res, next) => {
   }
 };
 
+const findOrCreateUser = async (req, res, next) => {
+  try {
+    const userInDB = await User.model.findOne({
+      providerId: req.body.providerId,
+    });
+
+    if (userInDB) {
+      return res.status(200).json(userInDB);
+    } else {
+      const newUser = await User.model.create(...req.body);
+      res.status(201).json(newUser);
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   getUsersByProjectId,
+  findOrCreateUser,
 };
