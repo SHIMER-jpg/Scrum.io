@@ -1,16 +1,19 @@
-.DeveloperView{
-    background-color: #e5e5e5;
-    padding: 10px 50px;
+.DeveloperView {
+  padding: 25px 30px;
+  width: 100%;
+  min-height: calc(100vh - 70px);
 }
 
-.DeveloperView_Header{
-    padding: 10px 20px;
-    border-bottom: 2px solid #949494;
-    margin-bottom: 50px;
+.DeveloperView_Header {
+  margin-bottom: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgb(179, 179, 179);
+  padding-bottom: 20px;
 }
 
-.DeveloperView_Body{
-    display: flex;
-    justify-content: space-between;
-    padding: 0 50px;
+.DeveloperView_Body {
+  display: flex;
+  justify-content: space-between;
 }

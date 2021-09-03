@@ -37,7 +37,7 @@ const Home = () => {
     requiredDate: "",
     sprintCount: "",
     sprintDuration: "",
-    users: [],
+    Users: [],
     description: "",
   });
   const [query, setQuery, filteredUsers] = useSearch(data);
@@ -136,6 +136,7 @@ const Home = () => {
               onChange={handleChange}
               autoComplete="off"
               name="projectName"
+              placeholder="Type the name of the project"
               id="projectName"
               type="text"
             />
@@ -152,22 +153,24 @@ const Home = () => {
             />
           </div>
           <div className={styles.modalFormGroup}>
-            <label htmlFor="sprintCount">Amount of springs</label>
+            <label htmlFor="sprintCount">Amount of sprints</label>
             <input
               autoComplete="off"
               name="sprintCount"
               id="sprintCount"
+              placeholder="Type the amount of sprints"
               type="number"
               value={values.sprintCount}
               onChange={handleChange}
             />
           </div>
           <div className={styles.modalFormGroup}>
-            <label htmlFor="sprintDuration">Spring duration</label>
+            <label htmlFor="sprintDuration">Sprint duration</label>
             <input
               autoComplete="off"
               name="sprintDuration"
               id="sprintDuration"
+              placeholder="Type the duration of the sprints"
               type="number"
               value={values.sprintDuration}
               onChange={handleChange}
@@ -209,7 +212,7 @@ const Home = () => {
           </div>
           <div className={styles.addedUsers}>
             {data
-              .filter((user) => values.users.includes(user.id))
+              .filter((user) => values.Users.includes(user.id))
               .map((user) => (
                 <article key={user.id} className={styles.addedUsersCard}>
                   <img src={user.picture} alt={user.name} />
@@ -226,6 +229,7 @@ const Home = () => {
               name="description"
               id="description"
               cols="15"
+              placeholder="Type a description..."
               value={values.description}
               onChange={handleChange}
             ></textarea>

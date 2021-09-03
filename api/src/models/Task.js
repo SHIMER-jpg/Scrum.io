@@ -15,7 +15,12 @@ const taskSchema = new mongoose.Schema({
   storyPoints: { type: Number },
   priorization: {
     type: String,
-    enum: ["Easy Win", "Depriorize", "Worth Pursuing", "Strategic Initiative"],
+    enum: [
+      "Easy Win",
+      "Deprioritize",
+      "Worth Pursuing",
+      "Strategic Initiative",
+    ],
   },
   details: { type: String },
   helpNeeded: { type: Boolean, default: false },
