@@ -37,7 +37,7 @@ const Home = () => {
     requiredDate: "",
     sprintCount: "",
     sprintDuration: "",
-    users: [],
+    Users: [],
     description: "",
   });
   const [query, setQuery, filteredUsers] = useSearch(data);
