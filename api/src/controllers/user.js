@@ -35,9 +35,19 @@ const findOrCreateUser = async (req, res, next) => {
     if (userInDB) {
       return res.status(200).json(userInDB);
     } else {
-      const newUser = await User.model.create(...req.body);
+      const newUser = await User.model.create(req.body);
       res.status(201).json(newUser);
     }
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getAllUsers = async (req, res, next) => {
+  try {
+    const allUsers = await User.model.find();
+
+    res.status(200).json(allUsers);
   } catch (error) {
     next(error);
   }
@@ -46,4 +56,5 @@ const findOrCreateUser = async (req, res, next) => {
 module.exports = {
   getUsersByProjectId,
   findOrCreateUser,
+  getAllUsers,
 };
