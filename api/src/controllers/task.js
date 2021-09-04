@@ -29,37 +29,35 @@ const postTask = async (req, res, next) => {
 };
 
 
-const modifyingTask= async(req, res, next) => {
-  try{
-    const { taskId } = req.params
-    let newStatus  = req.body.status
-    let newPriorization  = req.body.priorization
-      if(newStatus){
-        const filter = { _id: taskId };
-        const update = { status: newStatus};
-        await Task.model.findOneAndUpdate(filter, update);
-        res.status(200).send('Successfully modified status')
-      }else{
-        if(newPriorization){
-          const filter = { _id: taskId };
-          const update = { priorization: newPriorization};
-          await Task.model.findOneAndUpdate(filter, update);
-          res.status(200).send('Successfully modified priorization')
-        }else{
-          const filter = { _id: taskId };
-          const update = { helpNeeded: true};
-          await Task.model.findOneAndUpdate(filter, update);
-          res.status(200).send('Successfully modified helpNeeded')
-        }
-      }
-    }catch(error){
-    next(error)
-  }
+const askHelpTask = async(req, res, next) => {
+  let taskId = req.body.id
+  const filter = { _id: taskId };
+  const update = { helpNeeded: true};
+  await Task.model.findOneAndUpdate(filter, update);
+  res.status(200).send('Successfully modified helpNeeded')
 } 
+
+const changeStatusTask = async(req, res, next) => {
+  let taskId = req.body.id
+  let newStatus  = req.body.status
+  const filter = { _id: taskId };
+  const update = { status: newStatus};
+  await Task.model.findOneAndUpdate(filter, update);
+  res.status(200).send('Successfully modified status')
+}
+
+const changePriorizationTask = async(req, res, next) => {
+  let taskId = req.body.id
+  let newPriorization = req.body.priorization
+  const filter = { _id: taskId };
+  const update = { priorization: newPriorization};
+  await Task.model.findOneAndUpdate(filter, update);
+  res.status(200).send('Successfully modified priorization')
+}
 
 
 module.exports = {
   postTask,
   getTasksByProjectId,
-  modifyingTask
+  
 };
