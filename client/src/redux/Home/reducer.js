@@ -1,8 +1,8 @@
-import { GET_ALL_USERS, SET_USER } from "./constants.js";
+import { GET_ALL_USERS, SET_USER, GET_PROJECTS_BY_USER } from "./constants.js";
 
 const initialState = {
   users: [],
-  loggedUser: {},
+  projectList: [],
 };
 
 export default function reducer(state = initialState, action) {
@@ -13,10 +13,10 @@ export default function reducer(state = initialState, action) {
         users: action.payload.filter((u) => u._id !== state.loggedUser._id),
       };
     }
-    case SET_USER: {
+    case GET_PROJECTS_BY_USER: {
       return {
         ...state,
-        loggedUser: action.payload,
+        projectList: [...action.payload],
       };
     }
     default:

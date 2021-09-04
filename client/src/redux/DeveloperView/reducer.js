@@ -3,7 +3,6 @@ import { CONSTANTS } from './constants.js';
 const initialState = {
   userTasks: [],
   helpTasks: [],
-  loggedUser: {},
 };
 
 export default function reducer(state = initialState, action) {
@@ -11,7 +10,7 @@ export default function reducer(state = initialState, action) {
     case CONSTANTS.GET_USER_TASKS:
       return {
         ...state,
-        userTasks: action.payload.filter((task) => task.asignedTo !== state.loggedUser._id),
+        userTasks: action.payload,
       }
     case CONSTANTS.GET_HELP_TASKS:
       return {

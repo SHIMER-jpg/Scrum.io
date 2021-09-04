@@ -1,11 +1,27 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { BsPlus } from "react-icons/bs";
+import { useDispatch, useSelector } from "react-redux";
+
+import { getProjectByUserId } from "../../redux/Home/actions";
+
 import HomeModal from "../../components/HomeModal/HomeModal";
+import ProjectHolder from "../../components/ProjectHolder/ProjectHolder";
 
 import styles from "./Home.module.css";
 
 const Home = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const userLogged = useSelector(state => state.app.loggedUser);
+  const projectList = useSelector(state => state.home.projectList);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if(userLogged._id){
+      dispatch(getProjectByUserId(userLogged._id));
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userLogged])
 
   return (
     <section className={styles.container}>
@@ -16,34 +32,10 @@ const Home = () => {
         </button>
       </header>
       <main className={styles.projects}>
-        <article className={styles.project}>
-          <h2>Proyecto grupal</h2>
-          <div className={styles.projectItem}>
-            <div className={styles.projectItemTitle}>
-              <p>Description</p>
-              <div></div>
-            </div>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Et
-              similique totam quibusdam officiis! Provident excepturi ad
-              deserunt illum exercitationem in minima beatae laborum, molestiae
-              iure omnis. Officiis perspiciatis nobis voluptatem.
-            </p>
-          </div>
-          <div className={styles.projectItem}>
-            <div className={styles.projectItemTitle}>
-              <p>Progress</p>
-              <div></div>
-            </div>
-            <div className={styles.progress}>
-              <div></div>
-              <p>75%</p>
-            </div>
-          </div>
-          <div className={styles.projectItem}>
-            <button>See details</button>
-          </div>
-        </article>
+        {/* Proyectos en curso */}
+        <ProjectHolder projectList={projectList} finished={false}/>
+        {/* Proyectos en curso */}
+        <ProjectHolder projectList={projectList} finished={true}/>
       </main>
       {isModalOpen && (
         <HomeModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />

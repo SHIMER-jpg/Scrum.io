@@ -5,13 +5,13 @@ import { CONSTANTS } from './constants.js';
 require("dotenv").config();
 const { REACT_APP_BACKEND_HOST, REACT_APP_BACKEND_PORT } = process.env;
 
-export function getTasksByUser(projectId){
+export function getTasksByUser(projectId, userId){
   return async function(dispatch){
     // obtiene todas las tareas del projecto pasado por projectId para luego filtrar y agarrar solo las del usuario loggeado en el reducer
     var tasks = await axios.get(`http://${REACT_APP_BACKEND_HOST}:${REACT_APP_BACKEND_PORT}/task/${projectId}`);
     return dispatch({
       type: CONSTANTS.GET_USER_TASKS,
-      payload: tasks.data
+      payload: tasks.data.filter(task => task.asignedTo === userId)
     })
   }
 }
@@ -26,9 +26,3 @@ export function getHelpTasks(projectId){
     })
   }
 }
-
-// setea los datos del usuario logueado en el componente DeveloperView
-export const setUser = (payload) => ({
-  type: CONSTANTS.SET_USER,
-  payload,
-});
