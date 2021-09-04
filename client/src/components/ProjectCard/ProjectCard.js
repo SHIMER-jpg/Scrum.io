@@ -25,10 +25,10 @@ export default function ProjectCard({ project }) {
           <div className={styles.progressBar}>
             <div
               className={styles.progress}
-              style={{ width: `${project.status}%` }}
+              style={{ width: `${project.status || 0}%` }}
             ></div>
           </div>
-          <h4>{project.status}%</h4>
+          <h4>{(project.status || 0) + "%"}</h4>
           <div className={styles.projectItem}>
             <button
               onClick={() => {

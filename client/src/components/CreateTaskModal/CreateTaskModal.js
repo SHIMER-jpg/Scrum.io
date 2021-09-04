@@ -5,9 +5,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { IoClose } from "react-icons/io5";
 
 import { useSearch } from "../../hooks/useSearch";
-import { fetchUsers, createProject } from "../../redux/Home/actions";
+import { createTask } from "../../redux/ManagerView/actions";
 
-import styles from "./HomeModal.module.css";
+import styles from "./CreateTaskModal.module.css";
 
 Modal.setAppElement("#root");
 
@@ -27,26 +27,34 @@ const customStyles = {
   },
 };
 
-const HomeModal = ({ isModalOpen, setIsModalOpen }) => {
+const CreateTaskModal = ({
+  isModalOpen,
+  setIsModalOpen,
+  assignedUsers,
+  projectId,
+}) => {
   const dispatch = useDispatch();
   const [isSelectUsersOpen, setIsSelectUsersOpen] = useState(false);
+  const [usersInProject, setUsersInProject] = useState([]);
 
-  const users = useSelector((state) => state.home.users);
   const loggedUser = useSelector((state) => state.app.loggedUser);
 
   const [values, setValues] = useState({
-    projectName: "",
-    requiredDate: "",
-    sprintCount: "",
-    sprintDuration: "",
-    Users: [],
-    description: "",
+    title: "",
+    assignedTo: "",
+    storyPoints: "",
+    priorization: "",
+    details: "",
   });
 
-  const [query, setQuery, filteredUsers] = useSearch(users);
+  const [query, setQuery, filteredUsers] = useSearch(usersInProject);
 
   useEffect(() => {
-    dispatch(fetchUsers());
+    const filteredUsers = assignedUsers
+      .filter(({ user }) => user._id !== loggedUser._id)
+      .map((u) => u.user);
+
+    setUsersInProject(filteredUsers);
   }, []);
 
   const handleChange = (e) => {
@@ -57,105 +65,72 @@ const HomeModal = ({ isModalOpen, setIsModalOpen }) => {
   };
 
   const handleAddUser = (user) => {
-    if (!values.Users.includes(user._id)) {
+    if (!values.assignedTo.includes(user._id)) {
       setValues({
         ...values,
-        Users: [...values.Users, user._id],
+        assignedTo: user._id,
       });
     }
     setQuery("");
   };
 
-  const handleRemoveUser = (user) => {
+  const handleRemoveUser = () => {
     setValues({
       ...values,
-      Users: values.Users.filter((u) => u !== user._id),
+      assignedTo: "",
     });
   };
 
   //FALTA VALIDAR EL FORM NO NOS OLVIDEMOS
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(values);
 
-    dispatch(createProject({ ...values, scrumMaster: loggedUser._id }));
-    // setIsModalOpen(false);
+    dispatch(createTask({ ...values, projectId }));
+    setIsModalOpen(false);
+
     setValues({
-      projectName: "",
-      requiredDate: "",
-      sprintCount: "",
-      sprintDuration: "",
-      Users: [],
-      description: "",
+      title: "",
+      assignedTo: "",
+      storyPoints: "",
+      priorization: "",
+      details: "",
     });
   };
 
   return (
     <Modal style={customStyles} isOpen={isModalOpen}>
       <header className={styles.modalHeader}>
-        <h2>Create project</h2>
+        <h2>Create task</h2>
         <button onClick={() => setIsModalOpen(false)}>
           <IoClose size={30} />
         </button>
       </header>
       <form onSubmit={handleSubmit} className={styles.modalBody}>
         <div className={styles.modalFormGroup}>
-          <label htmlFor="projectName">Title</label>
+          <label htmlFor="title">Title</label>
           <input
-            value={values.projectName}
+            value={values.title}
             onChange={handleChange}
             autoComplete="off"
-            name="projectName"
-            placeholder="Type the name of the project"
-            id="projectName"
+            name="title"
+            placeholder="Type the title of the task"
+            id="title"
             type="text"
           />
         </div>
-        <div className={styles.modalFormGroup}>
-          <label htmlFor="requiredDate">Required date</label>
-          <input
-            autoComplete="off"
-            name="requiredDate"
-            id="requiredDate"
-            type="date"
-            value={values.requiredDate}
-            onChange={handleChange}
-          />
-        </div>
-        <div className={styles.modalFormGroup}>
-          <label htmlFor="sprintCount">Amount of sprints</label>
-          <input
-            autoComplete="off"
-            name="sprintCount"
-            id="sprintCount"
-            placeholder="Type the amount of sprints"
-            type="number"
-            value={values.sprintCount}
-            onChange={handleChange}
-          />
-        </div>
-        <div className={styles.modalFormGroup}>
-          <label htmlFor="sprintDuration">Sprint duration</label>
-          <input
-            autoComplete="off"
-            name="sprintDuration"
-            id="sprintDuration"
-            placeholder="Type the duration of the sprints"
-            type="number"
-            value={values.sprintDuration}
-            onChange={handleChange}
-          />
-        </div>
+
         <div
           className={`${styles.modalFormGroup} ${styles.selectUserContainer}`}
         >
-          <label>Users</label>
+          <label htmlFor="assignedTo">Assigned dev</label>
           <input
             onBlur={() => setIsSelectUsersOpen(false)}
             onFocus={() => setIsSelectUsersOpen(true)}
             type="text"
-            name="Users"
+            id="assignedTo"
+            name="assignedTo"
             value={query}
+            placeholder="Type a name..."
             autoComplete="off"
             onChange={(e) => setQuery(e.target.value)}
           />
@@ -181,8 +156,8 @@ const HomeModal = ({ isModalOpen, setIsModalOpen }) => {
           </div>
         </div>
         <div className={styles.addedUsers}>
-          {users
-            .filter((user) => values.Users.includes(user._id))
+          {usersInProject
+            .filter((user) => values.assignedTo.includes(user._id))
             .map((user) => (
               <article key={user._id} className={styles.addedUsersCard}>
                 <img src={user.picture} alt={user.name} />
@@ -194,22 +169,48 @@ const HomeModal = ({ isModalOpen, setIsModalOpen }) => {
             ))}
         </div>
         <div className={styles.modalFormGroup}>
-          <label htmlFor="description">Description</label>
+          <label htmlFor="storyPoints">Story points</label>
+          <input
+            autoComplete="off"
+            name="storyPoints"
+            id="storyPoints"
+            placeholder="Type the amount of story points"
+            type="number"
+            value={values.storyPoints}
+            onChange={handleChange}
+          />
+        </div>
+        <div className={styles.modalFormGroup}>
+          <label htmlFor="priorization">Priorization</label>
+          <select
+            value={values.priorization}
+            onChange={handleChange}
+            name="priorization"
+            id="priorization"
+          >
+            <option value="Easy Win">Easy win</option>
+            <option value="Deprioritize">Deprioritize</option>
+            <option value="Worth Pursuing">Worth pursuing later</option>
+            <option value="Strategic Initiative">Strategic initiative</option>
+          </select>
+        </div>
+        <div className={styles.modalFormGroup}>
+          <label htmlFor="details">Details</label>
           <textarea
-            name="description"
-            id="description"
+            name="details"
+            id="details"
             cols="15"
-            placeholder="Type a description..."
-            value={values.description}
+            placeholder="Type the taks's details..."
+            value={values.details}
             onChange={handleChange}
           ></textarea>
         </div>
         <div className={styles.modalFormGroup}>
-          <button type="submit">Create project</button>
+          <button type="submit">Create task</button>
         </div>
       </form>
     </Modal>
   );
 };
 
-export default HomeModal;
+export default CreateTaskModal;

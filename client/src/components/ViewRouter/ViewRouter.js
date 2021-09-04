@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useSelector } from "react-redux";
 import { useRouteMatch } from "react-router";
 import { useEffect } from "react";
@@ -9,16 +10,20 @@ import DeveloperView from "../../views/DeveloperView/DeveloperView.js";
 const ViewRouter = () => {
   const route = useRouteMatch();
   const dispatch = useDispatch();
+
   const role = useSelector((state) => state.viewRouter.userRole);
-  const userId = useSelector((state) => state.app.loggedUser._id);
+  const loggedUser = useSelector((state) => state.app.loggedUser);
+
   const { projectId } = route.params;
 
   useEffect(() => {
-    dispatch(getRole(userId, projectId));
+    dispatch(getRole(loggedUser._id, projectId));
+
     return function clerRole() {
       dispatch(clearRole());
     };
-  }, []);
+  }, [loggedUser]);
+
   return (
     <>
       {role ? (

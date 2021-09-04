@@ -1,4 +1,5 @@
 const Task = require("../models/Task");
+const mongoose = require("mongoose");
 
 const getTasksByProjectId = async (req, res, next) => {
   try {
@@ -14,12 +15,14 @@ const postTask = async (req, res, next) => {
   try {
     var newTask = new Task.model({
       title: req.body.title,
-      asignedTo: req.body.user,
+      assignedTo: req.body.assignedTo,
       status: req.body.status,
       storyPoints: req.body.storyPoints,
-      prorization: req.body.priorization,
+      priorization: req.body.priorization,
       details: req.body.details,
+      projectId: req.body.projectId,
     });
+
     await newTask.save();
 
     res.status(201).json(newTask);

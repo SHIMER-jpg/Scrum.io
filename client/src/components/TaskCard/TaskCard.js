@@ -9,7 +9,7 @@ export default function TaskCard({ name, description, sp, complex }) {
         <span className={styles.taskCard_StoryPoints}>{sp} SP</span>
       </div>
       <div className={styles.taskCard_Body}>
-        <p>{description}</p>
+        <p>{description?.slice(0, 100) + "..."}</p>
       </div>
       <div
         className={`${styles.taskCard_ComplexColorLine} ${

@@ -5,6 +5,7 @@ import {
   GET_ASIGNED_USERS,
   GET_PROJECT_BY_ID,
   UPDATE_TASK,
+  CREATE_TASK,
 } from "./constants";
 
 require("dotenv").config();
@@ -49,6 +50,18 @@ export function getTasksByProject(projectId) {
       .then((json) => {
         dispatch({ type: GET_TASKS_BY_PROJECT, payload: json.data });
       });
+  };
+}
+
+export function createTask(task) {
+  return function (dispatch) {
+    axios
+      .post(
+        `http://${REACT_APP_BACKEND_HOST}:${REACT_APP_BACKEND_PORT}/task/createTask`,
+        { ...task }
+      )
+      .then(() => dispatch({ type: CREATE_TASK }))
+      .catch(console.log);
   };
 }
 

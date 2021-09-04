@@ -4,13 +4,12 @@
   padding: 25px;
   width: 35%;
   border-radius: 5px;
+  max-height: 650px;
+  overflow-y: scroll;
 }
 
 .tasks_Header h2 {
   margin: 0;
   font-weight: 600;
   font-size: 27px;
-}
-.tasks_Header {
-  overflow-y: scroll;
 }
