@@ -26,15 +26,12 @@ const ViewRouter = () => {
 
   return (
     <>
-      {role ? (
-        role == "scrumMaster" ? (
+      {role &&
+        (role === "scrumMaster" ? (
           <ManagerView projectId={projectId} />
         ) : (
           <DeveloperView projectId={projectId} />
-        )
-      ) : (
-        ""
-      )}
+        ))}
     </>
   );
 };

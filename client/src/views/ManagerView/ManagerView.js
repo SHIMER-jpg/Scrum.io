@@ -34,13 +34,14 @@ export default function ManagerView() {
   const dispatch = useDispatch();
   // const route = useRouteMatch();
   const { projectId } = useParams();
-  // const project = useSelector((state) => state.managerView.project);
+  const project = useSelector((state) => state.managerView.project);
   const assignedUsers = useSelector((state) => state.managerView.asignedUsers);
   const tasks = useSelector((state) => state.managerView.tasks);
+  const [isLoadingTasks, setIsLoadingTasks] = useState(true);
 
   useEffect(() => {
-    // dispatch(getProjectById(projectId));
-    dispatch(getTasksByProject(projectId));
+    dispatch(getProjectById(projectId));
+    dispatch(getTasksByProject(projectId, setIsLoadingTasks));
     dispatch(getAsignedUsers(projectId));
   }, [isModalOpen]);
 
@@ -76,7 +77,9 @@ export default function ManagerView() {
       )}
       <div className={managerStyle.conteiner}>
         <header className={managerStyle.conteinerHeader}>
-          <h1 className="main-heading">Project Name</h1>
+          <h1 className="main-heading">
+            {project.projectName || "Loading..."}
+          </h1>
           <button className="btn-primary" onClick={() => setIsModalOpen(true)}>
             + Create Task
           </button>
@@ -84,21 +87,25 @@ export default function ManagerView() {
         <div className={managerStyle.conteinerBody}>
           {/* Pending Tasks */}
           <TaskHolder
+            isLoading={isLoadingTasks}
             status={"Pending"}
             taskList={tasks.filter((task) => task.status === "Pending")}
           />
           {/* In progress Tasks */}
           <TaskHolder
+            isLoading={isLoadingTasks}
             status={"In progress"}
             taskList={tasks.filter((task) => task.status === "In progress")}
           />
           {/* Testing Tasks */}
           <TaskHolder
+            isLoading={isLoadingTasks}
             status={"Testing"}
             taskList={tasks.filter((task) => task.status === "Testing")}
           />
           {/* Completed Tasks */}
           <TaskHolder
+            isLoading={isLoadingTasks}
             status={"Completed"}
             taskList={tasks.filter((task) => task.status === "Completed")}
           />

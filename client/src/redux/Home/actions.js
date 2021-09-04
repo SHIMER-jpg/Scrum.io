@@ -26,7 +26,7 @@ export function createProject(project) {
   };
 }
 
-export function getProjectByUserId(userId) {
+export function getProjectByUserId(userId, setIsLoadingProjects) {
   return function (dispatch) {
     axios
       .get(
@@ -34,6 +34,7 @@ export function getProjectByUserId(userId) {
       )
       .then((data) => {
         dispatch({ type: GET_PROJECTS_BY_USER, payload: data.data });
+        setIsLoadingProjects(false);
       })
       .catch((err) => {
         console.log(err);

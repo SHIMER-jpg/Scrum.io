@@ -3,10 +3,16 @@ import styles from "./TaskHolder.module.css";
 
 //components
 import TaskCard from "../TaskCard/TaskCard.js";
+import Loading from "../Loading/Loading";
 
 // coso
 
-export default function TaskHolder({ status, helpNeeded, taskList }) {
+export default function TaskHolder({
+  status,
+  helpNeeded,
+  taskList,
+  isLoading,
+}) {
   // si se pasa un status, se filtran las tareas y se mapean solo las que tengan ese status
   // if (status) {
   //   taskList = taskList.filter((task) => task.status === status);
@@ -16,13 +22,16 @@ export default function TaskHolder({ status, helpNeeded, taskList }) {
   //   taskList = taskList.filter((task) => task.helpNeeded === helpNeeded);
   // }
   // sino se pasa ninguno de los dos parametros, simplemente se mapean todas las que hayan en el proyecto
+
   return (
     <div className={styles.tasks}>
       <div className={styles.tasks_Header}>
         <h2>{status ? status : helpNeeded ? "Help Needed" : "My Tasks"}</h2>
       </div>
       <div className={styles.taskList}>
-        {taskList && taskList.length > 0 ? (
+        {isLoading ? (
+          <Loading isCentered={true} />
+        ) : taskList && taskList.length > 0 ? (
           taskList.map((pro) => (
             <TaskCard
               key={pro._id}
@@ -33,7 +42,7 @@ export default function TaskHolder({ status, helpNeeded, taskList }) {
             />
           ))
         ) : (
-          <h3>No Tasks...</h3>
+          <h3 className={styles.noTasks}>No tasks yet.</h3>
         )}
       </div>
     </div>
