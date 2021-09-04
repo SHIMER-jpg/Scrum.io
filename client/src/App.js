@@ -41,6 +41,7 @@ const App = () => {
         <Layout>
           <PrivateRoute path="/home" exact component={Home} />
           <PrivateRoute path="/manager_view" exact component={ManagerView} />
+          <PrivateRoute path="/task_detail" exact component={TaskDetail} />
           <PrivateRoute
             path="/developer_view"
             exact

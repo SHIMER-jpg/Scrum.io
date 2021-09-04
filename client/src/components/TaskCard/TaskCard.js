@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import styles from "./TaskCard.module.css";
-import { CONSTANTS } from '../../redux/constants/index';
+import { CONSTANTS } from '../../redux/DeveloperView/DeveloperViewConstants';
 
   export default function TaskCard(props) {
 
@@ -10,7 +10,7 @@ import { CONSTANTS } from '../../redux/constants/index';
 
 
   function handledispatch (){
-    dispatch(setTaskDetails(props))
+    // dispatch(setTaskDetails(props))
   }
 
 
