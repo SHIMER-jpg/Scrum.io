@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect , useState} from "react";
 import styles from "./TaskCard.module.css";
+import Modal from "react-modal";
 
 export default function TaskCard({ name, description, sp, complex }) {
-  console.log("description: ", complex);
+
   return (
     <div className={`${styles.taskCard} ${styles[complex]}`}>
       <div className={styles.taskCard_Header}>

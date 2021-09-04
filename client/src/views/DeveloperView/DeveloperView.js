@@ -20,7 +20,7 @@ export default function DeveloperView() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  console.log(helpTaskList);
+  // console.log(helpTaskList);
 
   return (
     <div className={styles.DeveloperView}>
