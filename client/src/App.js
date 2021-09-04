@@ -73,7 +73,7 @@ const App = () => {
             exact
             component={ManagerView}
           />
-          <PrivateRoute path="/manager_view" exact component={ManagerView} />
+          {/* <PrivateRoute path="/manager_view" exact component={ManagerView} /> */}
           <PrivateRoute
             path="/developer_view"
             exact
