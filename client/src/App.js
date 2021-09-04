@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { setUser } from "./redux/App/actions.js";
 //components
 import PrivateRoute from "./components/HOCS/PrivateRoute";
+import ViewRouter from "./components/ViewRouter/ViewRouter";
 
 // views
 import Home from "./views/Home/Home";
@@ -68,11 +69,11 @@ const App = () => {
         />
         <Layout>
           <PrivateRoute path="/home" exact component={Home} />
-          {/* <PrivateRoute
+          <PrivateRoute
             path="/project/:projectId"
             exact
-            component={ManagerView}
-          /> */}
+            component={ViewRouter}
+          />
           <PrivateRoute path="/manager_view" exact component={ManagerView} />
           <PrivateRoute
             path="/developer_view"

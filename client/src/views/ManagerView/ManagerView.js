@@ -15,7 +15,7 @@ import io from "socket.io-client";
 import managerStyle from "./ManagerView.module.css";
 import { useRouteMatch } from "react-router";
 
-export default function ManagerView() {
+export default function ManagerView({ projectId }) {
   //SOCKET EFFECT
   // useEffect(() => {
   //   const socket = io("http://localhost:3001/");
@@ -30,8 +30,8 @@ export default function ManagerView() {
   // }, []);
 
   const dispatch = useDispatch();
-  const route = useRouteMatch();
-  const { projectId } = route.params;
+  // const route = useRouteMatch();
+  // const { projectId } = route.params;
   // const project = useSelector((state) => state.managerView.project);
   const asignedUsers = useSelector((state) => state.managerView.asignedUsers);
   const tasks = useSelector((state) => state.managerView.tasks);

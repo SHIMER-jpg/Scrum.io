@@ -9,15 +9,15 @@ import styles from "./DeveloperView.module.css";
 // components
 import TaskHolder from "../../components/TaskHolder/TaskHolder";
 
-export default function DeveloperView() {
+export default function DeveloperView({ projectId }) {
   const dispatch = useDispatch();
   var userTaskList = useSelector((state) => state.developerView.userTasks);
   var helpTaskList = useSelector((state) => state.developerView.helpTasks);
   var userLogged = useSelector((state) => state.app.loggedUser);
 
   useEffect(() => {
-    dispatch(getTasksByUser('61313b4dfc13ae1dd2000cf8', userLogged._id)); //aca iria la id del proyecto al que se ingreso por home
-    dispatch(getHelpTasks('61313b4dfc13ae1dd2000cf8')); //aca iria la id del proyecto al que se ingreso por home
+    dispatch(getTasksByUser(projectId, userLogged._id)); //aca iria la id del proyecto al que se ingreso por home
+    dispatch(getHelpTasks(projectId)); //aca iria la id del proyecto al que se ingreso por home
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userLogged]);
 
