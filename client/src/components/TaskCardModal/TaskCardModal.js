@@ -30,7 +30,7 @@ function TaskCardModal({ isOpen, setIsOpen, name, description, sp, complex }) {
           style={customStyles}
           contentLabel="Task Card"
         >
-            <TaskDetail />
+            <TaskDetail isOpen={isOpen} setIsOpen={setIsOpen} namme={name} description={description} sp={sp} complex={complex}/>
         </Modal>
       </>
     );
