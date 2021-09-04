@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import styles from './TaskDetail.module.css';
 import yo from './mockupDataDetail';
-import { sendForm } from "../../redux/DeveloperView/DeveloperViewActions"
+import { createNote, sendForm } from "../../redux/DeveloperView/DeveloperViewActions"
 import { useDispatch, useSelector } from "react-redux";
 
 
