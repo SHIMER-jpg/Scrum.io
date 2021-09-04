@@ -97,7 +97,8 @@ export default function TaskDetail({ setIsModalOpen }) {
         <option value="strategicIniciatives">Strategic Iniciatives</option>
         <option value="Desprioritize">Desprioritize</option>
         <option value="Red">Red</option>
-        <option value="Violeta">Violeta</      </select>
+        <option value="Violeta">Violeta</option>
+      </select>
     </div>
   );
 }
