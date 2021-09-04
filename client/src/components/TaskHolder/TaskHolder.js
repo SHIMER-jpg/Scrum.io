@@ -18,6 +18,7 @@ export default function TaskHolder({ status, helpNeeded, taskList }) {
   //   taskList = taskList.filter((task) => task.helpNeeded === helpNeeded);
   // }
   // sino se pasa ninguno de los dos parametros, simplemente se mapean todas las que hayan en el proyecto
+  
   return (
     <div className={styles.tasks}>
       <div className={styles.tasks_Header}>
