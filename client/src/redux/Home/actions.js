@@ -34,12 +34,14 @@ export function getProjectByUserId(userId){
   };
 }
 
-export function fetchUsers() {
+export function fetchUsers(loggedUser) {
   return function (dispatch) {
     axios(
       `http://${REACT_APP_BACKEND_HOST}:${REACT_APP_BACKEND_PORT}/user/getAll`
     )
-      .then(({ data }) => dispatch({ type: GET_ALL_USERS, payload: data }))
+      .then(({ data }) => {
+        console.log('data', data)
+        return dispatch({ type: GET_ALL_USERS, payload: [data, loggedUser] })})
       .catch(console.log);
   };
 }

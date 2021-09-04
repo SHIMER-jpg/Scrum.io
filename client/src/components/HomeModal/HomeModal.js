@@ -32,7 +32,7 @@ const HomeModal = ({ isModalOpen, setIsModalOpen }) => {
   const [isSelectUsersOpen, setIsSelectUsersOpen] = useState(false);
 
   const users = useSelector((state) => state.home.users);
-  const loggedUser = useSelector((state) => state.home.loggedUser);
+  const loggedUser = useSelector((state) => state.app.loggedUser);
 
   const [values, setValues] = useState({
     projectName: "",
@@ -46,7 +46,8 @@ const HomeModal = ({ isModalOpen, setIsModalOpen }) => {
   const [query, setQuery, filteredUsers] = useSearch(users);
 
   useEffect(() => {
-    dispatch(fetchUsers());
+    console.log('fetchuser', loggedUser)
+    dispatch(fetchUsers(loggedUser));
   }, []);
 
   const handleChange = (e) => {
