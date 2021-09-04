@@ -41,7 +41,7 @@ export default function TaskDetail(){
    }
 
    function handleSubmit(e){
-      dispatch(sendForm(e))
+      dispatch(createNote(e))
    }
 
    return (

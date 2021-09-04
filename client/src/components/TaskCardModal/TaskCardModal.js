@@ -21,16 +21,16 @@ const customStyles = {
 
 function TaskCardModal({ isOpen, setIsOpen, name, description, sp, complex }) {
 
-    const [modalIsOpen, setIsOpen] = React.useState(false);
+    // const [modalIsOpen, setIsOpen] = React.useState(false);
     
     return (
       <>
         <Modal
-          isOpen={modalIsOpen}
+          isOpen={isOpen}
           style={customStyles}
           contentLabel="Task Card"
         >
-            <TaskDetail/>
+            <TaskDetail />
         </Modal>
       </>
     );

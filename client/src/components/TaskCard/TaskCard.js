@@ -2,6 +2,8 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import styles from "./TaskCard.module.css";
 import { CONSTANTS } from '../../redux/constants/index';
+import { setTaskDetails } from "../../redux/DeveloperView/DeveloperViewActions";
+
 
   export default function TaskCard(props) {
 
@@ -16,7 +18,7 @@ import { CONSTANTS } from '../../redux/constants/index';
 
   return (
     <div 
-      className={`${styles.taskCard} ${styles[complex]}`} 
+      className={`${styles.taskCard} ${styles[props.priorization]}`} 
       onClick={(e) => handledispatch()}>
       <div className={styles.taskCard_Header}>
         <h3>{props.title}</h3>

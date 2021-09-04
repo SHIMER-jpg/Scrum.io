@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./TaskHolder.module.css";
 
 //components
 import TaskCard from "../TaskCard/TaskCard.js";
 import TaskCardModal from "../TaskCardModal/TaskCardModal";
+// import { useState } from "react";
 
 // coso
 
@@ -33,10 +34,6 @@ export default function TaskHolder({ status, helpNeeded, taskList }) {
             <TaskCard
               key={pro._id}
               {...pro}
-              // name={pro.title}
-              // description={pro.details}
-              // sp={pro.storyPoints}
-              // complex={pro.priorization?.replaceAll(" ", "_").toLowerCase()}
             />
             )
           )}

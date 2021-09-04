@@ -29,7 +29,7 @@ export function setTaskDetails(task){
 }
 
 
-export function sendForm (note) {
+export function createNote (note) {
   return async function(dispatch){
     return dispatch({
       type: CONSTANTS.POST_NOTE, 

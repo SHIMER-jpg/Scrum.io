@@ -68,11 +68,11 @@ const App = () => {
         />
         <Layout>
           <PrivateRoute path="/home" exact component={Home} />
-          {/* <PrivateRoute
+          <PrivateRoute
             path="/project/:projectId"
             exact
             component={ManagerView}
-          /> */}
+          />
           <PrivateRoute path="/manager_view" exact component={ManagerView} />
           <PrivateRoute
             path="/developer_view"
