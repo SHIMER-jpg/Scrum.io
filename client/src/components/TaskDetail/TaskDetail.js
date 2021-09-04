@@ -5,17 +5,6 @@ import { useDispatch, useSelector } from "react-redux";
 
 import mockupData from "./mockupDataDetail";
 
-/**
- * 
-  Line 52:39:  'title' is not defined              no-undef
-  Line 54:13:  'scenario' is not defined           no-undef
-  Line 56:13:  'assignedTo' is not defined         no-undef
-  Line 58:13:  'creationDate' is not defined       no-undef
-  Line 60:13:  'completedDate' is not defined      no-undef
-  Line 62:13:  'taskBreakout' is not defined       no-undef
-  Line 64:11:  'details' is not defined            no-undef
-  Line 77:13:  'notes' is not defined              no-undef
- */
 export default function TaskDetail(props) {
   const [status, setStatus] = useState("");
   const [priorization, setPriorization] = useState("");
