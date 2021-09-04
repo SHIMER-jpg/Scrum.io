@@ -25,17 +25,31 @@ export default function TaskDetail({ setIsModalOpen }) {
   });
 
   function handleStatusSelect(e) {
-    setStatus({
-      ...status,
-      [e.target.name]: e.target.value,
-    });
+    // setStatus({
+    //   ...status,
+    //   [e.target.name]: e.target.value,
+    // });
   }
 
-  function handleStoryPointsSelect(e) {
-    setStoryPoints({
-      ...storyPoints,
-      [e.target.name]: e.target.value,
-    });
+  // function handleStoryPointsSelect(e) {
+  //   setStoryPoints({
+  //     ...storyPoints,
+  //     [e.target.name]: e.target.value,
+  //   });
+  // }
+
+  // function handleArea(e) {
+  //   setStatus({
+  //     ...status,
+  //     [e.target.name]: e.target.value,
+  //   });
+  // }
+
+  function handlePriorizationSelect(e) {
+    // setPriorization({
+    //   ...priorization,
+    //   [e.target.name]: e.target.value,
+    // });
   }
 
   function handleArea(e) {
@@ -47,6 +61,10 @@ export default function TaskDetail({ setIsModalOpen }) {
 
   function handleSubmit(e) {
     dispatch(createNote(e));
+  }
+
+  function handleOnClick(e) {
+    //  dispatch(modifyingTaskById(taskId));
   }
 
   return (
@@ -82,22 +100,26 @@ export default function TaskDetail({ setIsModalOpen }) {
         <button type="submit">Create</button>
       </form>
       <div>{notes}</div>
-      <button>🤔 Ask for help</button>
-      <select onChange={(e) => handleStatusSelect(e)}>
+      <button onClick={(e) => handleOnClick(e)}>🤔 Ask for help</button>
+      <select
+        onChange={(e) => handleStatusSelect(e)}
+        onClick={(e) => handleOnClick(e)}
+      >
         <option value="">Status</option>
-        <option value="todo">To do</option>
-        <option value="needhelp">Need help</option>
-        <option value="pending">Pending test</option>
+        <option value="pending">Pending</option>
+        <option value="inprogress">In progress</option>
+        <option value="testing">Testing</option>
         <option value="completed">Completed</option>
       </select>
-      <select onChange={(e) => handleStoryPointsSelect(e)}>
-        <option value="">Status</option>
+      <select
+        onChange={(e) => handlePriorizationSelect(e)}
+        onClick={(e) => handleOnClick(e)}
+      >
+        <option value="">Priorization</option>
         <option value="easyWin">Easy Win</option>
-        <option value="worthPursuingLater">Worth Pursuing Later</option>
-        <option value="strategicIniciatives">Strategic Iniciatives</option>
-        <option value="Desprioritize">Desprioritize</option>
-        <option value="Red">Red</option>
-        <option value="Violeta">Violeta</option>
+        <option value="depriorize">Depriorize</option>
+        <option value="worthPursuing">Worth Pursuing</option>
+        <option value="strategicInitiative">Strategic Initiative</option>
       </select>
     </div>
   );

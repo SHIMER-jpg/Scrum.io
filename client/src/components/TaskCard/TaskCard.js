@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import styles from "./TaskCard.module.css";
-import { CONSTANTS } from "../../redux/constants/index";
+// import { CONSTANTS } from "../../redux/constants/index";
 import { setTaskDetails } from "../../redux/DeveloperView/DeveloperViewActions";
 
 export default function TaskCard({ name, description, sp, complex, onClick }) {

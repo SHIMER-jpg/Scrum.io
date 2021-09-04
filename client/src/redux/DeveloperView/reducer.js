@@ -4,7 +4,7 @@ const initialState = {
   userTasks: [],
   helpTasks: [],
   taskDetails: {},
-  note: []
+  note: [],
 };
 
 export default function reducer(state = initialState, action) {
@@ -17,19 +17,19 @@ export default function reducer(state = initialState, action) {
     case CONSTANTS.GET_HELP_TASKS:
       return {
         ...state,
-        helpTasks: action.payload
-      }
+        helpTasks: action.payload,
+      };
     case CONSTANTS.SET_TASK_DETAILS:
-      return{
+      return {
         ...state,
-        taskDetails: action.payload
-      }
+        taskDetails: action.payload,
+      };
     case CONSTANTS.POST_NOTE:
-      return{
+      return {
         ...state,
-        note: state.note.concat([action.payload])
-      }
+        note: state.note.concat([action.payload]),
+      };
     default:
       return state;
-    }
+  }
 }
