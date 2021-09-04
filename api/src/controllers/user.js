@@ -21,7 +21,8 @@ const getUsersByProjectId = async (req, res, next) => {
       },
     ]);
 
-    delete data.res.status(200).json(data);
+    res.status(200).json(data);
+    // delete data.res.status(200).json(data);
   } catch (error) {
     next(error);
   }

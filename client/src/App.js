@@ -16,6 +16,7 @@ import LandingPage from "./views/LandingPage/LandingPage";
 import DeveloperView from "./views/DeveloperView/DeveloperView";
 import ManagerView from "./views/ManagerView/ManagerView";
 import Layout from "./components/Layout/Layout.js";
+import { Manager } from "socket.io-client";
 
 const BACKEND_HOST = process.env.REACT_APP_BACKEND_HOST;
 const BACKEND_PORT = process.env.REACT_APP_BACKEND_PORT;
@@ -67,6 +68,11 @@ const App = () => {
         />
         <Layout>
           <PrivateRoute path="/home" exact component={Home} />
+          {/* <PrivateRoute
+            path="/project/:projectId"
+            exact
+            component={ManagerView}
+          /> */}
           <PrivateRoute path="/manager_view" exact component={ManagerView} />
           <PrivateRoute
             path="/developer_view"
