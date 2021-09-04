@@ -1,23 +1,24 @@
 import React, {useState} from "react";
 import styles from './TaskDetail.module.css';
-import yo from './mockupDataDetail';
 import { sendForm } from "../../redux/DeveloperView/DeveloperViewActions"
 import { useDispatch, useSelector } from "react-redux";
 
 
 
-export default function TaskDetail(){
+export default function TaskDetail(props){
 
-   const {title, scenario, assignedTo, creationDate, completedDate, taskBreakout, details, notes} = yo
    const [status, setStatus] = useState('')
-   const [storyPoints, setStoryPoints] = useState('')
+   const [priorization, setPriorization] = useState('')
    
-   const dispatch = useDispatch()
+   const [setStoryPoints, setStoryPoints] = useState('')
 
+   const dispatch = useDispatch()
 
    const taskDetails = useSelector(({developerView}) => {
       return developerView.taskDetails
    }) 
+
+   const taskId = props.match.params.id
 
    function handleStatusSelect(e){
       setStatus({
@@ -26,9 +27,9 @@ export default function TaskDetail(){
       })
    }
    
-   function handleStoryPointsSelect(e){
-      setStoryPoints({
-         ...storyPoints,
+   function handlePriorizationSelect(e){
+      setPriorization({
+         ...priorization,
          [e.target.name] : e.target.value
       })
    }
@@ -42,6 +43,10 @@ export default function TaskDetail(){
 
    function handleSubmit(e){
       dispatch(sendForm(e))
+   }
+
+   function handleOnClick(e){
+      dispatch(modifyingTaskById(taskId))
    }
 
    return (
@@ -65,22 +70,20 @@ export default function TaskDetail(){
          <button type="submit">Create</button>
          </form>
          <div>{notes}</div>
-         <button>🤔 Ask for help</button>
-         <select onChange={(e) => handleStatusSelect(e)}>
+         <button onClick={(e) => handleOnClick(e)}>🤔 Ask for help</button>
+         <select onChange={(e) => handleStatusSelect(e)} onClick={(e) => handleOnClick(e)}>
             <option value=''>Status</option>
-            <option value='todo'>To do</option>
-            <option value='needhelp'>Need help</option>
-            <option value='pending'>Pending test</option>
+            <option value='pending'>Pending</option>
+            <option value='inprogress'>In progress</option>
+            <option value='testing'>Testing</option>
             <option value='completed'>Completed</option>
          </select>
-         <select onChange={(e) => handleStoryPointsSelect(e)}>
-            <option value=''>Status</option>
+         <select onChange={(e) => handlePriorizationSelect(e)} onClick={(e) => handleOnClick(e)}>
+            <option value=''>Priorization</option>
             <option value='easyWin'>Easy Win</option>
-            <option value='worthPursuingLater'>Worth Pursuing Later</option>
-            <option value='strategicIniciatives'>Strategic Iniciatives</option>
-            <option value='Desprioritize'>Desprioritize</option>
-            <option value='Red'>Red</option>
-            <option value='Violeta'>Violeta</option>
+            <option value='depriorize'>Depriorize</option>
+            <option value='worthPursuing'>Worth Pursuing</option>
+            <option value='strategicInitiative'>Strategic Initiative</option>
          </select>
       </div>
    )
