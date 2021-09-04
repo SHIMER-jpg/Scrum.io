@@ -1,7 +1,7 @@
-import { GET_ROLE } from "./constants.js";
+import { GET_ROLE, CLEAR_ROLE } from "./constants.js";
 
 const initialState = {
-  userRole: {},
+  userRole: null,
 };
 
 export default function reducer(state = initialState, action) {
@@ -10,6 +10,12 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         userRole: action.payload,
+      };
+    }
+    case CLEAR_ROLE: {
+      return {
+        ...state,
+        userRole: null,
       };
     }
     default:

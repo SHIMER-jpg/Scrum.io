@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GET_ROLE } from "./constants";
+import { GET_ROLE, CLEAR_ROLE } from "./constants";
 require("dotenv").config();
 const { REACT_APP_BACKEND_HOST, REACT_APP_BACKEND_PORT } = process.env;
 
@@ -13,4 +13,8 @@ export const getRole = (userId, projectId) => {
       )
       .then((json) => dispatch({ type: GET_ROLE, payload: json.data }));
   };
+};
+
+export const clearRole = () => {
+  return { type: CLEAR_ROLE };
 };
