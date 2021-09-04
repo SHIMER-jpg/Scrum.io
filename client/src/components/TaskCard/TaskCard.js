@@ -1,31 +1,29 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import styles from "./TaskCard.module.css";
-import { CONSTANTS } from '../../redux/constants/index';
+import { CONSTANTS } from "../../redux/constants/index";
 import { setTaskDetails } from "../../redux/DeveloperView/DeveloperViewActions";
 
+export default function TaskCard(props) {
+  const dispatch = useDispatch();
 
-  export default function TaskCard(props) {
-
-
-  const dispatch = useDispatch()
-
-
-  function handledispatch (){
-    dispatch(setTaskDetails(props))
+  function handledispatch() {
+    dispatch(setTaskDetails(props));
   }
 
-
   return (
-    <div 
-      className={`${styles.taskCard} ${styles[props.priorization]}`} 
-      onClick={(e) => handledispatch()}>
+    <div
+      className={`${styles.taskCard} ${styles[props.priorization]}`}
+      onClick={(e) => handledispatch()}
+    >
       <div className={styles.taskCard_Header}>
         <h3>{props.title}</h3>
-        <span className={styles.taskCard_StoryPoints}>{props.storyPoints} SP</span>
+        <span className={styles.taskCard_StoryPoints}>
+          {props.storyPoints} SP
+        </span>
       </div>
       <div className={styles.taskCard_Body}>
-        <p>{props.details}</p>
+        <p>{props.description?.slice(0, 100) + "..."}</p>
       </div>
       <div
         className={`${styles.taskCard_ComplexColorLine} ${

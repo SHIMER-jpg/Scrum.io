@@ -8,10 +8,12 @@ const initialState = {
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case GET_ALL_USERS: {
-      console.log('action', action.payload)
+      console.log("action", action.payload);
       return {
         ...state,
-        users: action.payload[0].filter((u) => u._id !== action.payload[1]._id),
+        users: action.payload.users.filter(
+          (u) => u._id !== action.payload.loggedUser._id
+        ),
       };
     }
     case GET_PROJECTS_BY_USER: {

@@ -13,7 +13,8 @@ import Modal from "react-modal";
 import TaskHolder from "../../components/TaskHolder/TaskHolder";
 import io from "socket.io-client";
 import managerStyle from "./ManagerView.module.css";
-import { useRouteMatch } from "react-router";
+import CreateTaskModal from "../../components/CreateTaskModal/CreateTaskModal";
+import { useParams } from "react-router-dom";
 
 export default function ManagerView() {
   //SOCKET EFFECT
@@ -28,21 +29,20 @@ export default function ManagerView() {
   //     dispatch(getTasksByProject("61313b4dfc13ae1dd2000cf8"));
   //   });
   // }, []);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const dispatch = useDispatch();
-  const route = useRouteMatch();
-  const { projectId } = route.params;
+  // const route = useRouteMatch();
+  const { projectId } = useParams();
   // const project = useSelector((state) => state.managerView.project);
-  const asignedUsers = useSelector((state) => state.managerView.asignedUsers);
+  const assignedUsers = useSelector((state) => state.managerView.asignedUsers);
   const tasks = useSelector((state) => state.managerView.tasks);
 
   useEffect(() => {
     // dispatch(getProjectById(projectId));
     dispatch(getTasksByProject(projectId));
     dispatch(getAsignedUsers(projectId));
-  }, []);
-
-  const [modalOpen, setModalOpen] = useState(false);
+  }, [isModalOpen]);
 
   const [createTask, setCreateTask] = useState({
     title: "",
@@ -66,7 +66,51 @@ export default function ManagerView() {
 
   return (
     <>
-      <Modal isOpen={modalOpen}>
+      {isModalOpen && (
+        <CreateTaskModal
+          assignedUsers={assignedUsers}
+          isModalOpen={isModalOpen}
+          setIsModalOpen={setIsModalOpen}
+          projectId={projectId}
+        />
+      )}
+      <div className={managerStyle.conteiner}>
+        <header className={managerStyle.conteinerHeader}>
+          <h1 className="main-heading">Project Name</h1>
+          <button className="btn-primary" onClick={() => setIsModalOpen(true)}>
+            + Create Task
+          </button>
+        </header>
+        <div className={managerStyle.conteinerBody}>
+          {/* Pending Tasks */}
+          <TaskHolder
+            status={"Pending"}
+            taskList={tasks.filter((task) => task.status === "Pending")}
+          />
+          {/* In progress Tasks */}
+          <TaskHolder
+            status={"In progress"}
+            taskList={tasks.filter((task) => task.status === "In progress")}
+          />
+          {/* Testing Tasks */}
+          <TaskHolder
+            status={"Testing"}
+            taskList={tasks.filter((task) => task.status === "Testing")}
+          />
+          {/* Completed Tasks */}
+          <TaskHolder
+            status={"Completed"}
+            taskList={tasks.filter((task) => task.status === "Completed")}
+          />
+        </div>
+      </div>
+    </>
+  );
+}
+
+/* 
+
+<Modal isOpen={modalOpen}>
         <div>
           <span>Entraste a MODALSXd</span>
           <button onClick={() => setModalOpen(false)}>X</button>
@@ -127,36 +171,4 @@ export default function ManagerView() {
           </form>
         </div>
       </Modal>
-      <div className={managerStyle.conteiner}>
-        <header className={managerStyle.conteinerHeader}>
-          <h1 className="main-heading">Project Name</h1>
-          <button className="btn-primary" onClick={() => setModalOpen(true)}>
-            + Create Task
-          </button>
-        </header>
-        <div className={managerStyle.conteinerBody}>
-          {/* Pending Tasks */}
-          <TaskHolder
-            status={"Pending"}
-            taskList={tasks.filter((task) => task.status === "Pending")}
-          />
-          {/* In progress Tasks */}
-          <TaskHolder
-            status={"In progress"}
-            taskList={tasks.filter((task) => task.status === "In progress")}
-          />
-          {/* Testing Tasks */}
-          <TaskHolder
-            status={"Testing"}
-            taskList={tasks.filter((task) => task.status === "Testing")}
-          />
-          {/* Completed Tasks */}
-          <TaskHolder
-            status={"Completed"}
-            taskList={tasks.filter((task) => task.status === "Completed")}
-          />
-        </div>
-      </div>
-    </>
-  );
-}
+*/
