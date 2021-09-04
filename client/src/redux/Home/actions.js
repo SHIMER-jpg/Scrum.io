@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { CREATE_PROJECT, GET_ALL_USERS, SET_USER } from "./constants";
+import { CREATE_PROJECT, GET_ALL_USERS, SET_USER, GET_PROJECTS_BY_USER } from "./constants";
 
 const { REACT_APP_BACKEND_HOST, REACT_APP_BACKEND_PORT } = process.env;
 
@@ -21,16 +21,12 @@ export function createProject(project) {
   };
 }
 
-export function getProjectByUserId(){ // el filtrado por userId se hace en el reducer con el userLogged del state
+export function getProjectByUserId(userId){
   return function (dispatch) {
     axios
-      .post(
-        `http://${REACT_APP_BACKEND_HOST}:${REACT_APP_BACKEND_PORT}/project/createProject`,
-        project
-      )
-      .then((response) => {
-        dispatch({ type: CREATE_PROJECT });
-        return response.data;
+      .get(`http://${REACT_APP_BACKEND_HOST}:${REACT_APP_BACKEND_PORT}/project/user/${userId}`)
+      .then((data) => {
+        dispatch({ type: GET_PROJECTS_BY_USER, payload: data.data });
       })
       .catch((err) => {
         console.log(err);

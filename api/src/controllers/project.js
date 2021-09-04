@@ -14,10 +14,12 @@ const getProjectById = async (req, res, next) => {
   }
 };
 
+// Obtiene todos los proyectos de un usuario
 const getProjectByUserId = async (req, res, next) => {
   try {
-    const { id } = req.query;
-    const mongooseId = mongoose.Types.ObjectId(id);
+    const { userId } = req.params;
+    const mongooseId = mongoose.Types.ObjectId(userId);
+
     const data = await UserProject.model.aggregate([
       { $match: { userId: mongooseId } },
       {
@@ -25,14 +27,20 @@ const getProjectByUserId = async (req, res, next) => {
           from: "projects",
           localField: "projectId",
           foreignField: "_id",
-          as: "project",
+          as: "projects",
         },
       },
       {
-        $unwind: "$project",
+        $unwind: "$projects",
       },
     ]);
-    res.status(200).json(data);
+
+    res.status(200).json(
+      data.map((project) => {
+        delete project.projects.taskIds;
+        return project;
+      })
+    );
   } catch (error) {
     next(error);
   }

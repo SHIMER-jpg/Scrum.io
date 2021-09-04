@@ -10,15 +10,21 @@ export default function ProjectCard({ project }) {
       </div>
       <div className={styles.body}>
         <div className={styles.description}>
-          <h3>Description</h3>
+          <div className={styles.title}>
+            <h3>Description</h3>
+            <div></div>
+          </div>
           <p>{project.description}</p>
         </div>
         <div className={styles.status}>
-          <h3>Progress</h3>
+          <div className={styles.title}>
+            <h3>Progress</h3>
+            <div></div>
+          </div>
           <div className={styles.progressBar}>
-            <div className={styles.progress}></div>
-            <h4>{project.status}</h4>
-          </div>  
+            <div className={styles.progress} style={{width: `${project.status}%`}}></div>
+          </div> 
+          <h4>{project.status}%</h4>
         </div>
       </div>
     </div>

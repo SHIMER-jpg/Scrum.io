@@ -1,12 +1,25 @@
 .projects {
     padding: 25px;
-    width: 90%;
     border-radius: 5px;
+}
+
+.projects_Header{
+    display: flex;
+    align-items: center;
 }
 
 .projects_Header h2 {
     margin: 0;
+    padding-right: 25px;
     font-weight: 600;
     font-size: 27px;
 }
+.projects_Header div{
+    background: rgb(180, 180, 180);
+    height: 2px;
+    width: 80%;
+}
   
+.projectList{
+    max-width: 100%;
+}

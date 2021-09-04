@@ -1,5 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { BsPlus } from "react-icons/bs";
+import { useDispatch, useSelector } from "react-redux";
+
+import { getProjectByUserId } from "../../redux/Home/actions";
 
 import HomeModal from "../../components/HomeModal/HomeModal";
 import ProjectHolder from "../../components/ProjectHolder/ProjectHolder";
@@ -8,6 +11,17 @@ import styles from "./Home.module.css";
 
 const Home = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const userLogged = useSelector(state => state.app.loggedUser);
+  const projectList = useSelector(state => state.home.projectList);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if(userLogged._id){
+      dispatch(getProjectByUserId(userLogged._id));
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userLogged])
 
   return (
     <section className={styles.container}>

@@ -13,14 +13,13 @@ export default function DeveloperView() {
   const dispatch = useDispatch();
   var userTaskList = useSelector((state) => state.developerView.userTasks);
   var helpTaskList = useSelector((state) => state.developerView.helpTasks);
+  var userLogged = useSelector((state) => state.app.loggedUser);
 
   useEffect(() => {
-    dispatch(getTasksByUser('61313b4dfc13ae1dd2000cf8')); //aca iria la id del proyecto al que se ingreso por home
+    dispatch(getTasksByUser('61313b4dfc13ae1dd2000cf8', userLogged._id)); //aca iria la id del proyecto al que se ingreso por home
     dispatch(getHelpTasks('61313b4dfc13ae1dd2000cf8')); //aca iria la id del proyecto al que se ingreso por home
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  console.log(helpTaskList);
+  }, [userLogged]);
 
   return (
     <div className={styles.DeveloperView}>

@@ -5,8 +5,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
-import { setUser } from "./redux/Home/actions";
-import { setUser as setDevUser } from "./redux/DeveloperView/actions";
+import { setUser } from "./redux/App/actions.js";
 //components
 import PrivateRoute from "./components/HOCS/PrivateRoute";
 
@@ -42,7 +41,6 @@ const App = () => {
         );
 
         dispatch(setUser(data));
-        dispatch(setDevUser(data));
       })();
   }, [isAuthenticated]);
 
