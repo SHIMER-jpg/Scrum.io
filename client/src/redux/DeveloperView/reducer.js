@@ -1,4 +1,4 @@
-import { CONSTANTS } from './constants.js';
+import { CONSTANTS } from "./constants.js";
 
 const initialState = {
   userTasks: [],
@@ -13,7 +13,7 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         userTasks: action.payload,
-      }
+      };
     case CONSTANTS.GET_HELP_TASKS:
       return {
         ...state,
@@ -23,11 +23,6 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         taskDetails: action.payload,
-      };
-    case CONSTANTS.POST_NOTE:
-      return {
-        ...state,
-        note: state.note.concat([action.payload]),
       };
     default:
       return state;

@@ -22,7 +22,7 @@ const getTasksByProjectId = async (req, res, next) => {
         $unwind: "$user",
       },
     ]);
-    console.log("SE SOLICITO DATA POR PROJECT", data[0]);
+
     res.status(200).json(data);
   } catch (error) {
     next(error);

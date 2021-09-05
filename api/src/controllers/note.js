@@ -25,22 +25,35 @@ const getNotesByTaskId = async (req, res, next) => {
   }
 };
 
-
-const postNote = async (req, res, next) => {
+const createNote = async (req, res, next) => {
   try {
-    var newNote = new Note.model({
-      userId: req.body.userId,
+    const newNote = new Note.model({
+      userId: mongoose.Types.ObjectId(req.body.userId),
+      taskId: mongoose.Types.ObjectId(req.body.taskId),
       content: req.body.content,
     });
     await newNote.save();
-
-    res.status(201).json(newNote);
+    const data = await Note.model.aggregate([
+      { $match: { _id: mongoose.Types.ObjectId(newNote._id) } },
+      {
+        $lookup: {
+          from: "users",
+          localField: "userId",
+          foreignField: "_id",
+          as: "user",
+        },
+      },
+      {
+        $unwind: "$user",
+      },
+    ]);
+    res.status(200).json(data[0]);
   } catch (error) {
     next(error);
   }
 };
 
 module.exports = {
-  postNote,
+  createNote,
   getNotesByTaskId,
 };

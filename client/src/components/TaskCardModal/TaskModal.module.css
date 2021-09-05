@@ -172,8 +172,6 @@ button[type="submit"] {
   position: relative;
   display: flex;
   align-items: center;
-  margin-bottom: 10px;
-  margin-left: 10px;
 }
 
 .userBox img {
