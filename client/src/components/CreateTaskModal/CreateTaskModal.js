@@ -101,7 +101,11 @@ const CreateTaskModal = ({
   };
 
   return (
-    <Modal style={customStyles} isOpen={isModalOpen}>
+    <Modal
+      style={customStyles}
+      isOpen={isModalOpen}
+      onRequestClose={() => setIsModalOpen(false)}
+    >
       <header className={styles.modalHeader}>
         <h2>Create task</h2>
         <button onClick={() => setIsModalOpen(false)}>

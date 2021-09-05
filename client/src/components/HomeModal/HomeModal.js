@@ -47,7 +47,7 @@ const HomeModal = ({ isModalOpen, setIsModalOpen }) => {
   const [query, setQuery, filteredUsers] = useSearch(users);
 
   useEffect(() => {
-    console.log('fetchuser', loggedUser)
+    console.log("fetchuser", loggedUser);
     dispatch(fetchUsers(loggedUser));
   }, []);
 
@@ -93,7 +93,11 @@ const HomeModal = ({ isModalOpen, setIsModalOpen }) => {
   };
 
   return (
-    <Modal style={customStyles} isOpen={isModalOpen}>
+    <Modal
+      style={customStyles}
+      isOpen={isModalOpen}
+      onRequestClose={() => setIsModalOpen(false)}
+    >
       <header className={styles.modalHeader}>
         <h2>Create project</h2>
         <button onClick={() => setIsModalOpen(false)}>
