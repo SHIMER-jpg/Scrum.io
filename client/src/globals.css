@@ -83,8 +83,9 @@ button {
 
 /* width */
 ::-webkit-scrollbar {
-  width: 5px;
-  display: none;
+  width: 4px;
+  height: 3px;
+  /* display: none; */
 }
 
 /* Track */

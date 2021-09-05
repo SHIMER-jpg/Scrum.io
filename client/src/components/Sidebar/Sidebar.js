@@ -9,7 +9,7 @@ import { useHistory } from "react-router";
 import styles from "./Sidebar.module.css";
 
 const Sidebar = () => {
-  const userRole = useSelector((state) => state.viewRouter.userRole);
+  const userRole = useSelector(({ viewRouter }) => viewRouter.userRole);
   const {
     location: { pathname },
   } = useHistory();
