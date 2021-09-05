@@ -113,7 +113,7 @@ __v: 0
           <div className={styles.modalFormGroup}>
             <label className={styles.titles}>Assigned to</label>
             <div className={styles.userBox}>
-              <img src={user.picture} />
+              <img src={user.picture} alt={user.name} />
               <p>{user.name}</p>
             </div>
           </div>
@@ -152,6 +152,7 @@ __v: 0
                 // cols="30"
                 // rows="10"
                 onChange={(e) => handleArea(e)}
+                placeholder="Write a new note..."
               ></textarea>
               <button type="submit">Add Note</button>
             </form>

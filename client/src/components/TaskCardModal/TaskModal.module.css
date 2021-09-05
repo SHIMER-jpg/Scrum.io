@@ -51,7 +51,7 @@ select {
   transition: all 0.1s ease-in-out;
 }
 
-.modalFormGroup input:focus,
+.modalFormGroupmodalFormGroup input:focus,
 textarea:focus,
 select:focus {
   border: 2px solid var(--violet);
@@ -152,15 +152,16 @@ select:focus {
   align-items: center;
 }
 
-button[type="submit"] {
+.modalFormGroup button[type="submit"] {
   all: unset;
   background: var(--violet);
   padding: 10px 15px;
   border-radius: 8px;
   color: white;
   font-weight: 600;
-  font-size: 18px;
+  font-size: 15px;
   align-self: flex-end;
+  margin-top: 10px;
 }
 
 .notes {
