@@ -17,31 +17,41 @@ import CreateTaskModal from "../../components/CreateTaskModal/CreateTaskModal";
 import { useParams } from "react-router-dom";
 
 export default function ManagerView() {
-  //SOCKET EFFECT
-  // useEffect(() => {
-  //   const socket = io("http://localhost:3001/");
-  //   // client-side
-  //   socket.on("connect", () => {
-  //     console.log(socket.id); // x8WIv7-mJelg7on_ALbx
-  //   });
+  const tasks = useSelector((state) => state.managerView.tasks);
+  const { projectId } = useParams();
 
-  //   socket.on("taskChange", (change) => {
-  //     dispatch(getTasksByProject("61313b4dfc13ae1dd2000cf8"));
-  //   });
-  // }, []);
+  // SOCKET EFFECT
+  useEffect(() => {
+    const socket = io("http://localhost:3001/");
+    // client-side
+    socket.on("connect", () => {
+      console.log(socket.id); // x8WIv7-mJelg7on_ALbx
+    });
+
+    socket.on("taskChange", (change) => {
+      console.log(change);
+      // change.operationType === "insert" &&
+      //   setTasks([...tasks, change.fullDocument]);
+      dispatch(getTasksByProject(projectId));
+    });
+  }, []);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const dispatch = useDispatch();
   // const route = useRouteMatch();
-  const { projectId } = useParams();
-  // const project = useSelector((state) => state.managerView.project);
+  const project = useSelector((state) => state.managerView.project);
   const assignedUsers = useSelector((state) => state.managerView.asignedUsers);
-  const tasks = useSelector((state) => state.managerView.tasks);
+  const [isLoadingTasks, setIsLoadingTasks] = useState(true);
 
   useEffect(() => {
-    // dispatch(getProjectById(projectId));
-    dispatch(getTasksByProject(projectId));
+    dispatch(getProjectById(projectId));
+    dispatch(getTasksByProject(projectId, setIsLoadingTasks));
     dispatch(getAsignedUsers(projectId));
+  }, []);
+
+  useEffect(() => {
+    console.log("dispachando task");
   }, [isModalOpen]);
 
   const [createTask, setCreateTask] = useState({
@@ -51,18 +61,6 @@ export default function ManagerView() {
     priorization: "to do",
     details: "",
   });
-
-  function handleInput(event) {
-    setCreateTask({
-      ...createTask,
-      [event.target.name]: event.target.value,
-    });
-  }
-
-  function handleSubmit(e) {
-    e.preventDefault();
-    dispatch(postTask(createTask));
-  }
 
   return (
     <>
@@ -76,7 +74,9 @@ export default function ManagerView() {
       )}
       <div className={managerStyle.conteiner}>
         <header className={managerStyle.conteinerHeader}>
-          <h1 className="main-heading">Project Name</h1>
+          <h1 className="main-heading">
+            {project.projectName || "Loading..."}
+          </h1>
           <button className="btn-primary" onClick={() => setIsModalOpen(true)}>
             + Create Task
           </button>
@@ -84,21 +84,25 @@ export default function ManagerView() {
         <div className={managerStyle.conteinerBody}>
           {/* Pending Tasks */}
           <TaskHolder
+            isLoading={isLoadingTasks}
             status={"Pending"}
             taskList={tasks.filter((task) => task.status === "Pending")}
           />
           {/* In progress Tasks */}
           <TaskHolder
+            isLoading={isLoadingTasks}
             status={"In progress"}
             taskList={tasks.filter((task) => task.status === "In progress")}
           />
           {/* Testing Tasks */}
           <TaskHolder
+            isLoading={isLoadingTasks}
             status={"Testing"}
             taskList={tasks.filter((task) => task.status === "Testing")}
           />
           {/* Completed Tasks */}
           <TaskHolder
+            isLoading={isLoadingTasks}
             status={"Completed"}
             taskList={tasks.filter((task) => task.status === "Completed")}
           />

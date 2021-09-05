@@ -3,15 +3,21 @@ const { Router } = require("express");
 const {
   getTasksByProjectId,
   modifyingTask,
+  postTask,
+  getUserTasks,
 } = require("../controllers/task.js");
+
 const task = Router();
-const { postTask } = require("../controllers/task.js");
 
 // Get project by id.
-task.get("/:projectId", getTasksByProjectId);
+// Lucero: Esta ruta la tuve que modificar porque el segmento dinamico pisaba el resto de las rutas GET
+task.get("/project/:projectId", getTasksByProjectId);
 
 task.post("/createTask", postTask);
 
 // task.put("/:taskId", modifyingTask);
+
+// Obtiene las tareas de un usuario
+task.get("/user", getUserTasks);
 
 module.exports = task;

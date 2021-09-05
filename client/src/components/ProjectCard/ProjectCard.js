@@ -29,16 +29,16 @@ export default function ProjectCard({ project }) {
             ></div>
           </div>
           <h4>{(project.status || 0) + "%"}</h4>
-          <div className={styles.projectItem}>
-            <button
-              onClick={() => {
-                history.push("/project/" + project._id);
-              }}
-            >
-              See details
-            </button>
-          </div>
         </div>
+      </div>
+      <div className={styles.projectItem}>
+        <button
+          onClick={() => {
+            history.push("/project/" + project._id);
+          }}
+        >
+          See details
+        </button>
       </div>
     </div>
   );

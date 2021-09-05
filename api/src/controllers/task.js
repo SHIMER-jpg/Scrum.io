@@ -31,23 +31,33 @@ const postTask = async (req, res, next) => {
   }
 };
 
-const modifyingTask = async(req, res, next) => {
+const modifyingTask = async (req, res, next) => {
   try {
-    const {taskId} = req.params
-    const change = req.body
-    const filter = {_id: taskId}
-    const update = change
+    const { taskId } = req.params;
+    const change = req.body;
+    const filter = { _id: taskId };
+    const update = change;
     await Task.model.findOneAndUpdate(filter, update);
-    res.status(200).send('Successfully modified task')
+    res.status(200).send("Successfully modified task");
+  } catch (error) {
+    next(error);
   }
-  catch(error){
-    next(error)
+};
+const getUserTasks = async (req, res, next) => {
+  const { projectId, userId } = req.query;
+
+  try {
+    const tasks = await Task.model.find({ assignedTo: userId, projectId });
+
+    res.status(200).json(tasks);
+  } catch (error) {
+    next(error);
   }
-}
+};
 
 module.exports = {
   postTask,
   getTasksByProjectId,
-  modifyingTask
-  
+  modifyingTask,
+  getUserTasks,
 };

@@ -24,6 +24,7 @@ const customStyles = {
     backgroundColor: "rgba(0,0,0,0.5)",
     display: "grid",
     placeItems: "center",
+    zIndex: "100000",
   },
 };
 

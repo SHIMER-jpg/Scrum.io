@@ -8,7 +8,16 @@ import TaskCardModal from "../TaskCardModal/TaskCardModal";
 
 // coso
 
-export default function TaskHolder({ status, helpNeeded, taskList }) {
+import Loading from "../Loading/Loading";
+
+// coso
+
+export default function TaskHolder({
+  status,
+  helpNeeded,
+  taskList,
+  isLoading,
+}) {
   const [modalIsOpen, setIsModalOpen] = useState(false);
   const [modalDetails, setModalDetails] = useState({});
   // si se pasa un status, se filtran las tareas y se mapean solo las que tengan ese status
@@ -27,7 +36,40 @@ export default function TaskHolder({ status, helpNeeded, taskList }) {
         <h2>{status ? status : helpNeeded ? "Help Needed" : "My Tasks"}</h2>
       </div>
       <div className={styles.taskList}>
-        {taskList && taskList.length > 0 ? (
+        {isLoading ? (
+          <Loading isCentered={true} />
+        ) : taskList && taskList.length > 0 ? (
+          taskList.map((pro) => (
+            <TaskCard
+              onClick={() => {
+                setModalDetails(pro);
+                setIsModalOpen(true);
+              }}
+              key={pro._id}
+              name={pro.title}
+              description={pro.details}
+              sp={pro.storyPoints}
+              complex={pro.priorization?.replaceAll(" ", "_").toLowerCase()}
+            />
+          ))
+        ) : (
+          <h3 className={styles.noTasks}>No tasks yet.</h3>
+        )}
+        {modalIsOpen && (
+          <TaskCardModal
+            isOpen={modalIsOpen}
+            setIsModalOpen={setIsModalOpen}
+            modalDetails={modalDetails}
+          />
+        )}
+      </div>
+    </div>
+  );
+}
+
+/**
+ * 
+ *   {taskList && taskList.length > 0 ? (
           <>
             {taskList.map((pro) => (
               <TaskCard
@@ -52,10 +94,4 @@ export default function TaskHolder({ status, helpNeeded, taskList }) {
               />
             )}
           </>
-        ) : (
-          <h3>No Tasks...</h3>
-        )}
-      </div>
-    </div>
-  );
-}
+ */

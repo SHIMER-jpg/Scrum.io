@@ -13,7 +13,7 @@ const customStyles = {
     padding: "40px",
     inset: "unset",
     width: "100%",
-    maxHeight: "90vh",
+    maxHeight: "88vh",
     borderRadius: "8px",
     maxWidth: "650px",
   },
@@ -27,12 +27,10 @@ const customStyles = {
 function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
   const { scenario, assignedTo, creationDate, completedDate, taskBreakout } =
     yo;
-  console.log(modalDetails);
 
   const { title, details, noteIds, _id } = modalDetails;
 
   const [status, setStatus] = useState({});
-  const [storyPoints, setStoryPoints] = useState("");
 
   const dispatch = useDispatch();
 
