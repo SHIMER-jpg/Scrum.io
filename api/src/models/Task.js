@@ -40,6 +40,12 @@ taskSchema.virtual("user", {
   justOne: true,
 });
 
+taskSchema.virtual("project", {
+  ref: "Project",
+  foreignField: "_id",
+  localField: "projectId",
+});
+
 module.exports = {
   schema: taskSchema,
   model: new mongoose.model("Task", taskSchema),

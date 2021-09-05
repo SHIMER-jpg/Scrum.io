@@ -8,20 +8,26 @@ const getTasksByProjectId = async (req, res, next) => {
     const mongooseId = mongoose.Types.ObjectId(projectId);
 
     // const data = await Task.model.find({ projectId: projectId });
-    const data = await Task.model.aggregate([
-      { $match: { projectId: mongooseId } },
-      {
-        $lookup: {
-          from: "users",
-          localField: "asignedTo",
-          foreignField: "_id",
-          as: "user",
-        },
-      },
-      {
-        $unwind: "$user",
-      },
-    ]);
+    // const data = await Task.model.aggregate([
+    //   { $match: { projectId: mongooseId } },
+    //   {
+    //     $lookup: {
+    //       from: "users",
+    //       localField: "asignedTo",
+    //       foreignField: "_id",
+    //       as: "user",
+    //     },
+    //   },
+    //   {
+    //     $unwind: "$user",
+    //   },
+    // ]);
+
+    const data = await Task.model
+      .find({ projectId })
+      .populate("project")
+      .populate("user")
+      .exec();
 
     res.status(200).json(data);
   } catch (error) {
