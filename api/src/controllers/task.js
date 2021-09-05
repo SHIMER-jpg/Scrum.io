@@ -31,7 +31,20 @@ const postTask = async (req, res, next) => {
   }
 };
 
+const getUserTasks = async (req, res, next) => {
+  const { projectId, userId } = req.query;
+
+  try {
+    const tasks = await Task.model.find({ assignedTo: userId, projectId });
+
+    res.status(200).json(tasks);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   postTask,
   getTasksByProjectId,
+  getUserTasks,
 };

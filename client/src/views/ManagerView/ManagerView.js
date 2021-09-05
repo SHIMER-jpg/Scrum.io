@@ -43,6 +43,10 @@ export default function ManagerView() {
     dispatch(getProjectById(projectId));
     dispatch(getTasksByProject(projectId, setIsLoadingTasks));
     dispatch(getAsignedUsers(projectId));
+  }, []);
+
+  useEffect(() => {
+    console.log("dispachando task");
   }, [isModalOpen]);
 
   const [createTask, setCreateTask] = useState({
@@ -52,18 +56,6 @@ export default function ManagerView() {
     priorization: "to do",
     details: "",
   });
-
-  function handleInput(event) {
-    setCreateTask({
-      ...createTask,
-      [event.target.name]: event.target.value,
-    });
-  }
-
-  function handleSubmit(e) {
-    e.preventDefault();
-    dispatch(postTask(createTask));
-  }
 
   return (
     <>

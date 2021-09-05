@@ -18,5 +18,9 @@
 .conteinerBody {
   display: flex;
   justify-content: flex-start;
-  gap: 20px;
+  align-items: stretch;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 30px;
+  overflow-x: auto;
 }

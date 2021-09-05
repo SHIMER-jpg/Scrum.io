@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { IoClose } from "react-icons/io5";
 
 import { useSearch } from "../../hooks/useSearch";
-import { createTask } from "../../redux/ManagerView/actions";
+import { createTask, getTasksByProject } from "../../redux/ManagerView/actions";
 
 import styles from "./CreateTaskModal.module.css";
 
@@ -43,7 +43,7 @@ const CreateTaskModal = ({
     title: "",
     assignedTo: "",
     storyPoints: "",
-    priorization: "",
+    priorization: "Easy Win",
     details: "",
   });
 
@@ -86,7 +86,7 @@ const CreateTaskModal = ({
     e.preventDefault();
 
     dispatch(createTask({ ...values, projectId }));
-    setIsModalOpen(false);
+    dispatch(getTasksByProject(projectId));
 
     setValues({
       title: "",
@@ -95,6 +95,8 @@ const CreateTaskModal = ({
       priorization: "",
       details: "",
     });
+
+    setIsModalOpen(false);
   };
 
   return (

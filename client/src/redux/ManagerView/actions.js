@@ -45,10 +45,10 @@ export function getTasksByProject(projectId, setIsLoadingTasks) {
   return function (dispatch) {
     axios
       .get(
-        `http://${REACT_APP_BACKEND_HOST}:${REACT_APP_BACKEND_PORT}/task/${projectId}`
+        `http://${REACT_APP_BACKEND_HOST}:${REACT_APP_BACKEND_PORT}/task/project/${projectId}`
       )
       .then((json) => {
-        setIsLoadingTasks(false);
+        setIsLoadingTasks && setIsLoadingTasks(false);
         dispatch({ type: GET_TASKS_BY_PROJECT, payload: json.data });
       });
   };
