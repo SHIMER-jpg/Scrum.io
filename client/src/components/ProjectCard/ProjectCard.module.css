@@ -1,4 +1,5 @@
 .conteiner {
+  max-width: 550px;
   padding: 25px;
   position: relative;
   display: flex;
