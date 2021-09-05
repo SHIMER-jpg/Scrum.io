@@ -4,7 +4,25 @@ const mongoose = require("mongoose");
 const getTasksByProjectId = async (req, res, next) => {
   try {
     const { projectId } = req.params;
-    const data = await Task.model.find({ projectId: projectId });
+    console.log(projectId);
+    const mongooseId = mongoose.Types.ObjectId(projectId);
+
+    // const data = await Task.model.find({ projectId: projectId });
+    const data = await Task.model.aggregate([
+      { $match: { projectId: mongooseId } },
+      {
+        $lookup: {
+          from: "users",
+          localField: "asignedTo",
+          foreignField: "_id",
+          as: "user",
+        },
+      },
+      {
+        $unwind: "$user",
+      },
+    ]);
+    console.log("SE SOLICITO DATA POR PROJECT", data[0]);
     res.status(200).json(data);
   } catch (error) {
     next(error);

@@ -25,10 +25,9 @@ const customStyles = {
 };
 
 function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
-  const { scenario, assignedTo, creationDate, completedDate, taskBreakout } =
-    yo;
+  const { scenario, assignedTo, completedDate, taskBreakout } = yo;
 
-  const { title, details, noteIds, _id } = modalDetails;
+  const { title, details, creationDate, _id } = modalDetails;
 
   const [status, setStatus] = useState({});
 

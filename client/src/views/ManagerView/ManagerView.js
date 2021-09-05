@@ -50,9 +50,7 @@ export default function ManagerView() {
     dispatch(getAsignedUsers(projectId));
   }, []);
 
-  useEffect(() => {
-    console.log("dispachando task");
-  }, [isModalOpen]);
+
 
   const [createTask, setCreateTask] = useState({
     title: "",

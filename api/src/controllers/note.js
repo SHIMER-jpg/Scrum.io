@@ -24,16 +24,7 @@ const getNotesByTaskId = async (req, res, next) => {
     next(error);
   }
 };
-// const getNotesByTaskId = async (req, res, next) => {
-//   try {
-//     const { taskId } = req.params;
-//     const data = await Note.model.find({ taskId: taskId });
-//     console.log(data);
-//     res.status(200).json(data);
-//   } catch (error) {
-//     next(error);
-//   }
-// };
+
 
 const postNote = async (req, res, next) => {
   try {
