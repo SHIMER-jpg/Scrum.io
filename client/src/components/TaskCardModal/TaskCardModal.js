@@ -27,20 +27,16 @@ const customStyles = {
 function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
   const { scenario, assignedTo, completedDate, taskBreakout } = yo;
 
-  const { title, details, creationDate, _id } = modalDetails;
+  const { title, details, creationDate, _id, user } = modalDetails;
 
   const [status, setStatus] = useState({});
 
   const dispatch = useDispatch();
 
-  const taskDetails = useSelector(({ developerView }) => {
-    return developerView.taskDetails;
-  });
   const notes = useSelector((state) => state.NotesReducer.notes);
 
   useEffect(() => {
     dispatch(getNotesDetails(_id));
-    console.log(notes);
     return function cleanUp() {
       dispatch(clearNotes());
     };
@@ -88,6 +84,8 @@ __v: 0
 
   function handleOnClick({ target }) {
     console.log(target);
+    console.log(modalDetails);
+
     // dispatch(modifyingTaskById(taskId));
   }
   // const [modalIsOpen, setIsOpen] = React.useState(false);
@@ -104,7 +102,10 @@ __v: 0
         <div className={styles.modalBody}>
           <div className={styles.modalFormGroup}>
             <label className={styles.titles}>Assigned to</label>
-            <span>{assignedTo}</span>
+            <div className={styles.userBox}>
+              <img src={user.picture} />
+              <p>{user.name}</p>
+            </div>
           </div>
           <div className={styles.modalFormGroup}>
             <label className={styles.titles}>Created</label>
