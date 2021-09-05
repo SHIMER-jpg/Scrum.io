@@ -28,36 +28,23 @@ const postTask = async (req, res, next) => {
   }
 };
 
-
-const askHelpTask = async(req, res, next) => {
-  let taskId = req.body.id
-  const filter = { _id: taskId };
-  const update = { helpNeeded: true};
-  await Task.model.findOneAndUpdate(filter, update);
-  res.status(200).send('Successfully modified helpNeeded')
-} 
-
-const changeStatusTask = async(req, res, next) => {
-  let taskId = req.body.id
-  let newStatus  = req.body.status
-  const filter = { _id: taskId };
-  const update = { status: newStatus};
-  await Task.model.findOneAndUpdate(filter, update);
-  res.status(200).send('Successfully modified status')
+const modifyingTask = async(req, res, next) => {
+  try {
+    const {taskId} = req.params
+    const change = req.body
+    const filter = {_id: taskId}
+    const update = change
+    await Task.model.findOneAndUpdate(filter, update);
+    res.status(200).send('Successfully modified task')
+  }
+  catch(error){
+    next(error)
+  }
 }
-
-const changePriorizationTask = async(req, res, next) => {
-  let taskId = req.body.id
-  let newPriorization = req.body.priorization
-  const filter = { _id: taskId };
-  const update = { priorization: newPriorization};
-  await Task.model.findOneAndUpdate(filter, update);
-  res.status(200).send('Successfully modified priorization')
-}
-
 
 module.exports = {
   postTask,
   getTasksByProjectId,
+  modifyingTask
   
 };
