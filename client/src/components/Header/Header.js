@@ -25,7 +25,7 @@ const Header = () => {
           <img src={user.picture} alt={user.name} />
           <div className={styles.userInfo}>
             <p>{user.name?.split(" ")[0]}</p>
-            <p>Developer</p>
+            {/* <p>Developer</p> */}
           </div>
           <FiChevronDown size={22} />
           <div className={styles.dropDown}>

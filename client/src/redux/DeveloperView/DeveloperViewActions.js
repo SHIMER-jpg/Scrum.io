@@ -27,9 +27,9 @@ export function setTaskDetails(task) {
   return { type: CONSTANTS.SET_TASK_DETAILS, payload: task };
 }
 
-
-export function createNote (note) {
-  return async function(dispatch){
+//revisar si esto va aca, para mi que no (shimer)
+export function createNote(note) {
+  return async function (dispatch) {
     return dispatch({
       type: CONSTANTS.POST_NOTE,
       payload: note,
