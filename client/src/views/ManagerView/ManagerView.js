@@ -17,26 +17,31 @@ import CreateTaskModal from "../../components/CreateTaskModal/CreateTaskModal";
 import { useParams } from "react-router-dom";
 
 export default function ManagerView() {
-  //SOCKET EFFECT
-  // useEffect(() => {
-  //   const socket = io("http://localhost:3001/");
-  //   // client-side
-  //   socket.on("connect", () => {
-  //     console.log(socket.id); // x8WIv7-mJelg7on_ALbx
-  //   });
+  const tasks = useSelector((state) => state.managerView.tasks);
+  const { projectId } = useParams();
 
-  //   socket.on("taskChange", (change) => {
-  //     dispatch(getTasksByProject("61313b4dfc13ae1dd2000cf8"));
-  //   });
-  // }, []);
+  // SOCKET EFFECT
+  useEffect(() => {
+    const socket = io("http://localhost:3001/");
+    // client-side
+    socket.on("connect", () => {
+      console.log(socket.id); // x8WIv7-mJelg7on_ALbx
+    });
+
+    socket.on("taskChange", (change) => {
+      console.log(change);
+      // change.operationType === "insert" &&
+      //   setTasks([...tasks, change.fullDocument]);
+      dispatch(getTasksByProject(projectId));
+    });
+  }, []);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const dispatch = useDispatch();
   // const route = useRouteMatch();
-  const { projectId } = useParams();
   const project = useSelector((state) => state.managerView.project);
   const assignedUsers = useSelector((state) => state.managerView.asignedUsers);
-  const tasks = useSelector((state) => state.managerView.tasks);
   const [isLoadingTasks, setIsLoadingTasks] = useState(true);
 
   useEffect(() => {

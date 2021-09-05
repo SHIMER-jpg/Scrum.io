@@ -1,6 +1,10 @@
 .container {
   padding: 13px;
   width: auto;
+  height: calc(100vh - 70px);
+  position: sticky;
+  top: 70px;
+  z-index: 1000;
   display: flex;
   flex-direction: column;
   background-color: white;
