@@ -21,6 +21,7 @@ const customStyles = {
     backgroundColor: "rgba(0,0,0,0.5)",
     display: "grid",
     placeItems: "center",
+    zIndex: "1000",
   },
 };
 
@@ -92,7 +93,12 @@ __v: 0
 
   return (
     <>
-      <Modal isOpen={isOpen} style={customStyles} contentLabel="Task Card">
+      <Modal
+        isOpen={isOpen}
+        style={customStyles}
+        onRequestClose={() => setIsModalOpen(false)}
+        contentLabel="Task Card"
+      >
         <header className={styles.modalHeader}>
           <h2>{title}</h2>
           <button onClick={() => setIsModalOpen(false)}>
