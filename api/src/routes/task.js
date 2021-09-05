@@ -2,6 +2,7 @@ const { Router } = require("express");
 // const { getProjectById } = require("../controllers/projects.js");
 const {
   getTasksByProjectId,
+  modifyingTask,
   postTask,
   getUserTasks,
 } = require("../controllers/task.js");
@@ -13,6 +14,8 @@ const task = Router();
 task.get("/project/:projectId", getTasksByProjectId);
 
 task.post("/createTask", postTask);
+
+// task.put("/:taskId", modifyingTask);
 
 // Obtiene las tareas de un usuario
 task.get("/user", getUserTasks);

@@ -4,7 +4,25 @@ const mongoose = require("mongoose");
 const getTasksByProjectId = async (req, res, next) => {
   try {
     const { projectId } = req.params;
-    const data = await Task.model.find({ projectId: projectId });
+    console.log(projectId);
+    const mongooseId = mongoose.Types.ObjectId(projectId);
+
+    // const data = await Task.model.find({ projectId: projectId });
+    const data = await Task.model.aggregate([
+      { $match: { projectId: mongooseId } },
+      {
+        $lookup: {
+          from: "users",
+          localField: "asignedTo",
+          foreignField: "_id",
+          as: "user",
+        },
+      },
+      {
+        $unwind: "$user",
+      },
+    ]);
+    console.log("SE SOLICITO DATA POR PROJECT", data[0]);
     res.status(200).json(data);
   } catch (error) {
     next(error);
@@ -31,6 +49,18 @@ const postTask = async (req, res, next) => {
   }
 };
 
+const modifyingTask = async (req, res, next) => {
+  try {
+    const { taskId } = req.params;
+    const change = req.body;
+    const filter = { _id: taskId };
+    const update = change;
+    await Task.model.findOneAndUpdate(filter, update);
+    res.status(200).send("Successfully modified task");
+  } catch (error) {
+    next(error);
+  }
+};
 const getUserTasks = async (req, res, next) => {
   const { projectId, userId } = req.query;
 
@@ -46,5 +76,6 @@ const getUserTasks = async (req, res, next) => {
 module.exports = {
   postTask,
   getTasksByProjectId,
+  modifyingTask,
   getUserTasks,
 };

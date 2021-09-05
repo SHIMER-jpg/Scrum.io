@@ -203,7 +203,7 @@ const CreateTaskModal = ({
             name="details"
             id="details"
             cols="15"
-            placeholder="Type the taks's details..."
+            placeholder="Type the task's details..."
             value={values.details}
             onChange={handleChange}
           ></textarea>

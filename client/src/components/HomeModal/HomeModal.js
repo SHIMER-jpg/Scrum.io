@@ -47,7 +47,8 @@ const HomeModal = ({ isModalOpen, setIsModalOpen }) => {
   const [query, setQuery, filteredUsers] = useSearch(users);
 
   useEffect(() => {
-    dispatch(fetchUsers());
+    console.log('fetchuser', loggedUser)
+    dispatch(fetchUsers(loggedUser));
   }, []);
 
   const handleChange = (e) => {

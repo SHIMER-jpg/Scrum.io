@@ -1,8 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./TaskHolder.module.css";
 
 //components
 import TaskCard from "../TaskCard/TaskCard.js";
+import TaskCardModal from "../TaskCardModal/TaskCardModal";
+// import { useState } from "react";
+
+// coso
+
 import Loading from "../Loading/Loading";
 
 // coso
@@ -13,6 +18,8 @@ export default function TaskHolder({
   taskList,
   isLoading,
 }) {
+  const [modalIsOpen, setIsModalOpen] = useState(false);
+  const [modalDetails, setModalDetails] = useState({});
   // si se pasa un status, se filtran las tareas y se mapean solo las que tengan ese status
   // if (status) {
   //   taskList = taskList.filter((task) => task.status === status);
@@ -34,6 +41,10 @@ export default function TaskHolder({
         ) : taskList && taskList.length > 0 ? (
           taskList.map((pro) => (
             <TaskCard
+              onClick={() => {
+                setModalDetails(pro);
+                setIsModalOpen(true);
+              }}
               key={pro._id}
               name={pro.title}
               description={pro.details}
@@ -44,7 +55,43 @@ export default function TaskHolder({
         ) : (
           <h3 className={styles.noTasks}>No tasks yet.</h3>
         )}
+        {modalIsOpen && (
+          <TaskCardModal
+            isOpen={modalIsOpen}
+            setIsModalOpen={setIsModalOpen}
+            modalDetails={modalDetails}
+          />
+        )}
       </div>
     </div>
   );
 }
+
+/**
+ * 
+ *   {taskList && taskList.length > 0 ? (
+          <>
+            {taskList.map((pro) => (
+              <TaskCard
+                onClick={() => {
+                  setModalDetails(pro);
+                  setIsModalOpen(true);
+                }}
+                key={pro._id}
+                name={pro.title}
+                description={pro.details}
+                sp={pro.storyPoints}
+                complex={pro.priorization?.replaceAll(" ", "_").toLowerCase()}
+                // key={pro._id}
+                // {...pro}
+              />
+            ))}
+            {modalIsOpen && (
+              <TaskCardModal
+                isOpen={modalIsOpen}
+                setIsModalOpen={setIsModalOpen}
+                modalDetails={modalDetails}
+              />
+            )}
+          </>
+ */
