@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { getRole, clearRole } from "../../redux/ViewRouter/actions";
 import ManagerView from "../../views/ManagerView/ManagerView.js";
 import DeveloperView from "../../views/DeveloperView/DeveloperView.js";
+import Loading from "../Loading/Loading";
 
 const ViewRouter = () => {
   const route = useRouteMatch();
@@ -26,12 +27,19 @@ const ViewRouter = () => {
 
   return (
     <>
-      {role &&
-        (role === "scrumMaster" ? (
+      {role ? (
+        role === "scrumMaster" ? (
           <ManagerView projectId={projectId} />
         ) : (
           <DeveloperView projectId={projectId} />
-        ))}
+        )
+      ) : (
+        <div
+          style={{ display: "grid", placeItems: "center", margin: "0 auto" }}
+        >
+          <Loading />
+        </div>
+      )}
     </>
   );
 };
