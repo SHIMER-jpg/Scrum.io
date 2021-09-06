@@ -81,7 +81,7 @@ const HomeModal = ({ isModalOpen, setIsModalOpen }) => {
     console.log(values);
 
     dispatch(createProject({ ...values, scrumMaster: loggedUser._id }));
-    // setIsModalOpen(false);
+
     setValues({
       projectName: "",
       requiredDate: "",
@@ -90,6 +90,7 @@ const HomeModal = ({ isModalOpen, setIsModalOpen }) => {
       Users: [],
       description: "",
     });
+    setIsModalOpen(false);
   };
 
   return (

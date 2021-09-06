@@ -63,18 +63,34 @@ const modifyingTask = async (req, res, next) => {
     next(error);
   }
 };
+
 const getUserTasks = async (req, res, next) => {
   const { projectId, userId } = req.query;
 
   try {
-    // const tasks = await Task.model.find({ assignedTo: userId, projectId });
+    // const tasks = await Task.model.find({ asignedTo: userId, projectId });
+    // const tasks = await Task.model
+    //   .find({ asignedTo: userId, projectId })
+    //   .populate("user")
+    //   .exec();
+    const projectIdMongoose = mongoose.Types.ObjectId(projectId);
+    const userIdMongoose = mongoose.Types.ObjectId(userId);
 
-    const tasks = await Task.model
-      .find({ assignedTo: userId, projectId })
-      .populate("user")
-      .exec();
-
-    res.status(200).json(tasks);
+    const data = await Task.model.aggregate([
+      { $match: { projectId: projectIdMongoose, asignedTo: userIdMongoose } },
+      {
+        $lookup: {
+          from: "users",
+          localField: "asignedTo",
+          foreignField: "_id",
+          as: "user",
+        },
+      },
+      {
+        $unwind: "$user",
+      },
+    ]);
+    res.status(200).json(data);
   } catch (error) {
     next(error);
   }

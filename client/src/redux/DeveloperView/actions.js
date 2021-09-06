@@ -6,6 +6,7 @@ require("dotenv").config();
 const { REACT_APP_BACKEND_HOST, REACT_APP_BACKEND_PORT } = process.env;
 
 export function getTasksByUser(projectId, userId) {
+  console.log(projectId, userId);
   return async function (dispatch) {
     // obtiene todas las tareas del projecto pasado por projectId para luego filtrar y agarrar solo las del usuario loggeado en el reducer
     const { data } = await axios.get(
