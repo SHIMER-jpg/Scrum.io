@@ -11,7 +11,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import Modal from "react-modal";
 import TaskHolder from "../../components/TaskHolder/TaskHolder";
-import io from "socket.io-client";
+
 import managerStyle from "./ManagerView.module.css";
 import CreateTaskModal from "../../components/CreateTaskModal/CreateTaskModal";
 import { useParams } from "react-router-dom";
@@ -21,20 +21,7 @@ export default function ManagerView() {
   const { projectId } = useParams();
 
   // SOCKET EFFECT
-  useEffect(() => {
-    const socket = io("http://localhost:3001/");
-    // client-side
-    socket.on("connect", () => {
-      console.log(socket.id); // x8WIv7-mJelg7on_ALbx
-    });
 
-    socket.on("taskChange", (change) => {
-      console.log(change);
-      // change.operationType === "insert" &&
-      //   setTasks([...tasks, change.fullDocument]);
-      dispatch(getTasksByProject(projectId));
-    });
-  }, []);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
