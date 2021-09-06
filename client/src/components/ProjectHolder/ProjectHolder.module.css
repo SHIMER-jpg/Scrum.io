@@ -1,27 +1,25 @@
 .projects {
-  padding: 25px;
   border-radius: 5px;
 }
 
 .projects_Header {
-  display: flex;
+  /* display: flex; */
   align-items: center;
 }
 
 .projects_Header h2 {
-  margin: 0;
+  margin: 0 0 30px;
   padding-right: 25px;
   font-weight: 600;
   font-size: 27px;
 }
 .projects_Header div {
-  background: rgb(180, 180, 180);
   height: 2px;
   width: 80%;
 }
 
 .projectList {
-  max-width: 100%;
-  display: flex;
-  flex-flow: row wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(430px, 1fr));
+  gap: 30px;
 }

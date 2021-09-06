@@ -5,6 +5,7 @@ import {
   GET_ASIGNED_USERS,
   GET_PROJECT_BY_ID,
   UPDATE_TASK,
+  CREATE_TASK,
 } from "./constants";
 
 require("dotenv").config();
@@ -14,7 +15,7 @@ export function getProjectById(projectId) {
   return function (dispatch) {
     axios
       .get(
-        `http://${REACT_APP_BACKEND_HOST}:${REACT_APP_BACKEND_PORT}/project/${projectId}`
+        `http://${REACT_APP_BACKEND_HOST}:${REACT_APP_BACKEND_PORT}/project/project/${projectId}`
       )
       .then((json) => {
         dispatch({ type: GET_PROJECT_BY_ID, payload: json.data });
@@ -39,16 +40,29 @@ export function postTask(task) {
   };
 }
 
-export function getTasksByProject(projectId) {
+export function getTasksByProject(projectId, setIsLoadingTasks) {
   //not any paload since it uses the already stored project
   return function (dispatch) {
     axios
       .get(
-        `http://${REACT_APP_BACKEND_HOST}:${REACT_APP_BACKEND_PORT}/task/${projectId}`
+        `http://${REACT_APP_BACKEND_HOST}:${REACT_APP_BACKEND_PORT}/task/project/${projectId}`
       )
       .then((json) => {
+        setIsLoadingTasks && setIsLoadingTasks(false);
         dispatch({ type: GET_TASKS_BY_PROJECT, payload: json.data });
       });
+  };
+}
+
+export function createTask(task) {
+  return function (dispatch) {
+    axios
+      .post(
+        `http://${REACT_APP_BACKEND_HOST}:${REACT_APP_BACKEND_PORT}/task/createTask`,
+        { ...task }
+      )
+      .then(() => dispatch({ type: CREATE_TASK }))
+      .catch(console.log);
   };
 }
 

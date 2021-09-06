@@ -4,10 +4,12 @@ import { useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import io from "socket.io-client";
 
-import { setUser } from "./redux/App/actions.js";
+import { setUser, setSocket } from "./redux/App/actions.js";
 //components
 import PrivateRoute from "./components/HOCS/PrivateRoute";
+import ViewRouter from "./components/ViewRouter/ViewRouter";
 
 // views
 import Home from "./views/Home/Home";
@@ -26,10 +28,16 @@ const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    const socket = io("http://localhost:3001/");
+    // client-side
+    socket.on("connect", () => {
+      console.log("socket conectado", socket.id); // x8WIv7-mJelg7on_ALbx
+    });
+    dispatch(setSocket(socket));
+
     isAuthenticated &&
       (async () => {
         const tokenClaims = await getIdTokenClaims();
-
         const { data } = await axios.post(
           `http://${BACKEND_HOST}:${BACKEND_PORT}/user/findOrCreate`,
           {
@@ -40,7 +48,6 @@ const App = () => {
             name: tokenClaims.name,
           }
         );
-
         dispatch(setUser(data));
       })();
   }, [isAuthenticated]);
@@ -68,11 +75,11 @@ const App = () => {
         />
         <Layout>
           <PrivateRoute path="/home" exact component={Home} />
-          {/* <PrivateRoute
+          <PrivateRoute
             path="/project/:projectId"
             exact
-            component={ManagerView}
-          /> */}
+            component={ViewRouter}
+          />
           <PrivateRoute path="/manager_view" exact component={ManagerView} />
           <PrivateRoute
             path="/developer_view"

@@ -10,7 +10,9 @@ export default function reducer(state = initialState, action) {
     case GET_ALL_USERS: {
       return {
         ...state,
-        users: action.payload.filter((u) => u._id !== state.loggedUser._id),
+        users: action.payload.users.filter(
+          (u) => u._id !== action.payload.loggedUser._id
+        ),
       };
     }
     case GET_PROJECTS_BY_USER: {

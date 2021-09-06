@@ -4,6 +4,7 @@ const GET_ASIGNED_USERS = "GET_ASIGNED_USERS";
 
 const UPDATE_TASK = "UPDATE_TASK";
 const UPDATE_NOTE = "UPDATE_NOTE";
+const CREATE_TASK = "CREATE_TASK";
 
 module.exports = {
   GET_PROJECT_BY_ID,
@@ -11,4 +12,5 @@ module.exports = {
   GET_ASIGNED_USERS,
   UPDATE_TASK,
   UPDATE_NOTE,
+  CREATE_TASK,
 };

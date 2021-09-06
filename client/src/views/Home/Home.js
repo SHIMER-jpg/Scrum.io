@@ -6,22 +6,24 @@ import { getProjectByUserId } from "../../redux/Home/actions";
 
 import HomeModal from "../../components/HomeModal/HomeModal";
 import ProjectHolder from "../../components/ProjectHolder/ProjectHolder";
+import Loading from "../../components/Loading/Loading";
 
 import styles from "./Home.module.css";
 
 const Home = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoadingProjects, setIsLoadingProjects] = useState(true);
 
-  const userLogged = useSelector(state => state.app.loggedUser);
-  const projectList = useSelector(state => state.home.projectList);
+  const userLogged = useSelector((state) => state.app.loggedUser);
+  const projectList = useSelector((state) => state.home.projectList);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if(userLogged._id){
-      dispatch(getProjectByUserId(userLogged._id));
+    if (userLogged._id) {
+      dispatch(getProjectByUserId(userLogged._id, setIsLoadingProjects));
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userLogged])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userLogged]);
 
   return (
     <section className={styles.container}>
@@ -33,9 +35,13 @@ const Home = () => {
       </header>
       <main className={styles.projects}>
         {/* Proyectos en curso */}
-        <ProjectHolder projectList={projectList} finished={false}/>
+        {isLoadingProjects ? (
+          <Loading isCentered={false} />
+        ) : (
+          <ProjectHolder projectList={projectList} finished={false} />
+        )}
         {/* Proyectos en curso */}
-        <ProjectHolder projectList={projectList} finished={true}/>
+        {/* <ProjectHolder projectList={projectList} finished={true}/> */}
       </main>
       {isModalOpen && (
         <HomeModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />

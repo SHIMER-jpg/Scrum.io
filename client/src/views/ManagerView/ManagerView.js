@@ -11,38 +11,33 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import Modal from "react-modal";
 import TaskHolder from "../../components/TaskHolder/TaskHolder";
-import io from "socket.io-client";
+
 import managerStyle from "./ManagerView.module.css";
-import { useRouteMatch } from "react-router";
+import CreateTaskModal from "../../components/CreateTaskModal/CreateTaskModal";
+import { useParams } from "react-router-dom";
 
 export default function ManagerView() {
-  //SOCKET EFFECT
-  // useEffect(() => {
-  //   const socket = io("http://localhost:3001/");
-  //   // client-side
-  //   socket.on("connect", () => {
-  //     console.log(socket.id); // x8WIv7-mJelg7on_ALbx
-  //   });
+  const tasks = useSelector((state) => state.managerView.tasks);
+  const { projectId } = useParams();
 
-  //   socket.on("taskChange", (change) => {
-  //     dispatch(getTasksByProject("61313b4dfc13ae1dd2000cf8"));
-  //   });
-  // }, []);
+  // SOCKET EFFECT
+
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const dispatch = useDispatch();
-  const route = useRouteMatch();
-  const { projectId } = route.params;
-  // const project = useSelector((state) => state.managerView.project);
-  const asignedUsers = useSelector((state) => state.managerView.asignedUsers);
-  const tasks = useSelector((state) => state.managerView.tasks);
+  // const route = useRouteMatch();
+  const project = useSelector((state) => state.managerView.project);
+  const assignedUsers = useSelector((state) => state.managerView.asignedUsers);
+  const [isLoadingTasks, setIsLoadingTasks] = useState(true);
 
   useEffect(() => {
-    // dispatch(getProjectById(projectId));
-    dispatch(getTasksByProject(projectId));
+    dispatch(getProjectById(projectId));
+    dispatch(getTasksByProject(projectId, setIsLoadingTasks));
     dispatch(getAsignedUsers(projectId));
   }, []);
 
-  const [modalOpen, setModalOpen] = useState(false);
+
 
   const [createTask, setCreateTask] = useState({
     title: "",
@@ -52,21 +47,59 @@ export default function ManagerView() {
     details: "",
   });
 
-  function handleInput(event) {
-    setCreateTask({
-      ...createTask,
-      [event.target.name]: event.target.value,
-    });
-  }
-
-  function handleSubmit(e) {
-    e.preventDefault();
-    dispatch(postTask(createTask));
-  }
-
   return (
     <>
-      <Modal isOpen={modalOpen}>
+      {isModalOpen && (
+        <CreateTaskModal
+          assignedUsers={assignedUsers}
+          isModalOpen={isModalOpen}
+          setIsModalOpen={setIsModalOpen}
+          projectId={projectId}
+        />
+      )}
+      <div className={managerStyle.conteiner}>
+        <header className={managerStyle.conteinerHeader}>
+          <h1 className="main-heading">
+            {project.projectName || "Loading..."}
+          </h1>
+          <button className="btn-primary" onClick={() => setIsModalOpen(true)}>
+            + Create Task
+          </button>
+        </header>
+        <div className={managerStyle.conteinerBody}>
+          {/* Pending Tasks */}
+          <TaskHolder
+            isLoading={isLoadingTasks}
+            status={"Pending"}
+            taskList={tasks.filter((task) => task.status === "Pending")}
+          />
+          {/* In progress Tasks */}
+          <TaskHolder
+            isLoading={isLoadingTasks}
+            status={"In progress"}
+            taskList={tasks.filter((task) => task.status === "In progress")}
+          />
+          {/* Testing Tasks */}
+          <TaskHolder
+            isLoading={isLoadingTasks}
+            status={"Testing"}
+            taskList={tasks.filter((task) => task.status === "Testing")}
+          />
+          {/* Completed Tasks */}
+          <TaskHolder
+            isLoading={isLoadingTasks}
+            status={"Completed"}
+            taskList={tasks.filter((task) => task.status === "Completed")}
+          />
+        </div>
+      </div>
+    </>
+  );
+}
+
+/* 
+
+<Modal isOpen={modalOpen}>
         <div>
           <span>Entraste a MODALSXd</span>
           <button onClick={() => setModalOpen(false)}>X</button>
@@ -127,36 +160,4 @@ export default function ManagerView() {
           </form>
         </div>
       </Modal>
-      <div className={managerStyle.conteiner}>
-        <header className={managerStyle.conteinerHeader}>
-          <h1 className="main-heading">Project Name</h1>
-          <button className="btn-primary" onClick={() => setModalOpen(true)}>
-            + Create Task
-          </button>
-        </header>
-        <div className={managerStyle.conteinerBody}>
-          {/* Pending Tasks */}
-          <TaskHolder
-            status={"Pending"}
-            taskList={tasks.filter((task) => task.status === "Pending")}
-          />
-          {/* In progress Tasks */}
-          <TaskHolder
-            status={"In progress"}
-            taskList={tasks.filter((task) => task.status === "In progress")}
-          />
-          {/* Testing Tasks */}
-          <TaskHolder
-            status={"Testing"}
-            taskList={tasks.filter((task) => task.status === "Testing")}
-          />
-          {/* Completed Tasks */}
-          <TaskHolder
-            status={"Completed"}
-            taskList={tasks.filter((task) => task.status === "Completed")}
-          />
-        </div>
-      </div>
-    </>
-  );
-}
+*/

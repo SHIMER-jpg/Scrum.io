@@ -2,12 +2,16 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import { FiChevronDown } from "react-icons/fi";
+import { useSelector } from "react-redux";
 
 import styles from "./Header.module.css";
 
 const Header = () => {
   const { user = {}, logout } = useAuth0();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const userRole = formatUserRole(
+    useSelector((state) => state.viewRouter.userRole)
+  );
 
   return (
     <header className={styles.container}>
@@ -25,7 +29,7 @@ const Header = () => {
           <img src={user.picture} alt={user.name} />
           <div className={styles.userInfo}>
             <p>{user.name?.split(" ")[0]}</p>
-            <p>Developer</p>
+            {userRole ? <p>{userRole}</p> : ""}
           </div>
           <FiChevronDown size={22} />
           <div className={styles.dropDown}>
@@ -38,6 +42,12 @@ const Header = () => {
       </div>
     </header>
   );
+};
+
+const formatUserRole = (role) => {
+  if (role) return role === "scrumMaster" ? "Scrum master" : "Developer";
+
+  return null;
 };
 
 export default Header;

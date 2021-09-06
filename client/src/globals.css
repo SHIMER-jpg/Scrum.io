@@ -34,8 +34,8 @@ code {
 /* LOADER CSS, MEJORAR DESPUES :( */
 .lds-dual-ring {
   display: inline-block;
-  width: 80px;
-  height: 80px;
+  width: 60px;
+  height: 60px;
   background: white;
 }
 .lds-dual-ring:after {
@@ -46,8 +46,8 @@ code {
   border: 6px solid black;
   border-color: black transparent black transparent;
   animation: lds-dual-ring 1.2s linear infinite;
-  width: 80px;
-  height: 80px;
+  width: 60px;
+  height: 60px;
 }
 @keyframes lds-dual-ring {
   0% {
@@ -79,4 +79,26 @@ button {
   font-size: 35px;
   font-weight: 600;
   margin: 0;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 3px;
+  /* display: none; */
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgb(199, 199, 199);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: var(--violet);
 }

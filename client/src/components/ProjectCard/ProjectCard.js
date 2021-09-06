@@ -25,20 +25,20 @@ export default function ProjectCard({ project }) {
           <div className={styles.progressBar}>
             <div
               className={styles.progress}
-              style={{ width: `${project.status}%` }}
+              style={{ width: `${project.status || 0}%` }}
             ></div>
           </div>
-          <h4>{project.status}%</h4>
-          <div className={styles.projectItem}>
-            <button
-              onClick={() => {
-                history.push("/project/" + project._id);
-              }}
-            >
-              See details
-            </button>
-          </div>
+          <h4>{(project.status || 0) + "%"}</h4>
         </div>
+      </div>
+      <div className={styles.projectItem}>
+        <button
+          onClick={() => {
+            history.push("/project/" + project._id);
+          }}
+        >
+          See details
+        </button>
       </div>
     </div>
   );

@@ -1,23 +1,23 @@
-import { SET_USER, SET_SOCKET } from "./constants.js";
+import { GET_ROLE, CLEAR_ROLE } from "./constants.js";
 
 const initialState = {
-  loggedUser: {},
-  socket: {},
+  userRole: null,
 };
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
-    case SET_USER: {
+    case GET_ROLE: {
       return {
         ...state,
-        loggedUser: action.payload,
+        userRole: action.payload,
       };
     }
-    case SET_SOCKET:
+    case CLEAR_ROLE: {
       return {
         ...state,
-        socket: action.payload,
+        userRole: null,
       };
+    }
     default:
       return state;
   }

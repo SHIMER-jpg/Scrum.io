@@ -1,8 +1,10 @@
-import { CONSTANTS } from './constants.js';
+import { CONSTANTS } from "./constants.js";
 
 const initialState = {
   userTasks: [],
   helpTasks: [],
+  taskDetails: {},
+  note: [],
 };
 
 export default function reducer(state = initialState, action) {
@@ -11,13 +13,18 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         userTasks: action.payload,
-      }
+      };
     case CONSTANTS.GET_HELP_TASKS:
       return {
         ...state,
-        helpTasks: action.payload
-      }
+        helpTasks: action.payload,
+      };
+    case CONSTANTS.SET_TASK_DETAILS:
+      return {
+        ...state,
+        taskDetails: action.payload,
+      };
     default:
       return state;
-    }
+  }
 }
