@@ -19,10 +19,6 @@ const ViewRouter = () => {
 
   useEffect(() => {
     loggedUser._id && dispatch(getRole(loggedUser._id, projectId));
-
-    return function clerRole() {
-      dispatch(clearRole());
-    };
   }, [loggedUser]);
 
   return (

@@ -19,6 +19,13 @@ io.on("connection", (socket) => {
   socket.on("disconnect", () => {
     console.log("socket.io: User disconnected: ", socket.id);
   });
+
+  socket.on("value", ({value, projectId}) => {
+    console.log("value recibida en el backend: ", value)
+    console.log("en el proyecto: ", projectId)
+
+    socket.broadcast.emit("valueBackend", {value, projectId})
+  })
 });
 
 // const io = require("socket.io")(server, {

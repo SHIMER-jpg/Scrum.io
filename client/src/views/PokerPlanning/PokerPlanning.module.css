@@ -1,0 +1,11 @@
+.container {
+  padding: 25px 30px;
+  width: 100%;
+}
+
+.header {
+  font-size: 40px;
+  border-bottom: 1px solid rgb(179, 179, 179);
+  padding-bottom: 20px;
+  margin-bottom: 30px;
+}

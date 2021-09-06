@@ -18,6 +18,7 @@ import LandingPage from "./views/LandingPage/LandingPage";
 import DeveloperView from "./views/DeveloperView/DeveloperView";
 import ManagerView from "./views/ManagerView/ManagerView";
 import Layout from "./components/Layout/Layout.js";
+import PokerPlanning from "./views/PokerPlanning/PokerPlanning";
 import { Manager } from "socket.io-client";
 
 const BACKEND_HOST = process.env.REACT_APP_BACKEND_HOST;
@@ -80,6 +81,7 @@ const App = () => {
             exact
             component={ViewRouter}
           />
+          <PrivateRoute path="/planning/:projectId" exact component={PokerPlanning} />
           <PrivateRoute path="/manager_view" exact component={ManagerView} />
           <PrivateRoute
             path="/developer_view"
