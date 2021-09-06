@@ -1,0 +1,95 @@
+.Dropdown-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.Dropdown {
+  position: relative;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  font-size: 1.8rem;
+  width: 100%;
+}
+
+.Dropdown-name {
+  margin: 0 0 5px 2px;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.Dropdown.light {
+  background: white !important;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.493);
+  border-radius: 5px;
+}
+
+.Dropdown.dark {
+  background: black !important;
+  border: 1px solid var(--amarillo);
+  padding: 8px 10px;
+  font-size: 1.8rem;
+  color: white;
+  outline: none;
+  width: 100%;
+  transition: all 0.15s ease;
+}
+
+.Dropdown svg {
+  width: 20px;
+  margin-left: 8px;
+  transition: all 0.1s ease-in-out;
+}
+
+.Dropdown svg.rotate {
+  transform: rotate(180deg);
+}
+
+.Dropdown-box {
+  position: absolute;
+  height: auto;
+  min-width: 100%;
+  width: auto;
+  top: 125%;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  z-index: 100;
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.1s ease-in-out;
+  overflow-y: hidden;
+}
+
+.light .Dropdown-box {
+  background: white;
+  border-radius: 5px;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.493);
+}
+
+.dark .Dropdown-box {
+  background: black;
+  border: 1px solid var(--amarillo);
+}
+
+.Dropdown-box.visible {
+  visibility: visible;
+  opacity: 1;
+}
+
+.Dropdown-option {
+  margin: 0;
+  padding: 10px 13px;
+  transition: all 0.1s ease-in-out;
+}
+
+.Dropdown-option:hover {
+  background-color: var(--amarillo);
+  color: black;
+}
+
+.Dropdown-option {
+  margin: 0;
+}

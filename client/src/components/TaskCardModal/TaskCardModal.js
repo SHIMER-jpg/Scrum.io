@@ -1,12 +1,19 @@
+//imports from react and hooks (even customs)
 import Modal from "react-modal";
 import { useState, useEffect } from "react";
-import styles from "./TaskModal.module.css";
 import { useDispatch, useSelector } from "react-redux";
+import useTimeAgo from "../../hooks/useTimeAgo";
+
+// redux actions
 import { getNotesDetails, clearNotes } from "../../redux/NoteDetail/actions";
 import { createNote } from "../../redux/NoteDetail/actions";
+
+//componnennts and utils
 import { IoClose } from "react-icons/io5";
 import NoteDetail from "../NoteDetail/NoteDetail";
-import useTimeAgo from "../../hooks/useTimeAgo";
+import Dropdown from "../Dropdown/Dropdown";
+
+import styles from "./TaskModal.module.css";
 
 const customStyles = {
   content: {
@@ -26,8 +33,9 @@ const customStyles = {
 };
 
 function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
-  const { title, details, creationDate, _id, user } = modalDetails;
+  const { title, details, creationDate, _id, user, status } = modalDetails;
   const loggedId = useSelector((state) => state.app.loggedUser._id);
+  const { statusDropdownIsOpen, setStatusDropdownIsOpen } = useState(false);
   const [newNote, setNewNote] = useState({
     content: "",
     taskId: _id,
@@ -45,8 +53,9 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
       dispatch(clearNotes());
     };
   }, []);
+
   /*
-  asignedTo: "613274bb1a9c7e2b10cfe1c1"
+  * asignedTo: "613274bb1a9c7e2b10cfe1c1"
 completedDate: "2021-07-08T06:04:10.000Z"
 creationDate: "2021-05-10T06:53:16.000Z"
 details: "In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.\n\nSuspendisse potenti. In eleifend quam a odio. In hac habitasse platea dictumst.\n\nMaecenas ut massa quis augue luctus tincidunt. Nulla mollis molestie lorem. Quisque ut erat."
@@ -60,11 +69,8 @@ title: "Rank"
 __v: 0
  */
 
-  function handleStatusSelect(e) {
-    // setNewNote({
-    //   ...status,
-    //   [e.target.name]: e.target.value,
-    // });
+  function handleStatusChange({ target }) {
+    console.log({ target });
   }
 
   function handlePriorizationSelect(e) {
@@ -123,7 +129,7 @@ __v: 0
               {new Date(creationDate).toLocaleDateString()} ({timeAgo})
             </span>
           </div>
-          <div className={styles.modalFormGroup}>
+          {/* <div className={styles.modalFormGroup}>
             <label className={styles.titles}>Priorization: </label>
             <select
               onChange={(e) => handleStatusSelect(e)}
@@ -135,7 +141,7 @@ __v: 0
               <option value="testing">Testing</option>
               <option value="completed">Completed</option>
             </select>
-          </div>
+          </div> */}
           <div className={styles.modalFormGroup}>
             <label className={styles.titles}>Details: </label>
             <span>{details}</span>
@@ -175,18 +181,16 @@ __v: 0
             <button type="submit" onClick={(e) => handleOnClick(e)}>
               🤔 Ask for help
             </button>
-
-            <select
-              onChange={(e) => handlePriorizationSelect(e)}
-              onClick={(e) => handleOnClick(e)}
-            >
-              <option value="">Priorization</option>
-              <option value="easyWin">Easy Win</option>
-              <option value="depriorize">Depriorize</option>
-              <option value="worthPursuing">Worth Pursuing</option>
-              <option value="strategicInitiative">Strategic Initiative</option>
-            </select>
-            <select
+            <Dropdown
+              isVisible={statusDropdownIsOpen}
+              setIsVisible={setStatusDropdownIsOpen}
+              // name={values.season}
+              name={status}
+              handler={handleStatusChange}
+              values={["Pending", "In progress", "Testing", "Completed"]}
+              theme="light"
+            />
+            {/* <select
               onChange={(e) => handleStatusSelect(e)}
               onClick={(e) => handleOnClick(e)}
             >
@@ -195,7 +199,7 @@ __v: 0
               <option value="inprogress">In progress</option>
               <option value="testing">Testing</option>
               <option value="completed">Completed</option>
-            </select>
+            </select> */}
           </div>
         </div>
       </Modal>
