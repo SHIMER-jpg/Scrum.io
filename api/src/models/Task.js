@@ -5,7 +5,8 @@ const Note = require("./Note.js");
 const taskSchema = new mongoose.Schema(
   {
     title: { type: String },
-    assignedTo: { type: Schema.Types.ObjectId, ref: "User" },
+    // assignedTo: { type: Schema.Types.ObjectId, ref: "User" },
+    asignedTo: { type: Schema.Types.ObjectId, ref: "User" },
     creationDate: { type: Date, default: Date.now },
     completedDate: { type: Date },
     status: {

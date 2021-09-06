@@ -4,31 +4,27 @@ const mongoose = require("mongoose");
 const getTasksByProjectId = async (req, res, next) => {
   try {
     const { projectId } = req.params;
-    console.log(projectId);
     const mongooseId = mongoose.Types.ObjectId(projectId);
 
-    // const data = await Task.model.find({ projectId: projectId });
-    // const data = await Task.model.aggregate([
-    //   { $match: { projectId: mongooseId } },
-    //   {
-    //     $lookup: {
-    //       from: "users",
-    //       localField: "asignedTo",
-    //       foreignField: "_id",
-    //       as: "user",
-    //     },
-    //   },
-    //   {
-    //     $unwind: "$user",
-    //   },
-    // ]);
+    const data = await Task.model.aggregate([
+      { $match: { projectId: mongooseId } },
+      {
+        $lookup: {
+          from: "users",
+          localField: "asignedTo",
+          foreignField: "_id",
+          as: "user",
+        },
+      },
+      {
+        $unwind: "$user",
+      },
+    ]);
 
-    const data = await Task.model
-      .find({ projectId })
-      .populate("project")
-      .populate("user")
-      .exec();
-
+    // const data = await Task.model
+    //   .find({ projectId })
+    //   .populate("project")
+    //   .exec();
     res.status(200).json(data);
   } catch (error) {
     next(error);
@@ -39,7 +35,7 @@ const postTask = async (req, res, next) => {
   try {
     var newTask = new Task.model({
       title: req.body.title,
-      assignedTo: req.body.assignedTo,
+      asignedTo: req.body.assignedTo,
       status: req.body.status,
       storyPoints: req.body.storyPoints,
       priorization: req.body.priorization,
