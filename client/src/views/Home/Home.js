@@ -7,6 +7,7 @@ import { getProjectByUserId } from "../../redux/Home/actions";
 import HomeModal from "../../components/HomeModal/HomeModal";
 import ProjectHolder from "../../components/ProjectHolder/ProjectHolder";
 import Loading from "../../components/Loading/Loading";
+import { clearRole } from "../../redux/ViewRouter/actions";
 
 import styles from "./Home.module.css";
 
@@ -22,8 +23,13 @@ const Home = () => {
     if (userLogged._id) {
       dispatch(getProjectByUserId(userLogged._id, setIsLoadingProjects));
     }
+    
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userLogged]);
+  
+  useEffect(() => {
+    dispatch(clearRole());
+  }, [])
 
   return (
     <section className={styles.container}>
