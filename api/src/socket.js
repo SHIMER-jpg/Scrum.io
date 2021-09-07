@@ -86,6 +86,21 @@ io.on("connection", (socket) => {
 
     io.to(projectId).emit("valueChanged", room);
   });
+
+  socket.on("taskUpdatedSuccess", ({projectId}) => {
+    const room = rooms.find((r) => r.id === projectId);
+
+    if(room) {
+      room.task = null;
+      room.buttonsEnabled = false;
+      room.task = null
+      room.totalValue = null
+
+      room.users.forEach(u => u.settedValue = null)
+
+      io.to(projectId).emit("resetGame", room)
+    }
+  })
 });
 
 // const io = require("socket.io")(server, {

@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import TaskCard from "../../components/TaskCard/TaskCard";
 import { changeTask } from "../../redux/PokerPlanning/constants";
 import { getTasksByProject } from "../../redux/ManagerView/actions";
+import { AiFillSave } from "react-icons/ai";
 
 import styles from "./PokerPlanning.module.css";
 
@@ -42,13 +43,21 @@ const PokerPlanning = () => {
 
     socket.on("buttonsStateChanged", (room) => {
       setRoom(room);
+    });
+
+    socket.on("resetGame", (room) => {
+      setSelectedVote(null)
+      setAreForeignCardsVisible(false)
+      setRoom(room)
     })
 
     socket.on("totalValueSent", (room) => {
-      console.log("totalValueSent: ", room);
       setAreForeignCardsVisible(true);
       setRoom(room);
-      socket.emit("changeButtonsState", ({projectId: project._id, value: false}))
+      socket.emit("changeButtonsState", {
+        projectId: project._id,
+        value: false,
+      });
     });
 
     // return () => socket.disconnect();
@@ -67,24 +76,31 @@ const PokerPlanning = () => {
 
   const handleTaskClick = (task) => {
     socket.emit("setTask", { projectId: project._id, task });
-    socket.emit("changeButtonsState", ({projectId: project._id, value: true}))
+    socket.emit("changeButtonsState", { projectId: project._id, value: true });
   };
 
   const handleResults = () => {
     const valueSet =
-      room.users.reduce((acc, user) => (acc += user.settedValue), 0) / room.users.length;
-
+      room.users.reduce((acc, user) => (acc += user.settedValue), 0) /
+      room.users.length;
 
     socket.emit("totalValue", {
       projectId: project._id,
       valueSet,
     });
-
-    // dispatch(changeTask(room.task._id, valueSet));
-    // dispatch(getTasksByProject(room.task._id));
-
+    
     return valueSet;
   };
+  
+  const handleSaveValue = () => {
+    // este callback se va a ejecutar cuando se termine de actualizar la task
+    function cb() {
+      dispatch(getTasksByProject(project._id));
+      socket.emit("taskUpdatedSuccess", {projectId: project._id})
+    }
+
+    dispatch(changeTask(room.task._id, room.totalValue, cb));
+  }
 
   return (
     <section className={styles.container}>
@@ -104,8 +120,13 @@ const PokerPlanning = () => {
                     styles.foreignCard
                   }`}
                 >
-                  {u._id === loggedUser._id ? <p>{u.settedValue || "?"}</p> : areForeignCardsVisible ? <p>{u.settedValue}</p> : <p>?</p>}
-  
+                  {u._id === loggedUser._id ? (
+                    <p>{u.settedValue || "?"}</p>
+                  ) : areForeignCardsVisible ? (
+                    <p>{u.settedValue}</p>
+                  ) : (
+                    <p>?</p>
+                  )}
                 </div>
                 <div className={styles.userInfo}>
                   <img src={u.picture} alt={u.name} />
@@ -140,15 +161,23 @@ const PokerPlanning = () => {
       </section>
       <footer className={styles.footer}>
         <section className={styles.footerInfo}>
-          {userRole === "scrumMaster" && (
-            <button disabled={!room.buttonsEnabled} onClick={handleResults}>Show results</button>
+          {!room.totalValue && userRole === "scrumMaster" && (
+            <button disabled={!room.buttonsEnabled} onClick={handleResults}>
+              Show results
+            </button>
           )}
-          {room.totalValue && 
+          {room.totalValue && (
             <div className={styles.storyPoints}>
               <p>Points</p>
               <p>{room.totalValue}</p>
             </div>
-          }
+          )}
+          {room.totalValue && userRole === "scrumMaster" && (
+            <button onClick={handleSaveValue} className={styles.saveButton}>
+              <AiFillSave size={20} />
+              Save
+            </button>
+          )}
         </section>
         <section className={styles.buttons}>
           {VALUES.map((v) => (

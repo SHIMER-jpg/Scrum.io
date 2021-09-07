@@ -199,6 +199,14 @@
   font-weight: 600;
 }
 
+.footerInfo .saveButton {
+  padding: 6px 15px; 
+  display: flex;
+  align-items: center;
+  font-size: 14px ;
+  gap: 10px;
+}
+
 .buttons {
   display: flex;
   justify-content: center;
