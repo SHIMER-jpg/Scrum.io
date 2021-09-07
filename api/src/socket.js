@@ -38,11 +38,6 @@ io.on("connection", (socket) => {
       }
     }
 
-    // io.to(projectId).emit(
-    //   "userJoin",
-    //   rooms.find((room) => room.id === projectId).users
-    // );
-
     // en vez d emitir solo el usuario recien logueado, emito toda la room de vuelta con toda su info.
     io.to(projectId).emit(
       "userJoined",
@@ -53,20 +48,21 @@ io.on("connection", (socket) => {
 
   socket.on("setTask", ({projectId, task}) => {
     const room = rooms.find(r => r.id === projectId);
-    console.log("room: ", room)    
 
     if(room) {
       room.task = task;
       io.to(projectId).emit("newTaskSetted", room)
     }
-    
-    console.log("ROOM post insert: ", room)
-  })
+})
 
-  socket.on("value", ({ value, projectId }) => {
+  socket.on("changeUserValue", ({ value, projectId, user }) => {
     console.log("value recibida en el backend: ", value);
 
-    io.to(projectId).emit("valueBackend", { value, projectId });
+    const room = rooms.find(r => r.id === projectId)
+    
+    room.users.find(u => u._id === user._id).settedValue = value
+
+    io.to(projectId).emit("valueChanged", room);
   });
 });
 
@@ -99,3 +95,13 @@ module.exports = io;
 //   connect,
 //   socket,
 // };
+
+
+/**
+ * 1. modularizar methods de rooms
+ * 2. tab de config -> modificar values de poker planning
+ * 3. filtros (fede)
+ * 4. protejer ruta (redirect si no hay estado de Redux);
+ * 5. mostrar votos, calcular promedios, aceptar el promedio como SP y reiniciar votacion
+ * 6. animaciones (??)
+ */

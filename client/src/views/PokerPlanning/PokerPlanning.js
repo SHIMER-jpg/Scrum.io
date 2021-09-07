@@ -14,9 +14,7 @@ const PokerPlanning = () => {
   const loggedUser = useSelector(({ app }) => app.loggedUser);
   const { project, tasks } = useSelector(({ managerView }) => managerView);
 
-  const [taskSetted, setTaskSetted] = useState(null);
   const [selectedVote, setSelectedVote] = useState(null);
-  const [users, setUsers] = useState([]);
 
   const [room, setRoom] = useState({});
 
@@ -26,13 +24,11 @@ const PokerPlanning = () => {
       user: loggedUser,
     });
 
-    socket.on("valueBackend", ({ value, projectId }) => {
-      console.log("VALUE recibida del backend: ", value);
-      // setValueBackend([...valueBackend, value]);
+    socket.on("valueChanged", (room) => {
+      setRoom(room);
     });
 
     socket.on("userJoined", (room) => {
-      console.log("new user joined to the room!: ", room);
       setRoom(room)
     });
 
@@ -45,9 +41,8 @@ const PokerPlanning = () => {
 
   const handleButtonClick = (value) => {
     setSelectedVote(value)
-    console.log(selectedVote)
 
-    socket.emit("value", { value, projectId: project._id });
+    socket.emit("changeUserValue", { value, projectId: project._id, user: loggedUser });
   };
 
   const handleTaskClick = (task) => {
@@ -68,6 +63,7 @@ const PokerPlanning = () => {
               <div className={styles.user} key={u._id}>
                 <img src={u.picture} alt={u.name} />
                 <p>{u.name}</p>
+                {u.settedValue && <p>{u.settedValue}</p>}
               </div>
             ))}
           </div>
