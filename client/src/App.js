@@ -29,7 +29,7 @@ const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const socket = io("http://localhost:3001/");
+    const socket = io.connect("http://localhost:3001/");
     // client-side
     socket.on("connect", () => {
       console.log("socket conectado", socket.id); // x8WIv7-mJelg7on_ALbx
