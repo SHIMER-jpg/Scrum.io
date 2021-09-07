@@ -81,8 +81,9 @@ const PokerPlanning = () => {
 
   const handleResults = () => {
     const valueSet =
-      room.users.reduce((acc, user) => (acc += user.settedValue), 0) /
-      room.users.length;
+      (room.users.reduce((acc, user) => (acc += user.settedValue), 0) /
+      room.users.length).toString(); // para evitar que quede un 0 numerico y lo tome como un valor falsy
+
 
     socket.emit("totalValue", {
       projectId: project._id,
@@ -154,7 +155,7 @@ const PokerPlanning = () => {
             <TaskHolder
               customHandleClick={handleTaskClick}
               status="Unrated stories"
-              taskList={tasks.filter(task => task._id !== room.task._id)}
+              taskList={room.task ? tasks.filter(task => task._id !== room.task._id) : tasks}
             />
           </div>
         ) : null}
