@@ -11,7 +11,9 @@ export default function StatisticCard({ graphType }) {
   let project = useSelector((state) => state.managerView.project);
   let tasks = useSelector((state) => state.managerView.tasks);
 
-  let storyPoints = tasks.map(t => t.storyPoints).reduce((a,b) => a + b)
+  if(tasks.length > 0) {
+    var storyPoints = tasks.map(t => t.storyPoints).reduce((a,b) => a + b)
+  }
 
 
   return (
@@ -21,7 +23,7 @@ export default function StatisticCard({ graphType }) {
           <h2>{graphType}</h2>
         </div>
         <div className={styles.graph}>
-          
+
           {graphType === "Tasks Complexity Chart" ?
 
             <Bar className={styles.chart}
@@ -55,7 +57,7 @@ export default function StatisticCard({ graphType }) {
                   }
                 }
               }}
-            
+
             />
           : graphType === "BurnDown Chart" ?
             <Line className={styles.chart}
@@ -90,7 +92,7 @@ export default function StatisticCard({ graphType }) {
         </div>
         <div className={styles.description}>
           <p>
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
+            Lorem Ipsum is simply dummy text of the printing and typesetting industry.
             Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.
           </p>
         </div>
