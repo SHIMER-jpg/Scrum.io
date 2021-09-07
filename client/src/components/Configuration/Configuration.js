@@ -15,7 +15,7 @@ export function Configuration (){
     const userRole = useSelector((state) => state.viewRouter.userRole)
 
     return (
-        userRole === "ScrumMaster" 
+        userRole === "scrumMaster" 
         ?
         <select name="voting"  className={styles.select} onChange={(e) => handlechange(e)}>
             <option hidden>Voting system</option>
