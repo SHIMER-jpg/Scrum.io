@@ -81,7 +81,11 @@ const App = () => {
             exact
             component={ViewRouter}
           />
-          <PrivateRoute path="/planning/:projectId" exact component={PokerPlanning} />
+          <PrivateRoute
+            path="/planning/:projectId"
+            exact
+            component={PokerPlanning}
+          />
           <PrivateRoute path="/manager_view" exact component={ManagerView} />
           <PrivateRoute
             path="/developer_view"

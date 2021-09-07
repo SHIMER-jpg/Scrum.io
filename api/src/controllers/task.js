@@ -54,10 +54,9 @@ const postTask = async (req, res, next) => {
 const modifyingTask = async (req, res, next) => {
   try {
     const { taskId } = req.params;
-    const change = req.body;
     const filter = { _id: taskId };
-    const update = change;
-    await Task.model.findOneAndUpdate(filter, update);
+
+    await Task.model.findOneAndUpdate(filter, req.body);
     res.status(200).send("Successfully modified task");
   } catch (error) {
     next(error);
