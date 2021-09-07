@@ -9,7 +9,7 @@ import { getNotesDetails, clearNotes } from "../../redux/NoteDetail/actions";
 import { updateTask } from "../../redux/ManagerView/actions";
 import { createNote } from "../../redux/NoteDetail/actions";
 
-//componnennts and utils
+//components and utils
 import { IoClose } from "react-icons/io5";
 import NoteDetail from "../NoteDetail/NoteDetail";
 import Dropdown from "../Dropdown/Dropdown";
@@ -34,10 +34,15 @@ const customStyles = {
 };
 
 function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
-  const { title, details, creationDate, _id, user } = modalDetails;
+  const { title, details, creationDate, _id, user, storyPoints, priorization } =
+    modalDetails;
   const loggedId = useSelector((state) => state.app.loggedUser._id);
   const [statusDropdownIsOpen, setStatusDropdownIsOpen] = useState(false);
-  const [status, setStatus] = useState(modalDetails.status);
+  const [dynamicFields, setDynamicFields] = useState({
+    status: modalDetails.status,
+    helpNeeded: modalDetails.helpNeeded,
+  });
+
   const [newNote, setNewNote] = useState({
     content: "",
     taskId: _id,
@@ -77,8 +82,11 @@ __v: 0
       field: "status",
       value: target.dataset.value,
     };
-    setStatus(target.dataset.value);
-    dispatch(updateTask(change))
+    setDynamicFields({
+      ...dynamicFields,
+      status: target.dataset.value,
+    });
+    dispatch(updateTask(change));
   }
 
   function handlePriorizationSelect(e) {
@@ -101,11 +109,17 @@ __v: 0
     setNewNote({ ...newNote, content: "" });
   }
 
-  function handleOnClick({ target }) {
-    console.log(target);
-    console.log(modalDetails);
-
-    // dispatch(modifyingTaskById(taskId));
+  function handleOnClick() {
+    const change = {
+      taskId: _id,
+      field: "helpNeeded",
+      value: !dynamicFields.helpNeeded,
+    };
+    setDynamicFields({
+      ...dynamicFields,
+      helpNeeded: !dynamicFields.helpNeeded,
+    });
+    dispatch(updateTask(change));
   }
   // const [modalIsOpen, setIsOpen] = React.useState(false);
 
@@ -119,6 +133,7 @@ __v: 0
       >
         <header className={styles.modalHeader}>
           <h2>{title}</h2>
+          <span className={styles.taskCard_StoryPoints}>{storyPoints} SP</span>
           <button onClick={() => setIsModalOpen(false)}>
             <IoClose size={30} />
           </button>
@@ -143,7 +158,6 @@ __v: 0
               onChange={(e) => handlePriorizationSelect(e)}
               onClick={(e) => handleOnClick(e)}
             >
-              <option value="">Priorization</option>
               <option value="easyWin">Easy Win</option>
               <option value="depriorize">Depriorize</option>
               <option value="worthPursuing">Worth Pursuing</option>
@@ -186,14 +200,17 @@ __v: 0
               })}
           </div>
           <div className={styles.modalButtons}>
-            <button type="submit" onClick={(e) => handleOnClick(e)}>
-              Ask for help
+            <button
+              className={`helpNeeded-${dynamicFields.helpNeeded}`}
+              type="submit"
+              onClick={(e) => handleOnClick(e)}
+            >
+              {dynamicFields.helpNeeded ? "Help Asked" : "Ask for help"}
             </button>
             <Dropdown
               isVisible={statusDropdownIsOpen}
               setIsVisible={setStatusDropdownIsOpen}
-              // name={values.season}
-              name={status}
+              name={dynamicFields.status}
               handler={handleStatusChange}
               values={["Pending", "In progress", "Testing", "Completed"]}
               theme="dark"

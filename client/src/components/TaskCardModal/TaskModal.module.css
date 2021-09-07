@@ -185,3 +185,31 @@ select:focus {
 .userBox p {
   line-height: 1;
 }
+.taskCard_StoryPoints {
+  background-color: #a12464;
+  color: #f3f3f3;
+  font-size: 18px;
+  font-weight: 600;
+  padding: 5px 10px;
+  font-weight: 600;
+  border-radius: 10px;
+  display: flex;
+  margin: auto;
+  margin-right: 0;
+}
+
+.easy_win {
+  border-top: 8px solid #8eff7b;
+}
+
+.worth_pursuing {
+  border-top: 8px solid #ffa53c;
+}
+
+.strategic_initiative {
+  border-top: 8px solid #7befff;
+}
+
+.deprioritize {
+  border-top: 8px solid #ff6868;
+}

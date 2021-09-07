@@ -23,17 +23,16 @@ const managerViewReducer = (state = initialState, action) => {
         ...state,
         tasks: [...action.payload],
       };
+
     case UPDATE_TASK:
       const newTasks = state.tasks.map((task) => {
-        if (task._id == action.paylad.change.taskId) {
-          task[action.payload.change.field] = action.payload.change.value;
+        if (task._id == action.payload.taskId) {
+          task[action.payload.field] = action.payload.value;
         }
+        return task;
       });
-      return { ...state };
-    // return {
-    //   ...state,
-    //   tasks: [...action.payload],
-    // };
+      return { ...state, tasks: [...newTasks] };
+
     case GET_ASIGNED_USERS:
       return {
         ...state,
