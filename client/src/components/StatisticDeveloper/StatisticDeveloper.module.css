@@ -11,11 +11,12 @@
     justify-content: center;
 }
 
-.header h1{
+.header h2{
     margin: 0;
 }
 
 .graph{
-    display: flex;
-    width: auto;
+    padding: 10px 0;
+    margin: 10px 0;
+    border-top: 2px solid rgb(212, 212, 212);
 }

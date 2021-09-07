@@ -3,9 +3,10 @@
 }
 
 .cardsList{
+    position: relative;
     padding: 20px;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(430px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
     gap: 30px;
 }
 

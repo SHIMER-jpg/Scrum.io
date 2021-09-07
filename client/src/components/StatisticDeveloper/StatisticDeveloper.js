@@ -25,12 +25,11 @@ export default function StatisticDeveloper(props) {
     <div className={styles.conteiner}>
       <div>
         <div className={styles.header}>
-          <h1>Developer Statistics</h1>
+          <h2>Developer Statistics</h2>
         </div>
         <div className={styles.graph}>
-
-          {/* mixed chart */}
-          <Bar
+          
+          <Bar className={styles.chart}
             data={{
               labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7'],
               datasets: [{
@@ -67,6 +66,15 @@ export default function StatisticDeveloper(props) {
                 },
               ],
             }}
+            option={{
+              maintainAspectRatio: false,
+              scales: {
+                y: {
+                    beginAtZero: true
+                }
+              }
+            }}
+            height={100}
           />
 
         </div>
