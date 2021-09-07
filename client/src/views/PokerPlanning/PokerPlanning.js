@@ -4,6 +4,7 @@ import TaskHolder from "../../components/TaskHolder/TaskHolder";
 import { useEffect, useState } from "react";
 import TaskCard from "../../components/TaskCard/TaskCard";
 import { changeTask } from "../../redux/PokerPlanning/constants";
+import { getTasksByProject } from "../../redux/ManagerView/actions";
 
 import styles from "./PokerPlanning.module.css";
 
@@ -75,8 +76,9 @@ const PokerPlanning = () => {
       valueSet,
     });
 
-    console.log(project._id);
-    dispatch(project._id, valueSet);
+    console.log(room.task._id);
+    dispatch(changeTask(room.task._id, valueSet));
+    dispatch(getTasksByProject(room.task._id));
 
     return valueSet;
   };

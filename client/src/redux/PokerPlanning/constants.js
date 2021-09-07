@@ -9,7 +9,7 @@ export function changeTask(idTask, value) {
     axios
       .put(
         `http://${REACT_APP_BACKEND_HOST}:${REACT_APP_BACKEND_PORT}/task/${idTask}`,
-        value
+        { value }
       )
       .then((response) => {
         dispatch({ type: PUT_TASK });

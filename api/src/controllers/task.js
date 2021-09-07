@@ -56,7 +56,8 @@ const modifyingTask = async (req, res, next) => {
     const { taskId } = req.params;
     const filter = { _id: taskId };
 
-    await Task.model.findOneAndUpdate(filter, req.body);
+    console.log(req.body);
+    await Task.model.findOneAndUpdate(filter, { storyPoints: req.body.value });
     res.status(200).send("Successfully modified task");
   } catch (error) {
     next(error);
