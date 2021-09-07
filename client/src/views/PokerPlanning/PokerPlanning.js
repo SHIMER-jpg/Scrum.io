@@ -121,7 +121,7 @@ const PokerPlanning = () => {
         ) : null}
       </section>
       <footer className={styles.footer}>
-        <button onClick={handleResults}>Show results</button>
+        {userRole === "scrumMaster" && <button onClick={handleResults}>Show results</button>}
         <section className={styles.buttons}>
           {VALUES.map((v) => (
             <button

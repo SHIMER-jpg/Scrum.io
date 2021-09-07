@@ -25,9 +25,9 @@
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   grid-template-rows: repeat(3, 1fr);
-  grid-template-areas: ". card1 card2 card3 card4 ."
+  grid-template-areas: ". card7 card1 card2 card8 ."
                        "card5 board board board board card6"
-                       ". card7 card8 card9 card10 .";
+                       ". card9 card3 card4 card10 .";
   justify-items: center;
   align-items: center;
 }
