@@ -184,6 +184,7 @@ const PokerPlanning = () => {
         <section className={styles.buttons}>
           {sequence.map((v) => (
             <button
+              key={v}
               className={`${selectedVote === v && styles.active}`}
               onClick={() => handleButtonClick(v)}
               disabled={!room.buttonsEnabled}
