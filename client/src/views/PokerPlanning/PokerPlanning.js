@@ -150,7 +150,7 @@ const PokerPlanning = () => {
           </div>
         </div>
         {userRole === "scrumMaster" ? (
-          <div style={{ width: "420px" }}>
+          <div style={{ width: "420px", maxHeight: "600px", overflowY: "auto" }}>
             <TaskHolder
               customHandleClick={handleTaskClick}
               status="Unrated stories"

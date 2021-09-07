@@ -69,8 +69,6 @@ io.on("connection", (socket) => {
       return r.id === projectId;
     });
 
-    console.log("PROMEDIO: ", valueSet)
-
     if (room) {
       room.totalValue = valueSet;
 
@@ -79,8 +77,6 @@ io.on("connection", (socket) => {
   });
 
   socket.on("changeUserValue", ({ value, projectId, user }) => {
-    console.log("value recibida en el backend: ", value);
-
     const room = rooms.find((r) => r.id === projectId);
     room.users.find((u) => u._id === user._id).settedValue = value;
 

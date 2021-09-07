@@ -61,7 +61,10 @@ export function createTask(task) {
         `http://${REACT_APP_BACKEND_HOST}:${REACT_APP_BACKEND_PORT}/task/createTask`,
         { ...task }
       )
-      .then(() => dispatch({ type: CREATE_TASK }))
+      .then(() => {
+        dispatch({ type: CREATE_TASK })
+        dispatch(getTasksByProject(task.projectId))
+      })
       .catch(console.log);
   };
 }
