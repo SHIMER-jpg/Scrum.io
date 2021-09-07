@@ -17,6 +17,7 @@ export default function TaskHolder({
   helpNeeded,
   taskList,
   isLoading,
+  customHandleClick
 }) {
   const [modalIsOpen, setIsModalOpen] = useState(false);
   const [modalDetails, setModalDetails] = useState({});
@@ -42,8 +43,11 @@ export default function TaskHolder({
           taskList.map((pro) => (
             <TaskCard
               onClick={() => {
-                setModalDetails(pro);
-                setIsModalOpen(true);
+                if(customHandleClick) customHandleClick(pro)
+                else {
+                  setModalDetails(pro);
+                  setIsModalOpen(true);
+                }
               }}
               key={pro._id}
               name={pro.title}

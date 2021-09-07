@@ -1,4 +1,5 @@
 .container {
+  position: relative;
   padding: 25px 30px;
   width: 100%;
 }
@@ -9,3 +10,81 @@
   padding-bottom: 20px;
   margin-bottom: 30px;
 }
+
+.generalBoard {
+  display: grid;
+  grid-template-columns: 1fr auto;
+}
+
+.board {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.taskPlace {
+  width: 350px;
+  background-color: rgba(204, 0, 27, 0.2);
+  border-radius: 18px;
+  padding: 10px 25px;
+}
+
+.cardPlaceholder p {
+  text-align: center;
+  font-weight: 500;
+  font-size: 18px;
+}
+
+.boardUsers { 
+  display: flex;
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.user img {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+}
+
+.user p {
+  margin: 0;
+}
+
+
+
+.buttons {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 35px;
+  margin-top: 50px;
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+}
+
+.buttons > button {
+  all: unset;
+  width: 42px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  font-size: 20px;
+  font-weight: 600;
+  border: 2px solid var(--red);
+  transition: all .15s ease-in-out;
+}
+
+.buttons > button:hover, .buttons > button.active {
+  background-color: var(--red);
+  color: white;
+}
+

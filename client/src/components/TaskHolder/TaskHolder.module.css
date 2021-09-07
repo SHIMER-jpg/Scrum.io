@@ -5,7 +5,8 @@
   border-radius: 5px;
   max-height: 650px;
   overflow-y: scroll;
-  width: 460px;
+  width: 100%;
+  max-width: 460px;
   flex-shrink: 0;
 }
 
