@@ -1,5 +1,29 @@
-const PUT_TASK = "PUT_TASK";
+import axios from "axios";
+import CONSTANTS from "./constants.js";
 
-module.exports = {
-  PUT_TASK,
-};
+const { REACT_APP_BACKEND_HOST, REACT_APP_BACKEND_PORT } = process.env;
+
+export function change(payload) {
+  return {
+    type: CONSTANTS.CHANGE,
+    payload: payload,
+  };
+}
+
+export function changeTask(idTask, value, cb) {
+  return function (dispatch) {
+    axios
+      .put(
+        `http://${REACT_APP_BACKEND_HOST}:${REACT_APP_BACKEND_PORT}/task/${idTask}`,
+        { value }
+      )
+      .then((response) => {
+        dispatch({ type: CONSTANTS.PUT_TASK });
+        cb && cb();
+        return response.data;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+}
