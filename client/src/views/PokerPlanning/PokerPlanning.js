@@ -9,7 +9,7 @@ import { AiFillSave } from "react-icons/ai";
 
 import styles from "./PokerPlanning.module.css";
 
-// const VALUE = [1 ,2 ,3 ,1 , 3, 1,]
+const VALUES = [0, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, "?"]
 
 const PokerPlanning = () => {
   const sequence = useSelector((state) => state.pokerplanning.sequence);
@@ -65,7 +65,7 @@ const PokerPlanning = () => {
   }, []);
 
   const handleButtonClick = (value) => {
-    console.log(room);
+    console.log("VALUE: ", value);
     setSelectedVote(value);
 
     socket.emit("changeUserValue", {
@@ -85,6 +85,8 @@ const PokerPlanning = () => {
       (room.users.reduce((acc, user) => (acc += user.settedValue), 0) /
       room.users.length).toString(); // para evitar que quede un 0 numerico y lo tome como un valor falsy
 
+      console.log("VALUESET: ", valueSet)
+      console.log("ROOMUSERS:", room.users)
 
     socket.emit("totalValue", {
       projectId: project._id,
