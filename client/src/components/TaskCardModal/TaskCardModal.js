@@ -6,6 +6,7 @@ import useTimeAgo from "../../hooks/useTimeAgo";
 
 // redux actions
 import { getNotesDetails, clearNotes } from "../../redux/NoteDetail/actions";
+import { updateTask } from "../../redux/ManagerView/actions";
 import { createNote } from "../../redux/NoteDetail/actions";
 
 //componnennts and utils
@@ -33,9 +34,10 @@ const customStyles = {
 };
 
 function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
-  const { title, details, creationDate, _id, user, status } = modalDetails;
+  const { title, details, creationDate, _id, user } = modalDetails;
   const loggedId = useSelector((state) => state.app.loggedUser._id);
-  const { statusDropdownIsOpen, setStatusDropdownIsOpen } = useState(false);
+  const [statusDropdownIsOpen, setStatusDropdownIsOpen] = useState(false);
+  const [status, setStatus] = useState(modalDetails.status);
   const [newNote, setNewNote] = useState({
     content: "",
     taskId: _id,
@@ -70,7 +72,13 @@ __v: 0
  */
 
   function handleStatusChange({ target }) {
-    console.log({ target });
+    const change = {
+      taskId: _id,
+      field: "status",
+      value: target.dataset.value,
+    };
+    setStatus(target.dataset.value);
+    dispatch(updateTask(change))
   }
 
   function handlePriorizationSelect(e) {
@@ -129,19 +137,19 @@ __v: 0
               {new Date(creationDate).toLocaleDateString()} ({timeAgo})
             </span>
           </div>
-          {/* <div className={styles.modalFormGroup}>
+          <div className={styles.modalFormGroup}>
             <label className={styles.titles}>Priorization: </label>
             <select
-              onChange={(e) => handleStatusSelect(e)}
+              onChange={(e) => handlePriorizationSelect(e)}
               onClick={(e) => handleOnClick(e)}
             >
-              <option value="">Status</option>
-              <option value="pending">Pending</option>
-              <option value="inprogress">In progress</option>
-              <option value="testing">Testing</option>
-              <option value="completed">Completed</option>
+              <option value="">Priorization</option>
+              <option value="easyWin">Easy Win</option>
+              <option value="depriorize">Depriorize</option>
+              <option value="worthPursuing">Worth Pursuing</option>
+              <option value="strategicInitiative">Strategic Initiative</option>
             </select>
-          </div> */}
+          </div>
           <div className={styles.modalFormGroup}>
             <label className={styles.titles}>Details: </label>
             <span>{details}</span>
@@ -179,7 +187,7 @@ __v: 0
           </div>
           <div className={styles.modalButtons}>
             <button type="submit" onClick={(e) => handleOnClick(e)}>
-              🤔 Ask for help
+              Ask for help
             </button>
             <Dropdown
               isVisible={statusDropdownIsOpen}
@@ -188,7 +196,7 @@ __v: 0
               name={status}
               handler={handleStatusChange}
               values={["Pending", "In progress", "Testing", "Completed"]}
-              theme="light"
+              theme="dark"
             />
             {/* <select
               onChange={(e) => handleStatusSelect(e)}

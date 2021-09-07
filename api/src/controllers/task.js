@@ -51,13 +51,17 @@ const postTask = async (req, res, next) => {
   }
 };
 
-const modifyingTask = async (req, res, next) => {
+const modifyTask = async (req, res, next) => {
   try {
-    const { taskId } = req.params;
-    const change = req.body;
-    const filter = { _id: taskId };
-    const update = change;
-    await Task.model.findOneAndUpdate(filter, update);
+    console.log(req.body);
+    const { taskId } = req.body;
+    const update = {};
+    update[req.body.field] = req.body.value;
+
+    const updated = await Task.model.findOneAndUpdate(
+      { _id: mongoose.Types.ObjectId(taskId) },
+      update
+    );
     res.status(200).send("Successfully modified task");
   } catch (error) {
     next(error);
@@ -99,6 +103,6 @@ const getUserTasks = async (req, res, next) => {
 module.exports = {
   postTask,
   getTasksByProjectId,
-  modifyingTask,
+  modifyTask,
   getUserTasks,
 };

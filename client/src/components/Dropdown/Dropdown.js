@@ -1,4 +1,4 @@
-import './styles.css';
+import "./styles.css";
 
 const Dropdown = ({
   isVisible,
@@ -19,7 +19,7 @@ const Dropdown = ({
         {name}
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className={`${isVisible ? 'rotate' : ''}`}
+          className={`${isVisible ? "rotate" : ""}`}
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -31,7 +31,7 @@ const Dropdown = ({
             d="M19 9l-7 7-7-7"
           />
         </svg>
-        <div className={`Dropdown-box ${isVisible && 'visible'}`}>
+        <div className={`Dropdown-box ${isVisible && "visible"}`}>
           {values.map((value) => (
             <p
               onClick={handler}
