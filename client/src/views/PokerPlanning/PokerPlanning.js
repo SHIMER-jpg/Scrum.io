@@ -29,10 +29,15 @@ const PokerPlanning = () => {
     });
 
     socket.on("userJoined", (room) => {
-      setRoom(room)
+      setRoom(room);
     });
 
     socket.on("newTaskSetted", (room) => {
+      setRoom(room);
+    });
+
+    socket.on("totalValueSent", (room) => {
+      console.log(room, "hola soy fede");
       setRoom(room);
     });
 
@@ -40,15 +45,35 @@ const PokerPlanning = () => {
   }, []);
 
   const handleButtonClick = (value) => {
-    setSelectedVote(value)
+    console.log(room);
+    setSelectedVote(value);
 
-    socket.emit("changeUserValue", { value, projectId: project._id, user: loggedUser });
+    socket.emit("changeUserValue", {
+      value,
+      projectId: project._id,
+      user: loggedUser,
+    });
+
+    console.log(loggedUser);
   };
 
   const handleTaskClick = (task) => {
-    console.log(task);
-
     socket.emit("setTask", { projectId: project._id, task });
+  };
+
+  const handleResults = () => {
+    var valueSet = 0;
+
+    for (let i = 0; i < room.users.length; i++) {
+      valueSet = valueSet + room.users[i].settedValue;
+    }
+    console.log("hola entre");
+    socket.emit("totalValue", {
+      projectId: project._id,
+      valueSet,
+    });
+
+    return valueSet;
   };
 
   return (
@@ -58,16 +83,17 @@ const PokerPlanning = () => {
       </header>
       <section className={styles.generalBoard}>
         <div className={styles.board}>
-          {room.users && room.users.map(u => (
-            <div className={styles.user} key={u._id}>
-              <div className={styles.userVote}>
-                <p>{u.settedValue || "32"}</p>
+          {room.users &&
+            room.users.map((u) => (
+              <div className={styles.user} key={u._id}>
+                <div className={styles.userVote}>
+                  <p>{u.settedValue || "?"}</p>
+                </div>
+                <div className={styles.userInfo}>
+                  <img src={u.picture} alt={u.name} />
+                  <p>{u.name?.split(" ")[0]}</p>
+                </div>
               </div>
-              <div className={styles.userInfo}>
-                <img src={u.picture} alt={u.name} />
-                <p>{u.name?.split(" ")[0]}</p>
-              </div>
-            </div>
             ))}
           <div className={styles.taskPlace}>
             {room.task ? (
@@ -85,7 +111,7 @@ const PokerPlanning = () => {
           </div>
         </div>
         {userRole === "scrumMaster" ? (
-          <div style={{width: "420px"}}>
+          <div style={{ width: "420px" }}>
             <TaskHolder
               customHandleClick={handleTaskClick}
               status="Unrated stories"
@@ -95,10 +121,15 @@ const PokerPlanning = () => {
         ) : null}
       </section>
       <footer className={styles.footer}>
-        <button>Show results</button>
+        <button onClick={handleResults}>Show results</button>
         <section className={styles.buttons}>
           {VALUES.map((v) => (
-            <button className={`${selectedVote === v && styles.active}`} onClick={() => handleButtonClick(v)}>{v}</button>
+            <button
+              className={`${selectedVote === v && styles.active}`}
+              onClick={() => handleButtonClick(v)}
+            >
+              {v}
+            </button>
           ))}
         </section>
       </footer>
