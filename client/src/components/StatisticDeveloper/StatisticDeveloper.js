@@ -1,6 +1,8 @@
 import { React, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
+import { Bar } from "react-chartjs-2";
+
 import styles from "./StatisticDeveloper.module.css";
 
 export default function StatisticDeveloper() {
@@ -13,6 +15,7 @@ export default function StatisticDeveloper() {
         </div>
         <div className={styles.graph}>
           {/* aca va el grafico */}
+          
         </div>
         <div className={styles.description}>
           <p>
