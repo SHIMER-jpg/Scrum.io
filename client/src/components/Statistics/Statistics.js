@@ -16,9 +16,8 @@ export default function Statistics() {
       </div>
       <div className={styles.body}>
         <div className={styles.cardsList}>
-          <StatisticCard graphType={""}/>
-          <StatisticCard graphType={""}/>
-          <StatisticCard graphType={""}/>
+          <StatisticCard graphType={"BurnDown Chart"}/>
+          <StatisticCard graphType={"Tasks Complexity Chart"}/>
         </div>
         <div className={styles.specialCard}>
           <StatisticDeveloper />
