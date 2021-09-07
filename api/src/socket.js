@@ -54,14 +54,25 @@ io.on("connection", (socket) => {
     }
   });
 
+  socket.on("changeButtonsState", ({projectId, value}) => {
+    const room = rooms.find((r) => r.id === projectId);
+
+    if(room) {
+      room.buttonsEnabled = value;
+
+      io.to(projectId).emit("buttonsStateChanged", room)
+    }
+  })
+
   socket.on("totalValue", ({ projectId, valueSet }) => {
-    console.log("entre al value");
     const room = rooms.find((r) => {
       return r.id === projectId;
     });
+
+    console.log("PROMEDIO: ", valueSet)
+
     if (room) {
       room.totalValue = valueSet;
-      console.log("estoy emitiendo", room);
 
       io.to(projectId).emit("totalValueSent", room);
     }
@@ -71,7 +82,6 @@ io.on("connection", (socket) => {
     console.log("value recibida en el backend: ", value);
 
     const room = rooms.find((r) => r.id === projectId);
-    console.log(room.users);
     room.users.find((u) => u._id === user._id).settedValue = value;
 
     io.to(projectId).emit("valueChanged", room);

@@ -17,6 +17,7 @@ const PokerPlanning = () => {
   const { project, tasks } = useSelector(({ managerView }) => managerView);
 
   const [selectedVote, setSelectedVote] = useState(null);
+  const [areForeignCardsVisible, setAreForeignCardsVisible] = useState(false);
   const [room, setRoom] = useState({});
 
   const dispatch = useDispatch();
@@ -39,9 +40,15 @@ const PokerPlanning = () => {
       setRoom(room);
     });
 
-    socket.on("totalValueSent", (room) => {
-      console.log(room, "hola soy fede");
+    socket.on("buttonsStateChanged", (room) => {
       setRoom(room);
+    })
+
+    socket.on("totalValueSent", (room) => {
+      console.log("totalValueSent: ", room);
+      setAreForeignCardsVisible(true);
+      setRoom(room);
+      socket.emit("changeButtonsState", ({projectId: project._id, value: false}))
     });
 
     // return () => socket.disconnect();
@@ -56,29 +63,25 @@ const PokerPlanning = () => {
       projectId: project._id,
       user: loggedUser,
     });
-
-    console.log(loggedUser);
   };
 
   const handleTaskClick = (task) => {
     socket.emit("setTask", { projectId: project._id, task });
+    socket.emit("changeButtonsState", ({projectId: project._id, value: true}))
   };
 
   const handleResults = () => {
-    var valueSet = 0;
+    const valueSet =
+      room.users.reduce((acc, user) => (acc += user.settedValue), 0) / room.users.length;
 
-    for (let i = 0; i < room.users.length; i++) {
-      valueSet = valueSet + room.users[i].settedValue;
-    }
-    console.log("hola entre");
+
     socket.emit("totalValue", {
       projectId: project._id,
       valueSet,
     });
 
-    console.log(room.task._id);
-    dispatch(changeTask(room.task._id, valueSet));
-    dispatch(getTasksByProject(room.task._id));
+    // dispatch(changeTask(room.task._id, valueSet));
+    // dispatch(getTasksByProject(room.task._id));
 
     return valueSet;
   };
@@ -93,8 +96,16 @@ const PokerPlanning = () => {
           {room.users &&
             room.users.map((u) => (
               <div className={styles.user} key={u._id}>
-                <div className={styles.userVote}>
-                  <p>{u.settedValue || "?"}</p>
+                <div
+                  className={`${styles.userVote} ${
+                    u._id !== loggedUser._id &&
+                    u.settedValue &&
+                    !areForeignCardsVisible &&
+                    styles.foreignCard
+                  }`}
+                >
+                  {u._id === loggedUser._id ? <p>{u.settedValue || "?"}</p> : areForeignCardsVisible ? <p>{u.settedValue}</p> : <p>?</p>}
+  
                 </div>
                 <div className={styles.userInfo}>
                   <img src={u.picture} alt={u.name} />
@@ -128,12 +139,23 @@ const PokerPlanning = () => {
         ) : null}
       </section>
       <footer className={styles.footer}>
-        {userRole === "scrumMaster" && <button onClick={handleResults}>Show results</button>}
+        <section className={styles.footerInfo}>
+          {userRole === "scrumMaster" && (
+            <button disabled={!room.buttonsEnabled} onClick={handleResults}>Show results</button>
+          )}
+          {room.totalValue && 
+            <div className={styles.storyPoints}>
+              <p>Points</p>
+              <p>{room.totalValue}</p>
+            </div>
+          }
+        </section>
         <section className={styles.buttons}>
           {VALUES.map((v) => (
             <button
               className={`${selectedVote === v && styles.active}`}
               onClick={() => handleButtonClick(v)}
+              disabled={!room.buttonsEnabled}
             >
               {v}
             </button>
