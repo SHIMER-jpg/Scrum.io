@@ -5,6 +5,12 @@ import styles from "./StatisticCard.module.css";
 
 export default function StatisticCard({ graphType }) {
 
+  let project = useSelector((state) => state.managerView.project);
+  let tasks = useSelector((state) => state.managerView.tasks);
+
+  let storyPoints = tasks.map(t => t.storyPoints).reduce((a,b) => a + b)
+
+
   return (
     <div className={styles.conteiner}>
       <div>
