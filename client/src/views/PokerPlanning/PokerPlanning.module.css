@@ -14,20 +14,37 @@
 .generalBoard {
   display: grid;
   grid-template-columns: 1fr auto;
+  min-height: 540px;
 }
 
 .board {
-  display: flex;
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 50px;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  grid-template-areas: ". card1 card2 card3 card4 ."
+                       "card5 board board board board card6"
+                       ". card7 card8 card9 card10 .";
+  justify-items: center;
   align-items: center;
-  justify-content: center;
-  flex-direction: column;
 }
 
 .taskPlace {
-  width: 350px;
+  grid-area: board;
+  width: 100%;
+  max-width: 400px; 
   background-color: rgba(204, 0, 27, 0.2);
   border-radius: 18px;
   padding: 10px 25px;
+  display: flex;
+  align-items: center;
+}
+
+.taskPlace  div {
+  width: 100%;
 }
 
 .cardPlaceholder p {
@@ -37,16 +54,41 @@
 }
 
 .boardUsers { 
+  /* position: absolute; */
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
   display: flex;
 }
 
 .user {
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  border-radius: 8px;
+}
+
+.userVote {
+  border: 2px solid var(--red);
+  padding: 20px 15px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 23px;
+  width: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.userInfo {
+  display: flex;
   align-items: center;
   gap: 10px;
 }
 
-.user img {
+.userInfo img {
   width: 25px;
   height: 25px;
   border-radius: 50%;
@@ -54,6 +96,46 @@
 
 .user p {
   margin: 0;
+}
+
+.user:nth-child(1) {
+  grid-area: card1;
+}
+
+.user:nth-child(2) {
+  grid-area: card2;
+}
+
+.user:nth-child(3) {
+  grid-area: card3;
+}
+
+.user:nth-child(4) {
+  grid-area: card4;
+}
+
+.user:nth-child(5) {
+  grid-area: card5;
+}
+
+.user:nth-child(6) {
+  grid-area: card6;
+}
+
+.user:nth-child(7) {
+  grid-area: card7;
+}
+
+.user:nth-child(8) {
+  grid-area: card8;
+}
+
+.user:nth-child(9) {
+  grid-area: card9;
+}
+
+.user:nth-child(10) {
+  grid-area: card10;
 }
 
 .footer {

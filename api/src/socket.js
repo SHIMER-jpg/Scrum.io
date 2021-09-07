@@ -34,8 +34,8 @@ io.on("connection", (socket) => {
           .find((room) => room.id === projectId)
           .users.find((u) => u._id === user._id)
       ) {
-        rooms.find((room) => room.id === projectId).users.push(user);
       }
+      rooms.find((room) => room.id === projectId).users.push(user);
     }
 
     // en vez d emitir solo el usuario recien logueado, emito toda la room de vuelta con toda su info.
