@@ -154,7 +154,7 @@ const PokerPlanning = () => {
             <TaskHolder
               customHandleClick={handleTaskClick}
               status="Unrated stories"
-              taskList={tasks}
+              taskList={tasks.filter(task => task._id !== room.task._id)}
             />
           </div>
         ) : null}
