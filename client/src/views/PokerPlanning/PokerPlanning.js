@@ -92,11 +92,14 @@ const PokerPlanning = () => {
           </div>
         ) : null}
       </section>
-      <section className={styles.buttons}>
-        {VALUES.map((v) => (
-          <button className={`${selectedVote === v && styles.active}`} onClick={() => handleButtonClick(v)}>{v}</button>
-        ))}
-      </section>
+      <footer className={styles.footer}>
+        <button>Show results</button>
+        <section className={styles.buttons}>
+          {VALUES.map((v) => (
+            <button className={`${selectedVote === v && styles.active}`} onClick={() => handleButtonClick(v)}>{v}</button>
+          ))}
+        </section>
+      </footer>
     </section>
   );
 };
