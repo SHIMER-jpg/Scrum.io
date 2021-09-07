@@ -1,6 +1,7 @@
 import { RiHomeLine } from "react-icons/ri";
 import { BsGear } from "react-icons/bs";
 import { FaTasks } from "react-icons/fa";
+import { HiViewBoards } from "react-icons/hi";
 import { AiOutlineBarChart } from "react-icons/ai";
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -23,11 +24,18 @@ const Sidebar = () => {
       </div>
       {userRole ? (
         userRole === "scrumMaster" ? (
-          <div className={styles.item}>
-            <NavLink to={pathname}>
-              <AiOutlineBarChart size={23} /> Overview
-            </NavLink>
-          </div>
+          <>
+            <div className={styles.item}>
+              <NavLink to={pathname}>
+                <HiViewBoards size={23} /> Overview
+              </NavLink>
+            </div>
+            <div className={styles.item}>
+              <NavLink to={`${pathname}/statistics`}>
+                <AiOutlineBarChart size={23} /> Statistics
+              </NavLink>
+            </div>
+          </>
         ) : (
           <div className={styles.item}>
             <NavLink to={pathname}>

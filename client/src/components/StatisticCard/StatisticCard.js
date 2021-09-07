@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import styles from "./StatisticCard.module.css";
 
-export default function StatisticCard() {
+export default function StatisticCard({ graphType }) {
 
   return (
     <div className={styles.conteiner}>
