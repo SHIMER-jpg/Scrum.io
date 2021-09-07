@@ -1,8 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import TaskHolder from "../../components/TaskHolder/TaskHolder";
 import { useEffect, useState } from "react";
 import TaskCard from "../../components/TaskCard/TaskCard";
+import { changeTask } from "../../redux/PokerPlanning/constants";
+import { getTasksByProject } from "../../redux/ManagerView/actions";
 
 import styles from "./PokerPlanning.module.css";
 
@@ -15,8 +17,9 @@ const PokerPlanning = () => {
   const { project, tasks } = useSelector(({ managerView }) => managerView);
 
   const [selectedVote, setSelectedVote] = useState(null);
-
   const [room, setRoom] = useState({});
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     socket.emit("joinPokerPlanningRoom", {
@@ -72,6 +75,10 @@ const PokerPlanning = () => {
       projectId: project._id,
       valueSet,
     });
+
+    console.log(room.task._id);
+    dispatch(changeTask(room.task._id, valueSet));
+    dispatch(getTasksByProject(room.task._id));
 
     return valueSet;
   };

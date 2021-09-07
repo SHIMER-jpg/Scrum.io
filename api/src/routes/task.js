@@ -5,6 +5,7 @@ const {
   modifyingTask,
   postTask,
   getUserTasks,
+  putTaskChange,
 } = require("../controllers/task.js");
 
 const task = Router();
@@ -15,7 +16,7 @@ task.get("/project/:projectId", getTasksByProjectId);
 
 task.post("/createTask", postTask);
 
-// task.put("/:taskId", modifyingTask);
+task.put("/:taskId", modifyingTask);
 
 // Obtiene las tareas de un usuario
 task.get("/user", getUserTasks);
