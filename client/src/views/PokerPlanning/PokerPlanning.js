@@ -36,6 +36,11 @@ const PokerPlanning = () => {
       setRoom(room);
     });
 
+    socket.on("totalValueSent", (room) => {
+      console.log(room, "hola soy fede");
+      setRoom(room);
+    });
+
     // return () => socket.disconnect();
   }, []);
 
@@ -53,9 +58,22 @@ const PokerPlanning = () => {
   };
 
   const handleTaskClick = (task) => {
-    console.log(task);
-
     socket.emit("setTask", { projectId: project._id, task });
+  };
+
+  const handleResults = () => {
+    var valueSet = 0;
+
+    for (let i = 0; i < room.users.length; i++) {
+      valueSet = valueSet + room.users[i].settedValue;
+    }
+    console.log("hola entre");
+    socket.emit("totalValue", {
+      projectId: project._id,
+      valueSet,
+    });
+
+    return valueSet;
   };
 
   return (
@@ -97,11 +115,14 @@ const PokerPlanning = () => {
               status="Unrated stories"
               taskList={tasks}
             />
+
+            <footer className={styles.footer}>
+              <button onClick={handleResults}>Show results</button>
+            </footer>
           </div>
         ) : null}
       </section>
       <footer className={styles.footer}>
-        <button>Show results</button>
         <section className={styles.buttons}>
           {VALUES.map((v) => (
             <button
