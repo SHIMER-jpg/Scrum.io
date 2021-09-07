@@ -6,9 +6,10 @@ import TaskCard from "../../components/TaskCard/TaskCard";
 
 import styles from "./PokerPlanning.module.css";
 
-const VALUES = [0, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 100, "?"];
+// const VALUE = [1 ,2 ,3 ,1 , 3, 1,]
 
 const PokerPlanning = () => {
+  const sequence = useSelector((state) => state.pokerplanning.sequence);
   const userRole = useSelector((state) => state.viewRouter.userRole);
   const socket = useSelector(({ app }) => app.socket);
   const loggedUser = useSelector(({ app }) => app.loggedUser);
@@ -17,6 +18,8 @@ const PokerPlanning = () => {
   const [selectedVote, setSelectedVote] = useState(null);
 
   const [room, setRoom] = useState({});
+
+  console.log("sequence",sequence)
 
   useEffect(() => {
     socket.emit("joinPokerPlanningRoom", {
@@ -123,7 +126,7 @@ const PokerPlanning = () => {
       <footer className={styles.footer}>
         <button onClick={handleResults}>Show results</button>
         <section className={styles.buttons}>
-          {VALUES.map((v) => (
+          {sequence.map((v) => (
             <button
               className={`${selectedVote === v && styles.active}`}
               onClick={() => handleButtonClick(v)}
