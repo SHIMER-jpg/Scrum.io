@@ -43,24 +43,23 @@ io.on("connection", (socket) => {
       "userJoined",
       rooms.find((room) => room.id === projectId)
     );
-
   });
 
-  socket.on("setTask", ({projectId, task}) => {
-    const room = rooms.find(r => r.id === projectId);
+  socket.on("setTask", ({ projectId, task }) => {
+    const room = rooms.find((r) => r.id === projectId);
 
-    if(room) {
+    if (room) {
       room.task = task;
-      io.to(projectId).emit("newTaskSetted", room)
+      io.to(projectId).emit("newTaskSetted", room);
     }
-})
+  });
 
   socket.on("changeUserValue", ({ value, projectId, user }) => {
     console.log("value recibida en el backend: ", value);
 
-    const room = rooms.find(r => r.id === projectId)
-    
-    room.users.find(u => u._id === user._id).settedValue = value
+    const room = rooms.find((r) => r.id === projectId);
+
+    room.users.find((u) => u._id === user._id).settedValue = value;
 
     io.to(projectId).emit("valueChanged", room);
   });
@@ -95,7 +94,6 @@ module.exports = io;
 //   connect,
 //   socket,
 // };
-
 
 /**
  * 1. modularizar methods de rooms

@@ -29,7 +29,7 @@ const PokerPlanning = () => {
     });
 
     socket.on("userJoined", (room) => {
-      setRoom(room)
+      setRoom(room);
     });
 
     socket.on("newTaskSetted", (room) => {
@@ -40,9 +40,16 @@ const PokerPlanning = () => {
   }, []);
 
   const handleButtonClick = (value) => {
-    setSelectedVote(value)
+    console.log(room);
+    setSelectedVote(value);
 
-    socket.emit("changeUserValue", { value, projectId: project._id, user: loggedUser });
+    socket.emit("changeUserValue", {
+      value,
+      projectId: project._id,
+      user: loggedUser,
+    });
+
+    console.log(loggedUser);
   };
 
   const handleTaskClick = (task) => {
@@ -59,13 +66,14 @@ const PokerPlanning = () => {
       <section className={styles.generalBoard}>
         <div className={styles.board}>
           <div className={styles.boardUsers}>
-            {room.users && room.users.map(u => (
-              <div className={styles.user} key={u._id}>
-                <img src={u.picture} alt={u.name} />
-                <p>{u.name}</p>
-                {u.settedValue && <p>{u.settedValue}</p>}
-              </div>
-            ))}
+            {room.users &&
+              room.users.map((u) => (
+                <div className={styles.user} key={u._id}>
+                  <img src={u.picture} alt={u.name} />
+                  <p>{u.name}</p>
+                  {u.settedValue && <p>{u.settedValue}</p>}
+                </div>
+              ))}
           </div>
           <div className={styles.taskPlace}>
             {room.task ? (
@@ -83,7 +91,7 @@ const PokerPlanning = () => {
           </div>
         </div>
         {userRole === "scrumMaster" ? (
-          <div style={{width: "420px"}}>
+          <div style={{ width: "420px" }}>
             <TaskHolder
               customHandleClick={handleTaskClick}
               status="Unrated stories"
@@ -94,7 +102,12 @@ const PokerPlanning = () => {
       </section>
       <section className={styles.buttons}>
         {VALUES.map((v) => (
-          <button className={`${selectedVote === v && styles.active}`} onClick={() => handleButtonClick(v)}>{v}</button>
+          <button
+            className={`${selectedVote === v && styles.active}`}
+            onClick={() => handleButtonClick(v)}
+          >
+            {v}
+          </button>
         ))}
       </section>
     </section>
