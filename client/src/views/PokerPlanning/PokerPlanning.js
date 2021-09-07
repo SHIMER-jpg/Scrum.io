@@ -88,16 +88,18 @@ const PokerPlanning = () => {
       </header>
       <section className={styles.generalBoard}>
         <div className={styles.board}>
-          <div className={styles.boardUsers}>
-            {room.users &&
-              room.users.map((u) => (
-                <div className={styles.user} key={u._id}>
-                  <img src={u.picture} alt={u.name} />
-                  <p>{u.name}</p>
-                  {u.settedValue && <p>{u.settedValue}</p>}
+          {room.users &&
+            room.users.map((u) => (
+              <div className={styles.user} key={u._id}>
+                <div className={styles.userVote}>
+                  <p>{u.settedValue || "?"}</p>
                 </div>
-              ))}
-          </div>
+                <div className={styles.userInfo}>
+                  <img src={u.picture} alt={u.name} />
+                  <p>{u.name?.split(" ")[0]}</p>
+                </div>
+              </div>
+            ))}
           <div className={styles.taskPlace}>
             {room.task ? (
               <TaskCard
@@ -120,14 +122,11 @@ const PokerPlanning = () => {
               status="Unrated stories"
               taskList={tasks}
             />
-
-            <footer className={styles.footer}>
-              <button onClick={handleResults}>Show results</button>
-            </footer>
           </div>
         ) : null}
       </section>
       <footer className={styles.footer}>
+        <button onClick={handleResults}>Show results</button>
         <section className={styles.buttons}>
           {VALUES.map((v) => (
             <button
