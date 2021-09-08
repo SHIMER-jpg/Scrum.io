@@ -1,6 +1,9 @@
+const { transporter } = require("../nodemailer/nodemailer");
+
 const Task = require("../models/Task");
 const User = require ("../models/User")
 const mongoose = require("mongoose");
+
 
 const getTasksByProjectId = async (req, res, next) => {
   try {
@@ -48,7 +51,14 @@ const postTask = async (req, res, next) => {
     const user = await User.model.findOne({
       _id: req.body.assignedTo
     })
-    console.log("email del usario",user.email)
+
+    await transporter.sendMail({
+      from: '"Scrum.io" <scrumio64@gmail.com>', // sender address
+      to: user.email, // list of receivers
+      subject: "Scrumio", // Subject line
+      text: "Se te ah asignado una nueva tarea" // plain text body
+      // html: "<b>Hello world?</b>", // html body
+    });
 
     res.status(201).json(newTask);
   } catch (error) {

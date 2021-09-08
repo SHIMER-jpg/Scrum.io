@@ -1,3 +1,4 @@
+const { transporter } = require("../nodemailer/nodemailer");
 const Project = require("../models/Project");
 const UserProject = require("../models/UserProject");
 const mongoose = require("mongoose");
@@ -66,6 +67,15 @@ const createProject = async (req, res, next) => {
     // await UserAndProject.save();
 
     await newProject.save();
+    
+    await transporter.sendMail({
+      from: '"Scrum.io" <scrumio64@gmail.com>', // sender address
+      to: "cuellojuancruz11@gmail.com", // list of receivers
+      subject: "Scrumio", // Subject line
+      text: "Tienes un nuevo projecto a cargo" // plain text body
+      // html: "<b>Hello world?</b>", // html body
+    });
+
     res.status(201).json(newProject);
   } catch (error) {
     next(error);
