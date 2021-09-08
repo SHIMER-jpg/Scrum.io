@@ -23,6 +23,10 @@ io.on("connection", (socket) => {
     console.log("socket.io: User disconnected: ", socket.id);
   });
 
+  socket.on("createRoom", ({projectId, user}) => {
+    socket.join(projectId)
+  })
+
   socket.on("joinPokerPlanningRoom", ({ projectId, user }) => {
     socket.join(projectId);
 
