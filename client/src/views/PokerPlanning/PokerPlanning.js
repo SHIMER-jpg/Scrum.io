@@ -70,10 +70,7 @@ const PokerPlanning = () => {
 
     socket.on("roomClosed", () => {
       history.push(`/project/${project._id}`)
-      alert("The scrum master has closed the room.")
     })
-
-    // return () => socket.emit("disconnectUser", { projectId: project._id, user: loggedUser });
   }, []);
 
   const handleButtonClick = (value) => {
@@ -93,7 +90,7 @@ const PokerPlanning = () => {
 
   const handleResults = () => {
     const valueSet =
-      room.users.reduce((acc, user) => (acc += Number(user.settedValue)), 0) /
+      room.users.reduce((acc, { settedValue }) => isNaN(settedValue) ? acc += 0 : acc += Number(settedValue), 0) /
       room.users.length;
 
     socket.emit("totalValue", {
@@ -116,11 +113,15 @@ const PokerPlanning = () => {
 
   const handleDisconnect = () => {
     if(userRole === "developer") {
-      socket.emit("disconnectUser", { projectId: project._id, user: loggedUser });
+      if(window.confirm("Are you sure you want to disconnect from this room?")) {
+        socket.emit("disconnectUser", { projectId: project._id, user: loggedUser });
+        history.push(`/project/${project._id}`)
+      }
     } else {
-      socket.emit("closeRoom", { projectId: project._id })
+      if(window.confirm("Are you sure you want to close this room for everyone?")) {
+        socket.emit("closeRoom", { projectId: project._id })
+      }
     }
-    history.push(`/project/${project._id}`);
   };
 
   return (
