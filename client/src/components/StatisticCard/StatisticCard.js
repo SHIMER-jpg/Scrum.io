@@ -1,6 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { React, useEffect, useState } from "react";
 
+import { BsQuestionCircle } from 'react-icons/bs';
+
 // componentes charts de chartjs
 import { Bar } from "react-chartjs-2";
 import {Line} from 'react-chartjs-2';
@@ -70,7 +72,7 @@ export default function StatisticCard({graphType, tasks, project}) {
     <div className={styles.conteiner}>
       <div>
         <div className={styles.header}>
-          <h2>{graphType}</h2>
+          <h2>{graphType} <BsQuestionCircle className={styles.help} size={20}/></h2>
         </div>
         <div className={styles.graph}>
 
