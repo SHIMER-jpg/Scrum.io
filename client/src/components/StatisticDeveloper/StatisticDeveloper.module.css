@@ -20,3 +20,63 @@
     margin: 10px 0;
     border-top: 2px solid rgb(212, 212, 212);
 }
+
+.modalSelectUser.visible {
+  visibility: visible;
+  opacity: 1;
+}
+
+.modalSelectUser > p {
+  margin: 15px;
+  color: rgb(255, 86, 86);
+  font-weight: 600;
+}
+
+.modalUser {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-weight: 500;
+  padding: 10px;
+  transition: all 0.15s ease-in-out;
+}
+
+.modalUser:hover {
+  background: rgba(161, 36, 101, 0.2);
+  cursor: pointer;
+}
+
+.modalUser p {
+  margin: 0;
+}
+
+.addedUsers:not(:empty) {
+  width: 100%;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.addedUsersCard {
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+  background: rgb(238, 238, 238);
+  border: 1px solid rgb(238, 238, 238);
+  overflow: hidden;
+  gap: 10px;
+  padding-right: 10px;
+}
+
+.addedUsersCard p {
+  margin: 0;
+  font-weight: 600;
+}
+
+.addedUsersCard button {
+  all: unset;
+  display: flex;
+  align-items: center;
+}
