@@ -31,7 +31,7 @@ const getUsersByProjectId = async (req, res, next) => {
 const getUserRole = async (req, res, next) => {
   try {
     const { userId, projectId } = req.query;
-    console.log("filter data:", userId, projectId);
+    // console.log("filter data:", userId, projectId);
     const data = await UserProject.model.find({
       userId: userId,
       projectId: projectId,

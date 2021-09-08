@@ -1,4 +1,5 @@
 const Task = require("../models/Task");
+const User = require ("../models/User")
 const mongoose = require("mongoose");
 
 const getTasksByProjectId = async (req, res, next) => {
@@ -44,6 +45,10 @@ const postTask = async (req, res, next) => {
     });
 
     await newTask.save();
+    const user = await User.model.findOne({
+      _id: req.body.assignedTo
+    })
+    console.log("email del usario",user.email)
 
     res.status(201).json(newTask);
   } catch (error) {
