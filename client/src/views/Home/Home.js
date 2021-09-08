@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { getProjectByUserId } from "../../redux/Home/actions";
 
-import HomeModal from "../../components/HomeModal/HomeModal";
+import CreateProjectModal from "../../components/CreateProjectModal/CreateProjectModal";
 import ProjectHolder from "../../components/ProjectHolder/ProjectHolder";
 import Loading from "../../components/Loading/Loading";
 
@@ -44,7 +44,7 @@ const Home = () => {
         {/* <ProjectHolder projectList={projectList} finished={true}/> */}
       </main>
       {isModalOpen && (
-        <HomeModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+        <CreateProjectModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
       )}
     </section>
   );
