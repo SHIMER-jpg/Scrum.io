@@ -2,6 +2,7 @@
 import Modal from "react-modal";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useSearch } from "../../hooks/useSearch";
 import useTimeAgo from "../../hooks/useTimeAgo";
 
 // redux actions
@@ -17,8 +18,13 @@ import Dropdown from "../Dropdown/Dropdown";
 import styles from "./TaskModal.module.css";
 
 function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
-  const { title, details, creationDate, _id, user, storyPoints } = modalDetails;
+  const { title, details, creationDate, _id, storyPoints } = modalDetails;
   const loggedId = useSelector((state) => state.app.loggedUser._id);
+  const assignedUsers = useSelector((state) => state.managerView.asignedUsers);
+  const [isSelectUsersOpen, setIsSelectUsersOpen] = useState(false);
+  const [usersInProject, setUsersInProject] = useState([]);
+  const [query, setQuery, filteredUsers] = useSearch(usersInProject);
+
   const isManager = useSelector(
     (state) => state.viewRouter.userRole == "scrumMaster"
   );
@@ -29,6 +35,8 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
     status: modalDetails.status,
     helpNeeded: modalDetails.helpNeeded,
     priorization: modalDetails.priorization,
+    asignedTo: modalDetails.asignedTo,
+    user: modalDetails.user,
   });
 
   const [colorMap, setColorMap] = useState(
@@ -73,6 +81,11 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
 
   useEffect(() => {
     dispatch(getNotesDetails(_id));
+    const filteredUsers = assignedUsers
+      .filter(({ user }) => user._id !== loggedId)
+      .map((u) => u.user);
+
+    setUsersInProject(filteredUsers);
     return function cleanUp() {
       dispatch(clearNotes());
     };
@@ -154,6 +167,22 @@ __v: 0
     });
     dispatch(updateTask(change));
   }
+
+  const handleAddUser = (user) => {
+    const change = {
+      taskId: _id,
+      field: "asignedTo",
+      value: user._id,
+    };
+    setDynamicFields({
+      ...dynamicFields,
+      asignedTo: user._id,
+      user: user,
+    });
+    setIsSelectUsersOpen(false);
+    dispatch(updateTask(change));
+    setQuery("");
+  };
   // const [modalIsOpen, setIsOpen] = React.useState(false);
 
   return (
@@ -174,10 +203,53 @@ __v: 0
         <div className={styles.modalBody}>
           <div className={styles.modalFormGroup}>
             <label className={styles.titles}>Assigned to</label>
-            <div className={styles.userBox}>
-              <img src={user.picture} alt={user.name} />
-              <p>{user.name}</p>
-            </div>
+            {!isSelectUsersOpen && (
+              <div
+                className={styles.userBox}
+                onClick={() => {
+                  isManager && setIsSelectUsersOpen(true);
+                }}
+              >
+                <img
+                  src={dynamicFields.user.picture}
+                  alt={dynamicFields.user.name}
+                />
+                <p>{dynamicFields.user.name}</p>
+              </div>
+            )}
+            {isManager && isSelectUsersOpen && (
+              <div
+                className={`${styles.modalSelectUser} ${
+                  isSelectUsersOpen ? styles.visible : undefined
+                }`}
+              >
+                <input
+                  onBlur={() => setIsSelectUsersOpen(false)}
+                  onFocus={() => setIsSelectUsersOpen(true)}
+                  type="text"
+                  id="assignedTo"
+                  name="assignedTo"
+                  value={query}
+                  placeholder="Type a name..."
+                  autoComplete="off"
+                  onChange={(e) => setQuery(e.target.value)}
+                />
+                {filteredUsers.length ? (
+                  filteredUsers.map((user) => (
+                    <article
+                      onClick={() => handleAddUser(user)}
+                      key={user._id}
+                      className={styles.modalUser}
+                    >
+                      <img src={user.picture} alt={user.name} />
+                      <p>{user.name}</p>
+                    </article>
+                  ))
+                ) : (
+                  <p>There's no user with that name :(</p>
+                )}
+              </div>
+            )}
           </div>
           <div className={styles.modalFormGroup}>
             <label className={styles.titles}>Created</label>
@@ -194,13 +266,15 @@ __v: 0
                   "Deprioritize",
                   "Worth Pursuing",
                   "Strategic Initiative",
-                ].map((value) =>
+                ].map((value, index) =>
                   value == dynamicFields.priorization ? (
-                    <option value={value} selected>
+                    <option key={index} value={value} selected>
                       {value}
                     </option>
                   ) : (
-                    <option value={value}>{value}</option>
+                    <option key={index} value={value}>
+                      {value}
+                    </option>
                   )
                 )}
               </select>

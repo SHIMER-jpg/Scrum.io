@@ -63,8 +63,6 @@ select:focus {
 }
 
 .modalSelectUser {
-  position: absolute;
-  top: 120%;
   display: flex;
   flex-direction: column;
   max-height: 145px;
@@ -173,6 +171,7 @@ select:focus {
   position: relative;
   display: flex;
   align-items: center;
+  user-select: none;
 }
 
 .userBox img {
