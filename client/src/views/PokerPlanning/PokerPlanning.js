@@ -21,6 +21,10 @@ const PokerPlanning = () => {
   const [selectedVote, setSelectedVote] = useState(null);
   const [areForeignCardsVisible, setAreForeignCardsVisible] = useState(false);
   const [room, setRoom] = useState({});
+
+  // 1. El input tiene que ser igual al string que se inserta en el input box
+  // el select, tiene que ser igual a un CALLBACK, ya que .sort funcionna
+  // a travez de una cb function
   var [taskFilter, setTaskFilter] = useState({
     input: [],
     select: "less",
@@ -120,6 +124,9 @@ const PokerPlanning = () => {
     return valueSet;
   };
 
+  // 2. Aca, vamos a guardar dentro del taskFilter.select una funcion de callback
+  // tendria que venir los IFS que estan en el use effect y la funcion de CB en vez de
+  // otro valor
   const handleSelect = (e) => {
     setTaskFilter({
       ...taskFilter,
@@ -139,6 +146,8 @@ const PokerPlanning = () => {
     dispatch(changeTask(room.task._id, room.totalValue, cb));
   };
 
+  //3. Aca vamos a guardar el string nuevo, cada vez que se toque una tecla
+  //dentro del state taskFilter.input
   const filterTaskList = (e) => {
     console.log(tasks);
     if (tasks) {
@@ -206,6 +215,12 @@ const PokerPlanning = () => {
               name="input"
               onChange={(e) => filterTaskList(e)}
             />
+            {/* 
+            4. como el componente hijo, se renderiza segun la informacion que le pasamos aca abajo,
+            lo que vamos a hacer es volver dinamica la infromacion que le pasamos.
+            
+            taskList = tasks.filter(task=>task.title.toLowerCase().includes(taskFilter.input.toLowerCase())).sort(taskFilter.select)
+            */}
             <TaskHolder
               taskList={taskFilter.input.length ? taskFilter.input : tasks}
               customHandleClick={handleTaskClick}
