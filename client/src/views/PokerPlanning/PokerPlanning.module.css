@@ -5,10 +5,22 @@
 }
 
 .header {
-  font-size: 40px;
   border-bottom: 1px solid rgb(179, 179, 179);
   padding-bottom: 20px;
   margin-bottom: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header h1 {
+  font-size: 40px;
+}
+
+.header button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .generalBoard {
@@ -146,11 +158,7 @@
 }
 
 .footer {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 35px;
-  margin-top: 50px;
+  margin-top: 20px;
   display: flex;
   flex-direction: column;
 }

@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useSelector, useDispatch } from "react-redux";
 import TaskHolder from "../../components/TaskHolder/TaskHolder";
@@ -5,13 +6,15 @@ import { useEffect, useState } from "react";
 import TaskCard from "../../components/TaskCard/TaskCard";
 import { changeTask } from "../../redux/PokerPlanning/actions";
 import { getTasksByProject } from "../../redux/ManagerView/actions";
-import { AiFillSave } from "react-icons/ai";
+import { AiFillSave, AiOutlineDisconnect, AiOutlineCloseCircle } from "react-icons/ai";
+import { useHistory } from "react-router-dom";
 
 import styles from "./PokerPlanning.module.css";
 
-const VALUES = [0, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, "?"]
+const VALUES = [0, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, "?"];
 
 const PokerPlanning = () => {
+  const history = useHistory();
   const sequence = useSelector((state) => state.pokerplanning.sequence);
   const userRole = useSelector((state) => state.viewRouter.userRole);
   const socket = useSelector(({ app }) => app.socket);
@@ -47,10 +50,14 @@ const PokerPlanning = () => {
     });
 
     socket.on("resetGame", (room) => {
-      setSelectedVote(null)
-      setAreForeignCardsVisible(false)
-      setRoom(room)
-    })
+      setSelectedVote(null);
+      setAreForeignCardsVisible(false);
+      setRoom(room);
+    });
+
+    socket.on("userDisconnected", (room) => {
+      setRoom(room);
+    });
 
     socket.on("totalValueSent", (room) => {
       setAreForeignCardsVisible(true);
@@ -61,15 +68,19 @@ const PokerPlanning = () => {
       });
     });
 
-    // return () => socket.disconnect();
+    socket.on("roomClosed", () => {
+      history.push(`/project/${project._id}`)
+      alert("The scrum master has closed the room.")
+    })
+
+    // return () => socket.emit("disconnectUser", { projectId: project._id, user: loggedUser });
   }, []);
 
   const handleButtonClick = (value) => {
-    console.log("VALUE: ", value);
     setSelectedVote(value);
 
     socket.emit("changeUserValue", {
-      value,
+      value: String(value),
       projectId: project._id,
       user: loggedUser,
     });
@@ -82,34 +93,49 @@ const PokerPlanning = () => {
 
   const handleResults = () => {
     const valueSet =
-      (room.users.reduce((acc, user) => (acc += user.settedValue), 0) /
-      room.users.length).toString(); // para evitar que quede un 0 numerico y lo tome como un valor falsy
-
-      console.log("VALUESET: ", valueSet)
-      console.log("ROOMUSERS:", room.users)
+      room.users.reduce((acc, user) => (acc += Number(user.settedValue)), 0) /
+      room.users.length;
 
     socket.emit("totalValue", {
       projectId: project._id,
-      valueSet,
+      valueSet: String(valueSet),
     });
-    
+
     return valueSet;
   };
-  
+
   const handleSaveValue = () => {
     // este callback se va a ejecutar cuando se termine de actualizar la task
     function cb() {
       dispatch(getTasksByProject(project._id));
-      socket.emit("taskUpdatedSuccess", {projectId: project._id})
+      socket.emit("taskUpdatedSuccess", { projectId: project._id });
     }
 
     dispatch(changeTask(room.task._id, room.totalValue, cb));
-  }
+  };
+
+  const handleDisconnect = () => {
+    if(userRole === "developer") {
+      socket.emit("disconnectUser", { projectId: project._id, user: loggedUser });
+    } else {
+      socket.emit("closeRoom", { projectId: project._id })
+    }
+    history.push(`/project/${project._id}`);
+  };
 
   return (
     <section className={styles.container}>
       <header className={styles.header}>
         <h1 className="main-heading">{project.projectName}</h1>
+        {userRole === "scrumMaster" ? (
+          <button onClick={handleDisconnect} className="btn-primary">
+            <AiOutlineCloseCircle size={20} /> Close room
+          </button>
+        ) : (
+          <button onClick={handleDisconnect} className="btn-primary">
+            <AiOutlineDisconnect size={20} /> Disconnect
+          </button>
+        )}
       </header>
       <section className={styles.generalBoard}>
         <div className={styles.board}>
@@ -154,11 +180,22 @@ const PokerPlanning = () => {
           </div>
         </div>
         {userRole === "scrumMaster" ? (
-          <div style={{ width: "420px", maxHeight: "600px", overflowY: "auto" }}>
+          <div
+            style={{
+              width: "420px",
+              maxHeight: "500px",
+              overflowY: "auto",
+              zIndex: "10",
+            }}
+          >
             <TaskHolder
-              customHandleClick={handleTaskClick}
+              customHandleClick={!room.totalValue ? handleTaskClick : () => {}}
               status="Unrated stories"
-              taskList={room.task ? tasks.filter(task => task._id !== room.task._id) : tasks}
+              taskList={
+                room.task
+                  ? tasks.filter((task) => task._id !== room.task._id)
+                  : tasks
+              }
             />
           </div>
         ) : null}

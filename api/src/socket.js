@@ -13,8 +13,8 @@ const io = require("socket.io")(server, {
   },
 });
 
-// const rooms = [{id: 1, users: [], card: {}}];
-const rooms = [];
+// let rooms = [{id: 121sao92193jdf, users: [{}, {}, {}], card: {}, totalValue: 0, buttonsEnabled: false}];
+let rooms = [];
 
 io.on("connection", (socket) => {
   console.log("socket.io: User connected: ", socket.id);
@@ -70,6 +70,8 @@ io.on("connection", (socket) => {
     });
 
     if (room) {
+      if(isNaN(valueSet)) valueSet = "0";
+
       room.totalValue = valueSet;
 
       io.to(projectId).emit("totalValueSent", room);
@@ -96,6 +98,24 @@ io.on("connection", (socket) => {
 
       io.to(projectId).emit("resetGame", room)
     }
+  })
+
+  socket.on("disconnectUser", ({projectId, user}) => {
+    const room = rooms.find((r) => r.id === projectId);
+
+    if(room) {
+      room.users = room.users.filter(u => u._id !== user._id)
+      io.to(projectId).emit("userDisconnected", room)
+    }
+  })
+
+  socket.on("closeRoom", ({projectId}) => {
+    // borro la room
+    rooms = rooms.filter(r => r.id !== projectId)
+
+    console.log(rooms)
+
+    io.to(projectId).emit("roomClosed")
   })
 });
 
