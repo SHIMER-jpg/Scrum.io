@@ -9,7 +9,7 @@ import { AiFillSave } from "react-icons/ai";
 
 import styles from "./PokerPlanning.module.css";
 
-const VALUES = [0, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, "?"]
+const VALUES = [0, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, "?"];
 
 const PokerPlanning = () => {
   const sequence = useSelector((state) => state.pokerplanning.sequence);
@@ -21,8 +21,31 @@ const PokerPlanning = () => {
   const [selectedVote, setSelectedVote] = useState(null);
   const [areForeignCardsVisible, setAreForeignCardsVisible] = useState(false);
   const [room, setRoom] = useState({});
+  var [taskFilter, setTaskFilter] = useState({
+    input: [],
+    select: "less",
+  });
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (taskFilter.select === "more") {
+      taskFilter.input = taskFilter.input.slice().sort((a, b) => {
+        return a.storyPoints < b.storyPoints ? 1 : -1;
+      });
+    }
+    if (taskFilter.select === "less") {
+      taskFilter.input = taskFilter.input.slice().sort((a, b) => {
+        return b.storyPoints < a.storyPoints ? 1 : -1;
+      });
+    }
+    if (taskFilter.select === "none") {
+      taskFilter.input = taskFilter.input.filter((r) => {
+        console.log(r.storyPoints);
+        return r.storyPoints === null;
+      });
+    }
+  }, [taskFilter]);
 
   useEffect(() => {
     socket.emit("joinPokerPlanningRoom", {
@@ -47,10 +70,10 @@ const PokerPlanning = () => {
     });
 
     socket.on("resetGame", (room) => {
-      setSelectedVote(null)
-      setAreForeignCardsVisible(false)
-      setRoom(room)
-    })
+      setSelectedVote(null);
+      setAreForeignCardsVisible(false);
+      setRoom(room);
+    });
 
     socket.on("totalValueSent", (room) => {
       setAreForeignCardsVisible(true);
@@ -81,30 +104,50 @@ const PokerPlanning = () => {
   };
 
   const handleResults = () => {
-    const valueSet =
-      (room.users.reduce((acc, user) => (acc += user.settedValue), 0) /
-      room.users.length).toString(); // para evitar que quede un 0 numerico y lo tome como un valor falsy
+    const valueSet = (
+      room.users.reduce((acc, user) => (acc += user.settedValue), 0) /
+      room.users.length
+    ).toString(); // para evitar que quede un 0 numerico y lo tome como un valor falsy
 
-      console.log("VALUESET: ", valueSet)
-      console.log("ROOMUSERS:", room.users)
+    console.log("VALUESET: ", valueSet);
+    console.log("ROOMUSERS:", room.users);
 
     socket.emit("totalValue", {
       projectId: project._id,
       valueSet,
     });
-    
+
     return valueSet;
   };
-  
+
+  const handleSelect = (e) => {
+    setTaskFilter({
+      ...taskFilter,
+      [e.target.name]: e.target.value,
+    });
+
+    console.log(taskFilter);
+  };
+
   const handleSaveValue = () => {
     // este callback se va a ejecutar cuando se termine de actualizar la task
     function cb() {
       dispatch(getTasksByProject(project._id));
-      socket.emit("taskUpdatedSuccess", {projectId: project._id})
+      socket.emit("taskUpdatedSuccess", { projectId: project._id });
     }
 
     dispatch(changeTask(room.task._id, room.totalValue, cb));
-  }
+  };
+
+  const filterTaskList = (e) => {
+    console.log(tasks);
+    if (tasks) {
+      var taskSaver = tasks.filter((value) => {
+        return value.title.includes(e.target.value);
+      });
+    }
+    setTaskFilter({ ...taskFilter, [e.target.name]: taskSaver });
+  };
 
   return (
     <section className={styles.container}>
@@ -153,16 +196,31 @@ const PokerPlanning = () => {
             )}
           </div>
         </div>
+
         {userRole === "scrumMaster" ? (
-          <div style={{ width: "420px", maxHeight: "600px", overflowY: "auto" }}>
+          <div
+            style={{ width: "420px", maxHeight: "600px", overflowY: "auto" }}
+          >
+            <input
+              type="text"
+              name="input"
+              onChange={(e) => filterTaskList(e)}
+            />
             <TaskHolder
+              taskList={taskFilter.input.length ? taskFilter.input : tasks}
               customHandleClick={handleTaskClick}
               status="Unrated stories"
-              taskList={room.task ? tasks.filter(task => task._id !== room.task._id) : tasks}
+
+              // taskList={
+              //   room.task
+              //     ? tasks.filter((task) => task._id !== room.task._id)
+              //     : tasks
+              // }
             />
           </div>
         ) : null}
       </section>
+
       <footer className={styles.footer}>
         <section className={styles.footerInfo}>
           {!room.totalValue && userRole === "scrumMaster" && (
@@ -183,6 +241,20 @@ const PokerPlanning = () => {
             </button>
           )}
         </section>
+        <div>
+          {userRole === "scrumMaster" ? (
+            <div>
+              <div>
+                <label>Story Points</label>
+              </div>
+              <select name="select" onChange={(e) => handleSelect(e)}>
+                <option value="less">Less Points</option>
+                <option value="more">More Points</option>
+                <option value="none">None Points</option>
+              </select>
+            </div>
+          ) : null}
+        </div>
         <section className={styles.buttons}>
           {sequence.map((v) => (
             <button
