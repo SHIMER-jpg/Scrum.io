@@ -160,6 +160,19 @@ select:focus {
   font-size: 15px;
   align-self: flex-end;
   margin-top: 10px;
+  border: 0.5px solid var(--violet);
+}
+
+.modalFormGroup button[type="submit"]:hover {
+  background: white;
+  border: 0.5px solid var(--violet);
+  color: var(--violet);
+}
+
+.modalButtons button[type="submit"].true {
+  background: white;
+  border: 0.5px solid var(--violet);
+  color: var(--violet);
 }
 
 .notes {
@@ -195,20 +208,4 @@ select:focus {
   display: flex;
   margin: auto;
   margin-right: 10px;
-}
-
-.easy_win {
-  border-top: 8px solid #8eff7b;
-}
-
-.worth_pursuing {
-  border-top: 8px solid #ffa53c;
-}
-
-.strategic_initiative {
-  border-top: 8px solid #7befff;
-}
-
-.deprioritize {
-  border-top: 8px solid #ff6868;
 }

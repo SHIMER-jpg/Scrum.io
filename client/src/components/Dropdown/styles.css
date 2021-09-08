@@ -4,25 +4,17 @@
 }
 
 .Dropdown {
-  /* all: unset; */
   background: var(--violet);
   padding: 10px 15px;
   border-radius: 8px;
   color: white;
   font-weight: 600;
   font-size: 18px;
-
-  /* margin-top: 10px; */
-
   position: relative;
-  /* height: 100%; */
   display: flex;
   justify-content: space-between;
-  /* align-items: center; */
-  /* padding: 8px 12px; */
-  /* padding: 12px; */
-  /* font-size: large; */
   width: 100%;
+  cursor: pointer;
 }
 
 .Dropdown-name {

@@ -319,7 +319,7 @@ __v: 0
           </div>
           <div className={styles.modalButtons}>
             <button
-              className={`helpNeeded-${dynamicFields.helpNeeded}`}
+              className={`${styles[dynamicFields.helpNeeded]}`}
               type="submit"
               onClick={(e) => handleOnClick(e)}
             >

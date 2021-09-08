@@ -53,7 +53,6 @@ const postTask = async (req, res, next) => {
 
 const modifyTask = async (req, res, next) => {
   try {
-    console.log(req.body);
     const { taskId } = req.body;
     const update = {};
     update[req.body.field] =
@@ -75,11 +74,6 @@ const getUserTasks = async (req, res, next) => {
   const { projectId, userId } = req.query;
 
   try {
-    // const tasks = await Task.model.find({ asignedTo: userId, projectId });
-    // const tasks = await Task.model
-    //   .find({ asignedTo: userId, projectId })
-    //   .populate("user")
-    //   .exec();
     const projectIdMongoose = mongoose.Types.ObjectId(projectId);
     const userIdMongoose = mongoose.Types.ObjectId(userId);
 
