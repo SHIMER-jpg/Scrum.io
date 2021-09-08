@@ -16,33 +16,50 @@ import Dropdown from "../Dropdown/Dropdown";
 
 import styles from "./TaskModal.module.css";
 
-const customStyles = {
-  content: {
-    padding: "40px",
-    inset: "unset",
-    width: "100%",
-    maxHeight: "88vh",
-    borderRadius: "8px",
-    maxWidth: "650px",
-  },
-  overlay: {
-    backgroundColor: "rgba(0,0,0,0.5)",
-    display: "grid",
-    placeItems: "center",
-    zIndex: "1000",
-  },
-};
-
 function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
-  const { title, details, creationDate, _id, user, storyPoints, priorization } =
-    modalDetails;
+  const { title, details, creationDate, _id, user, storyPoints } = modalDetails;
   const loggedId = useSelector((state) => state.app.loggedUser._id);
+  const isManager = useSelector(
+    (state) => state.viewRouter.userRole == "scrumMaster"
+  );
+
   const [statusDropdownIsOpen, setStatusDropdownIsOpen] = useState(false);
+  // const [colorMap, setColorMap] = useState("8eff7b");
   const [dynamicFields, setDynamicFields] = useState({
     status: modalDetails.status,
     helpNeeded: modalDetails.helpNeeded,
+    priorization: modalDetails.priorization,
   });
 
+  const [colorMap, setColorMap] = useState(
+    dynamicFields.priorization == "Easy Win"
+      ? "8eff7b"
+      : dynamicFields.priorization == "Worth Pursuing"
+      ? "ffa53c"
+      : dynamicFields.priorization == "Strategic Initiative"
+      ? "7befff"
+      : dynamicFields.priorization == "Deprioritize"
+      ? "ff6868"
+      : ""
+  );
+
+  const customStyles = {
+    content: {
+      padding: "40px",
+      inset: "unset",
+      width: "100%",
+      maxHeight: "88vh",
+      borderRadius: "8px",
+      maxWidth: "650px",
+      borderTop: `8px solid #${colorMap}`,
+    },
+    overlay: {
+      backgroundColor: "rgba(0,0,0,0.5)",
+      display: "grid",
+      placeItems: "center",
+      zIndex: "1000",
+    },
+  };
   const [newNote, setNewNote] = useState({
     content: "",
     taskId: _id,
@@ -88,12 +105,28 @@ __v: 0
     });
     dispatch(updateTask(change));
   }
-
-  function handlePriorizationSelect(e) {
-    // setPriorization({
-    //   ...priorization,
-    //   [e.target.name]: e.target.value,
-    // });
+  function handlePrioritizationChange({ target }) {
+    const change = {
+      taskId: _id,
+      field: "priorization",
+      value: target.value,
+    };
+    setDynamicFields({
+      ...dynamicFields,
+      priorization: target.value,
+    });
+    setColorMap(
+      target.value == "Easy Win"
+        ? "8eff7b"
+        : target.value == "Worth Pursuing"
+        ? "ffa53c"
+        : target.value == "Strategic Initiative"
+        ? "7befff"
+        : target.value == "Deprioritize"
+        ? "ff6868"
+        : ""
+    );
+    dispatch(updateTask(change));
   }
 
   function handleArea(e) {
@@ -154,15 +187,26 @@ __v: 0
           </div>
           <div className={styles.modalFormGroup}>
             <label className={styles.titles}>Priorization: </label>
-            <select
-              onChange={(e) => handlePriorizationSelect(e)}
-              onClick={(e) => handleOnClick(e)}
-            >
-              <option value="easyWin">Easy Win</option>
-              <option value="depriorize">Depriorize</option>
-              <option value="worthPursuing">Worth Pursuing</option>
-              <option value="strategicInitiative">Strategic Initiative</option>
-            </select>
+            {isManager ? (
+              <select onChange={(e) => handlePrioritizationChange(e)}>
+                {[
+                  "Easy Win",
+                  "Deprioritize",
+                  "Worth Pursuing",
+                  "Strategic Initiative",
+                ].map((value) =>
+                  value == dynamicFields.priorization ? (
+                    <option value={value} selected>
+                      {value}
+                    </option>
+                  ) : (
+                    <option value={value}>{value}</option>
+                  )
+                )}
+              </select>
+            ) : (
+              <span>{dynamicFields.priorization}</span>
+            )}
           </div>
           <div className={styles.modalFormGroup}>
             <label className={styles.titles}>Details: </label>
@@ -212,19 +256,13 @@ __v: 0
               setIsVisible={setStatusDropdownIsOpen}
               name={dynamicFields.status}
               handler={handleStatusChange}
-              values={["Pending", "In progress", "Testing", "Completed"]}
+              values={
+                isManager
+                  ? ["Pending", "In progress", "Testing", "Completed"]
+                  : ["Testing", "Completed"]
+              }
               theme="dark"
             />
-            {/* <select
-              onChange={(e) => handleStatusSelect(e)}
-              onClick={(e) => handleOnClick(e)}
-            >
-              <option value="">Status</option>
-              <option value="pending">Pending</option>
-              <option value="inprogress">In progress</option>
-              <option value="testing">Testing</option>
-              <option value="completed">Completed</option>
-            </select> */}
           </div>
         </div>
       </Modal>

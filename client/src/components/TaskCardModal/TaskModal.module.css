@@ -195,7 +195,7 @@ select:focus {
   border-radius: 10px;
   display: flex;
   margin: auto;
-  margin-right: 0;
+  margin-right: 10px;
 }
 
 .easy_win {
