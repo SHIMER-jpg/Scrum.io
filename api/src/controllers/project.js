@@ -67,7 +67,6 @@ const createProject = async (req, res, next) => {
     );
     // await UserAndProject.save();
 
-      console.log("id del developer", req.body.Users)
 
     await newProject.save();
     const user = await User.model.findOne({
@@ -75,11 +74,11 @@ const createProject = async (req, res, next) => {
     })
     
     await transporter.sendMail({
-      from: '"Scrum.io" <scrumio64@gmail.com>', // sender address
-      to: user.email, // list of receivers
-      subject: "Scrumio", // Subject line
-      text: "Tienes un nuevo projecto a cargo" // plain text body
-      // html: "<b>Hello world?</b>", // html body
+      from: '"Scrum.io" <scrumio64@gmail.com>',
+      to: user.email, 
+      subject: "Scrumio", 
+      text: `<b>Greetings ${user.name}, through this email we inform you that you have been assigned a new project, please enter Scrum.io to view it.\n
+      Have a nice day<b>` 
     });
 
     res.status(201).json(newProject);

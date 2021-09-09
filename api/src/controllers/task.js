@@ -53,11 +53,11 @@ const postTask = async (req, res, next) => {
     })
 
     await transporter.sendMail({
-      from: '"Scrum.io" <scrumio64@gmail.com>', // sender address
-      to: user.email, // list of receivers
-      subject: "Scrumio", // Subject line
-      text: "Se te ah asignado una nueva tarea" // plain text body
-      // html: "<b>Hello world?</b>", // html body
+      from: '"Scrum.io" <scrumio64@gmail.com>', 
+      to: user.email,
+      subject: "Scrumio", 
+      html: `<b>Greetings ${user.name}, through this email we inform you that your scrum master has assigned you a new task, please enter Scrum.io to view it.\n 
+      Nice day</b>`, 
     });
 
     res.status(201).json(newTask);
@@ -73,19 +73,6 @@ const modifyingTask = async (req, res, next) => {
     const filter = { _id: taskId };
     const update = change;
     await Task.model.findOneAndUpdate(filter, update);
-
-    
-    const user = await User.model.findOne({
-      _id: req.body.assignedTo
-    })
-
-    await transporter.sendMail({
-      from: '"Scrum.io" <scrumio64@gmail.com>', // sender address
-      to: user.email, // list of receivers
-      subject: "Scrumio", // Subject line
-      text: "Se te ah asignado una nueva tarea" // plain text body
-      // html: "<b>Hello world?</b>", // html body
-    });
 
     res.status(200).send("Successfully modified task");
   } catch (error) {
