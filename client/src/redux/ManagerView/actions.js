@@ -23,22 +23,22 @@ export function getProjectById(projectId) {
   };
 }
 
-export function postTask(task) {
-  return function (dispatch) {
-    axios
-      .post(
-        `http://${REACT_APP_BACKEND_HOST}:${REACT_APP_BACKEND_PORT}/task/createTask`,
-        task
-      )
-      .then((resp) => {
-        dispatch({ type: "asdas" });
-        return resp.data;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-}
+// export function postTask(task) {
+//   return function (dispatch) {
+//     axios
+//       .post(
+//         `http://${REACT_APP_BACKEND_HOST}:${REACT_APP_BACKEND_PORT}/task/createTask`,
+//         task
+//       )
+//       .then((resp) => {
+//         dispatch({ type: "asdas" });
+//         return resp.data;
+//       })
+//       .catch((err) => {
+//         console.log(err);
+//       });
+//   };
+// }
 
 export function getTasksByProject(projectId, setIsLoadingTasks) {
   //not any paload since it uses the already stored project
@@ -78,9 +78,13 @@ export function getAsignedUsers(projectId) {
   };
 }
 
-// export function updateTask(change) {
-//   console.log("action", change);
-//   return function (dispatch) {
-//     dispatch({ type: UPDATE_TASK, payload: change });
-//   };
-// }
+export function updateTask(change) {
+  return function (dispatch) {
+    axios
+      .put(
+        `http://${REACT_APP_BACKEND_HOST}:${REACT_APP_BACKEND_PORT}/task/update`,
+        change
+      )
+      .then(dispatch({ type: UPDATE_TASK, payload: change }));
+  };
+}
