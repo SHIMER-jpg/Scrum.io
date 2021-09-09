@@ -10,18 +10,14 @@ import {Line} from 'react-chartjs-2';
 
 import styles from "./StatisticCard.module.css";
 
-<<<<<<< HEAD
 import moment from 'moment';
 moment().format();
 
-export default function StatisticCard({ graphType }) {
-=======
 export default function StatisticCard({graphType, tasks, project}) {
   const [graphData, setGraphData] = useState({
     byStoryPoints: [],
     byTasks: [],
   })
->>>>>>> c893b5430fd5b4c4c7d05c946d3acb1b6dbe2635
 
   // se encarga de setear los datos de los graficos
   useEffect(() => {
@@ -34,7 +30,6 @@ export default function StatisticCard({graphType, tasks, project}) {
     }
   },[tasks])
 
-<<<<<<< HEAD
   let firstDay = project.creationDate && moment(project.creationDate.substring(0,10));
   let lastDay = project.requiredDate && moment(project.requiredDate.substring(0,10));
   let days = firstDay && lastDay.diff(firstDay, 'days')
@@ -83,7 +78,6 @@ export default function StatisticCard({graphType, tasks, project}) {
       }
     }
   }
-=======
   // funcion para setear la data por StoryPoints
   function charDataByStoryPoints(){
     var charData = [0,0,0,0];
@@ -158,7 +152,6 @@ export default function StatisticCard({graphType, tasks, project}) {
     }
     return charData;
   }
->>>>>>> c893b5430fd5b4c4c7d05c946d3acb1b6dbe2635
 
   return (
     <div className={styles.conteiner}>
@@ -270,7 +263,6 @@ export default function StatisticCard({graphType, tasks, project}) {
               }}
 
             />
-<<<<<<< HEAD
           : graphType === "BurnDown Chart" ?
             <Line className={styles.chart}
             data={{
@@ -292,39 +284,13 @@ export default function StatisticCard({graphType, tasks, project}) {
               maintainAspectRatio: false,
               scales: {
                 y: {
-                    beginAtZero: true
-=======
-          :
-            graphType === "BurnDown Chart" ?
-              <Line className={styles.chart}
-              data={{
-                labels: ['0','1', '2', '3', '4', '5', '6', '7'],
-                datasets: [
-                {
-                  label: 'Actual development',
-                  data: [21, 16, 12, 9, 7, 5, 2, 0],
-                  borderColor:['#a12464']
-                },
-                {
-                  label: 'Ideal development',
-                  data: [21,18,15,12,9,6,3,0],
-                  borderColor:['#7BEFFF']
->>>>>>> c893b5430fd5b4c4c7d05c946d3acb1b6dbe2635
-                }
-              ]
-              }}
-              option={{
-                maintainAspectRatio: false,
-                scales: {
-                  y: {
-                      beginAtZero: true
-                  }
+                  beginAtZero: true
                 }
               }}
-              />
+            }/>
             :
             <>
-            </>
+          </>
           :
           <>
           </>
