@@ -3,7 +3,8 @@ const {
   getUsersByProjectId,
   findOrCreateUser,
   getAllUsers,
-  getUserRole
+  getUserRole,
+  assingUsers,
 } = require("../controllers/user.js");
 const user = Router();
 
@@ -18,5 +19,7 @@ user.post("/findOrCreate", findOrCreateUser);
 
 // list all users in DB
 user.get("/getAll", getAllUsers);
+
+user.put("/assingProject/:projectId", assingUsers);
 
 module.exports = user;

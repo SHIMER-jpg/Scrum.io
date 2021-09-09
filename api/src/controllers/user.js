@@ -70,9 +70,28 @@ const getAllUsers = async (req, res, next) => {
   }
 };
 
+const assingUsers = async (req, res, next) => {
+  try {
+    const { projectId } = req.params;
+
+    console.log(projectId, "projectId");
+
+    const castedId = mongoose.Types.ObjectId(projectId);
+    const newUser = await UserProject.model.create({
+      projectId: castedId,
+      userId: req.body.userId,
+      role: "developer",
+    });
+    res.status(201).json(newUser);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   getUsersByProjectId,
   findOrCreateUser,
   getAllUsers,
   getUserRole,
+  assingUsers,
 };

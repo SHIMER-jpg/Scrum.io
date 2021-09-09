@@ -6,6 +6,7 @@ import {
   GET_PROJECT_BY_ID,
   UPDATE_TASK,
   CREATE_TASK,
+  GET_ALL_USERS,
 } from "./constants";
 
 require("dotenv").config();
@@ -62,8 +63,8 @@ export function createTask(task) {
         { ...task }
       )
       .then(() => {
-        dispatch({ type: CREATE_TASK })
-        dispatch(getTasksByProject(task.projectId))
+        dispatch({ type: CREATE_TASK });
+        dispatch(getTasksByProject(task.projectId));
       })
       .catch(console.log);
   };
@@ -77,6 +78,19 @@ export function getAsignedUsers(projectId) {
       )
       .then((json) => {
         dispatch({ type: GET_ASIGNED_USERS, payload: json.data });
+      });
+  };
+}
+
+export function getAllUsers() {
+  return function (dispatch) {
+    axios
+      .get(
+        `http://${REACT_APP_BACKEND_HOST}:${REACT_APP_BACKEND_PORT}/user/getAll`
+      )
+      .then((json) => {
+        console.log(json.data, "holaaaaaaaaaaaaa");
+        dispatch({ type: GET_ALL_USERS, payload: json.data });
       });
   };
 }
