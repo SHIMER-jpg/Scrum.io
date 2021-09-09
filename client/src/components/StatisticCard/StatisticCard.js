@@ -76,7 +76,7 @@ export default function StatisticCard({graphType, tasks, project}) {
         </div>
         <div className={styles.graph}>
 
-          {graphType ? 
+          {graphType ?
             graphType === "Tasks Priorization Chart" ?
 
               <Bar className={styles.chart}
