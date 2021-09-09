@@ -74,7 +74,7 @@ const modifyingTask = async (req, res, next) => {
     const update = change;
     await Task.model.findOneAndUpdate(filter, update);
 
-    console.log("el body",req.body)
+    
     const user = await User.model.findOne({
       _id: req.body.assignedTo
     })
