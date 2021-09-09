@@ -1,7 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { React, useEffect, useState } from "react";
 
-import { BsQuestionCircle } from 'react-icons/bs';
+// componentes
+import PopperHelp from "../PopperHelp/PopperHelp.js";
 
 // componentes charts de chartjs
 import { Bar } from "react-chartjs-2";
@@ -15,10 +16,7 @@ export default function StatisticCard({graphType, tasks, project}) {
     byTasks: [],
   })
 
-  if(tasks.length > 0) {
-    var storyPoints = tasks.map(t => t.storyPoints).reduce((a,b) => a + b)
-  }
-
+  // se encarga de setear los datos de los graficos
   useEffect(() => {
     if(tasks.length > 0){
       setGraphData({
@@ -31,48 +29,85 @@ export default function StatisticCard({graphType, tasks, project}) {
 
   // funcion para setear la data por StoryPoints
   function charDataByStoryPoints(){
+    var charData = [0,0,0,0];
     if(graphType === "Tasks Priorization Chart"){
-      return[
-        tasks.filter(t => t.priorization === "Easy Win").map(t => t.storyPoints).reduce((points, a) => points +a),
-        tasks.filter(t => t.priorization === "Strategic Initiative").map(t => t.storyPoints).reduce((points, a) => points + a),
-        tasks.filter(t => t.priorization === "Worth Pursuing").map(t => t.storyPoints).reduce((points, a) => points + a),
-        tasks.filter(t => t.priorization === "Deprioritize").map(t => t.storyPoints).reduce((points, a) => points + a),
-      ]
+      tasks.forEach(t => {
+        if(t.priorization === "Easy Win"){
+          charData[0] += t.storyPoints;
+        }
+        else if(t.priorization === "Strategic Initiative"){
+          charData[1] += t.storyPoints;
+        }
+        else if(t.priorization === "Worth Pursuing"){
+          charData[2] += t.storyPoints;
+        }
+        else if(t.priorization === "Deprioritize"){
+          charData[3] += t.storyPoints;
+        }
+      });
     }
     else if(graphType === "Project Report"){
-      return[
-        tasks.filter(t => t.status === "Pending").map(t => t.storyPoints).reduce((points, a) => points + a),
-        tasks.filter(t => t.status === "In progress").map(t => t.storyPoints).reduce((points, a) => points + a),
-        tasks.filter(t => t.status === "Testing").map(t => t.storyPoints).reduce((points, a) => points + a),
-        tasks.filter(t => t.status === "Completed").map(t => t.storyPoints).reduce((points, a) => points + a),
-      ]
+      tasks.forEach(t => {
+        if(t.priorization === "Pending"){
+          charData[0] += t.storyPoints;
+        }
+        else if(t.priorization === "In progress"){
+          charData[1] += t.storyPoints;
+        }
+        else if(t.priorization === "Testing"){
+          charData[2] += t.storyPoints;
+        }
+        else if(t.priorization === "Completed"){
+          charData[3] += t.storyPoints;
+        }
+      });
     }
+    return charData;
   }
   // funcion para setear la data por tasks
   function charDataByTasks(){
+    var charData = [0,0,0,0];
     if(graphType === "Tasks Priorization Chart"){
-      return [
-        tasks.filter(t => t.priorization === "Easy Win").length,
-        tasks.filter(t => t.priorization === "Strategic Initiative").length,
-        tasks.filter(t => t.priorization === "Worth Pursuing").length,
-        tasks.filter(t => t.priorization === "Deprioritize").length,
-      ]
+      tasks.forEach(t => {
+        if(t.priorization === "Easy Win"){
+          charData[0] += 1;
+        }
+        else if(t.priorization === "Strategic Initiative"){
+          charData[1] += 1;
+        }
+        else if(t.priorization === "Worth Pursuing"){
+          charData[2] += 1;
+        }
+        else if(t.priorization === "Deprioritize"){
+          charData[3] += 1;
+        }
+      });
     }
     else if(graphType === "Project Report"){
-      return[
-        tasks.filter(t => t.status === "Pending").length,
-        tasks.filter(t => t.status === "In progress").length,
-        tasks.filter(t => t.status === "Testing").length,
-        tasks.filter(t => t.status === "Completed").length,
-      ]
+      tasks.forEach(t => {
+        if(t.priorization === "Pending"){
+          charData[0] += 1;
+        }
+        else if(t.priorization === "In progress"){
+          charData[1] += 1;
+        }
+        else if(t.priorization === "Testing"){
+          charData[2] += 1;
+        }
+        else if(t.priorization === "Completed"){
+          charData[3] += 1;
+        }
+      });
     }
+    return charData;
   }
 
   return (
     <div className={styles.conteiner}>
       <div>
         <div className={styles.header}>
-          <h2>{graphType} <BsQuestionCircle className={styles.help} size={20}/></h2>
+          <h2>{graphType}</h2>
+          <PopperHelp content={"This is a description about the chart."}/>
         </div>
         <div className={styles.graph}>
 

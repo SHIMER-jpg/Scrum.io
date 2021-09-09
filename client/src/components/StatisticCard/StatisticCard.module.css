@@ -12,22 +12,12 @@
     justify-content: center;
 }
 .header{
+    display: flex;
+    justify-content: space-between;
     position: relative;
 }
 .header h2{
-    display: flex;
-    justify-content: space-between;
     margin: 0;
-}
-
-.help{
-    font-weight: bold;
-    color: #a2a2a2;
-    transition: all ease .3s;
-}
-.help:hover{
-    cursor: pointer;
-    color: #000000;
 }
 
 .graph{

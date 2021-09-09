@@ -150,7 +150,7 @@ export default function StatisticDeveloper(props) {
         </div>
         <div className={styles.addedUsers}>
           {users
-            .filter((user) => selectedUsers.includs(user._id))
+            .filter((user) => selectedUsers.includes(user._id))
             .map((user) => {
               <article key={user._id} className={styles.addedUsersCard}>
                 <p>{user.name.split(" ")[0]}</p>
