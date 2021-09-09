@@ -87,11 +87,11 @@ export default function StatisticDeveloper(props) {
   // console.log(filteredUsers, "filteredUsers");
   //-------RETURN-------------------------------------
   return (
-    <div className={styles.conteiner}>
+    <div className={styles.container}>
       <div>
         <div className={styles.header}>
           <h2>Developer Statistics</h2>
-          <PopperHelp/>
+          <PopperHelp content={"This is a description about the chart."}/>
         </div>
         <div className={styles.graph}>
 
