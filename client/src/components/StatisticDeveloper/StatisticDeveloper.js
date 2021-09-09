@@ -100,7 +100,7 @@ export default function StatisticDeveloper(props) {
       .map((u) => u.user);
 
     setSelectedUsers(filteredUsers);
-  }, []);
+  }, [users]);
   // console.log(filteredUsers, "filteredUsers");
   console.log("SHIMER", user, userTasks);
   //-------RETURN-------------------------------------
