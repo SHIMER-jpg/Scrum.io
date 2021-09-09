@@ -90,9 +90,12 @@ io.on("connection", (socket) => {
 
   socket.on("changeUserValue", ({ value, projectId, user }) => {
     const room = rooms.find((r) => r.id === projectId);
-    room.users.find((u) => u._id === user._id).settedValue = value;
 
-    io.to(projectId).emit("valueChanged", room);
+    if(room) {
+      room.users.find((u) => u._id === user._id).settedValue = value;
+  
+      io.to(projectId).emit("valueChanged", room);
+    }
   });
 
   socket.on("taskUpdatedSuccess", ({projectId}) => {

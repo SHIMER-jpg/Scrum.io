@@ -25,22 +25,30 @@
 
 .generalBoard {
   display: grid;
-  grid-template-columns: auto 1fr auto;
-  min-height: 540px;
+  grid-template-columns: 1fr auto;
+  height: 100%;
+  max-height: 500px;
+}
+
+.sidebar {
+  align-self: flex-start;
+  background-color: white;
+  padding: 20px ;
+  border-radius: 8px;
 }
 
 .filters {
+  margin-top: 15px;
   align-self: center;
-  width: 200px;
   display: flex;
-  flex-direction: column;
   align-items: center;
   text-align: center;
   gap: 20px;
+  border-radius: 8px;
 }
 
 .filters > p {
-  font-size: 27px;
+  font-size: 24px;
   font-weight: 600;
   margin: 0;
   color: var(--red);
@@ -48,12 +56,34 @@
 
 .filter {
   display: flex;
+  align-items: flex-start;
   flex-direction: column;
-  gap: 5px;
+  gap: 7px;
 }
 
 .filter > label {
   font-weight: 600;
+}
+
+.filterTaskInput {
+  width: 100%;
+}
+
+.filterTaskInput input {
+  all: unset;
+  margin-bottom: 10px;
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid rgb(204, 204, 204);
+  transition: all 0.1s ease-in-out;
+  background-color: white;
+  box-sizing: border-box;
+}
+
+.filterTaskInput input:focus {
+  border: 2px solid var(--violet);
+  box-shadow: 0 0 0 3px rgba(161, 36, 101, 0.4);
 }
 
 .board {
@@ -64,9 +94,10 @@
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   grid-template-rows: repeat(3, 1fr);
-  grid-template-areas: ". card7 card1 card2 card8 ."
-                       "card5 board board board board card6"
-                       ". card9 card3 card4 card10 .";
+  grid-template-areas:
+    ". card7 card1 card2 card8 ."
+    "card5 board board board board card6"
+    ". card9 card3 card4 card10 .";
   justify-items: center;
   align-items: center;
 }
@@ -74,15 +105,15 @@
 .taskPlace {
   grid-area: board;
   width: 100%;
-  max-width: 400px; 
+  max-width: 400px;
   background-color: rgba(204, 0, 27, 0.2);
   border-radius: 18px;
-  padding: 10px 25px;
+  padding: 20px;
   display: flex;
   align-items: center;
 }
 
-.taskPlace  div {
+.taskPlace div {
   width: 100%;
 }
 
@@ -92,8 +123,7 @@
   font-size: 18px;
 }
 
-.boardUsers { 
-  /* position: absolute; */
+.boardUsers {
   left: 0;
   right: 0;
   top: 0;
@@ -208,7 +238,7 @@
   color: white;
   border-radius: 8px;
   align-self: center;
-  transition: all .15s ease-in-out;
+  transition: all 0.15s ease-in-out;
 }
 
 .footerInfo > button:hover {
@@ -235,10 +265,10 @@
 }
 
 .footerInfo .saveButton {
-  padding: 6px 15px; 
+  padding: 6px 15px;
   display: flex;
   align-items: center;
-  font-size: 14px ;
+  font-size: 14px;
   gap: 10px;
 }
 
@@ -259,17 +289,17 @@
   font-size: 20px;
   font-weight: 600;
   border: 2px solid var(--red);
-  transition: all .15s ease-in-out;
+  transition: all 0.15s ease-in-out;
 }
 
-
-.buttons > button:hover, .buttons > button.active {
+.buttons > button:hover,
+.buttons > button.active {
   background-color: var(--red);
   color: white;
 }
 
 .footer button[disabled] {
-  opacity: .5;
+  opacity: 0.5;
 }
 
 .footer button[disabled]:hover {
@@ -277,4 +307,3 @@
   color: inherit;
   cursor: not-allowed !important;
 }
-

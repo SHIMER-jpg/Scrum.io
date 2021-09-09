@@ -1,17 +1,18 @@
 /* eslint-disable eqeqeq */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useSelector, useDispatch } from "react-redux";
-import TaskHolder from "../../components/TaskHolder/TaskHolder";
 import { useEffect, useState } from "react";
-import TaskCard from "../../components/TaskCard/TaskCard";
-import { changeTask } from "../../redux/PokerPlanning/actions";
-import { getTasksByProject } from "../../redux/ManagerView/actions";
+import { useHistory } from "react-router-dom";
 import {
   AiFillSave,
   AiOutlineDisconnect,
   AiOutlineCloseCircle,
 } from "react-icons/ai";
-import { useHistory } from "react-router-dom";
+
+import TaskHolder from "../../components/TaskHolder/TaskHolder";
+import TaskCard from "../../components/TaskCard/TaskCard";
+import { changeTask } from "../../redux/PokerPlanning/actions";
+import { getTasksByProject } from "../../redux/ManagerView/actions";
 
 import styles from "./PokerPlanning.module.css";
 
@@ -24,14 +25,11 @@ const PokerPlanning = () => {
   const { project, tasks } = useSelector(({ managerView }) => managerView);
 
   const [room, setRoom] = useState({});
-  // const [selectedVote, setSelectedVote] = useState(null);
   const [selectedVote, setSelectedVote] = useState(null);
   const [areForeignCardsVisible, setAreForeignCardsVisible] = useState(false);
   const [saveTask, setSaveTask] = useState(tasks);
 
-  // 1. El input tiene que ser igual al string que se inserta en el input box
-  // el select, tiene que ser igual a un CALLBACK, ya que .sort funcionna
-  // a travez de una cb function
+
   var [taskFilter, setTaskFilter] = useState({
     input: "",
     select: undefined,
@@ -40,7 +38,7 @@ const PokerPlanning = () => {
   });
 
   const dispatch = useDispatch();
-  // actualizar tareas cada vez q elegis un filtro ( se acumulan xD)
+
   useEffect(() => {
     var filteredTasks = tasks;
     if (typeof taskFilter.selectComplex === "function") {
@@ -150,9 +148,6 @@ const PokerPlanning = () => {
     return valueSet;
   };
 
-  // 2. Aca, vamos a guardar dentro del taskFilter.select una funcion de callback
-  // tendria que venir los IFS que estan en el use effect y la funcion de CB en vez de
-  // otro valor
   const handleSelect = (e) => {
     var sortCb = undefined;
     var filterNull = undefined;
@@ -180,7 +175,6 @@ const PokerPlanning = () => {
   };
 
   const handleSaveValue = () => {
-    // este callback se va a ejecutar cuando se termine de actualizar la task
     function cb() {
       dispatch(getTasksByProject(project._id));
       socket.emit("taskUpdatedSuccess", { projectId: project._id });
@@ -210,8 +204,6 @@ const PokerPlanning = () => {
     }
   };
 
-  //3. Aca vamos a guardar el string nuevo, cada vez que se toque una tecla
-  //dentro del state taskFilter.input
   const filterTaskList = (e) => {
     setTaskFilter({ ...taskFilter, [e.target.name]: e.target.value });
   };
@@ -230,11 +222,13 @@ const PokerPlanning = () => {
         return e.priorization === "Easy Win";
       };
     }
+
     if (e.target.value === "Deprioritize") {
       filterCb = (e) => {
         return e.priorization === "Deprioritize";
       };
     }
+
     if (e.target.value === "Worth Pursuing") {
       filterCb = (e) => {
         return e.priorization === "Worth Pursuing";
@@ -246,6 +240,7 @@ const PokerPlanning = () => {
         return e.priorization === "Strategic Initiative";
       };
     }
+    
     setTaskFilter({
       ...taskFilter,
       [e.target.name]: filterCb,
@@ -267,35 +262,6 @@ const PokerPlanning = () => {
         )}
       </header>
       <section className={styles.generalBoard}>
-        {userRole === "scrumMaster" ? (
-          <div className={styles.filters}>
-            <p>Filters</p>
-            <div className={styles.filter}>
-              <label>Story Points</label>
-              <select id="fede" name="select" onChange={(e) => handleSelect(e)}>
-                <option value="less">Less Points</option>
-                <option value="more">More Points</option>
-                <option value="none">None Points</option>
-              </select>
-            </div>
-            <div className={styles.filter}>
-              <label htmlFor="selectComplex">Complexity</label>
-              <select
-                id="selectComplex"
-                name="selectComplex"
-                onChange={(e) => handleComplexity(e)}
-              >
-                <option value="All Tasks">All Tasks</option>
-                <option value="Easy Win">Easy Win</option>
-                <option value="Deprioritize">Deprioritize</option>
-                <option value="Worth Pursuing">Worth Pursuing</option>
-                <option value="Strategic Initiative">
-                  Strategic Initiative
-                </option>
-              </select>
-            </div>
-          </div>
-        ) : null}
         <div className={styles.board}>
           {room.users &&
             room.users.map((u) => (
@@ -337,25 +303,58 @@ const PokerPlanning = () => {
             )}
           </div>
         </div>
-
         {userRole === "scrumMaster" ? (
-          <div
-            style={{ width: "420px", maxHeight: "450px", overflowY: "auto" }}
-          >
-            <input
-              type="text"
-              name="input"
-              onChange={(e) => filterTaskList(e)}
-            />
-            <TaskHolder
-              taskList={saveTask}
-              customHandleClick={handleTaskClick}
-              status="Unrated stories"
-            />
+          <div className={styles.sidebar} style={{ width: "450px" }}>
+            <div className={styles.filterTaskInput}>
+              <input
+                type="text"
+                name="input"
+                onChange={(e) => filterTaskList(e)}
+                placeholder="Filter tasks by name..."
+                autoComplete="off"
+              />
+            </div>
+            <div style={{ maxHeight: "300px", overflowY: "auto" }}>
+              <TaskHolder
+                taskList={saveTask}
+                customHandleClick={!room.totalValue ? handleTaskClick : () => {}}
+                hiddenStatus={true}
+                fixedHeight={true}
+              />
+            </div>
+            <div className={styles.filters}>
+              <div className={styles.filter}>
+                <label>Story Points</label>
+                <select
+                  id="fede"
+                  name="select"
+                  onChange={(e) => handleSelect(e)}
+                >
+                  <option value="less">Less Points</option>
+                  <option value="more">More Points</option>
+                  <option value="none">None Points</option>
+                </select>
+              </div>
+              <div className={styles.filter}>
+                <label htmlFor="selectComplex">Complexity</label>
+                <select
+                  id="selectComplex"
+                  name="selectComplex"
+                  onChange={(e) => handleComplexity(e)}
+                >
+                  <option value="All Tasks">All Tasks</option>
+                  <option value="Easy Win">Easy Win</option>
+                  <option value="Deprioritize">Deprioritize</option>
+                  <option value="Worth Pursuing">Worth Pursuing</option>
+                  <option value="Strategic Initiative">
+                    Strategic Initiative
+                  </option>
+                </select>
+              </div>
+            </div>
           </div>
         ) : null}
       </section>
-
       <footer className={styles.footer}>
         <section className={styles.footerInfo}>
           {!room.totalValue && userRole === "scrumMaster" && (
