@@ -70,18 +70,23 @@ const getAllUsers = async (req, res, next) => {
   }
 };
 
-const assingUsers = async (req, res, next) => {
+const assignUsers = async (req, res, next) => {
   try {
-    const { projectId } = req.params;
+    const projectId = mongoose.Types.ObjectId(req.params.projectId);
+    const userId = mongoose.Types.ObjectId(req.body.userId);
 
-    console.log(projectId, "projectId");
-
-    const castedId = mongoose.Types.ObjectId(projectId);
-    const newUser = await UserProject.model.create({
-      projectId: castedId,
-      userId: req.body.userId,
-      role: "developer",
+    const userExists = await UserProject.model.findOne({
+      projectId: projectId,
+      userId: userId,
     });
+
+    const newUser = userExists
+      ? { error: "User already assigned" }
+      : await UserProject.model.create({
+          projectId: projectId,
+          userId: userId,
+          role: "developer",
+        });
     res.status(201).json(newUser);
   } catch (error) {
     next(error);
@@ -93,5 +98,5 @@ module.exports = {
   findOrCreateUser,
   getAllUsers,
   getUserRole,
-  assingUsers,
+  assignUsers: assignUsers,
 };
