@@ -3,7 +3,7 @@ import Modal from "react-modal";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { IoClose } from "react-icons/io5";
-import { Formik, Form, Field, ErrorMessage } from "formik"
+import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
 import { useSearch } from "../../hooks/useSearch";
@@ -54,6 +54,7 @@ const CreateProjectModal = ({ isModalOpen, setIsModalOpen }) => {
   }, []);
 
   const handleChange = (e) => {
+    console.log(values);
     setValues({
       ...values,
       [e.target.name]: e.target.value,
@@ -77,13 +78,9 @@ const CreateProjectModal = ({ isModalOpen, setIsModalOpen }) => {
     });
   };
 
-  //FALTA VALIDAR EL FORM NO NOS OLVIDEMOS
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(values);
-
     dispatch(createProject({ ...values, scrumMaster: loggedUser._id }));
-
     setValues({
       projectName: "",
       requiredDate: "",
@@ -111,119 +108,134 @@ const CreateProjectModal = ({ isModalOpen, setIsModalOpen }) => {
         initialValues={{
           projectName: "",
           startDate: "",
-          requiredDate:"",
+          requiredDate: "",
           description: "",
-          sprintAmount: "",
-          srpintDuration: "",
+          sprintCount: "",
+          sprintDuration: "",
         }}
         validationSchema={Yup.object({
-          projectName: Yup.string()
-            .required("The project must have a name."),
-          startDate: Yup.date()
-            .required("You must provide a start date."),
-            requiredDate: Yup.date()
-            .when("startDate", (startDate, Yup) => startDate && Yup.min(
-              startDate, "Error. Cannot be before Start Date."
-              )),
-          sprintAmount: Yup.number()
-            .required("You must provide the amounts of sprints."),
-          sprintDuration: Yup.number()
-            .required("You must provide the duration of sprints."),
-          description: Yup.string()
-            .required("It must have a description."),
+          projectName: Yup.string().required("The project must have a name."),
+          startDate: Yup.date().required("You must provide a start date."),
+          requiredDate: Yup.date().when(
+            "startDate",
+            (startDate, Yup) =>
+              startDate &&
+              Yup.min(startDate, "Error. Cannot be before Start Date.")
+          ),
+          sprintCount: Yup.number().required(
+            "You must provide the amounts of sprints."
+          ),
+          sprintDuration: Yup.number().required(
+            "You must provide the duration of sprints."
+          ),
+          description: Yup.string().required("It must have a description."),
         })}
       >
         <Form onSubmit={handleSubmit} styles={styles.modalBody}>
           <Field as="div" className={styles.modalFormGroup}>
             <label>Title</label>
-            <Field 
+            <Field
               name="projectName"
               type="text"
               placeholder="Name of your project"
+              onChange={handleChange}
             />
             <ErrorMessage name="projectName" component="div">
-              { msg => <div style={{ color: 'red' }}>{msg}</div> }
+              {(msg) => <div style={{ color: "red" }}>{msg}</div>}
             </ErrorMessage>
           </Field>
           <Field as="div" className={styles.modalFormGroup}>
             <label>Start Date</label>
-            <Field 
+            <Field
               name="startDate"
               type="date"
               placeholder="DD/MM/AAAA"
+              onChange={handleChange}
             />
             <ErrorMessage name="startDate" component="div">
-              { msg => <div style={{ color: 'red' }}>{msg}</div> }
+              {(msg) => <div style={{ color: "red" }}>{msg}</div>}
             </ErrorMessage>
           </Field>
           <Field as="div" className={styles.modalFormGroup}>
-              <label>Required Date</label>
-            <Field 
+            <label>Required Date</label>
+            <Field
               name="requiredDate"
               type="date"
               placeholder="DD/MM/AAAA"
+              onChange={handleChange}
             />
             <ErrorMessage name="requiredDate" component="div">
-              { msg => <div style={{ color: 'red' }}>{msg}</div> }
+              {(msg) => <div style={{ color: "red" }}>{msg}</div>}
             </ErrorMessage>
-          </Field>  
+          </Field>
           <Field as="div" className={styles.modalFormGroup}>
             <label>Amount of Sprints</label>
-            <Field 
-              name="sprintAmount"
+            <Field
+              name="sprintCount"
               type="number"
               placeholder="Amount of Sprints"
               min="1"
               max="20"
+              onChange={handleChange}
             />
-            <ErrorMessage name="sprintAmount" component="div">
-              { msg => <div style={{ color: 'red' }}>{msg}</div> }
+            <ErrorMessage name="sprintCount" component="div">
+              {(msg) => <div style={{ color: "red" }}>{msg}</div>}
             </ErrorMessage>
           </Field>
           <Field as="div" className={styles.modalFormGroup}>
             <label>Sprint Duration (weeks)</label>
-            <Field 
+            <Field
               name="sprintDuration"
               type="number"
               placeholder="Sprint Duration"
               min="1"
               max="4"
+              onChange={handleChange}
             />
             <ErrorMessage name="sprintDuration" component="div">
-              { msg => <div style={{ color: 'red' }}>{msg}</div> }
+              {(msg) => <div style={{ color: "red" }}>{msg}</div>}
             </ErrorMessage>
           </Field>
-          <Field as="div" className={`${styles.modalFormGroup} ${styles.selectUserContainer}`}>
+          <Field
+            as="div"
+            className={`${styles.modalFormGroup} ${styles.selectUserContainer}`}
+          >
             <label>Users</label>
-              <input 
-                onBlur={() => setIsSelectUsersOpen(false)}
-                onFocus={() => setIsSelectUsersOpen(true)}
-                type="text"
-                name="Users"
-                value={query}
-                autoComplete="off"
-                onChange={(e) => setQuery(e.target.value)}
-              />
-              <Field as="div" className={`${styles.modalSelectUser} ${isSelectUsersOpen ? styles.visible : undefined}`}>
-                {filteredUsers.length ? (
-                  filteredUsers.map((user) => (
-                    <article
-                      onClick={() => handleAddUser(user)}
-                      key={user._id}
-                      className={styles.modalUser}
-                    >
-                      <img src={user.picture} alt={user.name} />
-                      <p>{user.name}</p>
-                    </article>
-                  ))
-                ) : (
-                  <p>There's no user with that name :(</p>
-                )}
-              </Field>
+            <input
+              onBlur={() => setIsSelectUsersOpen(false)}
+              onFocus={() => setIsSelectUsersOpen(true)}
+              type="text"
+              name="Users"
+              value={query}
+              autoComplete="off"
+              onChange={(e) => setQuery(e.target.value)}
+            />
+            <Field
+              as="div"
+              className={`${styles.modalSelectUser} ${
+                isSelectUsersOpen ? styles.visible : undefined
+              }`}
+            >
+              {filteredUsers.length ? (
+                filteredUsers.map((user) => (
+                  <article
+                    onClick={() => handleAddUser(user)}
+                    key={user._id}
+                    className={styles.modalUser}
+                  >
+                    <img src={user.picture} alt={user.name} />
+                    <p>{user.name}</p>
+                  </article>
+                ))
+              ) : (
+                <p>There's no user with that name :(</p>
+              )}
+            </Field>
           </Field>
           <Field as="div" className={styles.addedUsers}>
             {users
-              .filter((user) => values.Users.includes(user._id)).map((user) => (
+              .filter((user) => values.Users.includes(user._id))
+              .map((user) => (
                 <article key={user._id} className={styles.addedUsersCard}>
                   <img src={user.picture} alt={user.name} />
                   <p>{user.name.split(" ")[0]}</p>
@@ -231,19 +243,19 @@ const CreateProjectModal = ({ isModalOpen, setIsModalOpen }) => {
                     <IoClose size={15} />
                   </button>
                 </article>
-              ))
-            }
+              ))}
           </Field>
           <Field as="div" className={styles.modalFormGroup}>
             <label>Description</label>
-            <textarea 
+            <textarea
               name="description"
               type="textarea"
               placeholder="Description"
+              onChange={handleChange}
             />
-          <ErrorMessage name="description" component="div">
-            { msg => <div style={{ color: 'red' }}>{msg}</div> }
-          </ErrorMessage>
+            <ErrorMessage name="description" component="div">
+              {(msg) => <div style={{ color: "red" }}>{msg}</div>}
+            </ErrorMessage>
           </Field>
           <Field as="div" className={styles.modalFormGroup}>
             <button type="submit">Create project</button>
