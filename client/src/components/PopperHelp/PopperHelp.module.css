@@ -1,0 +1,28 @@
+.help{
+    font-weight: bold;
+    color: #a2a2a2;
+}
+.help:hover{
+    cursor: pointer;
+}
+.popper{
+    pointer-events: none;
+    padding: 5px 20px;
+    box-shadow: 1px 1px 3px 2px rgba(10, 10, 10, 0.17);
+    background-color: white;
+    border-radius: 4px;
+
+    font-size: 12px;
+    font-weight: 600;
+    color: #8c8c8c;
+    
+    animation: fade .5s;
+}
+@keyframes fade{
+    from{
+        opacity: 0;
+    }
+    to{
+        opacity: 1;
+    }
+}
