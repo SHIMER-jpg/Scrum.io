@@ -6,15 +6,62 @@ import {Line} from 'react-chartjs-2';
 
 import styles from "./StatisticCard.module.css";
 
+import moment from 'moment';
+moment().format();
+
 export default function StatisticCard({ graphType }) {
 
   let project = useSelector((state) => state.managerView.project);
   let tasks = useSelector((state) => state.managerView.tasks);
 
-  if(tasks.length > 0) {
-    var storyPoints = tasks.map(t => t.storyPoints).reduce((a,b) => a + b)
+  let firstDay = project.creationDate && moment(project.creationDate.substring(0,10));
+  let lastDay = project.requiredDate && moment(project.requiredDate.substring(0,10));
+  let days = firstDay && lastDay.diff(firstDay, 'days')
+  
+  let dataDays = [];
+  for(let i=0; i <= days; i++){
+    dataDays[i] = i
   }
 
+  if(tasks.length > 0) {
+    var storyPoints = tasks.map(t => t.storyPoints).reduce((a,b) => a+b)
+    storyPoints = parseInt(storyPoints, 10)
+  }
+  let storyPointsPerDay = parseFloat((storyPoints/days).toFixed(2))
+  
+  let sum = 0
+  let dataStoryPoints = []
+  for(let i=0; i <= days; i++){
+    dataStoryPoints[i] = Math.round(sum);
+    sum = sum + storyPointsPerDay;
+  }
+
+  let completedTasks = tasks && tasks.filter(t=> t.status == 'Completed').sort(function(a, b) {
+    if (a.completedDate > b.completedDate) {
+      return 1;
+    }
+    if (a.completedDate < b.completedDate) {
+      return -1;
+    }
+    return 0;
+  })
+ 
+  let dates = completedTasks.map(t => t.completedDate)
+  const aux= new Set(dates)
+  let completedDates = Array.from(aux)
+
+  let devStoryPoints = new Array(completedDates.length)
+  for(let h=0; h < devStoryPoints.length; h++){
+    devStoryPoints[h] = 0
+  }
+
+  for(let i=0; i < completedDates.length; i++){
+    for(let j=0; j < completedTasks.length; j++){
+      if(completedTasks[j].completedDate == completedDates[i]){
+        devStoryPoints[i] = devStoryPoints[i] + completedTasks[j].storyPoints
+      }
+    }
+  }
 
   return (
     <div className={styles.conteiner}>
@@ -62,16 +109,16 @@ export default function StatisticCard({ graphType }) {
           : graphType === "BurnDown Chart" ?
             <Line className={styles.chart}
             data={{
-              labels: ['0','1', '2', '3', '4', '5', '6', '7'],
+              labels: dataDays,
               datasets: [
               {
                 label: 'Actual development',
-                data: [21, 16, 12, 9, 7, 5, 2, 0],
+                data: devStoryPoints,
                 borderColor:['#a12464']
               },
               {
                 label: 'Ideal development',
-                data: [21,18,15,12,9,6,3,0],
+                data: dataStoryPoints.reverse(),
                 borderColor:['#7BEFFF']
               }
             ]
