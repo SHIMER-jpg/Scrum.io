@@ -6,13 +6,14 @@ import { useEffect, useState } from "react";
 import TaskCard from "../../components/TaskCard/TaskCard";
 import { changeTask } from "../../redux/PokerPlanning/actions";
 import { getTasksByProject } from "../../redux/ManagerView/actions";
-import { AiFillSave, AiOutlineDisconnect, AiOutlineCloseCircle } from "react-icons/ai";
+import {
+  AiFillSave,
+  AiOutlineDisconnect,
+  AiOutlineCloseCircle,
+} from "react-icons/ai";
 import { useHistory } from "react-router-dom";
 
 import styles from "./PokerPlanning.module.css";
-import { CgGoogleTasks } from "react-icons/cg";
-
-const VALUES = [0, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, "?"];
 
 const PokerPlanning = () => {
   const history = useHistory();
@@ -22,7 +23,6 @@ const PokerPlanning = () => {
   const loggedUser = useSelector(({ app }) => app.loggedUser);
   const { project, tasks } = useSelector(({ managerView }) => managerView);
 
-  
   const [room, setRoom] = useState({});
   // const [selectedVote, setSelectedVote] = useState(null);
   const [selectedVote, setSelectedVote] = useState(null);
@@ -66,7 +66,6 @@ const PokerPlanning = () => {
     setSaveTask(filteredTasks);
   }, [taskFilter, tasks]);
 
-
   useEffect(() => {
     socket.emit("joinPokerPlanningRoom", {
       projectId: project._id,
@@ -109,14 +108,16 @@ const PokerPlanning = () => {
     });
 
     socket.on("roomClosed", () => {
-      history.push(`/project/${project._id}`)
-    })
+      history.push(`/project/${project._id}`);
+    });
   }, []);
 
   useEffect(() => {
-    const userInRoom = room?.users?.find(u => u._id === loggedUser._id)
-    userInRoom && !selectedVote && setSelectedVote(Number(userInRoom.settedValue));
-  }, [room?.users])
+    const userInRoom = room?.users?.find((u) => u._id === loggedUser._id);
+    userInRoom &&
+      !selectedVote &&
+      setSelectedVote(Number(userInRoom.settedValue));
+  }, [room?.users]);
 
   const handleButtonClick = (value) => {
     setSelectedVote(value);
@@ -135,8 +136,11 @@ const PokerPlanning = () => {
 
   const handleResults = () => {
     const valueSet =
-      room.users.reduce((acc, { settedValue }) => isNaN(settedValue) ? acc += 0 : acc += Number(settedValue), 0) /
-      room.users.length;
+      room.users.reduce(
+        (acc, { settedValue }) =>
+          isNaN(settedValue) ? (acc += 0) : (acc += Number(settedValue)),
+        0
+      ) / room.users.length;
 
     socket.emit("totalValue", {
       projectId: project._id,
@@ -186,14 +190,21 @@ const PokerPlanning = () => {
   };
 
   const handleDisconnect = () => {
-    if(userRole === "developer") {
-      if(window.confirm("Are you sure you want to disconnect from this room?")) {
-        socket.emit("disconnectUser", { projectId: project._id, user: loggedUser });
-        history.push(`/project/${project._id}`)
+    if (userRole === "developer") {
+      if (
+        window.confirm("Are you sure you want to disconnect from this room?")
+      ) {
+        socket.emit("disconnectUser", {
+          projectId: project._id,
+          user: loggedUser,
+        });
+        history.push(`/project/${project._id}`);
       }
     } else {
-      if(window.confirm("Are you sure you want to close this room for everyone?")) {
-        socket.emit("closeRoom", { projectId: project._id })
+      if (
+        window.confirm("Are you sure you want to close this room for everyone?")
+      ) {
+        socket.emit("closeRoom", { projectId: project._id });
         history.push(`/project/${project._id}`);
       }
     }
@@ -256,6 +267,35 @@ const PokerPlanning = () => {
         )}
       </header>
       <section className={styles.generalBoard}>
+        {userRole === "scrumMaster" ? (
+          <div className={styles.filters}>
+            <p>Filters</p>
+            <div className={styles.filter}>
+              <label>Story Points</label>
+              <select id="fede" name="select" onChange={(e) => handleSelect(e)}>
+                <option value="less">Less Points</option>
+                <option value="more">More Points</option>
+                <option value="none">None Points</option>
+              </select>
+            </div>
+            <div className={styles.filter}>
+              <label htmlFor="selectComplex">Complexity</label>
+              <select
+                id="selectComplex"
+                name="selectComplex"
+                onChange={(e) => handleComplexity(e)}
+              >
+                <option value="All Tasks">All Tasks</option>
+                <option value="Easy Win">Easy Win</option>
+                <option value="Deprioritize">Deprioritize</option>
+                <option value="Worth Pursuing">Worth Pursuing</option>
+                <option value="Strategic Initiative">
+                  Strategic Initiative
+                </option>
+              </select>
+            </div>
+          </div>
+        ) : null}
         <div className={styles.board}>
           {room.users &&
             room.users.map((u) => (
@@ -300,29 +340,17 @@ const PokerPlanning = () => {
 
         {userRole === "scrumMaster" ? (
           <div
-            style={{ width: "420px", maxHeight: "600px", overflowY: "auto" }}
+            style={{ width: "420px", maxHeight: "450px", overflowY: "auto" }}
           >
             <input
               type="text"
               name="input"
               onChange={(e) => filterTaskList(e)}
             />
-            {/* 
-            4. como el componente hijo, se renderiza segun la informacion que le pasamos aca abajo,
-            lo que vamos a hacer es volver dinamica la infromacion que le pasamos.
-            
-            taskList = tasks.filter(task=>task.title.toLowerCase().includes(taskFilter.input.toLowerCase())).sort(taskFilter.select)
-            */}
             <TaskHolder
               taskList={saveTask}
               customHandleClick={handleTaskClick}
               status="Unrated stories"
-
-              // taskList={
-              //   room.task
-              //     ? tasks.filter((task) => task._id !== room.task._id)
-              //     : tasks
-              // }
             />
           </div>
         ) : null}
@@ -348,42 +376,6 @@ const PokerPlanning = () => {
             </button>
           )}
         </section>
-        <div>
-          {userRole === "scrumMaster" ? (
-            <div>
-              <div>
-                <label>Story Points</label>
-              </div>
-              <select id="fede" name="select" onChange={(e) => handleSelect(e)}>
-                <option value="less">Less Points</option>
-                <option value="more">More Points</option>
-                <option value="none">None Points</option>
-              </select>
-            </div>
-          ) : null}
-        </div>
-        <div>
-          {userRole === "scrumMaster" ? (
-            <div>
-              <div>
-                <label>Complexity</label>
-              </div>
-              <select
-                id="fede"
-                name="selectComplex"
-                onChange={(e) => handleComplexity(e)}
-              >
-                <option value="All Tasks">All Tasks</option>
-                <option value="Easy Win">Easy Win</option>
-                <option value="Deprioritize">Deprioritize</option>
-                <option value="Worth Pursuing">Worth Pursuing</option>
-                <option value="Strategic Initiative">
-                  Strategic Initiative
-                </option>
-              </select>
-            </div>
-          ) : null}
-        </div>
         <section className={styles.buttons}>
           {sequence.map((v) => (
             <button

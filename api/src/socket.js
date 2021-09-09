@@ -78,7 +78,11 @@ io.on("connection", (socket) => {
     if (room) {
       if(isNaN(valueSet)) valueSet = "0";
 
-      room.totalValue = valueSet;
+      if(valueSet.toString().includes(".")) {
+        room.totalValue = valueSet.toFixed(1);
+      } else {
+        room.totalValue = valueSet;
+      }
 
       io.to(projectId).emit("totalValueSent", room);
     }
