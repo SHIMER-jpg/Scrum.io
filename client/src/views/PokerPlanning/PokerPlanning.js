@@ -21,35 +21,46 @@ const PokerPlanning = () => {
   const [selectedVote, setSelectedVote] = useState(null);
   const [areForeignCardsVisible, setAreForeignCardsVisible] = useState(false);
   const [room, setRoom] = useState({});
+  const [saveTask, setSaveTask] = useState(tasks);
 
   // 1. El input tiene que ser igual al string que se inserta en el input box
   // el select, tiene que ser igual a un CALLBACK, ya que .sort funcionna
   // a travez de una cb function
   var [taskFilter, setTaskFilter] = useState({
-    input: [],
-    select: "less",
+    input: "",
+    select: undefined,
+    showNoValueTask: undefined,
+    selectComplex: undefined,
   });
 
   const dispatch = useDispatch();
-
+  // actualizar tareas cada vez q elegis un filtro ( se acumulan xD)
   useEffect(() => {
-    if (taskFilter.select === "more") {
-      taskFilter.input = taskFilter.input.slice().sort((a, b) => {
-        return a.storyPoints < b.storyPoints ? 1 : -1;
-      });
+    var filteredTasks = tasks;
+    if (typeof taskFilter.selectComplex === "function") {
+      filteredTasks = filteredTasks.filter(taskFilter.selectComplex);
     }
-    if (taskFilter.select === "less") {
-      taskFilter.input = taskFilter.input.slice().sort((a, b) => {
-        return b.storyPoints < a.storyPoints ? 1 : -1;
-      });
+    if (typeof taskFilter.showNoValueTask === "function") {
+      filteredTasks = filteredTasks.filter(taskFilter.showNoValueTask);
     }
-    if (taskFilter.select === "none") {
-      taskFilter.input = taskFilter.input.filter((r) => {
-        console.log(r.storyPoints);
-        return r.storyPoints === null;
-      });
+    if (typeof taskFilter.select === "function") {
+      filteredTasks = filteredTasks.slice().sort(taskFilter.select);
     }
+    if (taskFilter.input.trim() !== "") {
+      filteredTasks = filteredTasks.filter((r) =>
+        r.title
+          .trim()
+          .toLowerCase()
+          .includes(taskFilter.input.trim().toLowerCase())
+      );
+    } else {
+      setSaveTask(tasks);
+    }
+
+    setSaveTask(filteredTasks);
   }, [taskFilter]);
+
+  console.log(saveTask);
 
   useEffect(() => {
     socket.emit("joinPokerPlanningRoom", {
@@ -128,12 +139,29 @@ const PokerPlanning = () => {
   // tendria que venir los IFS que estan en el use effect y la funcion de CB en vez de
   // otro valor
   const handleSelect = (e) => {
+    var sortCb = undefined;
+    var filterNull = undefined;
+    if (e.target.value === "more") {
+      sortCb = (a, b) => {
+        return a.storyPoints < b.storyPoints ? 1 : -1;
+      };
+    }
+    if (e.target.value === "less") {
+      sortCb = (a, b) => {
+        return b.storyPoints < a.storyPoints ? 1 : -1;
+      };
+    }
+    if (e.target.value === "none") {
+      filterNull = (a) => {
+        return a.storyPoints === null;
+      };
+    }
+
     setTaskFilter({
       ...taskFilter,
-      [e.target.name]: e.target.value,
+      [e.target.name]: sortCb,
+      showNoValueTask: filterNull,
     });
-
-    console.log(taskFilter);
   };
 
   const handleSaveValue = () => {
@@ -149,15 +177,46 @@ const PokerPlanning = () => {
   //3. Aca vamos a guardar el string nuevo, cada vez que se toque una tecla
   //dentro del state taskFilter.input
   const filterTaskList = (e) => {
-    console.log(tasks);
-    if (tasks) {
-      var taskSaver = tasks.filter((value) => {
-        return value.title.includes(e.target.value);
-      });
-    }
-    setTaskFilter({ ...taskFilter, [e.target.name]: taskSaver });
+    setTaskFilter({ ...taskFilter, [e.target.name]: e.target.value });
   };
 
+  const handleComplexity = (e) => {
+    var filterCb;
+    console.log(e.target.value);
+
+    if (e.target.value === "All Tasks") {
+      filterCb = (e) => {
+        return e;
+      };
+    }
+
+    if (e.target.value === "Easy Win") {
+      filterCb = (e) => {
+        return e.priorization === "Easy Win";
+      };
+    }
+    if (e.target.value === "Deprioritize") {
+      console.log("holi");
+      filterCb = (e) => {
+        return e.priorization === "Deprioritize";
+      };
+    }
+    if (e.target.value === "Worth Pursuing") {
+      filterCb = (e) => {
+        return e.priorization === "Worth Pursuing";
+      };
+    }
+
+    if (e.target.value === "Strategic Initiative") {
+      filterCb = (e) => {
+        return e.priorization === "Strategic Initiative";
+      };
+    }
+    setTaskFilter({
+      ...taskFilter,
+      [e.target.name]: filterCb,
+    });
+  };
   return (
     <section className={styles.container}>
       <header className={styles.header}>
@@ -222,7 +281,7 @@ const PokerPlanning = () => {
             taskList = tasks.filter(task=>task.title.toLowerCase().includes(taskFilter.input.toLowerCase())).sort(taskFilter.select)
             */}
             <TaskHolder
-              taskList={taskFilter.input.length ? taskFilter.input : tasks}
+              taskList={saveTask}
               customHandleClick={handleTaskClick}
               status="Unrated stories"
 
@@ -262,10 +321,32 @@ const PokerPlanning = () => {
               <div>
                 <label>Story Points</label>
               </div>
-              <select name="select" onChange={(e) => handleSelect(e)}>
+              <select id="fede" name="select" onChange={(e) => handleSelect(e)}>
                 <option value="less">Less Points</option>
                 <option value="more">More Points</option>
                 <option value="none">None Points</option>
+              </select>
+            </div>
+          ) : null}
+        </div>
+        <div>
+          {userRole === "scrumMaster" ? (
+            <div>
+              <div>
+                <label>Complexity</label>
+              </div>
+              <select
+                id="fede"
+                name="selectComplex"
+                onChange={(e) => handleComplexity(e)}
+              >
+                <option value="All Tasks">All Tasks</option>
+                <option value="Easy Win">Easy Win</option>
+                <option value="Deprioritize">Deprioritize</option>
+                <option value="Worth Pursuing">Worth Pursuing</option>
+                <option value="Strategic Initiative">
+                  Strategic Initiative
+                </option>
               </select>
             </div>
           ) : null}
