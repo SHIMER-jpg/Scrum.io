@@ -22,7 +22,6 @@ export default function ManagerView() {
 
   // SOCKET EFFECT
 
-
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const dispatch = useDispatch();
@@ -36,8 +35,6 @@ export default function ManagerView() {
     dispatch(getTasksByProject(projectId, setIsLoadingTasks));
     dispatch(getAsignedUsers(projectId));
   }, []);
-
-
 
   const [createTask, setCreateTask] = useState({
     title: "",
