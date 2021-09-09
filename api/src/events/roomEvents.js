@@ -1,4 +1,6 @@
 const io = require("../socket");
+
+// let rooms = [{id: 121sao92193jdf, users: [{}, {}, {}], card: {}, totalValue: 0, buttonsEnabled: false}];
 let rooms = [];
 
 io.on("connection", (socket) => {

@@ -13,18 +13,11 @@ const io = require("socket.io")(server, {
   },
 });
 
-// let rooms = [{id: 121sao92193jdf, users: [{}, {}, {}], card: {}, totalValue: 0, buttonsEnabled: false}];
-let rooms = [];
-
 io.on("connection", (socket) => {
   console.log("socket.io: User connected: ", socket.id);
 
   socket.on("disconnect", () => {
     console.log("socket.io: User disconnected: ", socket.id);
-  });
-
-  socket.on("createRoom", ({ projectId, user }) => {
-    socket.join(projectId);
   });
 });
 
