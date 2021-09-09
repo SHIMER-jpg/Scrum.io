@@ -73,6 +73,20 @@ const modifyingTask = async (req, res, next) => {
     const filter = { _id: taskId };
     const update = change;
     await Task.model.findOneAndUpdate(filter, update);
+
+    console.log("el body",req.body)
+    const user = await User.model.findOne({
+      _id: req.body.assignedTo
+    })
+
+    await transporter.sendMail({
+      from: '"Scrum.io" <scrumio64@gmail.com>', // sender address
+      to: user.email, // list of receivers
+      subject: "Scrumio", // Subject line
+      text: "Se te ah asignado una nueva tarea" // plain text body
+      // html: "<b>Hello world?</b>", // html body
+    });
+
     res.status(200).send("Successfully modified task");
   } catch (error) {
     next(error);

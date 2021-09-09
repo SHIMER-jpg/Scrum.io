@@ -2,6 +2,7 @@ const { transporter } = require("../nodemailer/nodemailer");
 const Project = require("../models/Project");
 const UserProject = require("../models/UserProject");
 const mongoose = require("mongoose");
+const User = require ("../models/User")
 
 // obtiene el proyecto por id
 const getProjectById = async (req, res, next) => {
@@ -66,11 +67,16 @@ const createProject = async (req, res, next) => {
     );
     // await UserAndProject.save();
 
+      console.log("id del developer", req.body.Users)
+
     await newProject.save();
+    const user = await User.model.findOne({
+      _id: req.body.Users
+    })
     
     await transporter.sendMail({
       from: '"Scrum.io" <scrumio64@gmail.com>', // sender address
-      to: "cuellojuancruz11@gmail.com", // list of receivers
+      to: user.email, // list of receivers
       subject: "Scrumio", // Subject line
       text: "Tienes un nuevo projecto a cargo" // plain text body
       // html: "<b>Hello world?</b>", // html body
