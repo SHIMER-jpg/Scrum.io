@@ -2,12 +2,13 @@ import React from "react";
 import styles from "./ProjectCard.module.css";
 import { useHistory } from "react-router";
 
-export default function ProjectCard({ project }) {
+export default function ProjectCard({ project, role }) {
   const history = useHistory();
   return (
     <div className={styles.conteiner}>
       <div className={styles.header}>
         <h2>{project.projectName}</h2>
+        {role == "scrumMaster" ? <p>Scrum Master</p> : <p>Developer</p>}
       </div>
       <div className={styles.body}>
         <div className={styles.description}>
