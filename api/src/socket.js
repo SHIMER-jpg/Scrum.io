@@ -30,6 +30,8 @@ io.on("connection", (socket) => {
   socket.on("joinPokerPlanningRoom", ({ projectId, user }) => {
     socket.join(projectId);
 
+    // To do: si un usuario ya existe en otra room, borrarlo e insertarlo en la nueva.
+
     if (!rooms.find((room) => room.id === projectId)) {
       rooms.push({ id: projectId, users: [user], task: null });
     } else {
@@ -116,8 +118,6 @@ io.on("connection", (socket) => {
   socket.on("closeRoom", ({projectId}) => {
     // borro la room
     rooms = rooms.filter(r => r.id !== projectId)
-
-    console.log(rooms)
 
     io.to(projectId).emit("roomClosed")
   })

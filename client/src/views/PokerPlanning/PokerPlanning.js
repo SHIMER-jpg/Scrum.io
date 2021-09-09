@@ -22,9 +22,11 @@ const PokerPlanning = () => {
   const loggedUser = useSelector(({ app }) => app.loggedUser);
   const { project, tasks } = useSelector(({ managerView }) => managerView);
 
+  
+  const [room, setRoom] = useState({});
+  // const [selectedVote, setSelectedVote] = useState(null);
   const [selectedVote, setSelectedVote] = useState(null);
   const [areForeignCardsVisible, setAreForeignCardsVisible] = useState(false);
-  const [room, setRoom] = useState({});
   const [saveTask, setSaveTask] = useState(tasks);
 
   // 1. El input tiene que ser igual al string que se inserta en el input box
@@ -111,6 +113,11 @@ const PokerPlanning = () => {
     })
   }, []);
 
+  useEffect(() => {
+    const userInRoom = room?.users?.find(u => u._id === loggedUser._id)
+    userInRoom && !selectedVote && setSelectedVote(Number(userInRoom.settedValue));
+  }, [room?.users])
+
   const handleButtonClick = (value) => {
     setSelectedVote(value);
 
@@ -171,7 +178,6 @@ const PokerPlanning = () => {
   const handleSaveValue = () => {
     // este callback se va a ejecutar cuando se termine de actualizar la task
     function cb() {
-      console.log("SE EJECUTO EL CALLBACK")
       dispatch(getTasksByProject(project._id));
       socket.emit("taskUpdatedSuccess", { projectId: project._id });
     }
