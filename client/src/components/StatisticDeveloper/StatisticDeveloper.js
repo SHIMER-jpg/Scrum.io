@@ -4,6 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import  { Bar, Line } from 'react-chartjs-2';
 import styles from "./StatisticDeveloper.module.css";
 
+// componentes
+import PopperHelp from "../PopperHelp/PopperHelp.js";
+
 import { useSearch } from "../../hooks/useSearch";
 
 export default function StatisticDeveloper(props) {
@@ -81,6 +84,7 @@ export default function StatisticDeveloper(props) {
       <div>
         <div className={styles.header}>
           <h2>Developer Statistics</h2>
+          <PopperHelp/>
         </div>
         <div className={styles.graph}>
 
