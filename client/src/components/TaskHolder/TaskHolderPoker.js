@@ -12,12 +12,12 @@ import Loading from "../Loading/Loading";
 
 // coso
 
-export default function TaskHolder({
+export default function TaskHolderPoker({
   status,
   helpNeeded,
-  taskList,
   isLoading,
   customHandleClick,
+  visibleFilterInput,
 }) {
   const [modalIsOpen, setIsModalOpen] = useState(false);
   const [modalDetails, setModalDetails] = useState({});
@@ -39,8 +39,8 @@ export default function TaskHolder({
       <div className={styles.taskList}>
         {isLoading ? (
           <Loading isCentered={true} />
-        ) : taskList && taskList.length > 0 ? (
-          taskList.map((pro) => (
+        ) : visibleFilterInput && visibleFilterInput.length > 0 ? (
+          visibleFilterInput.map((pro) => (
             <TaskCard
               onClick={() => {
                 if (customHandleClick) customHandleClick(pro);
@@ -70,32 +70,3 @@ export default function TaskHolder({
     </div>
   );
 }
-
-/**
- * 
- *   {taskList && taskList.length > 0 ? (
-          <>
-            {taskList.map((pro) => (
-              <TaskCard
-                onClick={() => {
-                  setModalDetails(pro);
-                  setIsModalOpen(true);
-                }}
-                key={pro._id}
-                name={pro.title}
-                description={pro.details}
-                sp={pro.storyPoints}
-                complex={pro.priorization?.replaceAll(" ", "_").toLowerCase()}
-                // key={pro._id}
-                // {...pro}
-              />
-            ))}
-            {modalIsOpen && (
-              <TaskCardModal
-                isOpen={modalIsOpen}
-                setIsModalOpen={setIsModalOpen}
-                modalDetails={modalDetails}
-              />
-            )}
-          </>
- */
