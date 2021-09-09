@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import  { Bar, Line } from 'react-chartjs-2';
+import moment from 'moment';
 import styles from "./StatisticDeveloper.module.css";
 
 // componentes
@@ -10,33 +11,38 @@ import PopperHelp from "../PopperHelp/PopperHelp.js";
 import { useSearch } from "../../hooks/useSearch";
 
 export default function StatisticDeveloper(props) {
+  const project = useSelector((state) => state.managerView.project);
   const users = useSelector((state) => state.managerView.asignedUsers);
   const tasks = useSelector((state) => state.managerView.tasks);
-  const userTasks = tasks.filter((t) => t.asignedTo === "61377a66c16ac40924f9daa0");
-  const completedUserTasks = userTasks.filter((t) => t.completedDate);
-  const labels = getLabels();
-  const userData = getData(getDate("2021-09-25T00:00:00.000Z"), getDate("2021-09-17T00:00:00.000Z"), completedUserTasks);
-  console.log(userData);
-
-  const [selectedUsers, setSelectedUsers] = React.useState([]);
-  const [data, setData] = React.useState([]);
-  const [isSelectUsersOpen, setIsSelectUsersOpen] = useState(false);
+  console.log(project, "project");
   console.log(users, "users");
+  console.log(tasks, "tasks");
+
+  const userTasks = tasks.filter((t) => t.asignedTo === "613274bb1a9c7e2b10cfe1c1");
+  console.log(userTasks, "userTasks")
+
+  const completedUserTasks = userTasks.filter((t) => t.status === "Completed");
+  console.log(completedUserTasks, "completed")
+
+  const userData = getData(project.creationDate, "2021-01-26T22:45:54.000Z", completedUserTasks);
+  console.log(userData, "userdata");
+
+  const labels = getLabels(project.requiredDate, project.creationDate);
+
+  const [selectedUsers, setSelectedUsers] = useState([]);
+  const [data, setData] = useState([]);
+  const [isSelectUsersOpen, setIsSelectUsersOpen] = useState(false);
+
   // const [query, setQuery, filteredUsers] = useSearch(users);
 
-  //-------FUNCTIONS---------------------------------
-  function getDate(date){         //converts date strings into integers
-    return parseInt(date.slice(0, 10).replaceAll("-", ""));
+  function calculateDays(required, created){        //calculates x axis values dinamically (in days)
+    let finalDate = moment(required);
+    let initialDate = moment(created);
+    return finalDate.diff(initialDate, 'days');
   }
 
-  function calculateDays(){        //calculates x axis values dinamically (in days)
-    let finalDate = getDate("2021-09-25T00:00:00.000Z");
-    let initialDate = getDate("2021-09-07T17:26:13.094Z");
-    return finalDate - initialDate;
-  }
-
-  function getLabels(){           //creates an array with the calculated values to be set as labels
-    var days = calculateDays();
+  function getLabels(finalDate, initialDate){           //creates an array with the calculated values to be set as labels
+    var days = calculateDays(finalDate, initialDate);
     var labelArray = [];
     for(let i=0; i<days; i++){
       labelArray.push(i+1);
@@ -44,17 +50,19 @@ export default function StatisticDeveloper(props) {
     return labelArray;
   }
 
-  function getData(finalDate, actualDate, tasks){  //creates a totalizer data object
-    var days = calculateDays();
+  function getData(initialDate, actualDate, tasks){  //creates a totalizer data object
+    var days = calculateDays(actualDate, initialDate);
     var data = {quantity: [], storyPoints: []};
-    for(let i=0; i<(finalDate - actualDate); i++){ //initializing both arrays in 0 for each position
-      data.quantity.push(0);
-      data.storyPoints.push(0);
+    for(let i=0; i<days; i++){ //initializing both arrays in 0 for each position
+      data.quantity[i] = 0;
+      data.storyPoints[i] = 0;
     }
+    console.log(data.quantity, data.storyPoints, "weas")
     tasks.forEach((t) =>    //mapping user tasks
       {
-        data.quantity[finalDate - getDate(t.completedDate)]++   //counts completed task quantity
-        data.storyPoints[finalDate - getDate(t.completedDate)] += t.storyPoints  //counts completed story points
+        console.log(calculateDays(t.completedDate, initialDate))
+        data.quantity[calculateDays(t.completedDate, initialDate)] += 1   //counts completed task quantity
+        data.storyPoints[calculateDays(t.completedDate, initialDate)] += t.storyPoints  //counts completed story points
       }
     )
     return data;
@@ -76,7 +84,6 @@ export default function StatisticDeveloper(props) {
       selectedUsers: selectedUsers.filter((u) => u !== user._id)
     })
   }
-  console.log(users, "users");
   // console.log(filteredUsers, "filteredUsers");
   //-------RETURN-------------------------------------
   return (
