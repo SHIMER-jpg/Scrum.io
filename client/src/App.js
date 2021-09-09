@@ -30,7 +30,7 @@ const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const socket = io.connect("https://8c45-200-73-171-178.ngrok.io/");
+    const socket = io.connect("http://localhost:3001/");
     // client-side
     socket.on("connect", () => {
       console.log("socket conectado", socket.id); // x8WIv7-mJelg7on_ALbx

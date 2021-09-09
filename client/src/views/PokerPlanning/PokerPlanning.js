@@ -120,6 +120,7 @@ const PokerPlanning = () => {
     } else {
       if(window.confirm("Are you sure you want to close this room for everyone?")) {
         socket.emit("closeRoom", { projectId: project._id })
+        history.push(`/project/${project._id}`);
       }
     }
   };
