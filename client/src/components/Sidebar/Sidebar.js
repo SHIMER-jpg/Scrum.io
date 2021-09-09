@@ -47,7 +47,6 @@ const Sidebar = () => {
           </NavLink>
         </div>
       )}
-
       <div className={styles.item}>
         <NavLink to="/configuration">
           <BsGear size={23} /> Configuration
