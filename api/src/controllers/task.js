@@ -51,13 +51,19 @@ const postTask = async (req, res, next) => {
   }
 };
 
-const modifyingTask = async (req, res, next) => {
+const modifyTask = async (req, res, next) => {
   try {
-    const { taskId } = req.params;
-    const filter = { _id: taskId };
+    const { taskId } = req.body;
+    const update = {};
+    update[req.body.field] =
+      req.body.field == "asigedTo"
+        ? mongoose.Types.ObjectId(req.body.value)
+        : req.body.value;
 
-    console.log(req.body);
-    await Task.model.findOneAndUpdate(filter, { storyPoints: req.body.value });
+    const updated = await Task.model.findOneAndUpdate(
+      { _id: mongoose.Types.ObjectId(taskId) },
+      update
+    );
     res.status(200).send("Successfully modified task");
   } catch (error) {
     next(error);
@@ -68,11 +74,6 @@ const getUserTasks = async (req, res, next) => {
   const { projectId, userId } = req.query;
 
   try {
-    // const tasks = await Task.model.find({ asignedTo: userId, projectId });
-    // const tasks = await Task.model
-    //   .find({ asignedTo: userId, projectId })
-    //   .populate("user")
-    //   .exec();
     const projectIdMongoose = mongoose.Types.ObjectId(projectId);
     const userIdMongoose = mongoose.Types.ObjectId(userId);
 
@@ -99,6 +100,6 @@ const getUserTasks = async (req, res, next) => {
 module.exports = {
   postTask,
   getTasksByProjectId,
-  modifyingTask,
+  modifyTask,
   getUserTasks,
 };
