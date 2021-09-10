@@ -38,6 +38,13 @@ const managerViewReducer = (state = initialState, action) => {
         ...state,
         asignedUsers: [...action.payload],
       };
+    case "CLEAR_MANAGER_VIEW": {
+      return {
+        project: {},
+        asignedUsers: [],
+        tasks: [],
+      }
+    }
     default:
       return state;
   }

@@ -14,7 +14,6 @@ export default function reducer(state = initialState, action) {
     }
     case CLEAR_ROLE: {
       return {
-        ...state,
         userRole: null,
       };
     }

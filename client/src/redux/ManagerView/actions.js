@@ -91,3 +91,7 @@ export function updateTask(change) {
       .then(dispatch({ type: UPDATE_TASK, payload: change }));
   };
 }
+
+export const clearManagerView = () => ({
+  type: "CLEAR_MANAGER_VIEW"
+})

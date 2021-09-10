@@ -34,3 +34,7 @@ export function getHelpTasks(projectId) {
     });
   };
 }
+
+export const clearDevView = () => ({
+  type: "CLEAR_DEV_VIEW"
+})

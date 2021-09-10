@@ -10,9 +10,33 @@ connection.once("open", () => {
 
   const noteChangeStream = connection.collection("notes").watch();
 
-  taskChangeStream.on("change", (change) => {
-    io.emit("taskChange", change);
-    console.log(change);
+  taskChangeStream.on("change", async (change) => {
+    const task = await connection.models.Task.findOne({
+      _id: change?.documentKey._id,
+    });
+
+    if (change.operationType === "insert") {
+      // io.to(change.fullDocument.asignedTo).emit("newTaskAssigned")
+      io.emit("newTaskAssigned", {
+        userId: task.asignedTo,
+        projectId: task.projectId,
+      });
+
+      io.emit("updateTask", {
+        projectId: task.projectId,
+      });
+    } else if (change.operationType === "update") {
+      if (change.updateDescription.updatedFields.asignedTo) {
+        io.emit("newTaskAssigned", {
+          userId: task.asignedTo,
+          projectId: task.projectId,
+        });
+      }
+
+      io.emit("updateTask", {
+        projectId: task.projectId,
+      });
+    }
   });
 
   noteChangeStream.on("change", (change) => {

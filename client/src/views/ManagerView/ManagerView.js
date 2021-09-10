@@ -2,11 +2,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { React, useEffect, useState } from "react";
 import {
-  postTask,
   getProjectById,
   getTasksByProject,
   getAsignedUsers,
-  updateTask,
+  clearManagerView
 } from "../../redux/ManagerView/actions";
 import { useDispatch, useSelector } from "react-redux";
 import Modal from "react-modal";
@@ -21,8 +20,6 @@ export default function ManagerView() {
   const { projectId } = useParams();
 
   // SOCKET EFFECT
-
-
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const dispatch = useDispatch();
@@ -35,9 +32,9 @@ export default function ManagerView() {
     dispatch(getProjectById(projectId));
     dispatch(getTasksByProject(projectId, setIsLoadingTasks));
     dispatch(getAsignedUsers(projectId));
+
+    return () => dispatch(clearManagerView())
   }, []);
-
-
 
   const [createTask, setCreateTask] = useState({
     title: "",
