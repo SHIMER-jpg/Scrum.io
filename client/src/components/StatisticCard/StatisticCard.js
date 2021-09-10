@@ -17,12 +17,6 @@ export default function StatisticCard({graphType, tasks, project}) {
     byStoryPoints: [],
     byTasks: [],
   })
-  const [charDataOption, setCharDataOption] = useState("byStoryPoints")
-
-  function handleDataChartOption(e){  
-    setCharDataOption(e.target.value);
-  }
-
   // estado y funcion para cambiar la vista de los datos entre ver por story point o por tareas
   const [charDataOption, setCharDataOption] = useState("byStoryPoints")
 
