@@ -5,6 +5,7 @@ import { AiOutlineBarChart } from "react-icons/ai";
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
+import { BsCalendar } from "react-icons/bs";
 
 import styles from "./Sidebar.module.css";
 
@@ -39,6 +40,11 @@ const Sidebar = () => {
       <div className={styles.item}>
         <NavLink to="/configuration">
           <BsGear size={23} /> Configuration
+        </NavLink>
+      </div>
+      <div className={styles.item}>
+      <NavLink to="/calendary">
+          <BsCalendar size={23} /> Calendary
         </NavLink>
       </div>
     </nav>
