@@ -82,7 +82,7 @@ const App = () => {
             component={ViewRouter}
           />
           <PrivateRoute
-            path="/project/:projectId/statistics"
+            path="/statistics/:projectId"
             exact
             component={Statistics}
           />

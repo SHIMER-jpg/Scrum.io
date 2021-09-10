@@ -1,16 +1,23 @@
-.conteiner{
+.container{
     background: white;
     padding: 20px;
 
-    box-shadow: 1px 1px 2px rgba(10, 10, 10, 0.17);
-    border-radius: 8px;
-    transition: all ease 0.15s;
+  box-shadow: 1px 1px 2px rgba(10, 10, 10, 0.17);
+  border-radius: 8px;
+  transition: all ease 0.15s;
 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
+.header{
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  border-bottom: 2px solid #d4d4d4;
+    padding-bottom: 5px;
+}
 .header h2{
     margin: 0;
 }
@@ -18,7 +25,6 @@
 .graph{
     padding: 10px 0;
     margin: 10px 0;
-    border-top: 2px solid rgb(212, 212, 212);
 }
 
 .modalSelectUser.visible {
@@ -38,6 +44,7 @@
   gap: 15px;
   font-weight: 500;
   padding: 10px;
+
   transition: all 0.15s ease-in-out;
 }
 
@@ -79,4 +86,79 @@
   all: unset;
   display: flex;
   align-items: center;
+}
+
+.userBox {
+  position: relative;
+  display: flex;
+  align-items: center;
+  user-select: none;
+}
+
+.userBox img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.userBox p {
+  line-height: 1;
+}
+.modalFormGroup {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+.modalFormGroup label {
+  font-weight: 600;
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.modalFormGroup input,
+textarea,
+select {
+  all: unset;
+  border-radius: 8px;
+  padding: 10px;
+  border: 1px solid rgb(204, 204, 204);
+  transition: all 0.1s ease-in-out;
+}
+
+.modalFormGroupmodalFormGroup input:focus,
+textarea:focus,
+select:focus {
+  border: 2px solid var(--violet);
+  box-shadow: 0 0 0 3px rgba(161, 36, 101, 0.4);
+}
+
+.modalSelectUser {
+  flex-direction: column;
+  max-height: 145px;
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid rgb(204, 204, 204);
+  background: white;
+  overflow-y: auto;
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.15s ease-in-out;
+  z-index: 1000;
+}
+
+.modalSelectUser.visible {
+  visibility: visible;
+  opacity: 1;
+}
+
+.selectUserContainer {
+  position: relative;
+}
+
+.modalUser img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid rgb(204, 204, 204);
 }

@@ -11,9 +11,12 @@ import styles from "./Sidebar.module.css";
 
 const Sidebar = () => {
   const userRole = useSelector(({ viewRouter }) => viewRouter.userRole);
+  const projectId = useSelector(({ managerView }) => managerView.project._id);
   const {
     location: { pathname },
   } = useHistory();
+
+  console.log(projectId)
 
   return (
     <nav className={styles.container}>
@@ -26,24 +29,25 @@ const Sidebar = () => {
         userRole === "scrumMaster" ? (
           <>
             <div className={styles.item}>
-              <NavLink to={pathname}>
+              <NavLink to={`/project/${projectId}`}>
                 <HiViewBoards size={23} /> Overview
               </NavLink>
             </div>
             <div className={styles.item}>
-              <NavLink to={`${pathname}/statistics`}>
+              <NavLink to={`/statistics/${projectId}`}>
                 <AiOutlineBarChart size={23} /> Statistics
               </NavLink>
             </div>
           </>
         ) : (
           <div className={styles.item}>
-            <NavLink to={pathname}>
+            <NavLink to={`/project/${projectId}`}>
               <FaTasks size={20} /> My tasks
             </NavLink>
           </div>
         )
       ) : null}
+
       <div className={styles.item}>
         <NavLink to="/configuration">
           <BsGear size={23} /> Configuration

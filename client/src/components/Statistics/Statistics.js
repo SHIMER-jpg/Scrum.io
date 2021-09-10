@@ -8,6 +8,7 @@ import styles from "./Statistics.module.css";
 import {
   getProjectById,
   getTasksByProject,
+  getAsignedUsers
 } from "../../redux/ManagerView/actions";
 
 // components
@@ -17,6 +18,7 @@ import StatisticDeveloper from "../StatisticDeveloper/StatisticDeveloper";
 export default function Statistics(props) {
   const project = useSelector((state) => state.managerView.project);
   const tasks = useSelector((state) => state.managerView.tasks);
+  const users = useSelector((state) => state.managerView.asignedUsers);
   const dispatch = useDispatch();
 
   // si no hay valores en los estados globales, ejecuta las acciones de ManagerView que los pedirian
@@ -27,9 +29,12 @@ export default function Statistics(props) {
     if(tasks.length === 0){
       dispatch(getTasksByProject(props.match.params.projectId));
     }
+    if(users.length === 0){
+      dispatch(getAsignedUsers(props.match.params.projectId));
+    }
   },[]);
   return (
-    <div className={styles.conteiner}>
+    <div className={styles.container}>
       <div className={styles.header}>
         <h1>Statistics</h1>
       </div>
