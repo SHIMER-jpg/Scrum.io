@@ -11,7 +11,7 @@ import {
   clearNotes,
   removeNote,
 } from "../../redux/NoteDetail/actions";
-import { updateTask } from "../../redux/ManagerView/actions";
+import { updateTask, deleteTask } from "../../redux/ManagerView/actions";
 import { createNote } from "../../redux/NoteDetail/actions";
 
 //components and utils
@@ -28,6 +28,7 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
   const [isSelectUsersOpen, setIsSelectUsersOpen] = useState(false);
   const [usersInProject, setUsersInProject] = useState([]);
   const [query, setQuery, filteredUsers] = useSearch(usersInProject);
+  const [clickDeleteCount, setClickDeleteCount] = useState(0);
 
   const isManager = useSelector(
     (state) => state.viewRouter.userRole == "scrumMaster"
@@ -182,6 +183,13 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
     dispatch(updateTask(change));
     setQuery("");
   };
+
+  const handleDelete = (_id) => {
+    if (clickDeleteCount >= 1) {
+      setIsModalOpen(false);
+      dispatch(deleteTask(_id));
+    }
+  };
   const handleRemoveNote = (noteId) => {
     dispatch(removeNote(noteId));
   };
@@ -301,7 +309,16 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
                 onChange={(e) => handleArea(e)}
                 placeholder="Write a new note..."
               ></textarea>
-              <button type="submit">Add Note</button>
+              <div className={styles.modalButtons}>
+                <button type="submit">Add Note</button>
+                <button
+                  className={`${styles[dynamicFields.helpNeeded]}`}
+                  type="submit"
+                  onClick={(e) => handleOnClick(e)}
+                >
+                  {dynamicFields.helpNeeded ? "Help Asked" : "Ask for help"}
+                </button>
+              </div>
             </form>
           </div>
           <div className={styles.modalFormGroup}>
@@ -323,11 +340,14 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
           </div>
           <div className={styles.modalButtons}>
             <button
-              className={`${styles[dynamicFields.helpNeeded]}`}
+              className={styles.delete}
               type="submit"
-              onClick={(e) => handleOnClick(e)}
+              onClick={(e) => {
+                handleDelete(_id);
+                setClickDeleteCount(clickDeleteCount + 1);
+              }}
             >
-              {dynamicFields.helpNeeded ? "Help Asked" : "Ask for help"}
+              Delete Task
             </button>
             <Dropdown
               isVisible={statusDropdownIsOpen}
@@ -342,6 +362,13 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
               theme="dark"
             />
           </div>
+          {clickDeleteCount > 0 ? (
+            <span className={styles.danger}>
+              Please confirm, this action is not reversible
+            </span>
+          ) : (
+            ""
+          )}
         </div>
       </Modal>
     </>

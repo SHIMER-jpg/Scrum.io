@@ -11,7 +11,7 @@ Modal.setAppElement("#root");
 const customStyles = {
   content: {
     padding: "40px",
-    width: "100%",
+    width: "50%",
     inset: "unset",
     maxHeight: "90vh",
     borderRadius: "8px",
@@ -53,7 +53,7 @@ const DeleteModal = ({
       onRequestClose={() => setIsModalOpen(false)}
     >
       <header className={styles.modalHeader}>
-        <h2>Delete project ?</h2>
+        <h2>Remove ?</h2>
         <button onClick={() => setIsModalOpen(false)}>
           <IoClose size={30} />
         </button>

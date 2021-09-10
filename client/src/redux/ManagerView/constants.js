@@ -6,6 +6,7 @@ const DELETE_PROJECT = "DELETE_PROJECT";
 const UPDATE_TASK = "UPDATE_TASK";
 const UPDATE_NOTE = "UPDATE_NOTE";
 const CREATE_TASK = "CREATE_TASK";
+const DELETE_TASK = "DELETE_TASK";
 
 module.exports = {
   GET_PROJECT_BY_ID,
@@ -15,4 +16,5 @@ module.exports = {
   DELETE_PROJECT,
   UPDATE_NOTE,
   CREATE_TASK,
+  DELETE_TASK,
 };

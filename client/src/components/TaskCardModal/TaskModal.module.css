@@ -17,7 +17,7 @@
 .modalHeader > button {
   all: unset;
   position: absolute;
-  right: 0%;
+  right: 2%;
 }
 
 .modalBody {
@@ -175,6 +175,9 @@ select:focus {
   border: 0.5px solid var(--violet);
   color: var(--violet);
 }
+.modalButtons button[type="submit"].delete {
+  background-color: var(--red);
+}
 
 .notes {
   resize: none;
@@ -209,4 +212,9 @@ select:focus {
   display: flex;
   margin: auto;
   margin-right: 10px;
+}
+.danger {
+  color: red;
+  font-weight: 500;
+  user-select: none;
 }

@@ -7,6 +7,7 @@ import {
   GET_PROJECT_BY_ID,
   UPDATE_TASK,
   CREATE_TASK,
+  DELETE_TASK,
 } from "./constants";
 
 require("dotenv").config();
@@ -76,12 +77,22 @@ export function updateTask(change) {
   };
 }
 
-export function deleteTask(projectId) {
+export function deleteProject(projectId) {
   return function (dispatch) {
     axios
       .delete(
         `http://${REACT_APP_BACKEND_HOST}:${REACT_APP_BACKEND_PORT}/project/${projectId}`
       )
       .then(dispatch({ type: DELETE_PROJECT }));
+  };
+}
+
+export function deleteTask(taskId) {
+  return function (dispatch) {
+    axios
+      .delete(
+        `http://${REACT_APP_BACKEND_HOST}:${REACT_APP_BACKEND_PORT}/task/${taskId}`
+      )
+      .then(dispatch({ type: DELETE_TASK, payload: taskId }));
   };
 }

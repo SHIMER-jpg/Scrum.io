@@ -1,4 +1,5 @@
 const Task = require("../models/Task");
+const Note = require("../models/Note");
 const mongoose = require("mongoose");
 
 const getTasksByProjectId = async (req, res, next) => {
@@ -97,9 +98,21 @@ const getUserTasks = async (req, res, next) => {
   }
 };
 
+const deleteTask = async (req, res, next) => {
+  try {
+    const taskId = mongoose.Types.ObjectId(req.params.taskId);
+    await Task.model.remove({ _id: taskId });
+    await Note.model.remove({ taskId: taskId });
+    res.status(200).json("success");
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   postTask,
   getTasksByProjectId,
   modifyTask,
   getUserTasks,
+  deleteTask,
 };

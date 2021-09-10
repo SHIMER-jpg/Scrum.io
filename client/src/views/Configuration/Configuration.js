@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { change } from "../../redux/PokerPlanning/actions";
-import { deleteTask } from "../../redux/ManagerView/actions";
+import { deleteProject } from "../../redux/ManagerView/actions";
 import { useState } from "react";
 import styles from "./Configuration.module.css";
 import DeleteModal from "../../components/DeleteModal/DeleteModal";
@@ -25,7 +25,7 @@ export function Configuration() {
 
   const handleDelete = () => {
     setIsModalOpen(false);
-    dispatch(deleteTask(project._id));
+    dispatch(deleteProject(project._id));
     history.push("/");
   };
 

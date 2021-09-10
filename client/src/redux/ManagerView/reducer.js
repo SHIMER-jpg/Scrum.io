@@ -4,6 +4,7 @@ import {
   GET_ASIGNED_USERS,
   DELETE_PROJECT,
   UPDATE_TASK,
+  DELETE_TASK,
 } from "./constants";
 
 const initialState = {
@@ -43,6 +44,11 @@ const managerViewReducer = (state = initialState, action) => {
       return {
         ...state,
         project: {},
+      };
+    case DELETE_TASK:
+      return {
+        ...state,
+        tasks: [...state.tasks.filter((task) => task._id != action.payload)],
       };
     default:
       return state;
