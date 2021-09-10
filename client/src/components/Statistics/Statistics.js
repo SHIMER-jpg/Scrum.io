@@ -33,10 +33,17 @@ export default function Statistics(props) {
       dispatch(getAsignedUsers(props.match.params.projectId));
     }
   },[]);
+
+  var helpNeeded = tasks.filter(t => t.helpNeeded).length;
   return (
     <div className={styles.container}>
       <div className={styles.header}>
         <h1>Statistics</h1>
+        <div className={styles.helpNeeded}>
+          <h4>Help needed</h4>
+          <div></div>
+          <h4>{helpNeeded}</h4>
+        </div>
       </div>
       <div className={styles.body}>
         <div className={styles.cardsList}>
