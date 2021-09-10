@@ -14,10 +14,20 @@
   box-shadow: 1px 1px 5px rgba(10, 10, 10, 0.15);
 }
 
+.header {
+  display: flex;
+  flex-direction: row nowrap;
+  justify-content: space-between;
+}
+
 .header h2 {
   margin: 0 0 10px;
-  font-size: 28px;
+  font-size: 24px;
   font-weight: 600;
+}
+
+.header p {
+  color: rgb(85, 85, 85);
 }
 
 .body h3 {
