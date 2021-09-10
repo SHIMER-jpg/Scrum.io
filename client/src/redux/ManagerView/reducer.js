@@ -26,7 +26,7 @@ const managerViewReducer = (state = initialState, action) => {
 
     case UPDATE_TASK:
       const newTasks = state.tasks.map((task) => {
-        if (task._id == action.payload.taskId) {
+        if (task._id === action.payload.taskId) {
           task[action.payload.field] = action.payload.value;
         }
         return task;

@@ -10,6 +10,7 @@ import { setUser, setSocket } from "./redux/App/actions.js";
 //components
 import PrivateRoute from "./components/HOCS/PrivateRoute";
 import ViewRouter from "./components/ViewRouter/ViewRouter";
+import Statistics from "./components/Statistics/Statistics.js";
 
 // views
 import Home from "./views/Home/Home";
@@ -18,7 +19,6 @@ import LandingPage from "./views/LandingPage/LandingPage";
 import DeveloperView from "./views/DeveloperView/DeveloperView";
 import ManagerView from "./views/ManagerView/ManagerView";
 import Layout from "./components/Layout/Layout.js";
-import { Manager } from "socket.io-client";
 
 const BACKEND_HOST = process.env.REACT_APP_BACKEND_HOST;
 const BACKEND_PORT = process.env.REACT_APP_BACKEND_PORT;
@@ -79,6 +79,11 @@ const App = () => {
             path="/project/:projectId"
             exact
             component={ViewRouter}
+          />
+          <PrivateRoute
+            path="/statistics/:projectId"
+            exact
+            component={Statistics}
           />
           <PrivateRoute path="/manager_view" exact component={ManagerView} />
           <PrivateRoute
