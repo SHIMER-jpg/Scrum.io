@@ -59,7 +59,21 @@ const createNote = async (req, res, next) => {
   }
 };
 
+const deleteNote = async (req, res, next) => {
+  try {
+    const noteId = mongoose.Types.ObjectId(req.params.noteId);
+    const note = await Note.model.remove({ _id: noteId });
+    const task = await Task.model.findOne({ noteIds: { $in: [noteId] } });
+    task.noteIds.splice(task.noteIds.indexOf(noteId), 1);
+    task.save();
+    res.status(200).json("success");
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   createNote,
   getNotesByTaskId,
+  deleteNote,
 };

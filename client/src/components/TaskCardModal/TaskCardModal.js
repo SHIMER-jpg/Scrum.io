@@ -6,7 +6,11 @@ import { useSearch } from "../../hooks/useSearch";
 import useTimeAgo from "../../hooks/useTimeAgo";
 
 // redux actions
-import { getNotesDetails, clearNotes } from "../../redux/NoteDetail/actions";
+import {
+  getNotesDetails,
+  clearNotes,
+  removeNote,
+} from "../../redux/NoteDetail/actions";
 import { updateTask } from "../../redux/ManagerView/actions";
 import { createNote } from "../../redux/NoteDetail/actions";
 
@@ -90,21 +94,6 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
       dispatch(clearNotes());
     };
   }, []);
-
-  /*
-  * asignedTo: "613274bb1a9c7e2b10cfe1c1"
-completedDate: "2021-07-08T06:04:10.000Z"
-creationDate: "2021-05-10T06:53:16.000Z"
-details: "In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.\n\nSuspendisse potenti. In eleifend quam a odio. In hac habitasse platea dictumst.\n\nMaecenas ut massa quis augue luctus tincidunt. Nulla mollis molestie lorem. Quisque ut erat."
-helpNeeded: true
-noteIds: ["61313b37fc13ae5ac3000cc7"]
-priorization: "Deprioritize"
-projectId: "61313b4dfc13ae1dd2000cf8"
-status: "Testing"
-storyPoints: 74
-title: "Rank"
-__v: 0
- */
 
   function handleStatusChange({ target }) {
     const change = {
@@ -193,7 +182,9 @@ __v: 0
     dispatch(updateTask(change));
     setQuery("");
   };
-  // const [modalIsOpen, setIsOpen] = React.useState(false);
+  const handleRemoveNote = (noteId) => {
+    dispatch(removeNote(noteId));
+  };
 
   return (
     <>
@@ -320,9 +311,12 @@ __v: 0
                 return (
                   <NoteDetail
                     key={note._id}
+                    id={note._id}
                     content={note.content}
                     userName={note.user.name}
                     userPicture={note.user.picture}
+                    removeNote={handleRemoveNote}
+                    render={isManager || loggedId == note.userId}
                   />
                 );
               })}

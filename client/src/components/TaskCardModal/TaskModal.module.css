@@ -16,8 +16,8 @@
 
 .modalHeader > button {
   all: unset;
-  display: flex;
-  align-items: center;
+  position: absolute;
+  right: 0%;
 }
 
 .modalBody {

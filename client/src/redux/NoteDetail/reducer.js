@@ -1,4 +1,9 @@
-import { GET_NOTES_DETAILS, CLEAR_NOTES, CREATE_NOTE } from "./constants";
+import {
+  GET_NOTES_DETAILS,
+  CLEAR_NOTES,
+  CREATE_NOTE,
+  REMOVE_NOTE,
+} from "./constants";
 
 const initialState = {
   notes: [],
@@ -20,6 +25,12 @@ const NotesReducer = (state = initialState, action) => {
       return {
         ...state,
         notes: [],
+      };
+    case REMOVE_NOTE:
+      console.log(action.payload);
+      return {
+        ...state,
+        notes: [...state.notes.filter((note) => note._id != action.payload)],
       };
     default:
       return state;
