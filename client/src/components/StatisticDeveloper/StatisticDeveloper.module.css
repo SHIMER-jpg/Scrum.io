@@ -14,22 +14,67 @@
 .header{
   display: flex;
   justify-content: space-between;
+  align-items: center;
   position: relative;
   border-bottom: 2px solid #d4d4d4;
-    padding-bottom: 5px;
+  padding-bottom: 5px;
+  height: 40px;
 }
+
+.header .title{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 5px;
+}
+
 .header h2{
     margin: 0;
+}
+
+.header select{
+  padding: 5px 10px;
+  font-size: 15px;
+  font-weight: 500;
+  border: 2px solid #d4d4d4;
+  margin: 5px;
+}
+
+.header select:focus{
+  border: 2px solid var(--violet);
+  box-shadow: 0 0 0 3px rgba(161, 36, 101, 0.4);
+}
+
+.header select:hover{
+  cursor: pointer;
+}
+
+.header .options{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 5px;
+}
+
+.body{
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
 }
 
 .graph{
     padding: 10px 0;
     margin: 10px 0;
+    width: 75%;
 }
 
 .modalSelectUser.visible {
   visibility: visible;
   opacity: 1;
+  position: absolute;
+  width: 280px;
+  right: 0;
 }
 
 .modalSelectUser > p {
@@ -89,49 +134,55 @@
 }
 
 .userBox {
+  top: 0;
   position: relative;
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   user-select: none;
+  width: 300px;
+  margin-right: 10px;
 }
 
 .userBox img {
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   margin-right: 10px;
 }
 
 .userBox p {
   line-height: 1;
+  font-size: 15px;
+  font-weight: 500;
 }
+
 .modalFormGroup {
-  display: flex;
+
   flex-direction: column;
-  margin-bottom: 20px;
+  position: relative;
 }
+
 .modalFormGroup label {
   font-weight: 600;
   font-size: 18px;
   margin-bottom: 8px;
 }
 
-.modalFormGroup input,
-textarea,
-select {
+.modalFormGroup input {
   all: unset;
   border-radius: 8px;
   padding: 10px;
   border: 1px solid rgb(204, 204, 204);
   transition: all 0.1s ease-in-out;
+  width: 100%;
 }
 
-.modalFormGroupmodalFormGroup input:focus,
-textarea:focus,
-select:focus {
-  border: 2px solid var(--violet);
-  box-shadow: 0 0 0 3px rgba(161, 36, 101, 0.4);
+.modalFormGroup input {
+  width: 239px;
 }
+
+
 
 .modalSelectUser {
   flex-direction: column;
@@ -161,4 +212,35 @@ select:focus {
   height: 30px;
   border-radius: 50%;
   border: 1px solid rgb(204, 204, 204);
+}
+
+.stats{
+  width: 25%;
+}
+
+.stat label{
+  margin: 0;
+  padding: 10px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.stat p{
+  margin: 0;
+  padding: 10px;
+  border-left: 2px solid #d4d4d4;
+  width: 20%;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.stat{
+  display: flex;
+  justify-content: space-between;
+  background: white;
+  border: 1px solid #d4d4d4;
+  box-shadow: 1px 1px 2px rgba(10, 10, 10, 0.17);
+  border-radius: 8px;
+  margin: 10px 0;
 }
