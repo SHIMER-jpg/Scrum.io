@@ -97,9 +97,22 @@ const deleteProject = async (req, res, next) => {
   }
 };
 
+const updateStatus = async (projectId) => {
+  const project = await Project.model.findOne({ _id: projectId });
+  const tasks = await Task.model.find({ projectId: projectId });
+  const completedSum = tasks.reduce((acc, val) => {
+    var flag = val.status == "Completed" ? 1 : 0;
+    return parseInt(acc) + flag;
+  }, 0);
+  project.status = Math.trunc((completedSum / tasks.length) * 100);
+
+  project.save();
+};
+
 module.exports = {
   getProjectById,
   createProject,
   getProjectByUserId,
   deleteProject,
+  updateStatus,
 };

@@ -1,5 +1,6 @@
 const Task = require("../models/Task");
 const Note = require("../models/Note");
+const { updateStatus } = require("./project");
 const mongoose = require("mongoose");
 
 const getTasksByProjectId = async (req, res, next) => {
@@ -45,7 +46,7 @@ const postTask = async (req, res, next) => {
     });
 
     await newTask.save();
-
+    updateStatus(req.body.projectId);
     res.status(201).json(newTask);
   } catch (error) {
     next(error);
@@ -65,6 +66,8 @@ const modifyTask = async (req, res, next) => {
       { _id: mongoose.Types.ObjectId(taskId) },
       update
     );
+    if (req.body.value == "Completed") updateStatus(updated.projectId);
+
     res.status(200).send("Successfully modified task");
   } catch (error) {
     next(error);
