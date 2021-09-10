@@ -18,6 +18,11 @@ export default function StatisticCard({graphType, tasks, project}) {
     byStoryPoints: [],
     byTasks: [],
   })
+  const [charDataOption, setCharDataOption] = useState("byStoryPoints")
+
+  function handleDataChartOption(e){  
+    setCharDataOption(e.target.value);
+  }
 
   // se encarga de setear los datos de los graficos
   useEffect(() => {
@@ -35,7 +40,7 @@ export default function StatisticCard({graphType, tasks, project}) {
   let days = firstDay && lastDay.diff(firstDay, 'days')
   
   let dataDays = [];
-  for(let i=0; i <= days; i++){
+  for(let i=1; i <= days; i++){
     dataDays[i] = i
   }
 
@@ -51,6 +56,7 @@ export default function StatisticCard({graphType, tasks, project}) {
     dataStoryPoints[i] = Math.round(sum);
     sum = sum + storyPointsPerDay;
   }
+  dataStoryPoints = dataStoryPoints.reverse()
 
   let completedTasks = tasks && tasks.filter(t=> t.status == 'Completed').sort(function(a, b) {
     if (a.completedDate > b.completedDate) {
@@ -67,17 +73,39 @@ export default function StatisticCard({graphType, tasks, project}) {
   let completedDates = Array.from(aux)
 
   let devStoryPoints = new Array(completedDates.length)
-  for(let h=0; h < devStoryPoints.length; h++){
+  for(let h=1; h < devStoryPoints.length; h++){
     devStoryPoints[h] = 0
   }
 
-  for(let i=0; i < completedDates.length; i++){
+  for(let i=0; i <= completedDates.length; i++){
     for(let j=0; j < completedTasks.length; j++){
       if(completedTasks[j].completedDate == completedDates[i]){
-        devStoryPoints[i] = devStoryPoints[i] + completedTasks[j].storyPoints
+        devStoryPoints[i+1] = dataStoryPoints[i] - completedTasks[j].storyPoints 
       }
     }
   }
+
+  let tasksPerDay= Math.round(tasks.length/days)
+  let dataTasksPerDay = []
+  let add = 0
+  for(let i=0; i <= days; i++){
+    dataTasksPerDay[i] = add;
+    add = add + tasksPerDay;
+  }
+  dataTasksPerDay = dataTasksPerDay.reverse()
+
+  let tasksCompletedPerDay = []
+  for(let h=1; h < devStoryPoints.length; h++){
+    tasksCompletedPerDay[h] = 0
+  }
+  for(let i=0; i <= completedDates.length; i++){
+    for(let j=0; j < completedTasks.length; j++){
+      if(completedTasks[j].completedDate == completedDates[i]){
+        tasksCompletedPerDay[i] = dataTasksPerDay[i] - 1
+      }
+    }
+  }
+  
   // funcion para setear la data por StoryPoints
   function charDataByStoryPoints(){
     var charData = [0,0,0,0];
@@ -267,17 +295,17 @@ export default function StatisticCard({graphType, tasks, project}) {
             <Line className={styles.chart}
             data={{
               labels: dataDays,
-              datasets: [
+              datasets:[
               {
                 label: 'Actual development',
-                data: devStoryPoints,
+                data: charDataOption == 'byStoryPoints' ? devStoryPoints : tasksCompletedPerDay,
                 borderColor:['#a12464']
               },
               {
                 label: 'Ideal development',
-                data: dataStoryPoints.reverse(),
+                data: charDataOption == 'byStoryPoints' ? dataStoryPoints : dataTasksPerDay,
                 borderColor:['#7BEFFF']
-              }
+              },
             ]
             }}
             option={{
@@ -294,9 +322,12 @@ export default function StatisticCard({graphType, tasks, project}) {
           :
           <>
           </>
-          }
-        </div>
+        }</div>
         <div className={styles.description}>
+        <select onChange={(e) => handleDataChartOption(e)} name="dataBy">
+            <option value="byStoryPoints">Story Points</option>
+            <option value="byTasks">Tasks</option>
+          </select>
         </div>
       </div>
     </div>
