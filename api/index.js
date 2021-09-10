@@ -2,6 +2,7 @@ const server = require("./src/app.js");
 // const dataBaseFirstLoad = require("./dataBaseFirstLoad.js");
 const io = require("./src/socket");
 const { connection } = require("./src/watchers.js");
+require("./src/events/roomEvents");
 
 // dataBaseFirstLoad();
 // Syncing all the models at once.

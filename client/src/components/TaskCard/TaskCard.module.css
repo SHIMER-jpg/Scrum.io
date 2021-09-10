@@ -1,7 +1,7 @@
 .taskCard {
   background-color: #f3f3f3;
   padding: 12px;
-  margin: 20px 0;
+  /* margin: 20px 0; */
   border-radius: 8px;
   transition: 0.15s all ease;
 }

@@ -5,6 +5,7 @@ const {
   modifyTask,
   postTask,
   getUserTasks,
+  putTaskChange,
 } = require("../controllers/task.js");
 
 const task = Router();

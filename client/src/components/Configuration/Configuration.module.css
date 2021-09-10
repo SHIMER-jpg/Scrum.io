@@ -1,0 +1,11 @@
+.select{
+    display: flex;
+    justify-content: space-evenly;
+    background: white;
+    color: black;
+    height: 20px;
+    /* width: 150px; */
+    align-content: center;
+    flex-wrap: wrap;
+    /* flex-direction: column; */
+}
