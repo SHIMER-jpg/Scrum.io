@@ -1,0 +1,4 @@
+.fc .fc-col-header-cell-cushion { /* needs to be same precedence */
+    padding-top: 5px; /* an override! */
+    padding-bottom: 5px; /* an override! */
+  }
