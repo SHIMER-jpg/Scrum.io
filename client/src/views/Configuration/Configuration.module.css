@@ -31,3 +31,39 @@
   font-weight: 600;
   margin: 0;
 }
+
+.modalFormGroup {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.modalFormGroup label {
+  font-weight: 500;
+  font-size: 18px;
+  margin-right: 20px;
+}
+
+.delete button {
+  all: unset;
+  background: var(--red);
+  padding: 10px 15px;
+  border-radius: 8px;
+  color: white;
+  font-weight: 600;
+  font-size: 15px;
+  align-self: flex-end;
+  border: 0.5px solid var(--red);
+}
+
+.delete {
+  width: max-content;
+  color: red;
+  font-weight: 600;
+  border-radius: 8px;
+  border: 2px solid var(--red);
+  padding: 10px;
+}
+

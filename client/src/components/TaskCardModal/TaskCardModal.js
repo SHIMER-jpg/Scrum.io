@@ -117,6 +117,16 @@ __v: 0
       status: target.dataset.value,
     });
     dispatch(updateTask(change));
+    var flag =
+      target.dataset.value == "Completed"
+        ? dispatch(
+            updateTask({
+              taskId: _id,
+              field: "completedDate",
+              value: new Date(),
+            })
+          )
+        : "";
   }
   function handlePrioritizationChange({ target }) {
     const change = {

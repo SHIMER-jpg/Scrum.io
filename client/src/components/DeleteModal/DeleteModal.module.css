@@ -1,0 +1,74 @@
+/* MODAL STYLES ===================================================== */
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  justify-content: center;
+}
+
+.modalHeader > h2 {
+  margin: 0;
+  font-weight: 600;
+  font-size: 32px;
+}
+
+.modalHeader > button {
+  all: unset;
+  display: flex;
+  align-items: flex-end;
+  position: absolute;
+  right: 5%;
+}
+
+.modalButtons {
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  flex-flow: row nowrap;
+}
+
+.modalButtons button {
+  all: unset;
+  background: var(--red);
+  padding: 10px 40px;
+  border-radius: 8px;
+  color: white;
+  font-weight: 600;
+  font-size: 18px;
+  width: 100%;
+  text-align: center;
+  /* align-self: flex-end; */
+  user-select: none;
+}
+.modalButtons button:disabled {
+  background: rgb(204, 204, 204);
+  color: white;
+}
+
+.modalFormGroup {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.modalFormGroup label {
+  font-weight: 600;
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.modalFormGroup input,
+textarea {
+  all: unset;
+  border-radius: 8px;
+  padding: 10px;
+  border: 1px solid rgb(204, 204, 204);
+  transition: all 0.1s ease-in-out;
+}
+
+.modalFormGroup input:focus,
+textarea:focus {
+  border: 2px solid var(--violet);
+  box-shadow: 0 0 0 3px rgba(161, 36, 101, 0.4);
+}

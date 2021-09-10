@@ -19,7 +19,7 @@ import DeveloperView from "./views/DeveloperView/DeveloperView";
 import ManagerView from "./views/ManagerView/ManagerView";
 import Layout from "./components/Layout/Layout.js";
 import PokerPlanning from "./views/PokerPlanning/PokerPlanning";
-import { Configuration } from "./components/Configuration/Configuration.js";
+import { Configuration } from "./views/Configuration/Configuration.js";
 import { Manager } from "socket.io-client";
 
 const BACKEND_HOST = process.env.REACT_APP_BACKEND_HOST;

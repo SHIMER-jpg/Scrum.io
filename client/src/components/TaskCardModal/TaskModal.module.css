@@ -24,17 +24,18 @@
   margin-top: 25px;
 }
 
+.modalButtons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
 .modalFormGroup {
   display: flex;
   flex-direction: column;
   margin-bottom: 20px;
 }
 
-.modalButtons {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
 .modalFormGroup label {
   font-weight: 600;
   font-size: 18px;

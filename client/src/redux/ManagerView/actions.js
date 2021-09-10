@@ -3,6 +3,7 @@ import axios from "axios";
 import {
   GET_TASKS_BY_PROJECT,
   GET_ASIGNED_USERS,
+  DELETE_PROJECT,
   GET_PROJECT_BY_ID,
   UPDATE_TASK,
   CREATE_TASK,
@@ -22,23 +23,6 @@ export function getProjectById(projectId) {
       });
   };
 }
-
-// export function postTask(task) {
-//   return function (dispatch) {
-//     axios
-//       .post(
-//         `http://${REACT_APP_BACKEND_HOST}:${REACT_APP_BACKEND_PORT}/task/createTask`,
-//         task
-//       )
-//       .then((resp) => {
-//         dispatch({ type: "asdas" });
-//         return resp.data;
-//       })
-//       .catch((err) => {
-//         console.log(err);
-//       });
-//   };
-// }
 
 export function getTasksByProject(projectId, setIsLoadingTasks) {
   //not any paload since it uses the already stored project
@@ -62,8 +46,8 @@ export function createTask(task) {
         { ...task }
       )
       .then(() => {
-        dispatch({ type: CREATE_TASK })
-        dispatch(getTasksByProject(task.projectId))
+        dispatch({ type: CREATE_TASK });
+        dispatch(getTasksByProject(task.projectId));
       })
       .catch(console.log);
   };
@@ -89,5 +73,15 @@ export function updateTask(change) {
         change
       )
       .then(dispatch({ type: UPDATE_TASK, payload: change }));
+  };
+}
+
+export function deleteTask(projectId) {
+  return function (dispatch) {
+    axios
+      .delete(
+        `http://${REACT_APP_BACKEND_HOST}:${REACT_APP_BACKEND_PORT}/project/${projectId}`
+      )
+      .then(dispatch({ type: DELETE_PROJECT }));
   };
 }
