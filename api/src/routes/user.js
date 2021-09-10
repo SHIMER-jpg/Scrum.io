@@ -5,6 +5,7 @@ const {
   getAllUsers,
   getUserRole,
   assignUsers,
+  deleteUser,
 } = require("../controllers/user.js");
 const user = Router();
 
@@ -21,5 +22,7 @@ user.post("/findOrCreate", findOrCreateUser);
 user.get("/getAll", getAllUsers);
 
 user.put("/assignProject/:projectId", assignUsers);
+
+user.delete("/deleteUser/:projectId", deleteUser);
 
 module.exports = user;

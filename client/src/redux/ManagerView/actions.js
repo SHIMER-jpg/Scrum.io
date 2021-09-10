@@ -7,6 +7,7 @@ import {
   UPDATE_TASK,
   CREATE_TASK,
   GET_ALL_USERS,
+  ASSIGN_USER_PROJECT,
 } from "./constants";
 
 require("dotenv").config();
@@ -91,6 +92,35 @@ export function getAllUsers() {
       .then((json) => {
         console.log(json.data, "holaaaaaaaaaaaaa");
         dispatch({ type: GET_ALL_USERS, payload: json.data });
+      });
+  };
+}
+
+export function assignUser(projectId, userId) {
+  return function (dispatch) {
+    console.log("entre aca");
+
+    axios
+      .put(
+        `http://${REACT_APP_BACKEND_HOST}:${REACT_APP_BACKEND_PORT}/user/assignProject/${projectId}`,
+        { userId }
+      )
+      .then((json) => {
+        return json.data;
+      });
+  };
+}
+
+export function deleteUserFromProject(projectId, userId) {
+  return function (dispatch) {
+    console.log(userId, "hola");
+    axios
+      .delete(`http://localhost:3001/user/deleteUser/${projectId}`, {
+        data: { userId },
+      })
+      .then((json) => {
+        console.log(json);
+        return json.data;
       });
   };
 }

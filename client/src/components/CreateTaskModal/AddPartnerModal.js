@@ -1,43 +1,37 @@
-import Modal from "react-modal";
+import { useSearch } from "../../hooks/useSearch";
+import styles from "./AddPartnerModal.module.css";
 import { IoClose } from "react-icons/io5";
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import Modal from "react-modal";
+import { useState, useEffect } from "react";
+import {
+  assignUser,
+  deleteUserFromProject,
+  getAsignedUsers,
+} from "../../redux/ManagerView/actions";
 
 export function AddPartnerModal({
   allUsers,
   setModalAddPartner,
   modalAddPartner,
   assignedUsers,
+  projectId,
 }) {
-  function handleSubmit(e) {
-    e.preventDefault();
-
-    AddPartnerModal(false);
-  }
-
-  function deleteUser(e) {
-    console.log(e);
-  }
-
-  function filterUser(e) {
-    var dataobj = allUsers.users.filter((value) => {
-      return value._id === e;
-    });
-
-    for (let i = 0; i < allUsers.users.length; i++) {
-      if (allUsers.users[i]._id === dataobj[0]._id) {
-        assignedUsers.push(allUsers.users[i]);
-      }
-    }
-  }
+  const [values, setValues] = useState({
+    Users: [],
+  });
+  const dispatch = useDispatch();
+  const [mapState, setMapState] = useState(assignedUsers);
 
   const customStyles = {
     content: {
       padding: "40px",
       inset: "unset",
       width: "100%",
-      maxHeight: "90vh",
+      maxHeight: "550px",
       borderRadius: "8px",
       maxWidth: "650px",
+      height: "100%",
     },
     overlay: {
       backgroundColor: "rgba(0,0,0,0.5)",
@@ -47,70 +41,104 @@ export function AddPartnerModal({
     },
   };
 
-  console.log(assignedUsers);
+  useEffect(() => {
+    dispatch(getAsignedUsers(projectId));
+  }, [mapState]);
+
+  function deleteUser(userId) {
+    console.log(userId);
+
+    assignedUsers = mapState.filter((v) => {
+      return v._id !== userId;
+    });
+    setMapState(assignedUsers);
+    console.log(assignedUsers);
+    dispatch(deleteUserFromProject(projectId, userId));
+  }
+
+  const handleAddUser = (user, userId) => {
+    if (!mapState.find((e) => e._id === user._id)) {
+      setMapState([...mapState, user]);
+      dispatch(assignUser(projectId, userId));
+    }
+  };
+
+  console.log(mapState);
+
+  const [isSelectUsersOpen, setIsSelectUsersOpen] = useState(false);
+
+  const [query, setQuery, filteredUsers] = useSearch(allUsers);
+
+  const handleRemoveUser = (user, userId) => {
+    setValues({
+      ...values,
+      Users: values.Users.filter((u) => u !== user._id),
+    });
+    dispatch(deleteUserFromProject(projectId, userId));
+  };
 
   return (
-    <div>
-      <Modal
-        style={customStyles}
-        isOpen={modalAddPartner}
-        onRequestClose={() => setModalAddPartner(false)}
-      >
+    <Modal
+      style={customStyles}
+      isOpen={modalAddPartner}
+      onRequestClose={() => setModalAddPartner(false)}
+    >
+      <header className={styles.modalHeader}>
         <h2>Add Partner</h2>
         <button onClick={() => setModalAddPartner(false)}>
           <IoClose size={30} />
         </button>
-        <form onChange={(e) => handleSubmit(e)}>
-          <div>
-            <h3>Current Users</h3>
-            {assignedUsers && assignedUsers.length > 0 ? (
-              assignedUsers.map((e) => {
-                return (
-                  <div>
-                    <div>{e.name}</div>
-                    <button
-                      type="button"
-                      style={{ border: "none" }}
-                      onClick={() => deleteUser(e._id)}
-                    >
-                      <img src={e.picture} alt={e.username} />
-                    </button>
-                  </div>
-                );
-              })
-            ) : (
-              <h1>what</h1>
-            )}
-            <h3>Users to Add</h3>
-            {
-              (console.log(allUsers),
-              allUsers && allUsers.users.length > 0
-                ? allUsers.users
-                    .filter((userA) => {
-                      return !assignedUsers.find((userB) => {
-                        return userA._id === userB._id;
-                      });
-                    })
-                    .map((e) => {
-                      return (
-                        <div>
-                          <div>{e.name}</div>
-                          <button
-                            type="button"
-                            style={{ border: "none" }}
-                            onClick={() => filterUser(e._id)}
-                          >
-                            <img src={e.picture} alt={e.username} />
-                          </button>
-                        </div>
-                      );
-                    })
-                : null)
-            }
-          </div>
-          <button type="submit">Add!</button>
-        </form>
-      </Modal>
-    </div>
+      </header>{" "}
+      <h3>Current users in project</h3>
+      <div className={styles.addedUsers}>
+        {mapState && mapState.length > 0 ? (
+          mapState.map((e) => {
+            return (
+              <div className={styles.addedUsersCard}>
+                <img src={e.picture} alt={e.username} />
+                <p>{e.name.split(" ")[0]}</p>
+                <button type="button" onClick={() => deleteUser(e._id)}>
+                  <IoClose size={15} />
+                </button>
+              </div>
+            );
+          })
+        ) : (
+          <h3>no users assigned yet</h3>
+        )}
+      </div>
+      <div className={`${styles.modalFormGroup} ${styles.selectUserContainer}`}>
+        <label>Users</label>
+        <input
+          onBlur={() => setIsSelectUsersOpen(false)}
+          onFocus={() => setIsSelectUsersOpen(true)}
+          type="text"
+          name="Users"
+          value={query}
+          autoComplete="off"
+          onChange={(e) => setQuery(e.target.value)}
+        />
+        <div
+          className={`${styles.modalSelectUser} ${
+            isSelectUsersOpen ? styles.visible : undefined
+          }`}
+        >
+          {filteredUsers.length ? (
+            filteredUsers.map((user) => (
+              <article
+                onClick={() => handleAddUser(user, user._id)}
+                key={user._id}
+                className={styles.modalUser}
+              >
+                <img src={user.picture} alt={user.name} />
+                <p>{user.name}</p>
+              </article>
+            ))
+          ) : (
+            <p>There's no user with that name :(</p>
+          )}
+        </div>
+      </div>
+    </Modal>
   );
 }

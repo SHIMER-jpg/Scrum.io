@@ -8,6 +8,7 @@ import {
   getAsignedUsers,
   updateTask,
 } from "../../redux/ManagerView/actions";
+import { fetchUsers } from "../../redux/Home/actions";
 import { useDispatch, useSelector } from "react-redux";
 import Modal from "react-modal";
 import TaskHolder from "../../components/TaskHolder/TaskHolder";
@@ -33,9 +34,13 @@ export default function ManagerView() {
   const project = useSelector((state) => state.managerView.project);
   const assignedUsers = useSelector((state) => state.managerView.asignedUsers);
   const [isLoadingTasks, setIsLoadingTasks] = useState(true);
-  const allUsers = useSelector((state) => state.managerView.allUsers);
+  const allUsers = useSelector((state) => state.home.users);
+  const loggedUser = useSelector((state) => state.app.loggedUser);
+
+  console.log(allUsers);
 
   useEffect(() => {
+    dispatch(fetchUsers(loggedUser));
     dispatch(getProjectById(projectId));
     dispatch(getTasksByProject(projectId, setIsLoadingTasks));
     dispatch(getAsignedUsers(projectId));
@@ -44,10 +49,10 @@ export default function ManagerView() {
   function usersInProject() {
     var array = [];
 
-    for (var i = 0; i < allUsers.users.length; i++) {
+    for (var i = 0; i < allUsers.length; i++) {
       for (var j in assignedUsers) {
-        if (allUsers.users[i]._id === assignedUsers[j].userId) {
-          array.push(allUsers.users[i]);
+        if (allUsers[i]._id === assignedUsers[j].userId) {
+          array.push(allUsers[i]);
         }
       }
     }
@@ -70,25 +75,32 @@ export default function ManagerView() {
           <h1 className="main-heading">
             {project.projectName || "Loading..."}
           </h1>
-          {modalAddPartner && (
-            <AddPartnerModal
-              allUsers={allUsers}
-              modalAddPartner={modalAddPartner}
-              setModalAddPartner={setModalAddPartner}
-              assignedUsers={usersInProject()}
-            />
-          )}
-          <button
-            className="btn-primary"
-            onClick={() => setModalAddPartner(true)}
-          >
-            {" "}
-            + Add Partners
-          </button>
+          <div style={{ display: "flex", gap: "30px" }}>
+            {modalAddPartner && (
+              <AddPartnerModal
+                allUsers={allUsers}
+                modalAddPartner={modalAddPartner}
+                setModalAddPartner={setModalAddPartner}
+                assignedUsers={usersInProject()}
+                projectId={projectId}
+              />
+            )}
 
-          <button className="btn-primary" onClick={() => setIsModalOpen(true)}>
-            + Create Task
-          </button>
+            <button
+              className="btn-primary"
+              onClick={() => setModalAddPartner(true)}
+            >
+              {" "}
+              + Add Partners
+            </button>
+
+            <button
+              className="btn-primary"
+              onClick={() => setIsModalOpen(true)}
+            >
+              + Create Task
+            </button>
+          </div>
         </header>
         <div className={managerStyle.conteinerBody}>
           {/* Pending Tasks */}
