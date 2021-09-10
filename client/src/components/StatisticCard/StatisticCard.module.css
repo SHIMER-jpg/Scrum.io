@@ -32,17 +32,29 @@
     justify-content: flex-start;
     gap: 0 10px;
 }
+
 .footer select{
     padding: 5px 10px;
     font-size: 15px;
-    font-weight: 500; 
+    font-weight: 500;
+    border: 2px solid #d4d4d4;
 }
+
+.footer select:hover{
+  cursor: pointer;
+}
+
+.footer select:focus{
+  border: 2px solid var(--violet);
+  box-shadow: 0 0 0 3px rgba(161, 36, 101, 0.4);
+}
+
 .footer input{
     border: 1px solid #bababa;
     border-radius: 8px;
     width: 60px;
     padding: 5px 10px;
     font-size: 15px;
-    font-weight: 500; 
+    font-weight: 500;
     text-align: center;
 }
