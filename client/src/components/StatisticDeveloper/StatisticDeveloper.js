@@ -7,6 +7,7 @@ import styles from "./StatisticDeveloper.module.css";
 
 // components
 import PopperHelp from "../PopperHelp/PopperHelp.js";
+import { FaUserCircle } from "react-icons/fa";
 
 import { useSearch } from "../../hooks/useSearch";
 
@@ -63,9 +64,8 @@ export default function StatisticDeveloper(props) {
         if(t.helpNeeded)data.total.help += 1; //counts total amount of tasks with help needed
       }
     );
-    console.log(period);
-    data.average.tasks = data.total.tasks / (period+1);  //calculates average completed tasks in given time
-    data.average.sp = data.total.sp / (period+1); //calculates average story points in given time
+    data.average.tasks = Math.round(((data.total.tasks / (period+1)) + Number.EPSILON) * 100) / 100;  //calculates average completed tasks in given time
+    data.average.sp = Math.round(((data.total.sp / (period+1)) + Number.EPSILON) * 100) / 100; //calculates average story points in given time
     return data;
   }
 
@@ -89,6 +89,7 @@ export default function StatisticDeveloper(props) {
   }
 
   function handleViewChange(view){
+    console.log(view);
     setView(view);
   }
 
@@ -105,110 +106,130 @@ export default function StatisticDeveloper(props) {
     <div className={styles.container}>
       <div>
         <div className={styles.header}>
-          <h2>Developer Statistics</h2>
-          <PopperHelp content={"Developer Statistics."}/>
-          <div>
-            <button onClick={() => handleViewChange("days")}>Daily</button>
-            <button onClick={() => handleViewChange("weeks")}>Weekly</button>
-            <button onClick={() => handleViewChange("months")}>Monthly</button>
+          <div className={styles.title}>
+            <h2>Developer Statistics</h2>
+            <PopperHelp content={"See a general overview of a developer's performance."}/>
           </div>
-        </div>
-        <div className={styles.graph}>
-          <Bar
-            className={styles.chart}
-            data={{
-              labels: labels,
-              datasets: [
-                {
-                  type: "bar",
-                  label: "Completed Tasks",
-                  borderColor: "rgb(54, 162, 235)",
-                  borderWidth: 2,
-                  backgroundColor: "rgb(54, 162, 235)",
-                  data: userData.quantity,
-                },
-                {
-                  type: "line",
-                  label: "Story Points",
-                  backgroundColor: "rgb(255, 99, 132)",
-                  data: userData.storyPoints,
-                  borderColor: "rgb(255, 99, 132)",
-                  borderWidth: 4,
-                },
-              ],
-            }}
-            option={{
-              maintainAspectRatio: false,
-              scales: {
-                y: {
-                  beginAtZero: true,
-                },
-              },
-            }}
-            height={100}
-          />
-        </div>
+          <div className={styles.options}>
+            <div className={styles.modalFormGroup}>
 
-        <div className={styles.modalFormGroup}>
-          <div>
-            <label>Tasks Completed</label><p>{userData.total.tasks ? userData.total.tasks : "-"}</p>
-            <label>Story Points Achieved</label><p>{userData.total.sp ? userData.total.sp : "-"}</p>
-            <label>Helped Tasks</label><p>{userData.total.help ? userData.total.help : "-"}</p>
-            <label>Average Task Completion</label><p>{userData.average.tasks ? userData.average.tasks : "-"}</p>
-            <label>Average Story Points</label><p>{userData.average.sp ? userData.average.sp : "-"}</p>
-          </div>
-        </div>
-
-        <div className={styles.modalFormGroup}>
-          <label className={styles.titles}>Selected User</label>
-          {!isSelectUsersOpen && (
-            <div
-              className={styles.userBox}
-              onClick={() => {
-                setIsSelectUsersOpen(true);
-              }}
-            >
-              <img src={user.picture} alt={user.name} />
-              <p>{user.name}</p>
-            </div>
-          )}
-          {isSelectUsersOpen && (
-            <div
-              className={`${styles.modalSelectUser} ${
-                isSelectUsersOpen ? styles.visible : undefined
-              }`}
-            >
-              <input
-                onBlur={() => setIsSelectUsersOpen(false)}
-                onFocus={() => setIsSelectUsersOpen(true)}
-                type="text"
-                id="assignedTo"
-                name="assignedTo"
-                value={query}
-                placeholder="Type a name..."
-                autoComplete="off"
-                onChange={(e) => setQuery(e.target.value)}
-              />
-              {filteredUsers.length ? (
-                filteredUsers.map((user) => (
-                  <article
-                    onClick={() => handleAddUser(user)}
-                    key={user._id}
-                    className={styles.modalUser}
-                  >
-                    <img src={user.picture} alt={user.name} />
-                    <p>{user.name}</p>
-                  </article>
-                ))
-              ) : (
-                <p>There's no user with that name :(</p>
+              <div
+                  className={styles.userBox}
+                  onClick={() => {
+                    setIsSelectUsersOpen(true);
+                  }}
+                >
+                  {user.picture
+                    ? <img src={user.picture} alt="" />
+                    : <FaUserCircle size={30}/>
+                  }
+                  {user.name
+                    ? <p>{user.name}</p>
+                    : <p>Select user</p>
+                  }
+              </div>
+              {isSelectUsersOpen && (
+                <div
+                  className={`${styles.modalSelectUser} ${
+                    isSelectUsersOpen ? styles.visible : undefined
+                  }`}
+                >
+                  <input
+                    onBlur={() => setIsSelectUsersOpen(false)}
+                    onFocus={() => setIsSelectUsersOpen(true)}
+                    type="text"
+                    id="assignedTo"
+                    name="assignedTo"
+                    value={query}
+                    placeholder="Type a name..."
+                    autoComplete="off"
+                    onChange={(e) => setQuery(e.target.value)}
+                  />
+                  {filteredUsers.length ? (
+                    filteredUsers.map((user) => (
+                      <article
+                        onClick={() => handleAddUser(user)}
+                        key={user._id}
+                        className={styles.modalUser}
+                      >
+                        <img src={user.picture} alt={user.name} />
+                        <p>{user.name}</p>
+                      </article>
+                    ))
+                  ) : (
+                    <p>There's no user with that name :(</p>
+                  )}
+                </div>
               )}
             </div>
-          )}
+            <select className={styles.view} onChange={(e) => handleViewChange(e.target.value)}>
+              <option value={"days"}>Daily</option>
+              <option value={"weeks"}>Weekly</option>
+              <option value={"months"}>Monthly</option>
+            </select>
+          </div>
         </div>
 
-        <div className={styles.description}>
+        <div className={styles.body}>
+          <div className={styles.graph}>
+            <Bar
+              className={styles.chart}
+              data={{
+                labels: labels,
+                datasets: [
+                  {
+                    type: "bar",
+                    label: "Completed Tasks",
+                    borderColor: '#8eff7b',
+                    borderWidth: 2,
+                    backgroundColor: '#8eff7b',
+                    data: userData.quantity,
+                  },
+                  {
+                    type: "line",
+                    label: "Story Points",
+                    backgroundColor: '#7befff',
+                    data: userData.storyPoints,
+                    borderColor: '#7befff',
+                    borderWidth: 4,
+                  },
+                ],
+              }}
+              option={{
+                maintainAspectRatio: false,
+                scales: {
+                  y: {
+                    beginAtZero: true,
+                  },
+                },
+              }}
+              height={100}
+            />
+          </div>
+
+          <div className={styles.stats}>
+            <div className={styles.modalFormGroup}>
+              <div>
+                <div className={styles.stat}>
+                  <label>Tasks Completed</label><p>{userData.total.tasks ? userData.total.tasks : "-"}</p>
+                </div>
+                <div className={styles.stat}>
+                  <label>Story Points Achieved</label><p>{userData.total.sp ? userData.total.sp : "-"}</p>
+                </div>
+                <div className={styles.stat}>
+                  <label>Helped Tasks</label><p>{userData.total.help ? userData.total.help : "-"}</p>
+                </div>
+                <div className={styles.stat}>
+                  <label>Average Task Completion</label><p>{userData.average.tasks ? userData.average.tasks : "-"}</p>
+                </div>
+                <div className={styles.stat}>
+                  <label>Average Story Points</label><p>{userData.average.sp ? userData.average.sp : "-"}</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+
       </div>
     </div>
   );
