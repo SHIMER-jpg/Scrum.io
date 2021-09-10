@@ -5,7 +5,7 @@ import { React, useEffect, useState } from "react";
 import PopperHelp from "../PopperHelp/PopperHelp.js";
 
 // componentes charts de chartjs
-import { Bar, Pie, Line } from "react-chartjs-2";
+import { Bar, Line } from "react-chartjs-2";
 
 import styles from "./StatisticCard.module.css";
 
@@ -16,12 +16,25 @@ export default function StatisticCard({graphType, tasks, project}) {
   const [graphData, setGraphData] = useState({
     byStoryPoints: [],
     byTasks: [],
-  })
+  });
+
   // estado y funcion para cambiar la vista de los datos entre ver por story point o por tareas
-  const [charDataOption, setCharDataOption] = useState("byStoryPoints")
+  const [charDataOption, setCharDataOption] = useState({
+    dataBy: "byStoryPoints",
+    projectOrSprint: "byProject",
+    sprintNumber: 1,
+  });
 
   function handleDataChartOption(e){
-    setCharDataOption(e.target.value);
+    if(e.target.name === "sprintNumber" && (e.target.value < 1 || e.target.value === "")){
+      e.target.value = charDataOption.sprintNumber;
+    }
+    else{
+      setCharDataOption({
+        ...charDataOption,
+        [e.target.name]:e.target.value,
+      });
+    }
   }
 
   // se encarga de setear los datos de los graficos
@@ -58,7 +71,7 @@ export default function StatisticCard({graphType, tasks, project}) {
   }
   dataStoryPoints = dataStoryPoints.reverse()
 
-  let completedTasks = tasks && tasks.filter(t=> t.status == 'Completed').sort(function(a, b) {
+  let completedTasks = tasks && tasks.filter(t=> t.status === 'Completed').sort(function(a, b) {
     if (a.completedDate > b.completedDate) {
       return 1;
     }
@@ -79,7 +92,7 @@ export default function StatisticCard({graphType, tasks, project}) {
 
   for(let i=0; i <= completedDates.length; i++){
     for(let j=0; j < completedTasks.length; j++){
-      if(completedTasks[j].completedDate == completedDates[i]){
+      if(completedTasks[j].completedDate === completedDates[i]){
         devStoryPoints[i+1] = dataStoryPoints[i] - completedTasks[j].storyPoints
       }
     }
@@ -100,7 +113,7 @@ export default function StatisticCard({graphType, tasks, project}) {
   }
   for(let i=0; i <= completedDates.length; i++){
     for(let j=0; j < completedTasks.length; j++){
-      if(completedTasks[j].completedDate == completedDates[i]){
+      if(completedTasks[j].completedDate === completedDates[i]){
         tasksCompletedPerDay[i] = dataTasksPerDay[i] - 1
       }
     }
@@ -193,13 +206,13 @@ export default function StatisticCard({graphType, tasks, project}) {
           {graphType ?
             graphType === "Tasks Priorization Chart" ?
 
-              <Bar className={styles.chart}
+              <Bar
                 data = {{
                   labels: ["Easy Win", "Strategic Initiatives", "Worth Persuing Later", "Deprioritize"],
                   datasets: [{
                     axis: 'y',
                     label: 'Tasks Priorization Chart',
-                    data: graphData[charDataOption],
+                    data: graphData[charDataOption.dataBy],
                     fill: false,
                     backgroundColor: [
                       '#8eff7b',
@@ -226,13 +239,13 @@ export default function StatisticCard({graphType, tasks, project}) {
                 }}
               />
             : graphType === "Project Report" ?
-              <Bar className={styles.chart}
+              <Bar
                 data = {{
                   labels: ["Pending", "In progress", "Testing", "Completed"],
                   datasets: [{
                     axis: 'y',
                     label: 'Project Report',
-                    data: graphData[charDataOption],
+                    data: graphData[charDataOption.dataBy],
                     fill: false,
                     backgroundColor: [
                       '#ff6868',
@@ -260,7 +273,7 @@ export default function StatisticCard({graphType, tasks, project}) {
 
               />
             : graphType === "Sprint Report" ?
-            <Bar className={styles.chart}
+            <Bar
               data = {{
                 labels: ["Pending", "In progress", "Testing", "Completed"],
                 datasets: [{
@@ -293,18 +306,18 @@ export default function StatisticCard({graphType, tasks, project}) {
 
             />
           : graphType === "BurnDown Chart" ?
-            <Line className={styles.chart}
+            <Line
             data={{
               labels: dataDays,
               datasets:[
               {
                 label: 'Actual development',
-                data: charDataOption == 'byStoryPoints' ? devStoryPoints : tasksCompletedPerDay,
+                data: charDataOption === 'byStoryPoints' ? devStoryPoints : tasksCompletedPerDay,
                 borderColor:['#a12464']
               },
               {
                 label: 'Ideal development',
-                data: charDataOption == 'byStoryPoints' ? dataStoryPoints : dataTasksPerDay,
+                data: charDataOption === 'byStoryPoints' ? dataStoryPoints : dataTasksPerDay,
                 borderColor:['#7BEFFF']
               },
             ]
@@ -323,12 +336,20 @@ export default function StatisticCard({graphType, tasks, project}) {
           :
           <>
           </>
-        }</div>
-        <div className={styles.description}>
-        <select onChange={(e) => handleDataChartOption(e)} name="dataBy">
+          }
+        </div>
+        <div className={styles.footer}>
+          <select onChange={(e) => handleDataChartOption(e)} name="dataBy">
             <option value="byStoryPoints">Story Points</option>
             <option value="byTasks">Tasks</option>
           </select>
+          <select onChange={(e) => handleDataChartOption(e)} name="projectOrSprint">
+            <option value="byProject">Project</option>
+            <option value="bySprint">Sprint</option>
+          </select>
+          {charDataOption.projectOrSprint === "bySprint" &&
+            <input type="number" min="1" onChange={(e) => handleDataChartOption(e)} name="sprintNumber" value={charDataOption.sprintNumber} />
+          }
         </div>
       </div>
     </div>

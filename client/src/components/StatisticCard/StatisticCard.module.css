@@ -22,6 +22,27 @@
 }
 
 .graph{
+    position: relative;
     padding: 10px 0;
     margin: 10px 0;
+}
+
+.footer{
+    display: flex;
+    justify-content: flex-start;
+    gap: 0 10px;
+}
+.footer select{
+    padding: 5px 10px;
+    font-size: 15px;
+    font-weight: 500; 
+}
+.footer input{
+    border: 1px solid #bababa;
+    border-radius: 8px;
+    width: 60px;
+    padding: 5px 10px;
+    font-size: 15px;
+    font-weight: 500; 
+    text-align: center;
 }
