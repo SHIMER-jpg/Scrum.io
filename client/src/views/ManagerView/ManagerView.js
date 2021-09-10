@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
-import { React, useEffect, useState } from "react";
+import { React, useEffect, useState, useCallback } from "react";
 import {
   getProjectById,
   getTasksByProject,
@@ -27,6 +27,15 @@ export default function ManagerView() {
   const project = useSelector((state) => state.managerView.project);
   const assignedUsers = useSelector((state) => state.managerView.asignedUsers);
   const [isLoadingTasks, setIsLoadingTasks] = useState(true);
+  const { socket, loggedUser } = useSelector((state) => state.app)
+
+  const handleSocketUpdate = useCallback(({ projectId: projectFromSocket }) => {
+    console.table({"Project ID": projectId, "Project ID from socket": projectFromSocket})
+
+    if (projectFromSocket === projectId) {
+      dispatch(getTasksByProject(projectId));
+    }
+  }, []);
 
   useEffect(() => {
     dispatch(getProjectById(projectId));
@@ -35,6 +44,14 @@ export default function ManagerView() {
 
     return () => dispatch(clearManagerView())
   }, []);
+
+  useEffect(() => {
+    socket.on("updateTask", handleSocketUpdate)
+
+    return () => {
+      socket.off("updateTask", handleSocketUpdate)
+    }
+  }, [loggedUser]);
 
   const [createTask, setCreateTask] = useState({
     title: "",
