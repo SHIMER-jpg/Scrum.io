@@ -34,7 +34,7 @@ export default function Statistics(props) {
     }
   },[]);
   return (
-    <div className={styles.conteiner}>
+    <div className={styles.container}>
       <div className={styles.header}>
         <h1>Statistics</h1>
       </div>

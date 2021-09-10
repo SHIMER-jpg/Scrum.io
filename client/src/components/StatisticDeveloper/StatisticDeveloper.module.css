@@ -1,6 +1,6 @@
-.conteiner {
-  background: white;
-  padding: 20px;
+.container{
+    background: white;
+    padding: 20px;
 
   box-shadow: 1px 1px 2px rgba(10, 10, 10, 0.17);
   border-radius: 8px;
@@ -11,14 +11,20 @@
   justify-content: center;
 }
 
-.header h2 {
-  margin: 0;
+.header{
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  border-bottom: 2px solid #d4d4d4;
+    padding-bottom: 5px;
+}
+.header h2{
+    margin: 0;
 }
 
-.graph {
-  padding: 10px 0;
-  margin: 10px 0;
-  border-top: 2px solid rgb(212, 212, 212);
+.graph{
+    padding: 10px 0;
+    margin: 10px 0;
 }
 
 .modalSelectUser.visible {

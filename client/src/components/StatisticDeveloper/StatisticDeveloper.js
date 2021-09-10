@@ -102,7 +102,7 @@ export default function StatisticDeveloper(props) {
 
   //-------RETURN-------------------------------------
   return (
-    <div className={styles.conteiner}>
+    <div className={styles.container}>
       <div>
         <div className={styles.header}>
           <h2>Developer Statistics</h2>

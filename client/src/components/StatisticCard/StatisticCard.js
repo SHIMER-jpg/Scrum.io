@@ -5,8 +5,7 @@ import { React, useEffect, useState } from "react";
 import PopperHelp from "../PopperHelp/PopperHelp.js";
 
 // componentes charts de chartjs
-import { Bar } from "react-chartjs-2";
-import {Line} from 'react-chartjs-2';
+import { Bar, Pie, Line } from "react-chartjs-2";
 
 import styles from "./StatisticCard.module.css";
 
@@ -18,6 +17,13 @@ export default function StatisticCard({graphType, tasks, project}) {
     byStoryPoints: [],
     byTasks: [],
   })
+
+  // estado y funcion para cambiar la vista de los datos entre ver por story point o por tareas
+  const [charDataOption, setCharDataOption] = useState("byStoryPoints")
+
+  function handleDataChartOption(e){  
+    setCharDataOption(e.target.value);
+  }
 
   // se encarga de setear los datos de los graficos
   useEffect(() => {
@@ -99,16 +105,16 @@ export default function StatisticCard({graphType, tasks, project}) {
     }
     else if(graphType === "Project Report"){
       tasks.forEach(t => {
-        if(t.priorization === "Pending"){
+        if(t.status === "Pending"){
           charData[0] += t.storyPoints;
         }
-        else if(t.priorization === "In progress"){
+        else if(t.status === "In progress"){
           charData[1] += t.storyPoints;
         }
-        else if(t.priorization === "Testing"){
+        else if(t.status === "Testing"){
           charData[2] += t.storyPoints;
         }
-        else if(t.priorization === "Completed"){
+        else if(t.status === "Completed"){
           charData[3] += t.storyPoints;
         }
       });
@@ -136,16 +142,16 @@ export default function StatisticCard({graphType, tasks, project}) {
     }
     else if(graphType === "Project Report"){
       tasks.forEach(t => {
-        if(t.priorization === "Pending"){
+        if(t.status === "Pending"){
           charData[0] += 1;
         }
-        else if(t.priorization === "In progress"){
+        else if(t.status === "In progress"){
           charData[1] += 1;
         }
-        else if(t.priorization === "Testing"){
+        else if(t.status === "Testing"){
           charData[2] += 1;
         }
-        else if(t.priorization === "Completed"){
+        else if(t.status === "Completed"){
           charData[3] += 1;
         }
       });
@@ -154,7 +160,7 @@ export default function StatisticCard({graphType, tasks, project}) {
   }
 
   return (
-    <div className={styles.conteiner}>
+    <div className={styles.container}>
       <div>
         <div className={styles.header}>
           <h2>{graphType}</h2>
@@ -170,20 +176,21 @@ export default function StatisticCard({graphType, tasks, project}) {
                   labels: ["Easy Win", "Strategic Initiatives", "Worth Persuing Later", "Deprioritize"],
                   datasets: [{
                     axis: 'y',
-                    label: 'Story Points',
-                    data: graphData.byStoryPoints,
+                    label: 'Tasks Priorization Chart',
+                    data: graphData[charDataOption],
                     fill: false,
-                    backgroundColor: ['#A12464'],
-                    borderColor: ['#A12464'],
-                    borderWidth: 1
-                  },
-                  {
-                    axis: 'y',
-                    label: 'Tasks',
-                    data: graphData.byTasks,
-                    fill: false,
-                    backgroundColor: ['#7BEFFF'],
-                    borderColor: ['#7BEFFF'],
+                    backgroundColor: [
+                      '#8eff7b',
+                      '#7befff',
+                      '#ffa53c',
+                      '#ff6868',
+                    ],
+                    borderColor: [
+                      '#8eff7b',
+                      '#7befff',
+                      '#ffa53c',
+                      '#ff6868',
+                    ],
                     borderWidth: 1
                   }]
                 }}
@@ -195,7 +202,6 @@ export default function StatisticCard({graphType, tasks, project}) {
                     }
                   }
                 }}
-
               />
             : graphType === "Project Report" ?
               <Bar className={styles.chart}
@@ -203,20 +209,21 @@ export default function StatisticCard({graphType, tasks, project}) {
                   labels: ["Pending", "In progress", "Testing", "Completed"],
                   datasets: [{
                     axis: 'y',
-                    label: 'Story Points',
-                    data: graphData.byStoryPoints,
+                    label: 'Project Report',
+                    data: graphData[charDataOption],
                     fill: false,
-                    backgroundColor: ['#A12464'],
-                    borderColor: ['#A12464'],
-                    borderWidth: 1
-                  },
-                  {
-                    axis: 'y',
-                    label: 'Tasks',
-                    data: graphData.byTasks,
-                    fill: false,
-                    backgroundColor: ['#7BEFFF'],
-                    borderColor: ['#7BEFFF'],
+                    backgroundColor: [
+                      '#ff6868',
+                      '#7befff',
+                      '#ffa53c',
+                      '#8eff7b',
+                    ],
+                    borderColor: [
+                      '#ff6868',
+                      '#7befff',
+                      '#ffa53c',
+                      '#8eff7b',
+                    ],
                     borderWidth: 1
                   }]
                 }}
@@ -297,6 +304,10 @@ export default function StatisticCard({graphType, tasks, project}) {
           }
         </div>
         <div className={styles.description}>
+          <select onChange={(e) => handleDataChartOption(e)} name="dataBy">
+            <option value="byStoryPoints">Story Points</option>
+            <option value="byTasks">Tasks</option>
+          </select>
         </div>
       </div>
     </div>
