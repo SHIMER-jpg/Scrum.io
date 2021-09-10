@@ -5,18 +5,12 @@ import { HiViewBoards } from "react-icons/hi";
 import { AiOutlineBarChart } from "react-icons/ai";
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { useHistory } from "react-router";
 
 import styles from "./Sidebar.module.css";
 
 const Sidebar = () => {
   const userRole = useSelector(({ viewRouter }) => viewRouter.userRole);
   const projectId = useSelector(({ managerView }) => managerView.project._id);
-  const {
-    location: { pathname },
-  } = useHistory();
-
-  console.log(projectId)
 
   return (
     <nav className={styles.container}>
