@@ -20,7 +20,7 @@ export default function StatisticCard({graphType, tasks, project}) {
   // estado y funcion para cambiar la vista de los datos entre ver por story point o por tareas
   const [charDataOption, setCharDataOption] = useState("byStoryPoints")
 
-  function handleDataChartOption(e){  
+  function handleDataChartOption(e){
     setCharDataOption(e.target.value);
   }
 
@@ -38,7 +38,7 @@ export default function StatisticCard({graphType, tasks, project}) {
   let firstDay = project.creationDate && moment(project.creationDate.substring(0,10));
   let lastDay = project.requiredDate && moment(project.requiredDate.substring(0,10));
   let days = firstDay && lastDay.diff(firstDay, 'days')
-  
+
   let dataDays = [];
   for(let i=1; i <= days; i++){
     dataDays[i] = i
@@ -49,7 +49,7 @@ export default function StatisticCard({graphType, tasks, project}) {
     storyPoints = parseInt(storyPoints, 10)
   }
   let storyPointsPerDay = parseFloat((storyPoints/days).toFixed(2))
-  
+
   let sum = 0
   let dataStoryPoints = []
   for(let i=0; i <= days; i++){
@@ -67,7 +67,7 @@ export default function StatisticCard({graphType, tasks, project}) {
     }
     return 0;
   })
- 
+
   let dates = completedTasks.map(t => t.completedDate)
   const aux= new Set(dates)
   let completedDates = Array.from(aux)
@@ -80,7 +80,7 @@ export default function StatisticCard({graphType, tasks, project}) {
   for(let i=0; i <= completedDates.length; i++){
     for(let j=0; j < completedTasks.length; j++){
       if(completedTasks[j].completedDate == completedDates[i]){
-        devStoryPoints[i+1] = dataStoryPoints[i] - completedTasks[j].storyPoints 
+        devStoryPoints[i+1] = dataStoryPoints[i] - completedTasks[j].storyPoints
       }
     }
   }
@@ -105,7 +105,7 @@ export default function StatisticCard({graphType, tasks, project}) {
       }
     }
   }
-  
+
   // funcion para setear la data por StoryPoints
   function charDataByStoryPoints(){
     var charData = [0,0,0,0];
