@@ -46,10 +46,11 @@ export default function Statistics(props) {
         </div>
       </div>
       <div className={styles.body}>
-        <div className={styles.cardsList}>
+        <div className={styles.specialCard}>
           <StatisticCard tasks={tasks} project={project} graphType={"BurnDown Chart"}/>
+        </div>
+        <div className={styles.cardsList}>
           <StatisticCard tasks={tasks} project={project} graphType={"Tasks Priorization Chart"}/>
-          <StatisticCard tasks={tasks} project={project} graphType={"Sprint Report"}/>
           <StatisticCard tasks={tasks} project={project} graphType={"Project Report"}/>
         </div>
         <div className={styles.specialCard}>

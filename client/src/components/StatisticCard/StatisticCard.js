@@ -5,7 +5,7 @@ import { React, useEffect, useState } from "react";
 import PopperHelp from "../PopperHelp/PopperHelp.js";
 
 // componentes charts de chartjs
-import { Bar, Line } from "react-chartjs-2";
+import { Pie, Line } from "react-chartjs-2";
 
 import styles from "./StatisticCard.module.css";
 
@@ -206,7 +206,7 @@ export default function StatisticCard({graphType, tasks, project}) {
           {graphType ?
             graphType === "Tasks Priorization Chart" ?
 
-              <Bar
+              <Pie
                 data = {{
                   labels: ["Easy Win", "Strategic Initiatives", "Worth Persuing Later", "Deprioritize"],
                   datasets: [{
@@ -239,7 +239,7 @@ export default function StatisticCard({graphType, tasks, project}) {
                 }}
               />
             : graphType === "Project Report" ?
-              <Bar
+              <Pie
                 data = {{
                   labels: ["Pending", "In progress", "Testing", "Completed"],
                   datasets: [{
@@ -272,67 +272,37 @@ export default function StatisticCard({graphType, tasks, project}) {
                 }}
 
               />
-            : graphType === "Sprint Report" ?
-            <Bar
-              data = {{
-                labels: ["Pending", "In progress", "Testing", "Completed"],
-                datasets: [{
-                  axis: 'y',
-                  label: 'Story Points',
-                  data: [412, 550, 322, 478],
-                  fill: false,
-                  backgroundColor: ['#A12464'],
-                  borderColor: ['#A12464'],
-                  borderWidth: 1
+            : graphType === "BurnDown Chart" ?
+              <Line
+              data={{
+                labels: dataDays,
+                datasets:[
+                {
+                  label: 'Actual development',
+                  data: charDataOption === 'byStoryPoints' ? devStoryPoints : tasksCompletedPerDay,
+                  backgroundColor: ['#a12464'],
+                  borderColor:['#a12464'],
+                  
                 },
                 {
-                  axis: 'y',
-                  label: 'Tasks',
-                  data: [10, 5, 6, 8],
-                  fill: false,
+                  label: 'Ideal development',
+                  data: charDataOption === 'byStoryPoints' ? dataStoryPoints : dataTasksPerDay,
                   backgroundColor: ['#7BEFFF'],
-                  borderColor: ['#7BEFFF'],
-                  borderWidth: 1
-                }]
+                  borderColor:['#7BEFFF']
+                },
+              ]
               }}
               option={{
                 maintainAspectRatio: false,
                 scales: {
                   y: {
-                      beginAtZero: true
+                    beginAtZero: true
                   }
-                }
-              }}
-
-            />
-          : graphType === "BurnDown Chart" ?
-            <Line
-            data={{
-              labels: dataDays,
-              datasets:[
-              {
-                label: 'Actual development',
-                data: charDataOption === 'byStoryPoints' ? devStoryPoints : tasksCompletedPerDay,
-                borderColor:['#a12464']
-              },
-              {
-                label: 'Ideal development',
-                data: charDataOption === 'byStoryPoints' ? dataStoryPoints : dataTasksPerDay,
-                borderColor:['#7BEFFF']
-              },
-            ]
-            }}
-            option={{
-              maintainAspectRatio: false,
-              scales: {
-                y: {
-                  beginAtZero: true
-                }
-              }}
-            }/>
+                }}
+              }/>
             :
             <>
-          </>
+            </>
           :
           <>
           </>

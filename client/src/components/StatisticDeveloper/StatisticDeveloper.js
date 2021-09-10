@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
-import { Bar, Line } from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
 import moment from "moment";
 import styles from "./StatisticDeveloper.module.css";
 
@@ -19,7 +19,6 @@ export default function StatisticDeveloper(props) {
 
   const [user, setUser] = useState({});
   const [selectedUsers, setSelectedUsers] = useState([]);
-  const [data, setData] = useState([]);
   const [view, setView] = useState("days");
   const [isSelectUsersOpen, setIsSelectUsersOpen] = useState(false);
 
@@ -79,13 +78,6 @@ export default function StatisticDeveloper(props) {
     setUser(user);
     setIsSelectUsersOpen(false);
     setQuery("");
-  }
-
-  function handleRemoveUser(user) {
-    setSelectedUsers({
-      ...selectedUsers,
-      selectedUsers: selectedUsers.filter((u) => u !== user._id),
-    });
   }
 
   function handleViewChange(view){

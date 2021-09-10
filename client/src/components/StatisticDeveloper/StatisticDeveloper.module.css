@@ -140,15 +140,14 @@
   align-items: center;
   justify-content: flex-end;
   user-select: none;
-  width: 300px;
   margin-right: 10px;
+  gap: 5px;
 }
 
 .userBox img {
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  margin-right: 10px;
 }
 
 .userBox p {
