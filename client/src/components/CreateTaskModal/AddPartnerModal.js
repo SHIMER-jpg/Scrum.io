@@ -89,23 +89,26 @@ export function AddPartnerModal({
           <IoClose size={30} />
         </button>
       </header>{" "}
-      <h3>Current users in project</h3>
-      <div className={styles.addedUsers}>
-        {mapState && mapState.length > 0 ? (
-          mapState.map((e) => {
-            return (
-              <div className={styles.addedUsersCard}>
-                <img src={e.picture} alt={e.username} />
-                <p>{e.name.split(" ")[0]}</p>
-                <button type="button" onClick={() => deleteUser(e._id)}>
-                  <IoClose size={15} />
-                </button>
-              </div>
-            );
-          })
-        ) : (
-          <h3>no users assigned yet</h3>
-        )}
+      <h3 style={{ color: "" }}>Current users in project</h3>
+      <div className={styles.divAdded}>
+        <div className={styles.addedUsers}>
+          {mapState && mapState.length > 0 ? (
+            mapState.map((e, i) => {
+              return (
+                <div className={styles.addedUsersCard}>
+                  {e.key}
+                  <img src={e.picture} alt={e.username} />
+                  <p>{e.name.split(" ")[0]}</p>
+                  <button type="button" onClick={() => deleteUser(e._id)}>
+                    <IoClose size={15} />
+                  </button>
+                </div>
+              );
+            })
+          ) : (
+            <h3>no users assigned yet</h3>
+          )}
+        </div>
       </div>
       <div className={`${styles.modalFormGroup} ${styles.selectUserContainer}`}>
         <label>Users</label>
@@ -124,16 +127,22 @@ export function AddPartnerModal({
           }`}
         >
           {filteredUsers.length ? (
-            filteredUsers.map((user) => (
-              <article
-                onClick={() => handleAddUser(user, user._id)}
-                key={user._id}
-                className={styles.modalUser}
-              >
-                <img src={user.picture} alt={user.name} />
-                <p>{user.name}</p>
-              </article>
-            ))
+            filteredUsers
+              .filter((value) => {
+                return !mapState.find((value2) => {
+                  return value2._id === value._id;
+                });
+              })
+              .map((user) => (
+                <article
+                  onClick={() => handleAddUser(user, user._id)}
+                  key={user._id}
+                  className={styles.modalUser}
+                >
+                  <img src={user.picture} alt={user.name} />
+                  <p>{user.name}</p>
+                </article>
+              ))
           ) : (
             <p>There's no user with that name :(</p>
           )}
