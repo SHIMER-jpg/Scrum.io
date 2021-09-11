@@ -21,6 +21,7 @@ import ManagerView from "./views/ManagerView/ManagerView";
 import Layout from "./components/Layout/Layout.js";
 import PokerPlanning from "./views/PokerPlanning/PokerPlanning";
 import { Configuration } from "./views/Configuration/Configuration.js";
+import JitsiMeet from "./views/JitsiMeet/JitsiMeet.js";
 
 const BACKEND_HOST = process.env.REACT_APP_BACKEND_HOST;
 const BACKEND_PORT = process.env.REACT_APP_BACKEND_PORT;
@@ -83,11 +84,16 @@ const App = () => {
             path="/planning/:projectId"
             exact
             component={PokerPlanning}
-            />
-          <PrivateRoute 
+          />
+          <PrivateRoute
             path="/statistics/:projectId"
             exact
             component={Statistics}
+          />
+          <PrivateRoute
+            path="/meeting/:projectId"
+            exact
+            component={JitsiMeet}
           />
           <PrivateRoute path="/manager_view" exact component={ManagerView} />
           <PrivateRoute

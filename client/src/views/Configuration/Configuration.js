@@ -25,7 +25,7 @@ export function Configuration() {
 
   const handleDelete = () => {
     setIsModalOpen(false);
-    dispatch(deleteProject(project._id));
+    // dispatch(deleteProject(project._id));
     history.push("/");
   };
 
