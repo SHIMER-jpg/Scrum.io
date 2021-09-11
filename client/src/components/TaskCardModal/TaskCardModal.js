@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 //imports from react and hooks (even customs)
 import Modal from "react-modal";
 import { useState, useEffect } from "react";
@@ -26,11 +27,10 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
   const [query, setQuery, filteredUsers] = useSearch(usersInProject);
 
   const isManager = useSelector(
-    (state) => state.viewRouter.userRole == "scrumMaster"
+    (state) => state.viewRouter.userRole === "scrumMaster"
   );
 
   const [statusDropdownIsOpen, setStatusDropdownIsOpen] = useState(false);
-  // const [colorMap, setColorMap] = useState("8eff7b");
   const [dynamicFields, setDynamicFields] = useState({
     status: modalDetails.status,
     helpNeeded: modalDetails.helpNeeded,
@@ -40,13 +40,13 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
   });
 
   const [colorMap, setColorMap] = useState(
-    dynamicFields.priorization == "Easy Win"
+    dynamicFields.priorization === "Easy Win"
       ? "8eff7b"
-      : dynamicFields.priorization == "Worth Pursuing"
+      : dynamicFields.priorization === "Worth Pursuing"
       ? "ffa53c"
-      : dynamicFields.priorization == "Strategic Initiative"
+      : dynamicFields.priorization === "Strategic Initiative"
       ? "7befff"
-      : dynamicFields.priorization == "Deprioritize"
+      : dynamicFields.priorization === "Deprioritize"
       ? "ff6868"
       : ""
   );
@@ -91,21 +91,6 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
     };
   }, []);
 
-  /*
-  * asignedTo: "613274bb1a9c7e2b10cfe1c1"
-completedDate: "2021-07-08T06:04:10.000Z"
-creationDate: "2021-05-10T06:53:16.000Z"
-details: "In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.\n\nSuspendisse potenti. In eleifend quam a odio. In hac habitasse platea dictumst.\n\nMaecenas ut massa quis augue luctus tincidunt. Nulla mollis molestie lorem. Quisque ut erat."
-helpNeeded: true
-noteIds: ["61313b37fc13ae5ac3000cc7"]
-priorization: "Deprioritize"
-projectId: "61313b4dfc13ae1dd2000cf8"
-status: "Testing"
-storyPoints: 74
-title: "Rank"
-__v: 0
- */
-
   function handleStatusChange({ target }) {
     const change = {
       taskId: _id,
@@ -129,13 +114,13 @@ __v: 0
       priorization: target.value,
     });
     setColorMap(
-      target.value == "Easy Win"
+      target.value === "Easy Win"
         ? "8eff7b"
-        : target.value == "Worth Pursuing"
+        : target.value === "Worth Pursuing"
         ? "ffa53c"
-        : target.value == "Strategic Initiative"
+        : target.value === "Strategic Initiative"
         ? "7befff"
-        : target.value == "Deprioritize"
+        : target.value === "Deprioritize"
         ? "ff6868"
         : ""
     );
@@ -183,7 +168,6 @@ __v: 0
     dispatch(updateTask(change));
     setQuery("");
   };
-  // const [modalIsOpen, setIsOpen] = React.useState(false);
 
   return (
     <>
@@ -267,7 +251,7 @@ __v: 0
                   "Worth Pursuing",
                   "Strategic Initiative",
                 ].map((value, index) =>
-                  value == dynamicFields.priorization ? (
+                  value === dynamicFields.priorization ? (
                     <option key={index} value={value} selected>
                       {value}
                     </option>
@@ -294,9 +278,6 @@ __v: 0
                 className={styles.notes}
                 name="content"
                 value={newNote.content}
-                // id=""
-                // cols="30"
-                // rows="10"
                 onChange={(e) => handleArea(e)}
                 placeholder="Write a new note..."
               ></textarea>
@@ -304,7 +285,6 @@ __v: 0
             </form>
           </div>
           <div className={styles.modalFormGroup}>
-            {/* <div>{notes}</div> */}
             {notes.length > 0 &&
               notes.map((note) => {
                 return (
