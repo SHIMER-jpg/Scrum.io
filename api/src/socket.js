@@ -21,32 +21,17 @@ io.on("connection", (socket) => {
   });
 });
 
-// const io = require("socket.io")(server, {
-//   cors: {
-//     origin: "*",
-//     methods: ["GET", "POST"],
-//   },
-// });
-
-// io.of("/api/socket").on("connection", (socket) => {
-//   console.log("socket.io: User connected: ", socket.id);
-
-//   socket.on("disconnect", () => {
-//     console.log("socket.io: User disconnected: ", socket.id);
-//   });
-// });
-
-// function connect(server) {
-//   socket.io = socketIO(server, {
-//     cors: {
-//       origin: "*",
-//       methods: ["GET", "POST"],
-//     },
-//   });
-// }
-
 module.exports = io;
 // module.exports = {
 //   connect,
 //   socket,
 // };
+
+/**
+ * 1. modularizar methods de rooms
+ * 2. tab de config -> modificar values de poker planning
+ * 3. filtros (fede)
+ * 4. protejer ruta (redirect si no hay estado de Redux);
+ * 5. mostrar votos, calcular promedios, aceptar el promedio como SP y reiniciar votacion
+ * 6. animaciones (??)
+ */

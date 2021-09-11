@@ -87,7 +87,7 @@ const CreateTaskModal = ({
     e.preventDefault();
 
     dispatch(createTask({ ...values, projectId }));
-    dispatch(getTasksByProject(projectId));
+    // dispatch(getTasksByProject(projectId));
 
     setValues({
       title: "",

@@ -8,6 +8,7 @@ import {
   getAsignedUsers,
   updateTask,
 } from "../../redux/ManagerView/actions";
+import { fetchUsers } from "../../redux/Home/actions";
 import { useDispatch, useSelector } from "react-redux";
 import Modal from "react-modal";
 import TaskHolder from "../../components/TaskHolder/TaskHolder";
@@ -15,37 +16,49 @@ import TaskHolder from "../../components/TaskHolder/TaskHolder";
 import managerStyle from "./ManagerView.module.css";
 import CreateTaskModal from "../../components/CreateTaskModal/CreateTaskModal";
 import { useParams } from "react-router-dom";
+import { getAllUsers } from "../../redux/ManagerView/actions";
+import { AddPartnerModal } from "../../components/CreateTaskModal/AddPartnerModal";
 
 export default function ManagerView() {
   const tasks = useSelector((state) => state.managerView.tasks);
+
   const { projectId } = useParams();
 
   // SOCKET EFFECT
 
-
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalAddPartner, setModalAddPartner] = useState(false);
 
   const dispatch = useDispatch();
   // const route = useRouteMatch();
   const project = useSelector((state) => state.managerView.project);
   const assignedUsers = useSelector((state) => state.managerView.asignedUsers);
   const [isLoadingTasks, setIsLoadingTasks] = useState(true);
+  const allUsers = useSelector((state) => state.home.users);
+  const loggedUser = useSelector((state) => state.app.loggedUser);
+
+  console.log(allUsers);
 
   useEffect(() => {
+    dispatch(fetchUsers(loggedUser));
     dispatch(getProjectById(projectId));
     dispatch(getTasksByProject(projectId, setIsLoadingTasks));
     dispatch(getAsignedUsers(projectId));
   }, []);
 
+  function usersInProject() {
+    var array = [];
 
+    for (var i = 0; i < allUsers.length; i++) {
+      for (var j in assignedUsers) {
+        if (allUsers[i]._id === assignedUsers[j].userId) {
+          array.push(allUsers[i]);
+        }
+      }
+    }
 
-  const [createTask, setCreateTask] = useState({
-    title: "",
-    asignedTo: "",
-    storyPoints: "",
-    priorization: "to do",
-    details: "",
-  });
+    return array;
+  }
 
   return (
     <>
@@ -62,9 +75,32 @@ export default function ManagerView() {
           <h1 className="main-heading">
             {project.projectName || "Loading..."}
           </h1>
-          <button className="btn-primary" onClick={() => setIsModalOpen(true)}>
-            + Create Task
-          </button>
+          <div style={{ display: "flex", gap: "30px" }}>
+            {modalAddPartner && (
+              <AddPartnerModal
+                allUsers={allUsers}
+                modalAddPartner={modalAddPartner}
+                setModalAddPartner={setModalAddPartner}
+                assignedUsers={usersInProject()}
+                projectId={projectId}
+              />
+            )}
+
+            <button
+              className="btn-primary"
+              onClick={() => setModalAddPartner(true)}
+            >
+              {" "}
+              + Add Partners
+            </button>
+
+            <button
+              className="btn-primary"
+              onClick={() => setIsModalOpen(true)}
+            >
+              + Create Task
+            </button>
+          </div>
         </header>
         <div className={managerStyle.conteinerBody}>
           {/* Pending Tasks */}

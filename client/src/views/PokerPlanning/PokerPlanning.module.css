@@ -1,0 +1,309 @@
+.container {
+  position: relative;
+  padding: 25px 30px;
+  width: 100%;
+}
+
+.header {
+  border-bottom: 1px solid rgb(179, 179, 179);
+  padding-bottom: 20px;
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header h1 {
+  font-size: 35px;
+}
+
+.header button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.generalBoard {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  height: 100%;
+  max-height: 500px;
+}
+
+.sidebar {
+  align-self: flex-start;
+  background-color: white;
+  padding: 20px ;
+  border-radius: 8px;
+}
+
+.filters {
+  margin-top: 15px;
+  align-self: center;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  gap: 20px;
+  border-radius: 8px;
+}
+
+.filters > p {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0;
+  color: var(--red);
+}
+
+.filter {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.filter > label {
+  font-weight: 600;
+}
+
+.filterTaskInput {
+  width: 100%;
+}
+
+.filterTaskInput input {
+  all: unset;
+  margin-bottom: 10px;
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid rgb(204, 204, 204);
+  transition: all 0.1s ease-in-out;
+  background-color: white;
+  box-sizing: border-box;
+}
+
+.filterTaskInput input:focus {
+  border: 2px solid var(--violet);
+  box-shadow: 0 0 0 3px rgba(161, 36, 101, 0.4);
+}
+
+.board {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 50px;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  grid-template-areas:
+    ". card7 card1 card2 card8 ."
+    "card5 board board board board card6"
+    ". card9 card3 card4 card10 .";
+  justify-items: center;
+  align-items: center;
+}
+
+.taskPlace {
+  grid-area: board;
+  width: 100%;
+  max-width: 400px;
+  background-color: rgba(204, 0, 27, 0.2);
+  border-radius: 18px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.taskPlace div {
+  width: 100%;
+}
+
+.cardPlaceholder p {
+  text-align: center;
+  font-weight: 500;
+  font-size: 18px;
+}
+
+.boardUsers {
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+}
+
+.user {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  border-radius: 8px;
+}
+
+.foreignCard {
+  background-image: url("../../static/img/card_texture.jpg");
+  background-size: cover;
+  color: white;
+}
+
+.userVote {
+  border: 2px solid var(--red);
+  padding: 20px 15px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 23px;
+  width: 50px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.userInfo img {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+}
+
+.user p {
+  margin: 0;
+}
+
+.user:nth-child(1) {
+  grid-area: card1;
+}
+
+.user:nth-child(2) {
+  grid-area: card2;
+}
+
+.user:nth-child(3) {
+  grid-area: card3;
+}
+
+.user:nth-child(4) {
+  grid-area: card4;
+}
+
+.user:nth-child(5) {
+  grid-area: card5;
+}
+
+.user:nth-child(6) {
+  grid-area: card6;
+}
+
+.user:nth-child(7) {
+  grid-area: card7;
+}
+
+.user:nth-child(8) {
+  grid-area: card8;
+}
+
+.user:nth-child(9) {
+  grid-area: card9;
+}
+
+.user:nth-child(10) {
+  grid-area: card10;
+}
+
+.footer {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.footerInfo {
+  margin-bottom: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 35px;
+}
+
+.footerInfo > button {
+  all: unset;
+  padding: 10px;
+  background-color: var(--red);
+  border: 2px solid var(--red);
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  border-radius: 8px;
+  align-self: center;
+  transition: all 0.15s ease-in-out;
+}
+
+.footerInfo > button:hover {
+  background-color: transparent;
+  border: 2px solid var(--red);
+  color: var(--red);
+}
+
+.storyPoints {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 8px;
+}
+
+.storyPoints p {
+  margin: 0;
+  color: var(--red);
+}
+
+.storyPoints > p:nth-child(2) {
+  font-size: 42px;
+  font-weight: 600;
+}
+
+.footerInfo .saveButton {
+  padding: 6px 15px;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  gap: 10px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+}
+
+.buttons > button {
+  all: unset;
+  width: 42px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  font-size: 20px;
+  font-weight: 600;
+  border: 2px solid var(--red);
+  transition: all 0.15s ease-in-out;
+}
+
+.buttons > button:hover,
+.buttons > button.active {
+  background-color: var(--red);
+  color: white;
+}
+
+.footer button[disabled] {
+  opacity: 0.5;
+}
+
+.footer button[disabled]:hover {
+  background-color: inherit;
+  color: inherit;
+  cursor: not-allowed !important;
+}

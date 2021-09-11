@@ -31,7 +31,7 @@ const getUsersByProjectId = async (req, res, next) => {
 const getUserRole = async (req, res, next) => {
   try {
     const { userId, projectId } = req.query;
-    console.log("filter data:", userId, projectId);
+    // console.log("filter data:", userId, projectId);
     const data = await UserProject.model.find({
       userId: userId,
       projectId: projectId,
@@ -70,9 +70,50 @@ const getAllUsers = async (req, res, next) => {
   }
 };
 
+const assignUsers = async (req, res, next) => {
+  try {
+    const projectId = mongoose.Types.ObjectId(req.params.projectId);
+    const userId = mongoose.Types.ObjectId(req.body.userId);
+
+    const userExists = await UserProject.model.findOne({
+      projectId: projectId,
+      userId: userId,
+    });
+    console.log("hola soy fede entreee");
+    const newUser = userExists
+      ? { error: "User already assigned" }
+      : await UserProject.model.create({
+          projectId: projectId,
+          userId: userId,
+          role: "developer",
+        });
+    res.status(201).json(newUser);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const deleteUser = async (req, res, next) => {
+  try {
+    const projectId = mongoose.Types.ObjectId(req.params.projectId);
+    const userId = mongoose.Types.ObjectId(req.body.userId);
+    console.log(req.body);
+
+    const deleteUser = await UserProject.model.findOneAndRemove({
+      projectId: projectId,
+      userId: userId,
+    });
+    res.status(204).json({ msg: "hola fede" });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   getUsersByProjectId,
   findOrCreateUser,
   getAllUsers,
   getUserRole,
+  assignUsers: assignUsers,
+  deleteUser,
 };
