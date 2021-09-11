@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useSearch } from "../../hooks/useSearch";
 import useTimeAgo from "../../hooks/useTimeAgo";
-import Swal from 'sweetalert2'
+import Swal from "sweetalert2";
 
 // redux actions
 import {
@@ -24,14 +24,16 @@ import Dropdown from "../Dropdown/Dropdown";
 import styles from "./TaskModal.module.css";
 
 function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
-  const { title, details, creationDate, _id, storyPoints } = modalDetails;
+  const { title, details, creationDate, _id, storyPoints, asignedTo } =
+    modalDetails;
   const loggedId = useSelector((state) => state.app.loggedUser._id);
   const assignedUsers = useSelector((state) => state.managerView.asignedUsers);
   const [isSelectUsersOpen, setIsSelectUsersOpen] = useState(false);
   const [usersInProject, setUsersInProject] = useState([]);
   const [query, setQuery, filteredUsers] = useSearch(usersInProject);
-  const [clickDeleteCount, setClickDeleteCount] = useState(0);
+  // const [clickDeleteCount, setClickDeleteCount] = useState(0);
 
+  console.log({ modalDetails });
   const isManager = useSelector(
     (state) => state.viewRouter.userRole === "scrumMaster"
   );
@@ -183,21 +185,19 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
 
   const handleDelete = (_id) => {
     Swal.fire({
-      title: 'Are you sure you want to delete this task?',
+      title: "Are you sure you want to delete this task?",
       text: "This action is not reversible.",
       showDenyButton: true,
-      confirmButtonText: 'Cancel',
-      denyButtonText: 'Delete',
+      confirmButtonText: "Cancel",
+      denyButtonText: "Delete",
     }).then((result) => {
       /* Read more about isConfirmed, isDenied below */
-      if (result.isDenied) { // si apreto en "BORRAR"
+      if (result.isDenied) {
+        // si apreto en "BORRAR"
         setIsModalOpen(false);
         dispatch(deleteTask(_id));
       }
-    })
-
-    if (clickDeleteCount >= 1) {
-    }
+    });
   };
 
   const handleRemoveNote = (noteId) => {
@@ -279,7 +279,10 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
           <div className={styles.modalFormGroup}>
             <label className={styles.titles}>Priorization: </label>
             {isManager ? (
-              <select value={dynamicFields.priorization} onChange={(e) => handlePrioritizationChange(e)}>
+              <select
+                value={dynamicFields.priorization}
+                onChange={(e) => handlePrioritizationChange(e)}
+              >
                 {[
                   "Easy Win",
                   "Deprioritize",
@@ -312,13 +315,13 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
               ></textarea>
               <div className={styles.modalButtons}>
                 <button type="submit">Add Note</button>
-                <button
-                  className={`${styles[dynamicFields.helpNeeded]}`}
-                  type="submit"
-                  onClick={(e) => handleOnClick(e)}
-                >
-                  {dynamicFields.helpNeeded ? "Help Asked" : "Ask for help"}
-                </button>
+                  <button
+                    className={`${styles[dynamicFields.helpNeeded]}`}
+                    type="submit"
+                    onClick={(e) => (loggedId === asignedTo || isManager) ? handleOnClick(e) : () => {}}
+                  >
+                    {dynamicFields.helpNeeded ? "Help Asked" : "Ask for help"}
+                  </button>
               </div>
             </form>
           </div>
@@ -339,7 +342,7 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
               })}
           </div>
           <div className={styles.modalButtons}>
-            {isManager && 
+            {isManager && (
               <button
                 className={styles.delete}
                 type="submit"
@@ -350,27 +353,29 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
               >
                 Delete Task
               </button>
-            }
-            <Dropdown
-              isVisible={statusDropdownIsOpen}
-              setIsVisible={setStatusDropdownIsOpen}
-              name={dynamicFields.status}
-              handler={handleStatusChange}
-              values={
-                isManager
-                  ? ["Pending", "In progress", "Testing", "Completed"]
-                  : ["Testing", "Completed"]
-              }
-              theme="dark"
-            />
+            )}
+            {(asignedTo === loggedId || isManager) && (
+              <Dropdown
+                isVisible={statusDropdownIsOpen}
+                setIsVisible={setStatusDropdownIsOpen}
+                name={dynamicFields.status}
+                handler={handleStatusChange}
+                values={
+                  isManager
+                    ? ["Pending", "In progress", "Testing", "Completed"]
+                    : ["Testing", "Completed"]
+                }
+                theme="dark"
+              />
+            )}
           </div>
-          {clickDeleteCount > 0 ? (
+          {/* {clickDeleteCount > 0 ? (
             <span className={styles.danger}>
               Please confirm, this action is not reversible
             </span>
           ) : (
             ""
-          )}
+          )} */}
         </div>
       </Modal>
     </>

@@ -229,8 +229,9 @@ export default function StatisticCard({graphType, tasks, project}) {
                     borderWidth: 1
                   }]
                 }}
-                option={{
+                options={{
                   maintainAspectRatio: false,
+                  responsive: true,
                   scales: {
                     y: {
                         beginAtZero: true
@@ -262,8 +263,9 @@ export default function StatisticCard({graphType, tasks, project}) {
                     borderWidth: 1
                   }]
                 }}
-                option={{
+                options={{
                   maintainAspectRatio: false,
+                  responsive: true,
                   scales: {
                     y: {
                         beginAtZero: true
@@ -292,8 +294,9 @@ export default function StatisticCard({graphType, tasks, project}) {
                 },
               ]
               }}
-              option={{
+              options={{
                 maintainAspectRatio: false,
+                responsive: true,
                 scales: {
                   y: {
                     beginAtZero: true
