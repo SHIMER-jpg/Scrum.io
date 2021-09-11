@@ -45,7 +45,7 @@ const Sidebar = () => {
       {userRole && (
         <div className={styles.item}>
           <NavLink to={`/planning/${projectId}`}>
-            <CgCardDiamonds size={23} /> Poker Planning
+            <CgCardDiamonds size={23} /> Poker planning
           </NavLink>
         </div>
       )}

@@ -35,7 +35,7 @@ export function Configuration() {
         <h1>User Configs</h1>
       </header>
       <br></br>
-      {userRole == "scrumMaster" && (
+      {userRole === "scrumMaster" && (
         <>
           <header className={styles.header}>
             <h1>Project Config</h1>

@@ -47,7 +47,6 @@ const HomeModal = ({ isModalOpen, setIsModalOpen }) => {
   const [query, setQuery, filteredUsers] = useSearch(users);
 
   useEffect(() => {
-    console.log("fetchuser", loggedUser);
     dispatch(fetchUsers(loggedUser));
   }, []);
 
@@ -78,7 +77,6 @@ const HomeModal = ({ isModalOpen, setIsModalOpen }) => {
   //FALTA VALIDAR EL FORM NO NOS OLVIDEMOS
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(values);
 
     dispatch(createProject({ ...values, scrumMaster: loggedUser._id }));
 

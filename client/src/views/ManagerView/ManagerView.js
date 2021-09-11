@@ -9,6 +9,7 @@ import {
 import { fetchUsers } from "../../redux/Home/actions";
 import { useDispatch, useSelector } from "react-redux";
 import TaskHolder from "../../components/TaskHolder/TaskHolder";
+import { FiUsers } from "react-icons/fi";
 
 import managerStyle from "./ManagerView.module.css";
 import CreateTaskModal from "../../components/CreateTaskModal/CreateTaskModal";
@@ -82,8 +83,7 @@ export default function ManagerView() {
               className="btn-primary"
               onClick={() => setModalAddPartner(true)}
             >
-              {" "}
-              + Add Partners
+              <FiUsers /> Manage users
             </button>
 
             <button

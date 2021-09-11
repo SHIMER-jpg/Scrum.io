@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useSearch } from "../../hooks/useSearch";
 import useTimeAgo from "../../hooks/useTimeAgo";
+import Swal from 'sweetalert2'
 
 // redux actions
 import {
@@ -81,16 +82,17 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
 
   const timeAgo = useTimeAgo(new Date(creationDate));
   const dispatch = useDispatch();
-
   const notes = useSelector((state) => state.NotesReducer.notes);
 
   useEffect(() => {
     dispatch(getNotesDetails(_id));
+
     const filteredUsers = assignedUsers
       .filter(({ user }) => user._id !== loggedId)
       .map((u) => u.user);
 
     setUsersInProject(filteredUsers);
+
     return function cleanUp() {
       dispatch(clearNotes());
     };
@@ -102,21 +104,13 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
       field: "status",
       value: target.dataset.value,
     };
+
     setDynamicFields({
       ...dynamicFields,
       status: target.dataset.value,
     });
+
     dispatch(updateTask(change));
-    var flag =
-      target.dataset.value == "Completed"
-        ? dispatch(
-            updateTask({
-              taskId: _id,
-              field: "completedDate",
-              value: new Date(),
-            })
-          )
-        : "";
   }
   function handlePrioritizationChange({ target }) {
     const change = {
@@ -124,10 +118,12 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
       field: "priorization",
       value: target.value,
     };
+
     setDynamicFields({
       ...dynamicFields,
       priorization: target.value,
     });
+
     setColorMap(
       target.value === "Easy Win"
         ? "8eff7b"
@@ -139,6 +135,7 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
         ? "ff6868"
         : ""
     );
+
     dispatch(updateTask(change));
   }
 
@@ -185,11 +182,24 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
   };
 
   const handleDelete = (_id) => {
+    Swal.fire({
+      title: 'Are you sure you want to delete this task?',
+      text: "This action is not reversible.",
+      showDenyButton: true,
+      confirmButtonText: 'Cancel',
+      denyButtonText: 'Delete',
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isDenied) { // si apreto en "BORRAR"
+        setIsModalOpen(false);
+        dispatch(deleteTask(_id));
+      }
+    })
+
     if (clickDeleteCount >= 1) {
-      setIsModalOpen(false);
-      dispatch(deleteTask(_id));
     }
   };
+
   const handleRemoveNote = (noteId) => {
     dispatch(removeNote(noteId));
   };
@@ -269,23 +279,17 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
           <div className={styles.modalFormGroup}>
             <label className={styles.titles}>Priorization: </label>
             {isManager ? (
-              <select onChange={(e) => handlePrioritizationChange(e)}>
+              <select value={dynamicFields.priorization} onChange={(e) => handlePrioritizationChange(e)}>
                 {[
                   "Easy Win",
                   "Deprioritize",
                   "Worth Pursuing",
                   "Strategic Initiative",
-                ].map((value, index) =>
-                  value === dynamicFields.priorization ? (
-                    <option key={index} value={value} selected>
-                      {value}
-                    </option>
-                  ) : (
-                    <option key={index} value={value}>
-                      {value}
-                    </option>
-                  )
-                )}
+                ].map((value, index) => (
+                  <option key={index} value={value}>
+                    {value}
+                  </option>
+                ))}
               </select>
             ) : (
               <span>{dynamicFields.priorization}</span>
@@ -329,22 +333,24 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
                     userName={note.user.name}
                     userPicture={note.user.picture}
                     removeNote={handleRemoveNote}
-                    render={isManager || loggedId == note.userId}
+                    render={isManager || loggedId === note.userId}
                   />
                 );
               })}
           </div>
           <div className={styles.modalButtons}>
-            <button
-              className={styles.delete}
-              type="submit"
-              onClick={(e) => {
-                handleDelete(_id);
-                setClickDeleteCount(clickDeleteCount + 1);
-              }}
-            >
-              Delete Task
-            </button>
+            {isManager && 
+              <button
+                className={styles.delete}
+                type="submit"
+                onClick={(e) => {
+                  handleDelete(_id);
+                  // setClickDeleteCount(clickDeleteCount + 1);
+                }}
+              >
+                Delete Task
+              </button>
+            }
             <Dropdown
               isVisible={statusDropdownIsOpen}
               setIsVisible={setStatusDropdownIsOpen}

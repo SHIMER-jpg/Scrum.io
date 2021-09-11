@@ -74,7 +74,6 @@ export function getAllUsers() {
         `http://${REACT_APP_BACKEND_HOST}:${REACT_APP_BACKEND_PORT}/user/getAll`
       )
       .then((json) => {
-        console.log(json.data, "holaaaaaaaaaaaaa");
         dispatch({ type: GET_ALL_USERS, payload: json.data });
       });
   };
@@ -82,8 +81,6 @@ export function getAllUsers() {
 
 export function assignUser(projectId, userId) {
   return function (dispatch) {
-    console.log("entre aca");
-
     axios
       .put(
         `http://${REACT_APP_BACKEND_HOST}:${REACT_APP_BACKEND_PORT}/user/assignProject/${projectId}`,
@@ -98,13 +95,11 @@ export function assignUser(projectId, userId) {
 
 export function deleteUserFromProject(projectId, userId) {
   return function (dispatch) {
-    console.log(userId, "hola");
     axios
       .delete(`http://localhost:3001/user/deleteUser/${projectId}`, {
         data: { userId },
       })
       .then((json) => {
-        console.log(json);
         dispatch(getAsignedUsers(projectId))
         return json.data;
       });

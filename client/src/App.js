@@ -21,7 +21,6 @@ import ManagerView from "./views/ManagerView/ManagerView";
 import Layout from "./components/Layout/Layout.js";
 import PokerPlanning from "./views/PokerPlanning/PokerPlanning";
 import { Configuration } from "./views/Configuration/Configuration.js";
-import { Manager } from "socket.io-client";
 
 const BACKEND_HOST = process.env.REACT_APP_BACKEND_HOST;
 const BACKEND_PORT = process.env.REACT_APP_BACKEND_PORT;
@@ -33,9 +32,6 @@ const App = () => {
   useEffect(() => {
     const socket = io.connect("http://localhost:3001/");
     // client-side
-    socket.on("connect", () => {
-      console.log("socket conectado", socket.id); // x8WIv7-mJelg7on_ALbx
-    });
     dispatch(setSocket(socket));
 
     isAuthenticated &&
