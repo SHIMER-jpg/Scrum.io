@@ -6,6 +6,7 @@ import homeReducer from "./Home/reducer";
 import appReducer from "./App/reducer";
 import viewRouter from "./ViewRouter/reducer";
 import NotesReducer from "./NoteDetail/reducer.js";
+import pokerplanning from "../redux/PokerPlanning/reducer";
 
 const rootReducer = combineReducers({
   developerView: developerViewReducer,
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
   app: appReducer,
   viewRouter: viewRouter,
   NotesReducer: NotesReducer,
+  pokerplanning: pokerplanning,
 });
 
 export default rootReducer;
