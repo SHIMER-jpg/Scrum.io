@@ -29,8 +29,9 @@ export function AddPartnerModal({
       width: "100%",
       maxHeight: "550px",
       borderRadius: "8px",
+      overflowY: "unset",
+      overflowX: "unset",
       maxWidth: "650px",
-      height: "100%",
     },
     overlay: {
       backgroundColor: "rgba(0,0,0,0.5)",
@@ -39,8 +40,6 @@ export function AddPartnerModal({
       zIndex: "100000",
     },
   };
-
-
 
   function deleteUser(userId) {
     console.log(userId);
@@ -84,9 +83,16 @@ export function AddPartnerModal({
         <button onClick={() => setModalAddPartner(false)}>
           <IoClose size={30} />
         </button>
-      </header>{" "}
-      <h3 style={{ color: "" }}>Current users in project</h3>
-      <div className={styles.divAdded}>
+      </header>
+      <h3 style={{ fontWeight: "600", fontSize: "20px" }}>Current users in project</h3>
+      <div
+        style={{
+          maxHeight: "100px",
+          overflowY: "scroll",
+          marginBottom: "30px",
+        }}
+        className={styles.divAdded}
+      >
         <div className={styles.addedUsers}>
           {mapState && mapState.length > 0 ? (
             mapState.map((e, i) => {
@@ -107,12 +113,13 @@ export function AddPartnerModal({
         </div>
       </div>
       <div className={`${styles.modalFormGroup} ${styles.selectUserContainer}`}>
-        <label>Users</label>
+        <label>Add a new user</label>
         <input
           onBlur={() => setIsSelectUsersOpen(false)}
           onFocus={() => setIsSelectUsersOpen(true)}
           type="text"
           name="Users"
+          placeholder="Search for a new user..."
           value={query}
           autoComplete="off"
           onChange={(e) => setQuery(e.target.value)}
@@ -121,6 +128,7 @@ export function AddPartnerModal({
           className={`${styles.modalSelectUser} ${
             isSelectUsersOpen ? styles.visible : undefined
           }`}
+          style={{zIndex: "190000"}}
         >
           {filteredUsers.length ? (
             filteredUsers
