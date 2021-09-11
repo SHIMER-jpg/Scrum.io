@@ -3,6 +3,7 @@ import {
   GET_PROJECT_BY_ID,
   GET_ASIGNED_USERS,
   DELETE_PROJECT,
+  GET_ALL_USERS,
   UPDATE_TASK,
   DELETE_TASK,
 } from "./constants";
@@ -11,6 +12,7 @@ const initialState = {
   project: {},
   asignedUsers: [],
   tasks: [],
+  allUsers: [],
 };
 
 const managerViewReducer = (state = initialState, action) => {
@@ -28,7 +30,7 @@ const managerViewReducer = (state = initialState, action) => {
 
     case UPDATE_TASK:
       const newTasks = state.tasks.map((task) => {
-        if (task._id == action.payload.taskId) {
+        if (task._id === action.payload.taskId) {
           task[action.payload.field] = action.payload.value;
         }
         return task;
@@ -48,7 +50,12 @@ const managerViewReducer = (state = initialState, action) => {
     case DELETE_TASK:
       return {
         ...state,
-        tasks: [...state.tasks.filter((task) => task._id != action.payload)],
+        tasks: [...state.tasks.filter((task) => task._id !== action.payload)],
+      }
+    case GET_ALL_USERS:
+      return {
+        ...state,
+        allUsers: action.payload,
       };
     default:
       return state;

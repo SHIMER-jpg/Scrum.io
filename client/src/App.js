@@ -10,6 +10,7 @@ import { setUser, setSocket } from "./redux/App/actions.js";
 //components
 import PrivateRoute from "./components/HOCS/PrivateRoute";
 import ViewRouter from "./components/ViewRouter/ViewRouter";
+import Statistics from "./components/Statistics/Statistics.js";
 
 // views
 import Home from "./views/Home/Home";
@@ -86,6 +87,11 @@ const App = () => {
             path="/planning/:projectId"
             exact
             component={PokerPlanning}
+            />
+          <PrivateRoute 
+            path="/statistics/:projectId"
+            exact
+            component={Statistics}
           />
           <PrivateRoute path="/manager_view" exact component={ManagerView} />
           <PrivateRoute

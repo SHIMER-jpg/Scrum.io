@@ -8,6 +8,7 @@ import {
   UPDATE_TASK,
   CREATE_TASK,
   DELETE_TASK,
+  GET_ALL_USERS,
 } from "./constants";
 
 require("dotenv").config();
@@ -62,6 +63,50 @@ export function getAsignedUsers(projectId) {
       )
       .then((json) => {
         dispatch({ type: GET_ASIGNED_USERS, payload: json.data });
+      });
+  };
+}
+
+export function getAllUsers() {
+  return function (dispatch) {
+    axios
+      .get(
+        `http://${REACT_APP_BACKEND_HOST}:${REACT_APP_BACKEND_PORT}/user/getAll`
+      )
+      .then((json) => {
+        console.log(json.data, "holaaaaaaaaaaaaa");
+        dispatch({ type: GET_ALL_USERS, payload: json.data });
+      });
+  };
+}
+
+export function assignUser(projectId, userId) {
+  return function (dispatch) {
+    console.log("entre aca");
+
+    axios
+      .put(
+        `http://${REACT_APP_BACKEND_HOST}:${REACT_APP_BACKEND_PORT}/user/assignProject/${projectId}`,
+        { userId }
+      )
+      .then((json) => {
+        dispatch(getAsignedUsers(projectId))
+        return json.data;
+      });
+  };
+}
+
+export function deleteUserFromProject(projectId, userId) {
+  return function (dispatch) {
+    console.log(userId, "hola");
+    axios
+      .delete(`http://localhost:3001/user/deleteUser/${projectId}`, {
+        data: { userId },
+      })
+      .then((json) => {
+        console.log(json);
+        dispatch(getAsignedUsers(projectId))
+        return json.data;
       });
   };
 }

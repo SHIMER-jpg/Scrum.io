@@ -8,6 +8,8 @@ import {
   AiOutlineDisconnect,
   AiOutlineCloseCircle,
 } from "react-icons/ai";
+import { Redirect, useParams } from "react-router-dom"
+
 
 import TaskHolder from "../../components/TaskHolder/TaskHolder";
 import TaskCard from "../../components/TaskCard/TaskCard";
@@ -23,6 +25,7 @@ const PokerPlanning = () => {
   const socket = useSelector(({ app }) => app.socket);
   const loggedUser = useSelector(({ app }) => app.loggedUser);
   const { project, tasks } = useSelector(({ managerView }) => managerView);
+  const { projectId } = useParams()
 
   const [room, setRoom] = useState({});
   const [selectedVote, setSelectedVote] = useState(null);
@@ -126,6 +129,10 @@ const PokerPlanning = () => {
       user: loggedUser,
     });
   };
+
+  if(!project._id) {
+    return <Redirect to={`/project/${projectId}`} />
+  }
 
   const handleTaskClick = (task) => {
     socket.emit("setTask", { projectId: project._id, task });

@@ -3,7 +3,9 @@ const {
   getUsersByProjectId,
   findOrCreateUser,
   getAllUsers,
-  getUserRole
+  getUserRole,
+  assignUsers,
+  deleteUser,
 } = require("../controllers/user.js");
 const user = Router();
 
@@ -18,5 +20,9 @@ user.post("/findOrCreate", findOrCreateUser);
 
 // list all users in DB
 user.get("/getAll", getAllUsers);
+
+user.put("/assignProject/:projectId", assignUsers);
+
+user.delete("/deleteUser/:projectId", deleteUser);
 
 module.exports = user;

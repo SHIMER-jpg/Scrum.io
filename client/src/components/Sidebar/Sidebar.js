@@ -2,21 +2,16 @@ import { RiHomeLine } from "react-icons/ri";
 import { BsGear } from "react-icons/bs";
 import { FaTasks } from "react-icons/fa";
 import { CgCardDiamonds } from "react-icons/cg";
+import { HiViewBoards } from "react-icons/hi";
 import { AiOutlineBarChart } from "react-icons/ai";
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { useHistory } from "react-router";
 
 import styles from "./Sidebar.module.css";
 
 const Sidebar = () => {
   const userRole = useSelector(({ viewRouter }) => viewRouter.userRole);
   const projectId = useSelector(({ managerView }) => managerView.project._id);
-  const {
-    location: { pathname },
-  } = useHistory();
-
-  console.log(projectId)
 
   return (
     <nav className={styles.container}>
@@ -27,11 +22,18 @@ const Sidebar = () => {
       </div>
       {userRole ? (
         userRole === "scrumMaster" ? (
-          <div className={styles.item}>
-            <NavLink to={`/project/${projectId}`}>
-              <AiOutlineBarChart size={23} /> Overview
-            </NavLink>
-          </div>
+          <>
+            <div className={styles.item}>
+              <NavLink to={`/project/${projectId}`}>
+                <HiViewBoards size={23} /> Overview
+              </NavLink>
+            </div>
+            <div className={styles.item}>
+              <NavLink to={`/statistics/${projectId}`}>
+                <AiOutlineBarChart size={23} /> Statistics
+              </NavLink>
+            </div>
+          </>
         ) : (
           <div className={styles.item}>
             <NavLink to={`/project/${projectId}`}>
@@ -47,7 +49,6 @@ const Sidebar = () => {
           </NavLink>
         </div>
       )}
-
       <div className={styles.item}>
         <NavLink to="/configuration">
           <BsGear size={23} /> Configuration

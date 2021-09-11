@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 //imports from react and hooks (even customs)
 import Modal from "react-modal";
 import { useState, useEffect } from "react";
@@ -31,11 +32,10 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
   const [clickDeleteCount, setClickDeleteCount] = useState(0);
 
   const isManager = useSelector(
-    (state) => state.viewRouter.userRole == "scrumMaster"
+    (state) => state.viewRouter.userRole === "scrumMaster"
   );
 
   const [statusDropdownIsOpen, setStatusDropdownIsOpen] = useState(false);
-  // const [colorMap, setColorMap] = useState("8eff7b");
   const [dynamicFields, setDynamicFields] = useState({
     status: modalDetails.status,
     helpNeeded: modalDetails.helpNeeded,
@@ -45,13 +45,13 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
   });
 
   const [colorMap, setColorMap] = useState(
-    dynamicFields.priorization == "Easy Win"
+    dynamicFields.priorization === "Easy Win"
       ? "8eff7b"
-      : dynamicFields.priorization == "Worth Pursuing"
+      : dynamicFields.priorization === "Worth Pursuing"
       ? "ffa53c"
-      : dynamicFields.priorization == "Strategic Initiative"
+      : dynamicFields.priorization === "Strategic Initiative"
       ? "7befff"
-      : dynamicFields.priorization == "Deprioritize"
+      : dynamicFields.priorization === "Deprioritize"
       ? "ff6868"
       : ""
   );
@@ -129,13 +129,13 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
       priorization: target.value,
     });
     setColorMap(
-      target.value == "Easy Win"
+      target.value === "Easy Win"
         ? "8eff7b"
-        : target.value == "Worth Pursuing"
+        : target.value === "Worth Pursuing"
         ? "ffa53c"
-        : target.value == "Strategic Initiative"
+        : target.value === "Strategic Initiative"
         ? "7befff"
-        : target.value == "Deprioritize"
+        : target.value === "Deprioritize"
         ? "ff6868"
         : ""
     );
@@ -276,7 +276,7 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
                   "Worth Pursuing",
                   "Strategic Initiative",
                 ].map((value, index) =>
-                  value == dynamicFields.priorization ? (
+                  value === dynamicFields.priorization ? (
                     <option key={index} value={value} selected>
                       {value}
                     </option>
@@ -303,9 +303,6 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
                 className={styles.notes}
                 name="content"
                 value={newNote.content}
-                // id=""
-                // cols="30"
-                // rows="10"
                 onChange={(e) => handleArea(e)}
                 placeholder="Write a new note..."
               ></textarea>
@@ -322,7 +319,6 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
             </form>
           </div>
           <div className={styles.modalFormGroup}>
-            {/* <div>{notes}</div> */}
             {notes.length > 0 &&
               notes.map((note) => {
                 return (
