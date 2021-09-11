@@ -18,6 +18,8 @@ export default function TaskHolder({
   taskList,
   isLoading,
   customHandleClick,
+  fixedHeight,
+  hiddenStatus,
 }) {
   const [modalIsOpen, setIsModalOpen] = useState(false);
   const [modalDetails, setModalDetails] = useState({});
@@ -32,10 +34,12 @@ export default function TaskHolder({
   // sino se pasa ninguno de los dos parametros, simplemente se mapean todas las que hayan en el proyecto
 
   return (
-    <div className={styles.tasks}>
-      <div className={styles.tasks_Header}>
-        <h2>{status ? status : helpNeeded ? "Help Needed" : "My Tasks"}</h2>
-      </div>
+    <div className={`${styles.tasks} ${fixedHeight && styles.fixedHeight}`}>
+      {!hiddenStatus && (
+        <div className={styles.tasks_Header}>
+          <h2>{status ? status : helpNeeded ? "Help Needed" : "My Tasks"}</h2>
+        </div>
+      )}
       <div className={styles.taskList}>
         {isLoading ? (
           <Loading isCentered={true} />

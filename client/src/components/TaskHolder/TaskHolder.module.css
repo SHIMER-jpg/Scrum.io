@@ -10,12 +10,23 @@
   flex-shrink: 0;
 }
 
+.tasks.fixedHeight {
+  height: 300px;
+  padding: 0;
+}
+
 .tasks_Header h2 {
-  margin: 0;
+  margin: 0 0 25px 0;
   font-weight: 600;
   font-size: 27px;
 }
 
 .noTasks {
   font-weight: 500;
+}
+
+.taskList {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }

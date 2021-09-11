@@ -3,7 +3,7 @@ import {
   GET_PROJECT_BY_ID,
   GET_ASIGNED_USERS,
   GET_ALL_USERS,
-  // UPDATE_TASK,
+  UPDATE_TASK,
 } from "./constants";
 
 const initialState = {
@@ -25,6 +25,16 @@ const managerViewReducer = (state = initialState, action) => {
         ...state,
         tasks: [...action.payload],
       };
+
+    case UPDATE_TASK:
+      const newTasks = state.tasks.map((task) => {
+        if (task._id === action.payload.taskId) {
+          task[action.payload.field] = action.payload.value;
+        }
+        return task;
+      });
+      return { ...state, tasks: [...newTasks] };
+
     case GET_ASIGNED_USERS:
       return {
         ...state,

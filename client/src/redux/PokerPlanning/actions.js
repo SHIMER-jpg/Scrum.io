@@ -14,8 +14,8 @@ export function changeTask(idTask, value, cb) {
   return function (dispatch) {
     axios
       .put(
-        `http://${REACT_APP_BACKEND_HOST}:${REACT_APP_BACKEND_PORT}/task/${idTask}`,
-        { value }
+        `http://${REACT_APP_BACKEND_HOST}:${REACT_APP_BACKEND_PORT}/task/update`,
+        { taskId: idTask, field: "storyPoints", value }
       )
       .then((response) => {
         dispatch({ type: CONSTANTS.PUT_TASK });

@@ -7,7 +7,6 @@ import {
   UPDATE_TASK,
   CREATE_TASK,
   GET_ALL_USERS,
-  ASSIGN_USER_PROJECT,
 } from "./constants";
 
 require("dotenv").config();
@@ -21,23 +20,6 @@ export function getProjectById(projectId) {
       )
       .then((json) => {
         dispatch({ type: GET_PROJECT_BY_ID, payload: json.data });
-      });
-  };
-}
-
-export function postTask(task) {
-  return function (dispatch) {
-    axios
-      .post(
-        `http://${REACT_APP_BACKEND_HOST}:${REACT_APP_BACKEND_PORT}/task/createTask`,
-        task
-      )
-      .then((resp) => {
-        dispatch({ type: "asdas" });
-        return resp.data;
-      })
-      .catch((err) => {
-        console.log(err);
       });
   };
 }
@@ -125,9 +107,13 @@ export function deleteUserFromProject(projectId, userId) {
   };
 }
 
-// export function updateTask(change) {
-//   console.log("action", change);
-//   return function (dispatch) {
-//     dispatch({ type: UPDATE_TASK, payload: change });
-//   };
-// }
+export function updateTask(change) {
+  return function (dispatch) {
+    axios
+      .put(
+        `http://${REACT_APP_BACKEND_HOST}:${REACT_APP_BACKEND_PORT}/task/update`,
+        change
+      )
+      .then(dispatch({ type: UPDATE_TASK, payload: change }));
+  };
+}
