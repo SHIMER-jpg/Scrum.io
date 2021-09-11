@@ -33,10 +33,12 @@ const DeleteModal = ({
   confirmationString,
 }) => {
   const [inputString, setInputString] = useState("");
-  const [disabled] = useState(true);
+  const [disabled, setDisabled] = useState(true);
 
   const handleChange = ({ target }) => {
     setInputString(target.value);
+    if (target.value === confirmationString) setDisabled(false);
+    else setDisabled(true);
   };
   const handleClick = (e) => {
     deleteHandler();
