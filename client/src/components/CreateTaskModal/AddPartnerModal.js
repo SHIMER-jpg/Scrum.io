@@ -1,13 +1,12 @@
 import { useSearch } from "../../hooks/useSearch";
 import styles from "./AddPartnerModal.module.css";
 import { IoClose } from "react-icons/io5";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import Modal from "react-modal";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   assignUser,
   deleteUserFromProject,
-  getAsignedUsers,
 } from "../../redux/ManagerView/actions";
 
 export function AddPartnerModal({
@@ -41,9 +40,7 @@ export function AddPartnerModal({
     },
   };
 
-  useEffect(() => {
-    dispatch(getAsignedUsers(projectId));
-  }, [mapState]);
+
 
   function deleteUser(userId) {
     console.log(userId);
@@ -52,7 +49,6 @@ export function AddPartnerModal({
       return v._id !== userId;
     });
     setMapState(assignedUsers);
-    console.log(assignedUsers);
     dispatch(deleteUserFromProject(projectId, userId));
   }
 

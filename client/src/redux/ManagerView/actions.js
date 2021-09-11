@@ -88,6 +88,7 @@ export function assignUser(projectId, userId) {
         { userId }
       )
       .then((json) => {
+        dispatch(getAsignedUsers(projectId))
         return json.data;
       });
   };
@@ -102,6 +103,7 @@ export function deleteUserFromProject(projectId, userId) {
       })
       .then((json) => {
         console.log(json);
+        dispatch(getAsignedUsers(projectId))
         return json.data;
       });
   };
