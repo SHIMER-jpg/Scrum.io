@@ -10,6 +10,7 @@ import { setUser, setSocket } from "./redux/App/actions.js";
 //components
 import PrivateRoute from "./components/HOCS/PrivateRoute";
 import ViewRouter from "./components/ViewRouter/ViewRouter";
+import Statistics from "./components/Statistics/Statistics.js";
 
 // views
 import Home from "./views/Home/Home";
@@ -18,7 +19,9 @@ import LandingPage from "./views/LandingPage/LandingPage";
 import DeveloperView from "./views/DeveloperView/DeveloperView";
 import ManagerView from "./views/ManagerView/ManagerView";
 import Layout from "./components/Layout/Layout.js";
-import { Manager } from "socket.io-client";
+import PokerPlanning from "./views/PokerPlanning/PokerPlanning";
+import { Configuration } from "./views/Configuration/Configuration.js";
+import JitsiMeet from "./views/JitsiMeet/JitsiMeet.js";
 
 const BACKEND_HOST = process.env.REACT_APP_BACKEND_HOST;
 const BACKEND_PORT = process.env.REACT_APP_BACKEND_PORT;
@@ -28,11 +31,8 @@ const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const socket = io("http://localhost:3001/");
+    const socket = io.connect("http://localhost:3001/");
     // client-side
-    socket.on("connect", () => {
-      console.log("socket conectado", socket.id); // x8WIv7-mJelg7on_ALbx
-    });
     dispatch(setSocket(socket));
 
     isAuthenticated &&
@@ -80,12 +80,28 @@ const App = () => {
             exact
             component={ViewRouter}
           />
+          <PrivateRoute
+            path="/planning/:projectId"
+            exact
+            component={PokerPlanning}
+          />
+          <PrivateRoute
+            path="/statistics/:projectId"
+            exact
+            component={Statistics}
+          />
+          <PrivateRoute
+            path="/meeting/:projectId"
+            exact
+            component={JitsiMeet}
+          />
           <PrivateRoute path="/manager_view" exact component={ManagerView} />
           <PrivateRoute
             path="/developer_view"
             exact
             component={DeveloperView}
           />
+          <PrivateRoute path="/configuration" exact component={Configuration} />
         </Layout>
         <Route component={NotFound} />
       </Switch>

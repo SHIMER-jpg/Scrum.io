@@ -12,16 +12,25 @@
   margin: 0;
   font-weight: 600;
   font-size: 32px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .modalHeader > button {
   all: unset;
-  display: flex;
-  align-items: center;
+  position: absolute;
+  right: 2%;
 }
 
 .modalBody {
   margin-top: 25px;
+}
+
+.modalButtons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .modalFormGroup {
@@ -30,11 +39,6 @@
   margin-bottom: 20px;
 }
 
-.modalButtons {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
 .modalFormGroup label {
   font-weight: 600;
   font-size: 18px;
@@ -42,8 +46,7 @@
 }
 
 .modalFormGroup input,
-textarea,
-select {
+.modalFormGroup select {
   all: unset;
   border-radius: 8px;
   padding: 10px;
@@ -52,8 +55,8 @@ select {
 }
 
 .modalFormGroupmodalFormGroup input:focus,
-textarea:focus,
-select:focus {
+.modalFormGroup textarea:focus,
+.modalFormGroup select:focus {
   border: 2px solid var(--violet);
   box-shadow: 0 0 0 3px rgba(161, 36, 101, 0.4);
 }
@@ -63,8 +66,6 @@ select:focus {
 }
 
 .modalSelectUser {
-  position: absolute;
-  top: 120%;
   display: flex;
   flex-direction: column;
   max-height: 145px;
@@ -162,6 +163,26 @@ select:focus {
   font-size: 15px;
   align-self: flex-end;
   margin-top: 10px;
+  border: 0.5px solid var(--violet);
+}
+
+.modalFormGroup button[type="submit"]:hover {
+  background: white;
+  border: 0.5px solid var(--violet);
+  color: var(--violet);
+}
+
+.modalButtons button[type="submit"].true {
+  background: white;
+  border: 0.5px solid var(--violet);
+  color: var(--violet);
+}
+.modalButtons button[type="submit"].delete {
+  background-color: var(--red);
+}
+
+.modalButtons button {
+  transition: all .15s ease-in-out !important;
 }
 
 .notes {
@@ -173,6 +194,7 @@ select:focus {
   position: relative;
   display: flex;
   align-items: center;
+  user-select: none;
 }
 
 .userBox img {
@@ -184,4 +206,21 @@ select:focus {
 
 .userBox p {
   line-height: 1;
+}
+.taskCard_StoryPoints {
+  background-color: #a12464;
+  color: #f3f3f3;
+  font-size: 18px;
+  font-weight: 600;
+  padding: 5px 10px;
+  font-weight: 600;
+  border-radius: 10px;
+  display: flex;
+  margin: auto;
+  margin-right: 10px;
+}
+.danger {
+  color: red;
+  font-weight: 500;
+  user-select: none;
 }
