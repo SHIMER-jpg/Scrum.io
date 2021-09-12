@@ -12,6 +12,8 @@ import { createTask } from "../../redux/ManagerView/actions";
 
 import styles from "../CreateProjectModal/CreateProjectModal.module.css";
 
+
+
 Modal.setAppElement("#root");
 
 const customStyles = {
