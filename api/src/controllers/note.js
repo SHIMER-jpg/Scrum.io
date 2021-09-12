@@ -1,4 +1,5 @@
 const Note = require("../models/Note");
+const Task = require("../models/Task");
 const mongoose = require("mongoose");
 
 const getNotesByTaskId = async (req, res, next) => {
@@ -33,6 +34,11 @@ const createNote = async (req, res, next) => {
       content: req.body.content,
     });
     await newNote.save();
+    const task = await Task.model.findOne({
+      _id: mongoose.Types.ObjectId(req.body.taskId),
+    });
+    task.noteIds.push(newNote._id);
+    task.save();
     const data = await Note.model.aggregate([
       { $match: { _id: mongoose.Types.ObjectId(newNote._id) } },
       {
@@ -53,7 +59,21 @@ const createNote = async (req, res, next) => {
   }
 };
 
+const deleteNote = async (req, res, next) => {
+  try {
+    const noteId = mongoose.Types.ObjectId(req.params.noteId);
+    const note = await Note.model.remove({ _id: noteId });
+    const task = await Task.model.findOne({ noteIds: { $in: [noteId] } });
+    task.noteIds.splice(task.noteIds.indexOf(noteId), 1);
+    task.save();
+    res.status(200).json("success");
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   createNote,
   getNotesByTaskId,
+  deleteNote,
 };

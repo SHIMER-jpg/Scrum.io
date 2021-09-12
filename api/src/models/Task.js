@@ -23,6 +23,7 @@ const taskSchema = new mongoose.Schema(
         "Worth Pursuing",
         "Strategic Initiative",
       ],
+      default: "Easy win",
     },
     details: { type: String },
     helpNeeded: { type: Boolean, default: false },

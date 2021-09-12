@@ -1,5 +1,10 @@
 import axios from "axios";
-import { GET_NOTES_DETAILS, CLEAR_NOTES, CREATE_NOTE } from "./constants";
+import {
+  GET_NOTES_DETAILS,
+  CLEAR_NOTES,
+  CREATE_NOTE,
+  REMOVE_NOTE,
+} from "./constants";
 require("dotenv").config();
 const { REACT_APP_BACKEND_HOST, REACT_APP_BACKEND_PORT } = process.env;
 
@@ -28,6 +33,16 @@ export function createNote(newNote) {
       .catch((err) => {
         console.log(err);
       });
+  };
+}
+
+export function removeNote(noteId) {
+  return function (dispatch) {
+    axios
+      .delete(
+        `http://${REACT_APP_BACKEND_HOST}:${REACT_APP_BACKEND_PORT}/note/${noteId}`
+      )
+      .then(dispatch({ type: REMOVE_NOTE, payload: noteId }));
   };
 }
 

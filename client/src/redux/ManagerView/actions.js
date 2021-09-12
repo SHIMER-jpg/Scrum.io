@@ -3,10 +3,14 @@ import axios from "axios";
 import {
   GET_TASKS_BY_PROJECT,
   GET_ASIGNED_USERS,
+  DELETE_PROJECT,
   GET_PROJECT_BY_ID,
   UPDATE_TASK,
   CREATE_TASK,
+  DELETE_TASK,
   GET_ALL_USERS,
+  IMPORT_TASKS_CSV,
+  DELETE_TASKS,
 } from "./constants";
 
 require("dotenv").config();
@@ -53,6 +57,28 @@ export function createTask(task) {
   };
 }
 
+export function bulkImport(formData, setIsLoadingTasks) {
+  return function (dispatch) {
+    axios
+      .post(
+        `http://${REACT_APP_BACKEND_HOST}:${REACT_APP_BACKEND_PORT}/task/bulkCreate`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      )
+      .then(() => {
+        dispatch({ type: IMPORT_TASKS_CSV });
+        dispatch(
+          getTasksByProject(formData.get("projectId"), setIsLoadingTasks)
+        );
+      })
+      .catch(console.log);
+  };
+}
+
 export function getAsignedUsers(projectId) {
   return function (dispatch) {
     axios
@@ -72,7 +98,6 @@ export function getAllUsers() {
         `http://${REACT_APP_BACKEND_HOST}:${REACT_APP_BACKEND_PORT}/user/getAll`
       )
       .then((json) => {
-        console.log(json.data, "holaaaaaaaaaaaaa");
         dispatch({ type: GET_ALL_USERS, payload: json.data });
       });
   };
@@ -80,15 +105,13 @@ export function getAllUsers() {
 
 export function assignUser(projectId, userId) {
   return function (dispatch) {
-    console.log("entre aca");
-
     axios
       .put(
         `http://${REACT_APP_BACKEND_HOST}:${REACT_APP_BACKEND_PORT}/user/assignProject/${projectId}`,
         { userId }
       )
       .then((json) => {
-        dispatch(getAsignedUsers(projectId))
+        dispatch(getAsignedUsers(projectId));
         return json.data;
       });
   };
@@ -96,14 +119,12 @@ export function assignUser(projectId, userId) {
 
 export function deleteUserFromProject(projectId, userId) {
   return function (dispatch) {
-    console.log(userId, "hola");
     axios
       .delete(`http://localhost:3001/user/deleteUser/${projectId}`, {
         data: { userId },
       })
       .then((json) => {
-        console.log(json);
-        dispatch(getAsignedUsers(projectId))
+        dispatch(getAsignedUsers(projectId));
         return json.data;
       });
   };
@@ -117,5 +138,35 @@ export function updateTask(change) {
         change
       )
       .then(dispatch({ type: UPDATE_TASK, payload: change }));
+  };
+}
+
+export function deleteProject(projectId) {
+  return function (dispatch) {
+    axios
+      .delete(
+        `http://${REACT_APP_BACKEND_HOST}:${REACT_APP_BACKEND_PORT}/project/${projectId}`
+      )
+      .then(dispatch({ type: DELETE_PROJECT }));
+  };
+}
+
+export function deleteTasks(projectId) {
+  return function (dispatch) {
+    axios
+      .delete(
+        `http://${REACT_APP_BACKEND_HOST}:${REACT_APP_BACKEND_PORT}/task/deleteMany/${projectId}`
+      )
+      .then(dispatch({ type: DELETE_TASKS }));
+  };
+}
+
+export function deleteTask(taskId) {
+  return function (dispatch) {
+    axios
+      .delete(
+        `http://${REACT_APP_BACKEND_HOST}:${REACT_APP_BACKEND_PORT}/task/${taskId}`
+      )
+      .then(dispatch({ type: DELETE_TASK, payload: taskId }));
   };
 }

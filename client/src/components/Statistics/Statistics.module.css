@@ -1,6 +1,6 @@
 .container{
-    padding: 20px;
-    width: 100%;
+  padding: 25px 30px;
+  width: 100%;
 }
 .header{
   display: flex;
@@ -11,6 +11,8 @@
 }
 h1{
   margin: 0;
+  font-size: 35px;
+  font-weight: 600;
 }
 .helpNeeded h4{
   margin: 0;
@@ -33,12 +35,14 @@ h1{
 
 .cardsList{
     position: relative;
-    padding: 20px;
+    margin-top: 30px;
+    /* padding: 20px; */
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 30px;
 }
 
 .specialCard{
-    padding: 20px;
+    /* padding: 20px; */
+    margin-top: 30px;
 }

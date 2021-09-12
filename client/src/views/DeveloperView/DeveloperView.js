@@ -35,7 +35,7 @@ export default function DeveloperView({ projectId }) {
         <TaskHolder taskList={userTaskList} />
 
         {/* Componente de TODOS que necesitan ayuda en este proyecto */}
-        <TaskHolder helpNeeded={true} taskList={helpTaskList} />
+        <TaskHolder helpNeeded={true} taskList={helpTaskList.filter(task => task.asignedTo !== userLogged._id)} />
       </div>
     </div>
   );

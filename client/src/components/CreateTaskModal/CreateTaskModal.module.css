@@ -6,6 +6,7 @@
   align-items: center;
   padding-bottom: 20px;
   border-bottom: 1px solid rgb(204, 204, 204);
+  margin-bottom: 25px;
 }
 
 .modalHeader > h2 {
@@ -37,8 +38,9 @@
 }
 
 .modalFormGroup input,
-textarea,
-select {
+.modalFormGroup textarea,
+.modalFormGroup select,
+.modalFormGroup select {
   all: unset;
   border-radius: 8px;
   padding: 10px;
@@ -47,8 +49,8 @@ select {
 }
 
 .modalFormGroup input:focus,
-textarea:focus,
-select:focus {
+.modalFormGroup textarea:focus,
+.modalFormGroup select:focus {
   border: 2px solid var(--violet);
   box-shadow: 0 0 0 3px rgba(161, 36, 101, 0.4);
 }

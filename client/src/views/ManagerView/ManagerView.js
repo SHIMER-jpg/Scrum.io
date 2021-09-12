@@ -2,42 +2,38 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { React, useEffect, useState } from "react";
 import {
-  postTask,
   getProjectById,
   getTasksByProject,
   getAsignedUsers,
-  updateTask,
 } from "../../redux/ManagerView/actions";
 import { fetchUsers } from "../../redux/Home/actions";
 import { useDispatch, useSelector } from "react-redux";
-import Modal from "react-modal";
 import TaskHolder from "../../components/TaskHolder/TaskHolder";
+import { FiUsers } from "react-icons/fi";
+import { FaFileCsv } from "react-icons/fa";
 
 import managerStyle from "./ManagerView.module.css";
 import CreateTaskModal from "../../components/CreateTaskModal/CreateTaskModal";
 import { useParams } from "react-router-dom";
-import { getAllUsers } from "../../redux/ManagerView/actions";
-import { AddPartnerModal } from "../../components/CreateTaskModal/AddPartnerModal";
+import { AddPartnerModal } from "../../components/AddPartnerModal/AddPartnerModal";
+import ImportCsvModal from "../../components/ImportCsvModal/ImportCsvModal";
 
 export default function ManagerView() {
   const tasks = useSelector((state) => state.managerView.tasks);
 
   const { projectId } = useParams();
 
-  // SOCKET EFFECT
-
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalAddPartner, setModalAddPartner] = useState(false);
+  const [importModal, setImportModal] = useState(false);
+  const [flag, setFlag] = useState(false);
 
   const dispatch = useDispatch();
-  // const route = useRouteMatch();
   const project = useSelector((state) => state.managerView.project);
   const assignedUsers = useSelector((state) => state.managerView.asignedUsers);
   const [isLoadingTasks, setIsLoadingTasks] = useState(true);
   const allUsers = useSelector((state) => state.home.users);
   const loggedUser = useSelector((state) => state.app.loggedUser);
-
-  console.log(allUsers);
 
   useEffect(() => {
     dispatch(fetchUsers(loggedUser));
@@ -56,7 +52,6 @@ export default function ManagerView() {
         }
       }
     }
-
     return array;
   }
 
@@ -68,6 +63,15 @@ export default function ManagerView() {
           isModalOpen={isModalOpen}
           setIsModalOpen={setIsModalOpen}
           projectId={projectId}
+        />
+      )}
+      {importModal && (
+        <ImportCsvModal
+          assignedUsers={usersInProject()}
+          isModalOpen={importModal}
+          setIsModalOpen={setImportModal}
+          projectId={projectId}
+          setIsLoadingTasks={setIsLoadingTasks}
         />
       )}
       <div className={managerStyle.conteiner}>
@@ -90,8 +94,15 @@ export default function ManagerView() {
               className="btn-primary"
               onClick={() => setModalAddPartner(true)}
             >
-              {" "}
-              + Add Partners
+              <FiUsers /> Manage users
+            </button>
+
+            <button
+              className="btn-primary"
+              onClick={() => setImportModal(true)}
+            >
+              <FaFileCsv size={18} />
+              Import from CSV
             </button>
 
             <button
@@ -132,68 +143,3 @@ export default function ManagerView() {
     </>
   );
 }
-
-/* 
-
-<Modal isOpen={modalOpen}>
-        <div>
-          <span>Entraste a MODALSXd</span>
-          <button onClick={() => setModalOpen(false)}>X</button>
-          <form onSubmit={(e) => handleSubmit(e)}>
-            <div>
-              <label>Title</label>
-              <input
-                name="title"
-                type="text"
-                value={createTask.test}
-                onChange={(e) => handleInput(e)}
-              ></input>
-            </div>
-            <div>
-              <label>Asigned Dev</label>
-              <input
-                name="asignedTo"
-                type="text"
-                value={createTask.asignedTo}
-                onChange={(e) => handleInput(e)}
-              ></input>
-            </div>
-            <div>
-              <label>Story Points</label>
-              <input
-                name="storyPoints"
-                type="text"
-                value={createTask.storyPoints}
-                onChange={(e) => handleInput(e)}
-              ></input>
-            </div>
-            <div>
-              <label>Priorization</label>
-              <select
-                value={createTask.priorization}
-                name="priorization"
-                onChange={(e) => handleInput(e)}
-              >
-                <option value="none">None</option>
-                <option value="Easy Win">Easy Win</option>
-                <option value="Depriorize">Depriorize</option>
-                <option value="Worth Pursuing">Worth Pursuing</option>
-                <option value="Strategic Initiative">
-                  Strategic Initiative
-                </option>
-              </select>
-            </div>
-            <div>
-              <label>Detail</label>
-              <textarea
-                style={{ resize: "none" }}
-                value={createTask.details}
-                name="details"
-                onChange={(e) => handleInput(e)}
-              ></textarea>
-            </div>
-            <button type="submit">Create</button>
-          </form>
-        </div>
-      </Modal>
-*/

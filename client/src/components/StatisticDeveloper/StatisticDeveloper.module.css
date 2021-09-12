@@ -16,9 +16,8 @@
   justify-content: space-between;
   align-items: center;
   position: relative;
-  border-bottom: 2px solid #d4d4d4;
+  border-bottom: 2px solid #e2e2e2;
   padding-bottom: 5px;
-  height: 40px;
 }
 
 .header .title{
@@ -29,7 +28,8 @@
 }
 
 .header h2{
-    margin: 0;
+    margin: 0 0 10px;
+    font-weight: 600;
 }
 
 .header select{

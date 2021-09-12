@@ -81,7 +81,6 @@ export default function StatisticDeveloper(props) {
   }
 
   function handleViewChange(view){
-    console.log(view);
     setView(view);
   }
 

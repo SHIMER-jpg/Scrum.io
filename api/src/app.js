@@ -3,6 +3,7 @@ const express = require("express");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
+const formData = require("express-form-data");
 const routes = require("./routes/index.js");
 const Task = require("./models/Task.js");
 // const { connection } = require("./watchers");
@@ -18,6 +19,7 @@ app.use(express.urlencoded({ extended: true, limit: "50mb" })); //review if need
 app.use(express.json({ limit: "50mb" })); //review if needed
 app.use(cookieParser());
 app.use(morgan("dev"));
+app.use(formData.parse());
 
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "http://localhost:3000"); // update to match the domain you will make the request from

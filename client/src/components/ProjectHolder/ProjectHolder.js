@@ -32,6 +32,7 @@ export default function ProjectHolder({ finished, projectList }) {
               <ProjectCard
                 key={project.projects._id}
                 project={project.projects}
+                role={project.role}
               />
             ))
         ) : (

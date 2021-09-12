@@ -8,6 +8,7 @@ import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import styles from "./Sidebar.module.css";
+import { SiGooglehangoutsmeet } from "react-icons/si";
 
 const Sidebar = () => {
   const userRole = useSelector(({ viewRouter }) => viewRouter.userRole);
@@ -45,7 +46,14 @@ const Sidebar = () => {
       {userRole && (
         <div className={styles.item}>
           <NavLink to={`/planning/${projectId}`}>
-            <CgCardDiamonds size={23} /> Poker Planning
+            <CgCardDiamonds size={23} /> Poker planning
+          </NavLink>
+        </div>
+      )}
+      {userRole && (
+        <div className={styles.item}>
+          <NavLink to={`/meeting/${projectId}`}>
+            <SiGooglehangoutsmeet size={23} /> Live Meeting
           </NavLink>
         </div>
       )}
