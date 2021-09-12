@@ -9,6 +9,7 @@ const UPDATE_TASK = "UPDATE_TASK";
 const UPDATE_NOTE = "UPDATE_NOTE";
 const CREATE_TASK = "CREATE_TASK";
 const DELETE_TASK = "DELETE_TASK";
+const IMPORT_TASKS_CSV = "IMPORT_TASKS_CSV";
 
 module.exports = {
   GET_PROJECT_BY_ID,
@@ -21,4 +22,5 @@ module.exports = {
   DELETE_TASK,
   GET_ALL_USERS,
   ASSIGN_USER_PROJECT,
+  IMPORT_TASKS_CSV,
 };

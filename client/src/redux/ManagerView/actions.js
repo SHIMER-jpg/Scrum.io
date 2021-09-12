@@ -9,6 +9,7 @@ import {
   CREATE_TASK,
   DELETE_TASK,
   GET_ALL_USERS,
+  IMPORT_TASKS_CSV,
 } from "./constants";
 
 require("dotenv").config();
@@ -55,6 +56,25 @@ export function createTask(task) {
   };
 }
 
+export function bulkImport(formData) {
+  return function (dispatch) {
+    axios
+      .post(
+        `http://${REACT_APP_BACKEND_HOST}:${REACT_APP_BACKEND_PORT}/task/bulkCreate`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      )
+      .then(() => {
+        dispatch({ type: IMPORT_TASKS_CSV });
+      })
+      .catch(console.log);
+  };
+}
+
 export function getAsignedUsers(projectId) {
   return function (dispatch) {
     axios
@@ -87,7 +107,7 @@ export function assignUser(projectId, userId) {
         { userId }
       )
       .then((json) => {
-        dispatch(getAsignedUsers(projectId))
+        dispatch(getAsignedUsers(projectId));
         return json.data;
       });
   };
@@ -100,7 +120,7 @@ export function deleteUserFromProject(projectId, userId) {
         data: { userId },
       })
       .then((json) => {
-        dispatch(getAsignedUsers(projectId))
+        dispatch(getAsignedUsers(projectId));
         return json.data;
       });
   };

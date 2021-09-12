@@ -1,0 +1,85 @@
+/* MODAL STYLES ===================================================== */
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgb(204, 204, 204);
+}
+
+.modalHeader > h2 {
+  margin: 0;
+  font-weight: 600;
+  font-size: 32px;
+}
+
+.modalHeader > button {
+  all: unset;
+  display: flex;
+  align-items: center;
+}
+
+.modalBody {
+  margin-top: 25px;
+  font-size: 24px;
+}
+
+.modalFormGroup {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.modalFormGroup span {
+  font-weight: 600;
+  font-size: 16px;
+}
+.modalFormGroup li {
+  font-weight: 600;
+  font-size: 14px;
+}
+.modalFormGroup ul {
+  font-weight: 600;
+  font-size: 10px;
+}
+.modalFormGroup label {
+  font-weight: 600;
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.modalFormGroup input[type="file"] {
+  all: unset;
+  /* opacity: 0; */
+}
+
+.modalFormGroup .customInput {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60px;
+  border-radius: 8px;
+  color: var(--violet);
+  border: 1px dashed var(--violet);
+}
+
+.modalButtons button {
+  all: unset;
+  background: var(--violet);
+  padding: 10px 15px;
+  border-radius: 8px;
+  color: white;
+  font-weight: 600;
+  font-size: 18px;
+  align-self: flex-end;
+}
+
+.modalButtons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.modalButtons a {
+  text-decoration: none;
+}

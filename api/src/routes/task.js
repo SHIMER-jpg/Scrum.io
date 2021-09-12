@@ -6,6 +6,7 @@ const {
   postTask,
   getUserTasks,
   deleteTask,
+  bulkImport,
 } = require("../controllers/task.js");
 
 const task = Router();
@@ -15,6 +16,8 @@ const task = Router();
 task.get("/project/:projectId", getTasksByProjectId);
 
 task.post("/createTask", postTask);
+
+task.post("/bulkCreate", bulkImport);
 
 task.put("/update", modifyTask);
 
