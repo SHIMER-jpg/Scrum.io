@@ -2,7 +2,7 @@
 import Modal from "react-modal";
 import { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { IoClose } from "react-icons/io5";
+import { IoClose, IoReload } from "react-icons/io5";
 import taskTemplate from "../../static/TaskImportTemplate.csv";
 
 import { useSearch } from "../../hooks/useSearch";
@@ -34,7 +34,7 @@ const ImportCsvModal = ({
   setIsModalOpen,
   assignedUsers,
   projectId,
-  onClose,
+  setIsLoadingTasks,
 }) => {
   const fileInput = useRef();
   const dispatch = useDispatch();
@@ -44,8 +44,8 @@ const ImportCsvModal = ({
       var formData = new FormData();
       formData.append("TASK_CSV", fileInput.current.files[0]);
       formData.append("projectId", projectId);
-      dispatch(bulkImport(formData));
-      onClose();
+      setIsLoadingTasks(true);
+      dispatch(bulkImport(formData, setIsLoadingTasks));
       setIsModalOpen(false);
     }
   };
@@ -68,6 +68,12 @@ const ImportCsvModal = ({
             In order to import a CSV file successfully have the following
             considerations in mind.
           </label>
+          <span>General considerations:</span>
+          <ul>
+            <li>Dates should be formatted as 'YYYY/MM/DD' (ex '1997/10/18')</li>
+            <li>Every field should be wrapped around double quotes (")</li>
+            <li>The separator between each field should be a semi-colon (;)</li>
+          </ul>
           <span>The "STATUS" field only takes this exact values:</span>
           <ul>
             <li>Pending</li>

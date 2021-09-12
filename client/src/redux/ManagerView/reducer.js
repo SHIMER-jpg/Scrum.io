@@ -6,6 +6,7 @@ import {
   GET_ALL_USERS,
   UPDATE_TASK,
   DELETE_TASK,
+  DELETE_TASKS,
 } from "./constants";
 
 const initialState = {
@@ -51,11 +52,17 @@ const managerViewReducer = (state = initialState, action) => {
       return {
         ...state,
         tasks: [...state.tasks.filter((task) => task._id !== action.payload)],
-      }
+      };
     case GET_ALL_USERS:
       return {
         ...state,
         allUsers: action.payload,
+      };
+
+    case DELETE_TASKS:
+      return {
+        ...state,
+        tasks: [],
       };
     default:
       return state;

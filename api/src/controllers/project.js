@@ -5,7 +5,7 @@ const Note = require("../models/Note");
 const Task = require("../models/Task");
 
 const mongoose = require("mongoose");
-const User = require ("../models/User")
+const User = require("../models/User");
 
 // obtiene el proyecto por id
 const getProjectById = async (req, res, next) => {
@@ -70,18 +70,17 @@ const createProject = async (req, res, next) => {
     );
     // await UserAndProject.save();
 
-
     await newProject.save();
     const user = await User.model.findOne({
-      _id: req.body.Users
-    })
-    
+      _id: req.body.Users,
+    });
+
     await transporter.sendMail({
       from: '"Scrum.io" <scrumio64@gmail.com>',
-      to: user.email, 
-      subject: "Scrumio", 
+      to: user.email,
+      subject: "Scrumio",
       text: `<b>Greetings ${user.name}, through this email we inform you that you have been assigned a new project, please enter Scrum.io to view it.\n
-      Have a nice day<b>` 
+      Have a nice day<b>`,
     });
 
     res.status(201).json(newProject);
@@ -122,6 +121,7 @@ const updateStatus = async (projectId) => {
   project.status = Math.trunc((completedSum / tasks.length) * 100);
 
   project.save();
+  console.log("STATUS OF", project._id, "UPDATED TO", project.status);
 };
 
 module.exports = {

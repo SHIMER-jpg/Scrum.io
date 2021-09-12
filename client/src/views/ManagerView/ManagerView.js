@@ -26,6 +26,7 @@ export default function ManagerView() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalAddPartner, setModalAddPartner] = useState(false);
   const [importModal, setImportModal] = useState(false);
+  const [flag, setFlag] = useState(false);
 
   const dispatch = useDispatch();
   const project = useSelector((state) => state.managerView.project);
@@ -70,9 +71,7 @@ export default function ManagerView() {
           isModalOpen={importModal}
           setIsModalOpen={setImportModal}
           projectId={projectId}
-          onClose={() => {
-            dispatch(getTasksByProject(projectId, setIsLoadingTasks));
-          }}
+          setIsLoadingTasks={setIsLoadingTasks}
         />
       )}
       <div className={managerStyle.conteiner}>

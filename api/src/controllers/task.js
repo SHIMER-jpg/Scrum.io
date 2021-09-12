@@ -2,6 +2,7 @@ const { transporter } = require("../nodemailer/nodemailer");
 
 const Task = require("../models/Task");
 const Note = require("../models/Note");
+const Project = require("../models/Project");
 const { updateStatus } = require("./project");
 const User = require("../models/User");
 const mongoose = require("mongoose");
@@ -134,10 +135,16 @@ const bulkImport = async (req, res, next) => {
       req.files["TASK_CSV"].path
     );
     const projectId = mongoose.Types.ObjectId(req.body.projectId);
-
     const taskDocs = json.map((doc) => {
-      return {
+      const creationDate = doc.creationDate
+        ? new Date(doc.creationDate)
+        : new Date();
+      const completedDate = doc.completedDate
+        ? new Date(doc.completedDate)
+        : new Date();
+      const task = {
         title: doc.title,
+        creationDate: creationDate,
         asignedTo: mongoose.Types.ObjectId(doc.asignedTo),
         projectId: projectId,
         completedDate: doc.completedDate,
@@ -146,12 +153,28 @@ const bulkImport = async (req, res, next) => {
         priorization: doc.priorization,
         details: doc.details,
       };
+      if (doc.completedDate == "") delete task.completedDate;
+      return task;
     });
+    
     await Task.model.insertMany(taskDocs);
-    updateStatus(req.body.projectId);
+
     res.status(200).json({ message: "success" });
   } catch (error) {
     res.status(500).json({ message: "error" });
+    next(error);
+  }
+};
+
+const bulkRemove = async (req, res, next) => {
+  try {
+    const projectId = mongoose.Types.ObjectId(req.params.projectId);
+    await Task.model.remove({ projectId: projectId });
+    const project = await Project.model.findOne({ _id: projectId });
+    project.status = 0;
+    project.save();
+    res.status(200).json({ message: "deleted" });
+  } catch (error) {
     next(error);
   }
 };
@@ -163,4 +186,5 @@ module.exports = {
   getUserTasks,
   deleteTask,
   bulkImport,
+  bulkRemove,
 };

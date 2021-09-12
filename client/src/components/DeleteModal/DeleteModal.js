@@ -31,6 +31,7 @@ const DeleteModal = ({
   setIsModalOpen,
   deleteHandler,
   confirmationString,
+  type,
 }) => {
   const [inputString, setInputString] = useState("");
   const [disabled, setDisabled] = useState(true);
@@ -51,7 +52,7 @@ const DeleteModal = ({
       onRequestClose={() => setIsModalOpen(false)}
     >
       <header className={styles.modalHeader}>
-        <h2>Remove ?</h2>
+        <h2>Remove {type}?</h2>
         <button onClick={() => setIsModalOpen(false)}>
           <IoClose size={30} />
         </button>
@@ -59,7 +60,7 @@ const DeleteModal = ({
       <div className={styles.modalFormGroup}>
         <p>
           Please type:
-          <label htmlFor="requiredDate"> {confirmationString}</label>
+          <label> {confirmationString}</label>
         </p>
         <input value={inputString} onChange={handleChange} />
       </div>

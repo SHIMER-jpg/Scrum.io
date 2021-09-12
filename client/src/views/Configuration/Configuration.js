@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { change } from "../../redux/PokerPlanning/actions";
-import { deleteProject } from "../../redux/ManagerView/actions";
+import { deleteProject, deleteTasks } from "../../redux/ManagerView/actions";
 import { useState } from "react";
 import styles from "./Configuration.module.css";
 import DeleteModal from "../../components/DeleteModal/DeleteModal";
@@ -17,15 +17,26 @@ export function Configuration() {
   const userRole = useSelector((state) => state.viewRouter.userRole);
   const project = useSelector((state) => state.managerView.project);
 
+  const [deleteProjectModal, setDeleteProjectModal] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleClick = (e) => {
+  const handleClickProject = (e) => {
+    setDeleteProjectModal(true);
+  };
+
+  const handleDeleteProject = () => {
+    setDeleteProjectModal(false);
+    dispatch(deleteProject(project._id));
+    history.push("/");
+  };
+
+  const handleClickTasks = (e) => {
     setIsModalOpen(true);
   };
 
-  const handleDelete = () => {
+  const handleDeleteTasks = () => {
     setIsModalOpen(false);
-    // dispatch(deleteProject(project._id));
+    dispatch(deleteTasks(project._id));
     history.push("/");
   };
 
@@ -63,17 +74,34 @@ export function Configuration() {
             </select>
           </div>
           <div className={`${styles.modalFormGroup} ${styles.delete}`}>
-            <label>Delete Project</label>
-            <button onClick={handleClick}>DELETE</button>
+            <div className={styles.dangerPair}>
+              <label>Delete Tasks</label>
+              <button onClick={handleClickTasks}>DELETE</button>
+            </div>
+            <div className={styles.dangerPair}>
+              <label>Delete Project</label>
+              <button onClick={handleClickProject}>DELETE</button>
+            </div>
           </div>
         </>
       )}
+      {deleteProjectModal && (
+        <DeleteModal
+          isModalOpen={deleteProjectModal}
+          setIsModalOpen={setDeleteProjectModal}
+          deleteHandler={handleDeleteProject}
+          confirmationString={project.projectName}
+          type="project"
+        />
+      )}
+
       {isModalOpen && (
         <DeleteModal
           isModalOpen={isModalOpen}
           setIsModalOpen={setIsModalOpen}
-          deleteHandler={handleDelete}
+          deleteHandler={handleDeleteTasks}
           confirmationString={project.projectName}
+          type="tasks"
         />
       )}
     </div>
