@@ -156,7 +156,7 @@ const bulkImport = async (req, res, next) => {
       if (doc.completedDate == "") delete task.completedDate;
       return task;
     });
-    
+
     await Task.model.insertMany(taskDocs);
 
     res.status(200).json({ message: "success" });
