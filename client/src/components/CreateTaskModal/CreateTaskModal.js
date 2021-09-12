@@ -3,11 +3,16 @@ import Modal from "react-modal";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { IoClose } from "react-icons/io5";
+import { BiErrorCircle } from "react-icons/bi";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
 
 import { useSearch } from "../../hooks/useSearch";
 import { createTask } from "../../redux/ManagerView/actions";
 
-import styles from "./CreateTaskModal.module.css";
+import styles from "../CreateProjectModal/CreateProjectModal.module.css";
+
+
 
 Modal.setAppElement("#root");
 
@@ -37,6 +42,8 @@ const CreateTaskModal = ({
   const dispatch = useDispatch();
   const [isSelectUsersOpen, setIsSelectUsersOpen] = useState(false);
   const [usersInProject, setUsersInProject] = useState([]);
+
+  const [usersError, setUsersError] = useState(null);
 
   const loggedUser = useSelector((state) => state.app.loggedUser);
 
@@ -71,6 +78,8 @@ const CreateTaskModal = ({
         ...values,
         assignedTo: user._id,
       });
+
+      setUsersError(null);
     }
     setQuery("");
   };
@@ -80,24 +89,6 @@ const CreateTaskModal = ({
       ...values,
       assignedTo: "",
     });
-  };
-
-  //FALTA VALIDAR EL FORM NO NOS OLVIDEMOS
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    dispatch(createTask({ ...values, projectId }));
-    // dispatch(getTasksByProject(projectId));
-
-    setValues({
-      title: "",
-      assignedTo: "",
-      storyPoints: "",
-      priorization: "",
-      details: "",
-    });
-
-    setIsModalOpen(false);
   };
 
   return (
@@ -112,110 +103,184 @@ const CreateTaskModal = ({
           <IoClose size={30} />
         </button>
       </header>
-      <form onSubmit={handleSubmit} className={styles.modalBody}>
-        <div className={styles.modalFormGroup}>
-          <label htmlFor="title">Title</label>
-          <input
-            value={values.title}
-            onChange={handleChange}
-            autoComplete="off"
-            name="title"
-            placeholder="Type the title of the task"
-            id="title"
-            type="text"
-          />
-        </div>
+      <Formik
+        initialValues={values}
+        validationSchema={Yup.object({
+          title: Yup.string().required("The task must have a name"),
+          priorization: Yup.string().required(
+            "You must indicate the priorization level"
+          ),
+          details: Yup.string().required(
+            "You must write a description for the task"
+          ),
+        })}
+        onSubmit={(_, actions) => {
+          if (!values.assignedTo) {
+            setUsersError(
+              "You must indicate the assigned developer for this task"
+            );
+            actions.setSubmitting(false);
+          } else {
+            dispatch(createTask({ ...values, projectId }));
 
-        <div
-          className={`${styles.modalFormGroup} ${styles.selectUserContainer}`}
-        >
-          <label htmlFor="assignedTo">Assigned dev</label>
-          <input
-            onBlur={() => setIsSelectUsersOpen(false)}
-            onFocus={() => setIsSelectUsersOpen(true)}
-            type="text"
-            id="assignedTo"
-            name="assignedTo"
-            value={query}
-            placeholder="Type a name..."
-            autoComplete="off"
-            onChange={(e) => setQuery(e.target.value)}
-          />
-          <div
-            className={`${styles.modalSelectUser} ${
-              isSelectUsersOpen ? styles.visible : undefined
-            }`}
-          >
-            {filteredUsers.length ? (
-              filteredUsers.map((user) => (
-                <article
-                  onClick={() => handleAddUser(user)}
-                  key={user._id}
-                  className={styles.modalUser}
-                >
-                  <img src={user.picture} alt={user.name} />
-                  <p>{user.name}</p>
-                </article>
-              ))
-            ) : (
-              <p>There's no user with that name :(</p>
+            setValues({
+              title: "",
+              assignedTo: "",
+              storyPoints: "",
+              priorization: "",
+              details: "",
+            });
+
+            setIsModalOpen(false);
+          }
+        }}
+      >
+        {({ isSubmitting, isValidating }) => (
+          <Form styles={styles.modalBody}>
+            <Field as="div" className={styles.modalFormGroup}>
+              <label>Title</label>
+              <Field
+                placeholder="Type the title of the task"
+                name="title"
+                type="text"
+                onChange={handleChange}
+              />
+              <ErrorMessage name="title" component="div">
+                {(msg) => (
+                  <p className={styles.errorMessage} style={{ color: "red" }}>
+                    {msg}
+                  </p>
+                )}
+              </ErrorMessage>
+            </Field>
+            <Field
+              as="div"
+              className={`${styles.modalFormGroup} ${styles.selectUserContainer}`}
+            >
+              <label>Assigned developer</label>
+              <input
+                onBlur={() => setIsSelectUsersOpen(false)}
+                onFocus={() => setIsSelectUsersOpen(true)}
+                type="text"
+                id="assignedTo"
+                name="assignedTo"
+                value={query}
+                placeholder="Type a name..."
+                autoComplete="off"
+                onChange={(e) => setQuery(e.target.value)}
+              />
+              <Field
+                as="div"
+                className={`${styles.modalSelectUser} ${
+                  isSelectUsersOpen ? styles.visible : undefined
+                }`}
+              >
+                {filteredUsers.length ? (
+                  filteredUsers.map((user) => (
+                    <article
+                      onClick={() => handleAddUser(user)}
+                      key={user._id}
+                      className={styles.modalUser}
+                    >
+                      <img src={user.picture} alt={user.name} />
+                      <p>{user.name}</p>
+                    </article>
+                  ))
+                ) : (
+                  <p>There's no user with that name :(</p>
+                )}
+              </Field>
+              <ErrorMessage name="assignedTo" component="div">
+                {(msg) => (
+                  <p className={styles.errorMessage} style={{ color: "red" }}>
+                    {msg}
+                  </p>
+                )}
+              </ErrorMessage>
+            </Field>
+            <Field as="div" className={styles.addedUsers}>
+              {usersInProject
+                .filter((user) => values.assignedTo.includes(user._id))
+                .map((user) => (
+                  <article key={user._id} className={styles.addedUsersCard}>
+                    <img src={user.picture} alt={user.name} />
+                    <p>{user.name.split(" ")[0]}</p>
+                    <button onClick={() => handleRemoveUser(user)}>
+                      <IoClose size={15} />
+                    </button>
+                  </article>
+                ))}
+            </Field>
+            <Field className={styles.modalFormGroup} as="div">
+              <label>Story points</label>
+              <Field
+                placeholder="Type the amount of story points"
+                name="storyPoints"
+                type="number"
+                onChange={handleChange}
+              />
+              <ErrorMessage name="storyPoints" component="div">
+                {(msg) => (
+                  <p className={styles.errorMessage} style={{ color: "red" }}>
+                    {msg}
+                  </p>
+                )}
+              </ErrorMessage>
+            </Field>
+            <Field className={styles.modalFormGroup} as="div">
+              <label>Priorization</label>
+              <select
+                placeholder="Type the amount of story points"
+                name="priorization"
+                value={values.priorization}
+                onChange={handleChange}
+              >
+                <option value="Easy Win">Easy win</option>
+                <option value="Deprioritize">Deprioritize</option>
+                <option value="Worth Pursuing">Worth pursuing later</option>
+                <option value="Strategic Initiative">
+                  Strategic initiative
+                </option>
+              </select>
+              <ErrorMessage name="priorization" component="div">
+                {(msg) => (
+                  <p className={styles.errorMessage} style={{ color: "red" }}>
+                    {msg}
+                  </p>
+                )}
+              </ErrorMessage>
+            </Field>
+            <Field className={styles.modalFormGroup} as="div">
+              <label>Details</label>
+              <textarea
+                name="details"
+                id="details"
+                cols="15"
+                placeholder="Type the task's details..."
+                value={values.details}
+                onChange={handleChange}
+              ></textarea>
+              <ErrorMessage name="details" component="div">
+                {(msg) => (
+                  <p className={styles.errorMessage} style={{ color: "red" }}>
+                    {msg}
+                  </p>
+                )}
+              </ErrorMessage>
+            </Field>
+            {usersError && (
+              <div className={styles.userValidationError}>
+                <BiErrorCircle size={20} /> {usersError}
+              </div>
             )}
-          </div>
-        </div>
-        <div className={styles.addedUsers}>
-          {usersInProject
-            .filter((user) => values.assignedTo.includes(user._id))
-            .map((user) => (
-              <article key={user._id} className={styles.addedUsersCard}>
-                <img src={user.picture} alt={user.name} />
-                <p>{user.name.split(" ")[0]}</p>
-                <button onClick={() => handleRemoveUser(user)}>
-                  <IoClose size={15} />
-                </button>
-              </article>
-            ))}
-        </div>
-        <div className={styles.modalFormGroup}>
-          <label htmlFor="storyPoints">Story points</label>
-          <input
-            autoComplete="off"
-            name="storyPoints"
-            id="storyPoints"
-            placeholder="Type the amount of story points"
-            type="number"
-            value={values.storyPoints}
-            onChange={handleChange}
-          />
-        </div>
-        <div className={styles.modalFormGroup}>
-          <label htmlFor="priorization">Priorization</label>
-          <select
-            value={values.priorization}
-            onChange={handleChange}
-            name="priorization"
-            id="priorization"
-          >
-            <option value="Easy Win">Easy win</option>
-            <option value="Deprioritize">Deprioritize</option>
-            <option value="Worth Pursuing">Worth pursuing later</option>
-            <option value="Strategic Initiative">Strategic initiative</option>
-          </select>
-        </div>
-        <div className={styles.modalFormGroup}>
-          <label htmlFor="details">Details</label>
-          <textarea
-            name="details"
-            id="details"
-            cols="15"
-            placeholder="Type the task's details..."
-            value={values.details}
-            onChange={handleChange}
-          ></textarea>
-        </div>
-        <div className={styles.modalFormGroup}>
-          <button type="submit">Create task</button>
-        </div>
-      </form>
+            <Field as="div" className={styles.modalFormGroup}>
+              <button disabled={isSubmitting && !isValidating} type="submit">
+                Create task
+              </button>
+            </Field>
+          </Form>
+        )}
+      </Formik>
     </Modal>
   );
 };

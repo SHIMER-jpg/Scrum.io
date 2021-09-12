@@ -17,6 +17,7 @@ export function createProject(project) {
         project
       )
       .then((response) => {
+        dispatch(getProjectByUserId(project.scrumMaster));
         dispatch({ type: CREATE_PROJECT });
         return response.data;
       })
@@ -34,7 +35,7 @@ export function getProjectByUserId(userId, setIsLoadingProjects) {
       )
       .then((data) => {
         dispatch({ type: GET_PROJECTS_BY_USER, payload: data.data });
-        setIsLoadingProjects(false);
+        setIsLoadingProjects && setIsLoadingProjects(false);
       })
       .catch((err) => {
         console.log(err);

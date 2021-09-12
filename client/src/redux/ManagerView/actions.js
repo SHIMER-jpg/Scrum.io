@@ -9,7 +9,9 @@ import {
   CREATE_TASK,
   DELETE_TASK,
   GET_ALL_USERS,
-  CLEAR_MANAGER_VIEW
+  CLEAR_MANAGER_VIEW,
+  IMPORT_TASKS_CSV,
+  DELETE_TASKS,
 } from "./constants";
 
 require("dotenv").config();
@@ -56,6 +58,28 @@ export function createTask(task) {
   };
 }
 
+export function bulkImport(formData, setIsLoadingTasks) {
+  return function (dispatch) {
+    axios
+      .post(
+        `http://${REACT_APP_BACKEND_HOST}:${REACT_APP_BACKEND_PORT}/task/bulkCreate`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      )
+      .then(() => {
+        dispatch({ type: IMPORT_TASKS_CSV });
+        dispatch(
+          getTasksByProject(formData.get("projectId"), setIsLoadingTasks)
+        );
+      })
+      .catch(console.log);
+  };
+}
+
 export function getAsignedUsers(projectId) {
   return function (dispatch) {
     axios
@@ -88,7 +112,7 @@ export function assignUser(projectId, userId) {
         { userId }
       )
       .then((json) => {
-        dispatch(getAsignedUsers(projectId))
+        dispatch(getAsignedUsers(projectId));
         return json.data;
       });
   };
@@ -101,7 +125,7 @@ export function deleteUserFromProject(projectId, userId) {
         data: { userId },
       })
       .then((json) => {
-        dispatch(getAsignedUsers(projectId))
+        dispatch(getAsignedUsers(projectId));
         return json.data;
       });
   };
@@ -129,6 +153,16 @@ export function deleteProject(projectId) {
         `http://${REACT_APP_BACKEND_HOST}:${REACT_APP_BACKEND_PORT}/project/${projectId}`
       )
       .then(dispatch({ type: DELETE_PROJECT }));
+  };
+}
+
+export function deleteTasks(projectId) {
+  return function (dispatch) {
+    axios
+      .delete(
+        `http://${REACT_APP_BACKEND_HOST}:${REACT_APP_BACKEND_PORT}/task/deleteMany/${projectId}`
+      )
+      .then(dispatch({ type: DELETE_TASKS }));
   };
 }
 

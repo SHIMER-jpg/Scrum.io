@@ -12,11 +12,13 @@ import { fetchUsers } from "../../redux/Home/actions";
 import { useDispatch, useSelector } from "react-redux";
 import TaskHolder from "../../components/TaskHolder/TaskHolder";
 import { FiUsers } from "react-icons/fi";
+import { FaFileCsv } from "react-icons/fa";
 
 import managerStyle from "./ManagerView.module.css";
 import CreateTaskModal from "../../components/CreateTaskModal/CreateTaskModal";
 import { useParams } from "react-router-dom";
-import { AddPartnerModal } from "../../components/CreateTaskModal/AddPartnerModal";
+import { AddPartnerModal } from "../../components/AddPartnerModal/AddPartnerModal";
+import ImportCsvModal from "../../components/ImportCsvModal/ImportCsvModal";
 
 export default function ManagerView() {
   const tasks = useSelector((state) => state.managerView.tasks);
@@ -25,6 +27,8 @@ export default function ManagerView() {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalAddPartner, setModalAddPartner] = useState(false);
+  const [importModal, setImportModal] = useState(false);
+  const [flag, setFlag] = useState(false);
 
   const dispatch = useDispatch();
   const project = useSelector((state) => state.managerView.project);
@@ -68,7 +72,6 @@ export default function ManagerView() {
         }
       }
     }
-
     return array;
   }
 
@@ -80,6 +83,15 @@ export default function ManagerView() {
           isModalOpen={isModalOpen}
           setIsModalOpen={setIsModalOpen}
           projectId={projectId}
+        />
+      )}
+      {importModal && (
+        <ImportCsvModal
+          assignedUsers={usersInProject()}
+          isModalOpen={importModal}
+          setIsModalOpen={setImportModal}
+          projectId={projectId}
+          setIsLoadingTasks={setIsLoadingTasks}
         />
       )}
       <div className={managerStyle.conteiner}>
@@ -103,6 +115,14 @@ export default function ManagerView() {
               onClick={() => setModalAddPartner(true)}
             >
               <FiUsers /> Manage users
+            </button>
+
+            <button
+              className="btn-primary"
+              onClick={() => setImportModal(true)}
+            >
+              <FaFileCsv size={18} />
+              Import from CSV
             </button>
 
             <button
