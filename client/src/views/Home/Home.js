@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
 import { BsPlus } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
@@ -23,13 +24,11 @@ const Home = () => {
     if (userLogged._id) {
       dispatch(getProjectByUserId(userLogged._id, setIsLoadingProjects));
     }
-    
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userLogged]);
-  
+
   useEffect(() => {
     dispatch(clearRole());
-  }, [])
+  }, []);
 
   return (
     <section className={styles.container}>
@@ -46,8 +45,6 @@ const Home = () => {
         ) : (
           <ProjectHolder projectList={projectList} finished={false} />
         )}
-        {/* Proyectos en curso */}
-        {/* <ProjectHolder projectList={projectList} finished={true}/> */}
       </main>
       {isModalOpen && (
         <HomeModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />

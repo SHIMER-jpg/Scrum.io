@@ -1,6 +1,8 @@
 const { transporter } = require("../nodemailer/nodemailer");
 
 const Task = require("../models/Task");
+const Note = require("../models/Note");
+const { updateStatus } = require("./project");
 const User = require ("../models/User")
 const mongoose = require("mongoose");
 
@@ -48,6 +50,7 @@ const postTask = async (req, res, next) => {
     });
 
     await newTask.save();
+    updateStatus(req.body.projectId);
     const user = await User.model.findOne({
       _id: req.body.assignedTo
     })
@@ -79,6 +82,8 @@ const modifyTask = async (req, res, next) => {
       { _id: mongoose.Types.ObjectId(taskId) },
       update
     );
+    if (req.body.value == "Completed") updateStatus(updated.projectId);
+
     res.status(200).send("Successfully modified task");
   } catch (error) {
     next(error);
@@ -112,9 +117,21 @@ const getUserTasks = async (req, res, next) => {
   }
 };
 
+const deleteTask = async (req, res, next) => {
+  try {
+    const taskId = mongoose.Types.ObjectId(req.params.taskId);
+    await Task.model.remove({ _id: taskId });
+    await Note.model.remove({ taskId: taskId });
+    res.status(200).json("success");
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   postTask,
   getTasksByProjectId,
   modifyTask,
   getUserTasks,
+  deleteTask,
 };

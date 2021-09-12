@@ -6,18 +6,17 @@ require("dotenv").config();
 const { REACT_APP_BACKEND_HOST, REACT_APP_BACKEND_PORT } = process.env;
 
 export function getTasksByUser(projectId, userId) {
-  console.log(projectId, userId);
   return async function (dispatch) {
     // obtiene todas las tareas del projecto pasado por projectId para luego filtrar y agarrar solo las del usuario loggeado en el reducer
     const { data } = await axios.get(
       `http://${REACT_APP_BACKEND_HOST}:${REACT_APP_BACKEND_PORT}/task/user?userId=${userId}&projectId=${projectId}`
     );
 
-    const myTasks = data.filter((t) => !t.helpNeeded);
+    // const myTasks = data.filter((t) => !t.helpNeeded);
 
     dispatch({
       type: CONSTANTS.GET_USER_TASKS,
-      payload: myTasks,
+      payload: data,
     });
   };
 }
@@ -36,5 +35,5 @@ export function getHelpTasks(projectId) {
 }
 
 export const clearDevView = () => ({
-  type: "CLEAR_DEV_VIEW"
+  type: CONSTANTS.CLEAR_DEV_VIEW
 })

@@ -1,6 +1,9 @@
 const { transporter } = require("../nodemailer/nodemailer");
 const Project = require("../models/Project");
 const UserProject = require("../models/UserProject");
+const Note = require("../models/Note");
+const Task = require("../models/Task");
+
 const mongoose = require("mongoose");
 const User = require ("../models/User")
 
@@ -87,8 +90,44 @@ const createProject = async (req, res, next) => {
   }
 };
 
+const deleteProject = async (req, res, next) => {
+  try {
+    const projectId = mongoose.Types.ObjectId(req.params.projectId);
+    await Project.model.remove({ _id: projectId });
+    await UserProject.model.remove({
+      projectId: projectId,
+    });
+    const taskDocs = await Task.model.find({ projectId: projectId });
+    await taskDocs.map((task) => {
+      task.noteIds.map(async (note) => {
+        await Note.model.remove({
+          _id: mongoose.Types.ObjectId(note),
+        });
+      });
+      task.remove();
+    });
+    res.status(200).json({});
+  } catch (error) {
+    next(errors);
+  }
+};
+
+const updateStatus = async (projectId) => {
+  const project = await Project.model.findOne({ _id: projectId });
+  const tasks = await Task.model.find({ projectId: projectId });
+  const completedSum = tasks.reduce((acc, val) => {
+    var flag = val.status == "Completed" ? 1 : 0;
+    return parseInt(acc) + flag;
+  }, 0);
+  project.status = Math.trunc((completedSum / tasks.length) * 100);
+
+  project.save();
+};
+
 module.exports = {
   getProjectById,
   createProject,
   getProjectByUserId,
+  deleteProject,
+  updateStatus,
 };

@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { IoClose } from "react-icons/io5";
 
 import { useSearch } from "../../hooks/useSearch";
-import { createTask, getTasksByProject } from "../../redux/ManagerView/actions";
+import { createTask } from "../../redux/ManagerView/actions";
 
 import styles from "./CreateTaskModal.module.css";
 

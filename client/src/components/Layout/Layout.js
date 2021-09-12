@@ -2,7 +2,7 @@
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
-import { useHistory } from "react-router-dom"
+import { useHistory } from "react-router-dom";
 
 import Header from "../Header/Header";
 import Sidebar from "../Sidebar/Sidebar";
@@ -12,7 +12,7 @@ const Layout = ({ children }) => {
   const history = useHistory();
 
   useEffect(() => {
-    if(socket.on && loggedUser) {
+    if (socket.on && loggedUser) {
       socket.on("newTaskAssigned", ({ userId, projectId }) => {
         if (loggedUser._id === userId) {
           toast.info("You have a new task assigned.", {
@@ -23,7 +23,9 @@ const Layout = ({ children }) => {
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
-            onClick: () => history.push(`/project/${projectId}`)
+            onClick: () => {
+              history.push(`/project/${projectId}`);
+            },
           });
         }
       });
@@ -43,6 +45,7 @@ const Layout = ({ children }) => {
           rtl={false}
           draggable
           pauseOnHover
+          limit={3}
         />
         <Sidebar />
         {children}

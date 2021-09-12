@@ -7,6 +7,17 @@
   margin-bottom: 10px;
 }
 
+.container button {
+  all: unset;
+  display: flex;
+  align-items: center;
+}
+.container header {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+}
 .userBox {
   position: relative;
   display: flex;

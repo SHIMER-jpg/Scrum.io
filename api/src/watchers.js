@@ -11,6 +11,7 @@ connection.once("open", () => {
   const noteChangeStream = connection.collection("notes").watch();
 
   taskChangeStream.on("change", async (change) => {
+    console.log(change)
     const task = await connection.models.Task.findOne({
       _id: change?.documentKey._id,
     });

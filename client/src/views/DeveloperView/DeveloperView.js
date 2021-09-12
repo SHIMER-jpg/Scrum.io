@@ -27,7 +27,8 @@ export default function DeveloperView() {
     console.table({"Project ID": projectId, "Project ID from socket": projectFromSocket})
 
     if (projectFromSocket === projectId) {
-      dispatch(getTasksByUser(projectId, userLogged._id)); //aca iria la id del proyecto al que se ingreso por home
+      dispatch(getTasksByUser(projectId, userLogged._id)); 
+      dispatch(getHelpTasks(projectId)); 
     }
   }, []);
 
@@ -54,7 +55,7 @@ export default function DeveloperView() {
         <TaskHolder taskList={userTaskList} />
 
         {/* Componente de TODOS que necesitan ayuda en este proyecto */}
-        <TaskHolder helpNeeded={true} taskList={helpTaskList} />
+        <TaskHolder helpNeeded={true} taskList={helpTaskList.filter(task => task.asignedTo !== userLogged._id)} />
       </div>
     </div>
   );

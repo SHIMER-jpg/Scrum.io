@@ -1,0 +1,245 @@
+.container{
+    background: white;
+    padding: 20px;
+
+  box-shadow: 1px 1px 2px rgba(10, 10, 10, 0.17);
+  border-radius: 8px;
+  transition: all ease 0.15s;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  border-bottom: 2px solid #e2e2e2;
+  padding-bottom: 5px;
+}
+
+.header .title{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 5px;
+}
+
+.header h2{
+    margin: 0 0 10px;
+    font-weight: 600;
+}
+
+.header select{
+  padding: 5px 10px;
+  font-size: 15px;
+  font-weight: 500;
+  border: 2px solid #d4d4d4;
+  margin: 5px;
+}
+
+.header select:focus{
+  border: 2px solid var(--violet);
+  box-shadow: 0 0 0 3px rgba(161, 36, 101, 0.4);
+}
+
+.header select:hover{
+  cursor: pointer;
+}
+
+.header .options{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 5px;
+}
+
+.body{
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.graph{
+    padding: 10px 0;
+    margin: 10px 0;
+    width: 75%;
+}
+
+.modalSelectUser.visible {
+  visibility: visible;
+  opacity: 1;
+  position: absolute;
+  width: 280px;
+  right: 0;
+}
+
+.modalSelectUser > p {
+  margin: 15px;
+  color: rgb(255, 86, 86);
+  font-weight: 600;
+}
+
+.modalUser {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-weight: 500;
+  padding: 10px;
+
+  transition: all 0.15s ease-in-out;
+}
+
+.modalUser:hover {
+  background: rgba(161, 36, 101, 0.2);
+  cursor: pointer;
+}
+
+.modalUser p {
+  margin: 0;
+}
+
+.addedUsers:not(:empty) {
+  width: 100%;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.addedUsersCard {
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+  background: rgb(238, 238, 238);
+  border: 1px solid rgb(238, 238, 238);
+  overflow: hidden;
+  gap: 10px;
+  padding-right: 10px;
+}
+
+.addedUsersCard p {
+  margin: 0;
+  font-weight: 600;
+}
+
+.addedUsersCard button {
+  all: unset;
+  display: flex;
+  align-items: center;
+}
+
+.userBox {
+  top: 0;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  user-select: none;
+  margin-right: 10px;
+  gap: 5px;
+}
+
+.userBox img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+.userBox p {
+  line-height: 1;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.modalFormGroup {
+
+  flex-direction: column;
+  position: relative;
+}
+
+.modalFormGroup label {
+  font-weight: 600;
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.modalFormGroup input {
+  all: unset;
+  border-radius: 8px;
+  padding: 10px;
+  border: 1px solid rgb(204, 204, 204);
+  transition: all 0.1s ease-in-out;
+  width: 100%;
+}
+
+.modalFormGroup input {
+  width: 239px;
+}
+
+
+
+.modalSelectUser {
+  flex-direction: column;
+  max-height: 145px;
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid rgb(204, 204, 204);
+  background: white;
+  overflow-y: auto;
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.15s ease-in-out;
+  z-index: 1000;
+}
+
+.modalSelectUser.visible {
+  visibility: visible;
+  opacity: 1;
+}
+
+.selectUserContainer {
+  position: relative;
+}
+
+.modalUser img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid rgb(204, 204, 204);
+}
+
+.stats{
+  width: 25%;
+}
+
+.stat label{
+  margin: 0;
+  padding: 10px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.stat p{
+  margin: 0;
+  padding: 10px;
+  border-left: 2px solid #d4d4d4;
+  width: 20%;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.stat{
+  display: flex;
+  justify-content: space-between;
+  background: white;
+  border: 1px solid #d4d4d4;
+  box-shadow: 1px 1px 2px rgba(10, 10, 10, 0.17);
+  border-radius: 8px;
+  margin: 10px 0;
+}

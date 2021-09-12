@@ -24,7 +24,7 @@ export default function reducer(state = initialState, action) {
         ...state,
         taskDetails: action.payload,
       };
-    case "CLEAR_DEV_VIEW": {
+    case CONSTANTS.CLEAR_DEV_VIEW: {
       return {
         userTasks: [],
         helpTasks: [],
