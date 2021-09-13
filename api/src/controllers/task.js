@@ -83,7 +83,7 @@ const modifyTask = async (req, res, next) => {
       { _id: mongoose.Types.ObjectId(taskId) },
       update
     );
-    if (req.body.value == "Completed") updateStatus(updated.projectId);
+    updateStatus(updated.projectId);
 
     res.status(200).send("Successfully modified task");
   } catch (error) {
@@ -158,7 +158,7 @@ const bulkImport = async (req, res, next) => {
     });
 
     await Task.model.insertMany(taskDocs);
-
+    updateStatus(projectId);
     res.status(200).json({ message: "success" });
   } catch (error) {
     res.status(500).json({ message: "error" });
