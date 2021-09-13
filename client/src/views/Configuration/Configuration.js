@@ -42,16 +42,16 @@ export function Configuration() {
 
   return (
     <div className={styles.conteiner}>
-      <header className={styles.header}>
+      {/* <header className={styles.header}>
         <h1>User Configs</h1>
-      </header>
+      </header> */}
       <br></br>
-      {userRole === "scrumMaster" && (
+      {userRole === "scrumMaster" ? (
         <>
           <header className={styles.header}>
             <h1>Project Config</h1>
           </header>
-          <div className={styles.modalFormGroup}>
+          {/* <div className={styles.modalFormGroup}>
             <label>Poker Planning voting system</label>
             <select
               name="voting"
@@ -65,14 +65,11 @@ export function Configuration() {
               <option value="0,1/2,1,2,3,5,8,13,20,40,100,?">
                 Modified Fibonacci (0, 1/2, 1, 2, 3, 5, 8, 13, 20, 40, 100, ?)
               </option>
-              {/* <option value="xxs,xs,m,l,xl,xxl,?">
-                T-shirts (xxs, xs, m, l, xl, xxl, ?)
-              </option> */}
               <option value="0,1,2,4,8,16,32,64,?">
                 Power of 2 (0, 1, 2, 4, 8, 16, 32, 64, ?)
               </option>
             </select>
-          </div>
+          </div> */}
           <div className={`${styles.modalFormGroup} ${styles.delete}`}>
             <div className={styles.dangerPair}>
               <label>Delete Tasks</label>
@@ -84,7 +81,7 @@ export function Configuration() {
             </div>
           </div>
         </>
-      )}
+      ) : <p>Nothing to see here yet...</p>}
       {deleteProjectModal && (
         <DeleteModal
           isModalOpen={deleteProjectModal}
