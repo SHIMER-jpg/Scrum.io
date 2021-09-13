@@ -7,13 +7,13 @@ import {
   GET_PROJECTS_BY_USER,
 } from "./constants";
 
-const { REACT_APP_BACKEND_HOST, REACT_APP_BACKEND_PORT } = process.env;
+const { REACT_APP_BACKEND_URL } = process.env;
 
 export function createProject(project) {
   return function (dispatch) {
     axios
       .post(
-        `http://${REACT_APP_BACKEND_HOST}:${REACT_APP_BACKEND_PORT}/project/createProject`,
+        `${REACT_APP_BACKEND_URL}/project/createProject`,
         project
       )
       .then((response) => {
@@ -31,7 +31,7 @@ export function getProjectByUserId(userId, setIsLoadingProjects) {
   return function (dispatch) {
     axios
       .get(
-        `http://${REACT_APP_BACKEND_HOST}:${REACT_APP_BACKEND_PORT}/project/user/${userId}`
+        `${REACT_APP_BACKEND_URL}/project/user/${userId}`
       )
       .then((data) => {
         dispatch({ type: GET_PROJECTS_BY_USER, payload: data.data });
@@ -50,7 +50,7 @@ export function fetchUsers() {
     } = await getState();
 
     axios(
-      `http://${REACT_APP_BACKEND_HOST}:${REACT_APP_BACKEND_PORT}/user/getAll`
+      `${REACT_APP_BACKEND_URL}/user/getAll`
     )
       .then(({ data }) =>
         dispatch({ type: GET_ALL_USERS, payload: { users: data, loggedUser } })

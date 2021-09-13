@@ -97,7 +97,7 @@ export default function StatisticCard({ graphType, tasks, project }) {
   var finalDate = lastCompletedDate.diff(firstDay, "days");
 
   completedTasks.map((task) => {
-    const completedDate = moment(task.completedDate.substring(0, 10));
+    const completedDate = moment(task.completedDate?.substring(0, 10));
     task.daysFromStart = completedDate.diff(firstDay, "days");
     return task;
   });
