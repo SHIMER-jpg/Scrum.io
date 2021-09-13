@@ -118,6 +118,7 @@ __v: 0
     });
     dispatch(updateTask(change));
   }
+
   function handlePrioritizationChange({ target }) {
     const change = {
       taskId: _id,
