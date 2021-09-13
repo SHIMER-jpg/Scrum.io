@@ -1,0 +1,121 @@
+:root {
+  --red: #cc001a;
+  --violet: #a12464;
+  --inactive-menu-item: #707070;
+}
+
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+  font-family: "Montserrat", sans-serif;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f3f3f3;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+.unstyled-link {
+  text-decoration: none;
+  color: unset;
+}
+
+/* LOADER CSS, MEJORAR DESPUES :( */
+.lds-dual-ring {
+  display: inline-block;
+  width: 60px;
+  height: 60px;
+  background: white;
+}
+.lds-dual-ring:after {
+  content: " ";
+  display: block;
+  margin: 8px;
+  border-radius: 50%;
+  border: 6px solid black;
+  border-color: black transparent black transparent;
+  animation: lds-dual-ring 1.2s linear infinite;
+  width: 60px;
+  height: 60px;
+}
+@keyframes lds-dual-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+button {
+  cursor: pointer !important;
+}
+
+.btn-primary {
+  all: unset;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: white;
+  font-weight: 600;
+  border-radius: 8px;
+  background: var(--violet);
+}
+
+.main-heading {
+  margin: 0;
+  font-size: 35px;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 3px;
+  /* display: none; */
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgb(199, 199, 199);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: var(--violet);
+}
+
+select{
+  padding: 5px 10px;
+  font-size: 15px;
+  font-weight: 500;
+  border: 2px solid #d4d4d4;
+  transition: all ease 0.5s;
+}
+
+select:hover{
+cursor: pointer;
+}
+
+select:focus{
+border: 2px solid var(--violet);
+box-shadow: 0 0 0 3px rgba(161, 36, 101, 0.4);
+}

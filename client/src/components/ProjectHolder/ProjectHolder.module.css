@@ -1,0 +1,25 @@
+.projects {
+  border-radius: 5px;
+}
+
+.projects_Header {
+  /* display: flex; */
+  align-items: center;
+}
+
+.projects_Header h2 {
+  margin: 0 0 30px;
+  padding-right: 25px;
+  font-weight: 600;
+  font-size: 27px;
+}
+.projects_Header div {
+  height: 2px;
+  width: 80%;
+}
+
+.projectList {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(430px, 1fr));
+  gap: 30px;
+}

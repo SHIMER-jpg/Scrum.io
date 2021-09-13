@@ -1,0 +1,64 @@
+.taskCard {
+  background-color: #f3f3f3;
+  padding: 12px;
+  /* margin: 20px 0; */
+  border-radius: 8px;
+  transition: 0.15s all ease;
+}
+
+.taskCard:hover {
+  cursor: pointer;
+  box-shadow: 0px 0px 2px 1px rgba(10, 10, 10, 0.2);
+}
+
+.taskCard_Header h3 {
+  margin: 0;
+  font-weight: 600;
+}
+
+.taskCard_Header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.tasks_Header {
+  font-weight: 400;
+  font-size: 22px;
+}
+
+.taskCard_Body {
+  margin: 10px 0 5px;
+}
+
+.taskCard_Body p {
+  margin: 0;
+}
+
+.taskCard_StoryPoints {
+  background-color: #a12464;
+  color: #f3f3f3;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 10px;
+  font-weight: 600;
+  border-radius: 10px;
+  display: flex;
+  margin: auto;
+  margin-right: 0;
+}
+
+.taskCard.easy_win {
+  border-bottom: 8px solid #8eff7b;
+}
+
+.taskCard.worth_pursuing {
+  border-bottom: 8px solid #ffa53c;
+}
+
+.taskCard.strategic_initiative {
+  border-bottom: 8px solid #7befff;
+}
+
+.taskCard.deprioritize {
+  border-bottom: 8px solid #ff6868;
+}

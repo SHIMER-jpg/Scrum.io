@@ -1,0 +1,32 @@
+.tasks {
+  background-color: white;
+  box-shadow: 1px 1px 2px rgba(10, 10, 10, 0.15);
+  padding: 25px;
+  border-radius: 5px;
+  max-height: 650px;
+  overflow-y: scroll;
+  width: 100%;
+  max-width: 460px;
+  flex-shrink: 0;
+}
+
+.tasks.fixedHeight {
+  height: 300px;
+  padding: 0;
+}
+
+.tasks_Header h2 {
+  margin: 0 0 25px 0;
+  font-weight: 600;
+  font-size: 27px;
+}
+
+.noTasks {
+  font-weight: 500;
+}
+
+.taskList {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}

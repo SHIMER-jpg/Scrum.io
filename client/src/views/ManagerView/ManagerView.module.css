@@ -1,0 +1,28 @@
+.conteiner {
+  padding: 25px 0 25px 30px;
+  width: 100%;
+  min-height: calc(100vh - 70px);
+  height: auto;
+  overflow-y: scroll;
+}
+
+.conteinerHeader {
+  margin-bottom: 50px;
+  width: calc(100% - 30px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgb(179, 179, 179);
+  padding-bottom: 20px;
+}
+
+.conteinerBody {
+  padding: 0 30px 20px 0;
+  display: flex;
+  justify-content: flex-start;
+  align-items: stretch;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 30px;
+  overflow-x: auto;
+}
