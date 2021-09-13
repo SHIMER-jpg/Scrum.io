@@ -16,7 +16,7 @@ connection.once("open", () => {
       _id: change?.documentKey._id,
     });
 
-    if (change.operationType === "insert") {
+    if (change.operationType === "insert" && task.status !== "Completed") {
       // io.to(change.fullDocument.asignedTo).emit("newTaskAssigned")
       io.emit("newTaskAssigned", {
         userId: task.asignedTo,
@@ -27,7 +27,7 @@ connection.once("open", () => {
         projectId: task.projectId,
       });
     } else if (change.operationType === "update") {
-      if (change.updateDescription.updatedFields.asignedTo) {
+      if (change.updateDescription.updatedFields.asignedTo && task.status !== "Completed") {
         io.emit("newTaskAssigned", {
           userId: task.asignedTo,
           projectId: task.projectId,
