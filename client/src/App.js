@@ -31,7 +31,8 @@ const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const socket = io.connect("http://localhost:3001/");
+    const socket = io.connect(`http://${BACKEND_HOST}:${BACKEND_PORT}/`);
+
     // client-side
     dispatch(setSocket(socket));
 
