@@ -65,69 +65,69 @@ export default function StatisticCard({ graphType, tasks, project }) {
   if (tasks.length > 0) {
     var storyPoints = tasks.map((t) => t.storyPoints).reduce((a, b) => a + b);
     storyPoints = parseInt(storyPoints, 10);
-  }
-  let storyPointsPerDay = parseFloat((storyPoints / days).toFixed(2));
 
-  let sum = 0;
-  let dataStoryPoints = [];
-  for (let i = 0; i <= days; i++) {
-    dataStoryPoints[i] = Math.round(sum);
-    sum = sum + storyPointsPerDay;
-  }
-  dataStoryPoints = dataStoryPoints.reverse();
+    var storyPointsPerDay = parseFloat((storyPoints / days).toFixed(2));
 
-  //CALCULATIONS FOR ACTUAL PROGRESS
-  let completedTasks =
-    tasks &&
-    tasks
-      .filter((t) => t.status === "Completed")
-      .sort(function (a, b) {
-        if (a.completedDate > b.completedDate) {
-          return 1;
-        }
-        if (a.completedDate < b.completedDate) {
-          return -1;
-        }
-        return 0;
-      });
-
-  var lastCompletedDate = moment(
-    completedTasks[completedTasks.length - 1].completedDate.substring(0, 10)
-  );
-  var finalDate = lastCompletedDate.diff(firstDay, "days");
-
-  completedTasks.map((task) => {
-    const completedDate = moment(task.completedDate?.substring(0, 10));
-    task.daysFromStart = completedDate.diff(firstDay, "days");
-    return task;
-  });
-
-  let devStoryPoints = new Array(finalDate + 1);
-  devStoryPoints.fill(dataStoryPoints[0]);
-
-  let devStoryPointsCorrected = [];
-  devStoryPoints.forEach((point, index) => {
-    if (index == 0) {
-      devStoryPointsCorrected.push(devStoryPoints[index]);
-      return;
+    let sum = 0;
+    var dataStoryPoints = [];
+    for (let i = 0; i <= days; i++) {
+      dataStoryPoints[i] = Math.round(sum);
+      sum = sum + storyPointsPerDay;
     }
-    const minus = completedTasks.reduce((acc, val) => {
-      if (val.daysFromStart == index) {
-        return acc + parseInt(val.storyPoints);
-      } else {
-        return acc + 0;
+    dataStoryPoints = dataStoryPoints.reverse();
+
+    //CALCULATIONS FOR ACTUAL PROGRESS
+
+    let completedTasks =
+      tasks
+        .filter((t) => t.status === "Completed")
+        .sort(function (a, b) {
+          if (a.completedDate > b.completedDate) {
+            return 1;
+          }
+          if (a.completedDate < b.completedDate) {
+            return -1;
+          }
+          return 0;
+        });
+        console.log(completedTasks, "tasks")
+    var lastCompletedDate = moment(
+      completedTasks[completedTasks.length - 1].completedDate.substring(0, 10)
+    );
+    var finalDate = lastCompletedDate.diff(firstDay, "days");
+
+    completedTasks.map((task) => {
+      const completedDate = moment(task.completedDate?.substring(0, 10));
+      task.daysFromStart = completedDate.diff(firstDay, "days");
+      return task;
+    });
+
+    var devStoryPoints = new Array(finalDate + 1);
+    devStoryPoints.fill(dataStoryPoints[0]);
+
+    var devStoryPointsCorrected = [];
+    devStoryPoints.forEach((point, index) => {
+      if (index === 0) {
+        devStoryPointsCorrected.push(devStoryPoints[index]);
+        return;
       }
-    }, 0);
-    if (minus == 0) {
-      devStoryPointsCorrected.push(devStoryPointsCorrected[index - 1]);
-      return;
-    } else {
-      return devStoryPointsCorrected.push(
-        devStoryPointsCorrected[index - 1] - minus
-      );
-    }
-  });
-
+      const minus = completedTasks.reduce((acc, val) => {
+        if (val.daysFromStart === index) {
+          return acc + parseInt(val.storyPoints);
+        } else {
+          return acc + 0;
+        }
+      }, 0);
+      if (minus === 0) {
+        devStoryPointsCorrected.push(devStoryPointsCorrected[index - 1]);
+        return;
+      } else {
+        return devStoryPointsCorrected.push(
+          devStoryPointsCorrected[index - 1] - minus
+        );
+      }
+    });
+  }
   // for (let i = 0; i <= completedDates.length; i++) {
   //   for (let j = 0; j < completedTasks.length; j++) {
   //     if (completedTasks[j].completedDate === completedDates[i]) {
@@ -335,7 +335,7 @@ export default function StatisticCard({ graphType, tasks, project }) {
             <></>
           )}
         </div>
-        {graphType != "BurnDown Chart" ? (
+        {graphType !== "BurnDown Chart" ? (
           <div className={styles.footer}>
             <select onChange={(e) => handleDataChartOption(e)} name="dataBy">
               <option value="byStoryPoints">Story Points</option>
