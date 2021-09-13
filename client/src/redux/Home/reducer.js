@@ -1,4 +1,4 @@
-import { GET_ALL_USERS, SET_USER, GET_PROJECTS_BY_USER } from "./constants.js";
+import { GET_ALL_USERS, GET_PROJECTS_BY_USER } from "./constants.js";
 
 const initialState = {
   users: [],

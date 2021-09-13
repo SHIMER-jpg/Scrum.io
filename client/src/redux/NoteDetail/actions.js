@@ -1,13 +1,18 @@
 import axios from "axios";
-import { GET_NOTES_DETAILS, CLEAR_NOTES, CREATE_NOTE } from "./constants";
+import {
+  GET_NOTES_DETAILS,
+  CLEAR_NOTES,
+  CREATE_NOTE,
+  REMOVE_NOTE,
+} from "./constants";
 require("dotenv").config();
-const { REACT_APP_BACKEND_HOST, REACT_APP_BACKEND_PORT } = process.env;
+const { REACT_APP_BACKEND_URL } = process.env;
 
 export function getNotesDetails(taskId) {
   return function (dispatch) {
     axios
       .get(
-        `http://${REACT_APP_BACKEND_HOST}:${REACT_APP_BACKEND_PORT}/note/${taskId}`
+        `${REACT_APP_BACKEND_URL}/note/${taskId}`
       )
       .then((json) => {
         dispatch({ type: GET_NOTES_DETAILS, payload: json.data });
@@ -19,7 +24,7 @@ export function createNote(newNote) {
   return function (dispatch) {
     axios
       .post(
-        `http://${REACT_APP_BACKEND_HOST}:${REACT_APP_BACKEND_PORT}/note/newNote`,
+        `${REACT_APP_BACKEND_URL}/note/newNote`,
         newNote
       )
       .then((json) => {
@@ -28,6 +33,16 @@ export function createNote(newNote) {
       .catch((err) => {
         console.log(err);
       });
+  };
+}
+
+export function removeNote(noteId) {
+  return function (dispatch) {
+    axios
+      .delete(
+        `${REACT_APP_BACKEND_URL}/note/${noteId}`
+      )
+      .then(dispatch({ type: REMOVE_NOTE, payload: noteId }));
   };
 }
 

@@ -1,13 +1,19 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 //imports from react and hooks (even customs)
 import Modal from "react-modal";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useSearch } from "../../hooks/useSearch";
 import useTimeAgo from "../../hooks/useTimeAgo";
+import Swal from "sweetalert2";
 
 // redux actions
-import { getNotesDetails, clearNotes } from "../../redux/NoteDetail/actions";
-import { updateTask } from "../../redux/ManagerView/actions";
+import {
+  getNotesDetails,
+  clearNotes,
+  removeNote,
+} from "../../redux/NoteDetail/actions";
+import { updateTask, deleteTask } from "../../redux/ManagerView/actions";
 import { createNote } from "../../redux/NoteDetail/actions";
 
 //components and utils
@@ -18,19 +24,21 @@ import Dropdown from "../Dropdown/Dropdown";
 import styles from "./TaskModal.module.css";
 
 function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
-  const { title, details, creationDate, _id, storyPoints } = modalDetails;
+  const { title, details, creationDate, _id, storyPoints, asignedTo } =
+    modalDetails;
   const loggedId = useSelector((state) => state.app.loggedUser._id);
   const assignedUsers = useSelector((state) => state.managerView.asignedUsers);
   const [isSelectUsersOpen, setIsSelectUsersOpen] = useState(false);
   const [usersInProject, setUsersInProject] = useState([]);
   const [query, setQuery, filteredUsers] = useSearch(usersInProject);
+  // const [clickDeleteCount, setClickDeleteCount] = useState(0);
 
+  console.log({ modalDetails });
   const isManager = useSelector(
-    (state) => state.viewRouter.userRole == "scrumMaster"
+    (state) => state.viewRouter.userRole === "scrumMaster"
   );
 
   const [statusDropdownIsOpen, setStatusDropdownIsOpen] = useState(false);
-  // const [colorMap, setColorMap] = useState("8eff7b");
   const [dynamicFields, setDynamicFields] = useState({
     status: modalDetails.status,
     helpNeeded: modalDetails.helpNeeded,
@@ -40,13 +48,13 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
   });
 
   const [colorMap, setColorMap] = useState(
-    dynamicFields.priorization == "Easy Win"
+    dynamicFields.priorization === "Easy Win"
       ? "8eff7b"
-      : dynamicFields.priorization == "Worth Pursuing"
+      : dynamicFields.priorization === "Worth Pursuing"
       ? "ffa53c"
-      : dynamicFields.priorization == "Strategic Initiative"
+      : dynamicFields.priorization === "Strategic Initiative"
       ? "7befff"
-      : dynamicFields.priorization == "Deprioritize"
+      : dynamicFields.priorization === "Deprioritize"
       ? "ff6868"
       : ""
   );
@@ -76,35 +84,21 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
 
   const timeAgo = useTimeAgo(new Date(creationDate));
   const dispatch = useDispatch();
-
   const notes = useSelector((state) => state.NotesReducer.notes);
 
   useEffect(() => {
     dispatch(getNotesDetails(_id));
+
     const filteredUsers = assignedUsers
       .filter(({ user }) => user._id !== loggedId)
       .map((u) => u.user);
 
     setUsersInProject(filteredUsers);
+
     return function cleanUp() {
       dispatch(clearNotes());
     };
   }, []);
-
-  /*
-  * asignedTo: "613274bb1a9c7e2b10cfe1c1"
-completedDate: "2021-07-08T06:04:10.000Z"
-creationDate: "2021-05-10T06:53:16.000Z"
-details: "In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.\n\nSuspendisse potenti. In eleifend quam a odio. In hac habitasse platea dictumst.\n\nMaecenas ut massa quis augue luctus tincidunt. Nulla mollis molestie lorem. Quisque ut erat."
-helpNeeded: true
-noteIds: ["61313b37fc13ae5ac3000cc7"]
-priorization: "Deprioritize"
-projectId: "61313b4dfc13ae1dd2000cf8"
-status: "Testing"
-storyPoints: 74
-title: "Rank"
-__v: 0
- */
 
   function handleStatusChange({ target }) {
     const change = {
@@ -112,10 +106,12 @@ __v: 0
       field: "status",
       value: target.dataset.value,
     };
+
     setDynamicFields({
       ...dynamicFields,
       status: target.dataset.value,
     });
+
     dispatch(updateTask(change));
   }
 
@@ -125,21 +121,24 @@ __v: 0
       field: "priorization",
       value: target.value,
     };
+
     setDynamicFields({
       ...dynamicFields,
       priorization: target.value,
     });
+
     setColorMap(
-      target.value == "Easy Win"
+      target.value === "Easy Win"
         ? "8eff7b"
-        : target.value == "Worth Pursuing"
+        : target.value === "Worth Pursuing"
         ? "ffa53c"
-        : target.value == "Strategic Initiative"
+        : target.value === "Strategic Initiative"
         ? "7befff"
-        : target.value == "Deprioritize"
+        : target.value === "Deprioritize"
         ? "ff6868"
         : ""
     );
+
     dispatch(updateTask(change));
   }
 
@@ -184,7 +183,27 @@ __v: 0
     dispatch(updateTask(change));
     setQuery("");
   };
-  // const [modalIsOpen, setIsOpen] = React.useState(false);
+
+  const handleDelete = (_id) => {
+    Swal.fire({
+      title: "Are you sure you want to delete this task?",
+      text: "This action is not reversible.",
+      showDenyButton: true,
+      confirmButtonText: "Cancel",
+      denyButtonText: "Delete",
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isDenied) {
+        // si apreto en "BORRAR"
+        setIsModalOpen(false);
+        dispatch(deleteTask(_id));
+      }
+    });
+  };
+
+  const handleRemoveNote = (noteId) => {
+    dispatch(removeNote(noteId));
+  };
 
   return (
     <>
@@ -261,23 +280,20 @@ __v: 0
           <div className={styles.modalFormGroup}>
             <label className={styles.titles}>Priorization: </label>
             {isManager ? (
-              <select onChange={(e) => handlePrioritizationChange(e)}>
+              <select
+                value={dynamicFields.priorization}
+                onChange={(e) => handlePrioritizationChange(e)}
+              >
                 {[
                   "Easy Win",
                   "Deprioritize",
                   "Worth Pursuing",
                   "Strategic Initiative",
-                ].map((value, index) =>
-                  value == dynamicFields.priorization ? (
-                    <option key={index} value={value} selected>
-                      {value}
-                    </option>
-                  ) : (
-                    <option key={index} value={value}>
-                      {value}
-                    </option>
-                  )
-                )}
+                ].map((value, index) => (
+                  <option key={index} value={value}>
+                    {value}
+                  </option>
+                ))}
               </select>
             ) : (
               <span>{dynamicFields.priorization}</span>
@@ -295,50 +311,72 @@ __v: 0
                 className={styles.notes}
                 name="content"
                 value={newNote.content}
-                // id=""
-                // cols="30"
-                // rows="10"
                 onChange={(e) => handleArea(e)}
                 placeholder="Write a new note..."
               ></textarea>
-              <button type="submit">Add Note</button>
+              <div className={styles.modalButtons}>
+                <button type="submit">Add Note</button>
+                  <button
+                    className={`${styles[dynamicFields.helpNeeded]}`}
+                    type="submit"
+                    onClick={(e) => (loggedId === asignedTo || isManager) ? handleOnClick(e) : () => {}}
+                  >
+                    {dynamicFields.helpNeeded ? "Help Asked" : "Ask for help"}
+                  </button>
+              </div>
             </form>
           </div>
           <div className={styles.modalFormGroup}>
-            {/* <div>{notes}</div> */}
             {notes.length > 0 &&
               notes.map((note) => {
                 return (
                   <NoteDetail
                     key={note._id}
+                    id={note._id}
                     content={note.content}
                     userName={note.user.name}
                     userPicture={note.user.picture}
+                    removeNote={handleRemoveNote}
+                    render={isManager || loggedId === note.userId}
                   />
                 );
               })}
           </div>
           <div className={styles.modalButtons}>
-            <button
-              className={`${styles[dynamicFields.helpNeeded]}`}
-              type="submit"
-              onClick={(e) => handleOnClick(e)}
-            >
-              {dynamicFields.helpNeeded ? "Help Asked" : "Ask for help"}
-            </button>
-            <Dropdown
-              isVisible={statusDropdownIsOpen}
-              setIsVisible={setStatusDropdownIsOpen}
-              name={dynamicFields.status}
-              handler={handleStatusChange}
-              values={
-                isManager
-                  ? ["Pending", "In progress", "Testing", "Completed"]
-                  : ["Testing", "Completed"]
-              }
-              theme="dark"
-            />
+            {isManager && (
+              <button
+                className={styles.delete}
+                type="submit"
+                onClick={(e) => {
+                  handleDelete(_id);
+                  // setClickDeleteCount(clickDeleteCount + 1);
+                }}
+              >
+                Delete Task
+              </button>
+            )}
+            {(asignedTo === loggedId || isManager) && (
+              <Dropdown
+                isVisible={statusDropdownIsOpen}
+                setIsVisible={setStatusDropdownIsOpen}
+                name={dynamicFields.status}
+                handler={handleStatusChange}
+                values={
+                  isManager
+                    ? ["Pending", "In progress", "Testing", "Completed"]
+                    : ["Testing", "Completed"]
+                }
+                theme="dark"
+              />
+            )}
           </div>
+          {/* {clickDeleteCount > 0 ? (
+            <span className={styles.danger}>
+              Please confirm, this action is not reversible
+            </span>
+          ) : (
+            ""
+          )} */}
         </div>
       </Modal>
     </>

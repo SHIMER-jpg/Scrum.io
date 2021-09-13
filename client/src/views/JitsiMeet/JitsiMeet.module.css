@@ -1,0 +1,16 @@
+.jitsiButton {
+  all: unset;
+  background: var(--violet);
+  position: fixed;
+  padding: 10px 15px;
+  border-radius: 8px;
+  color: white;
+  font-weight: 600;
+  font-size: 15px;
+  align-self: flex-end;
+  border: 0.5px solid var(--violet);
+  user-select: none;
+  float: right;
+  bottom: 2%;
+  margin-left: 20px;
+}
