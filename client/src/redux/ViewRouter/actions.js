@@ -9,7 +9,7 @@ export const getRole = (userId, projectId) => {
   return function (dispatch) {
     axios
       .get(
-        `http://${REACT_APP_BACKEND_HOST}:${REACT_APP_BACKEND_PORT}/user/userRole?userId=${userId}&projectId=${projectId}`
+        `http://${REACT_APP_BACKEND_HOST}${REACT_APP_BACKEND_PORT}/user/userRole?userId=${userId}&projectId=${projectId}`
       )
       .then((json) => dispatch({ type: GET_ROLE, payload: json.data }));
   };

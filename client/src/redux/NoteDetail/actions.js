@@ -12,7 +12,7 @@ export function getNotesDetails(taskId) {
   return function (dispatch) {
     axios
       .get(
-        `http://${REACT_APP_BACKEND_HOST}:${REACT_APP_BACKEND_PORT}/note/${taskId}`
+        `http://${REACT_APP_BACKEND_HOST}${REACT_APP_BACKEND_PORT}/note/${taskId}`
       )
       .then((json) => {
         dispatch({ type: GET_NOTES_DETAILS, payload: json.data });
@@ -24,7 +24,7 @@ export function createNote(newNote) {
   return function (dispatch) {
     axios
       .post(
-        `http://${REACT_APP_BACKEND_HOST}:${REACT_APP_BACKEND_PORT}/note/newNote`,
+        `http://${REACT_APP_BACKEND_HOST}${REACT_APP_BACKEND_PORT}/note/newNote`,
         newNote
       )
       .then((json) => {
@@ -40,7 +40,7 @@ export function removeNote(noteId) {
   return function (dispatch) {
     axios
       .delete(
-        `http://${REACT_APP_BACKEND_HOST}:${REACT_APP_BACKEND_PORT}/note/${noteId}`
+        `http://${REACT_APP_BACKEND_HOST}${REACT_APP_BACKEND_PORT}/note/${noteId}`
       )
       .then(dispatch({ type: REMOVE_NOTE, payload: noteId }));
   };

@@ -31,7 +31,9 @@ const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const socket = io.connect(`http://${BACKEND_HOST}:${BACKEND_PORT}/`);
+    const socket = io.connect(`http://${BACKEND_HOST}${BACKEND_PORT}/`, {
+      transports: ["websocket"],
+    });
 
     // client-side
     dispatch(setSocket(socket));
@@ -40,7 +42,7 @@ const App = () => {
       (async () => {
         const tokenClaims = await getIdTokenClaims();
         const { data } = await axios.post(
-          `http://${BACKEND_HOST}:${BACKEND_PORT}/user/findOrCreate`,
+          `http://${BACKEND_HOST}${BACKEND_PORT}/user/findOrCreate`,
           {
             providerId: tokenClaims.sub,
             picture: tokenClaims.picture,
