@@ -1,12 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import Modal from "react-modal";
-import { useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { IoClose, IoReload } from "react-icons/io5";
+import { useRef, useState } from "react";
+import { useDispatch } from "react-redux";
+import { IoClose } from "react-icons/io5";
+import { BsUpload } from "react-icons/bs";
 import taskTemplate from "../../static/TaskImportTemplate.csv";
 
-import { useSearch } from "../../hooks/useSearch";
-import { createTask, bulkImport } from "../../redux/ManagerView/actions";
+import { bulkImport } from "../../redux/ManagerView/actions";
 
 import styles from "./ImportCsvModal.module.css";
 
@@ -36,17 +36,33 @@ const ImportCsvModal = ({
   projectId,
   setIsLoadingTasks,
 }) => {
-  const fileInput = useRef();
+  const fileInput = useRef(null);
   const dispatch = useDispatch();
+  const [file, setFile] = useState(null);
 
   const handleImport = ({ target }) => {
-    if (fileInput.current.files[0]) {
+    if (file) {
       var formData = new FormData();
-      formData.append("TASK_CSV", fileInput.current.files[0]);
+
+      formData.append("TASK_CSV", file);
       formData.append("projectId", projectId);
+
       setIsLoadingTasks(true);
       dispatch(bulkImport(formData, setIsLoadingTasks));
+
       setIsModalOpen(false);
+    }
+  };
+
+  const handleAddFile = (e) => {
+    e.preventDefault();
+
+    // Comprobar que el archivo subido es un CSV
+    if (e.target.files[0]["type"].split("/")[1] === "csv") {
+      setFile(e.target.files[0]);
+    } else {
+      alert("Error:\nEl archivo subido no es de formato CSV");
+      return null;
     }
   };
 
@@ -94,7 +110,7 @@ const ImportCsvModal = ({
           </span>
           <ul>
             {assignedUsers.map((user) => (
-              <li>
+              <li key={user._id}>
                 {user.name + " "}
                 <span>&#8594;</span>
                 {" " + user._id}
@@ -104,7 +120,19 @@ const ImportCsvModal = ({
         </div>
         <div className={styles.modalFormGroup}>
           <div className={styles.customInput}>
-            <input type="file" ref={fileInput} accept=".csv" />
+            <label htmlFor="upload-csv">
+              <BsUpload strokeWidth={1} />{" "}
+              {file
+                ? file.name
+                : "Select a file..."}
+            </label>
+            <input
+              onChange={handleAddFile}
+              id="upload-csv"
+              type="file"
+              ref={fileInput}
+              accept=".csv"
+            />
           </div>
         </div>
         <div className={styles.modalButtons}>

@@ -23,15 +23,17 @@ import PokerPlanning from "./views/PokerPlanning/PokerPlanning";
 import { Configuration } from "./views/Configuration/Configuration.js";
 import JitsiMeet from "./views/JitsiMeet/JitsiMeet.js";
 
-const BACKEND_HOST = process.env.REACT_APP_BACKEND_HOST;
-const BACKEND_PORT = process.env.REACT_APP_BACKEND_PORT;
+const { REACT_APP_BACKEND_URL } = process.env;
 
 const App = () => {
   const { isLoading, isAuthenticated, getIdTokenClaims } = useAuth0();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const socket = io.connect("http://localhost:3001/");
+    const socket = io.connect(`${REACT_APP_BACKEND_URL}/`, {
+      transports: ["websocket"],
+    });
+
     // client-side
     dispatch(setSocket(socket));
 
@@ -39,7 +41,7 @@ const App = () => {
       (async () => {
         const tokenClaims = await getIdTokenClaims();
         const { data } = await axios.post(
-          `http://${BACKEND_HOST}:${BACKEND_PORT}/user/findOrCreate`,
+          `${REACT_APP_BACKEND_URL}/user/findOrCreate`,
           {
             providerId: tokenClaims.sub,
             picture: tokenClaims.picture,

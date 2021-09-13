@@ -82,7 +82,7 @@ export function AddPartnerModal({
           {mapState && mapState.length > 0 ? (
             mapState.map((e, i) => {
               return (
-                <div className={styles.addedUsersCard}>
+                <div key={e._id} className={styles.addedUsersCard}>
                   {e.key}
                   <img src={e.picture} alt={e.username} />
                   <p>{e.name.split(" ")[0]}</p>
@@ -93,7 +93,7 @@ export function AddPartnerModal({
               );
             })
           ) : (
-            <h3>no users assigned yet</h3>
+            <h3 style={{fontWeight: "500"}}>No users assigned yet.</h3>
           )}
         </div>
       </div>

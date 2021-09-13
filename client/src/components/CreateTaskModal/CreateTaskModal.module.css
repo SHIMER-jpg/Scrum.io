@@ -6,6 +6,7 @@
   align-items: center;
   padding-bottom: 20px;
   border-bottom: 1px solid rgb(204, 204, 204);
+  margin-bottom: 25px;
 }
 
 .modalHeader > h2 {
