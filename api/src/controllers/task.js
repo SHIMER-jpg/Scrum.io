@@ -78,6 +78,15 @@ const modifyTask = async (req, res, next) => {
       req.body.field == "asigedTo"
         ? mongoose.Types.ObjectId(req.body.value)
         : req.body.value;
+    
+    if(req.body.field === "status"){
+      if(req.body.value === "Completed"){
+        update.completedDate = Date.now();
+      }
+      else{
+        update.completedDate = null;
+      }
+    }
 
     const updated = await Task.model.findOneAndUpdate(
       { _id: mongoose.Types.ObjectId(taskId) },
