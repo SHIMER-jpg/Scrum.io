@@ -58,7 +58,7 @@ export default function StatisticCard({ graphType, tasks, project }) {
   let days = firstDay && lastDay.diff(firstDay, "days");
 
   let dataDays = [];
-  for (let i = 1; i <= days; i++) {
+  for (let i = 0; i <= days; i++) {
     dataDays[i] = i;
   }
 
@@ -91,27 +91,53 @@ export default function StatisticCard({ graphType, tasks, project }) {
         return 0;
       });
 
-  let dates = completedTasks.map((t) => t.completedDate);
+  var lastCompletedDate = moment(
+    completedTasks[completedTasks.length - 1].completedDate.substring(0, 10)
+  );
+  var finalDate = lastCompletedDate.diff(firstDay, "days");
 
-  const aux = new Set(dates);
-  let completedDates = Array.from(aux);
+  completedTasks.map((task) => {
+    const completedDate = moment(task.completedDate?.substring(0, 10));
+    task.daysFromStart = completedDate.diff(firstDay, "days");
+    return task;
+  });
 
-  let devStoryPoints = new Array(completedDates.length);
+  let devStoryPoints = new Array(finalDate + 1);
+  devStoryPoints.fill(dataStoryPoints[0]);
 
-  for (let h = 0; h < devStoryPoints.length; h++) {
-    devStoryPoints[h] = dataStoryPoints[0];
-  }
-
-  for (let i = 0; i <= completedDates.length; i++) {
-    for (let j = 0; j < completedTasks.length; j++) {
-      if (completedTasks[j].completedDate === completedDates[i]) {
-        console.log(completedDates[i], completedTasks[j]);
-        devStoryPoints[i + 1] =
-          dataStoryPoints[i] - completedTasks[j].storyPoints;
-      }
+  let devStoryPointsCorrected = [];
+  devStoryPoints.forEach((point, index) => {
+    if (index == 0) {
+      devStoryPointsCorrected.push(devStoryPoints[index]);
+      return;
     }
-  }
-  console.log(devStoryPoints, dataStoryPoints);
+    const minus = completedTasks.reduce((acc, val) => {
+      if (val.daysFromStart == index) {
+        return acc + parseInt(val.storyPoints);
+      } else {
+        return acc + 0;
+      }
+    }, 0);
+    if (minus == 0) {
+      devStoryPointsCorrected.push(devStoryPointsCorrected[index - 1]);
+      return;
+    } else {
+      return devStoryPointsCorrected.push(
+        devStoryPointsCorrected[index - 1] - minus
+      );
+    }
+  });
+
+  // for (let i = 0; i <= completedDates.length; i++) {
+  //   for (let j = 0; j < completedTasks.length; j++) {
+  //     if (completedTasks[j].completedDate === completedDates[i]) {
+
+  //       devStoryPoints[i + 1] =
+  //         dataStoryPoints[i] - completedTasks[j].storyPoints;
+  //     }
+  //   }
+  // }
+  // console.log(devStoryPoints, dataStoryPoints);
 
   // let tasksPerDay = Math.round(tasks.length / days);
   // let dataTasksPerDay = [];
@@ -278,7 +304,7 @@ export default function StatisticCard({ graphType, tasks, project }) {
                   datasets: [
                     {
                       label: "Actual development",
-                      data: devStoryPoints,
+                      data: devStoryPointsCorrected,
                       // data: charDataOption === 'byStoryPoints' ? devStoryPoints : tasksCompletedPerDay,
                       backgroundColor: ["#a12464"],
                       borderColor: ["#a12464"],
