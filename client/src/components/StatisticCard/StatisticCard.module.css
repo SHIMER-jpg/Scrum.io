@@ -14,16 +14,18 @@
     display: flex;
     justify-content: space-between;
     position: relative;
-    border-bottom: 2px solid #d4d4d4;
+    border-bottom: 2px solid #e2e2e2;
     padding-bottom: 5px;
 }
 .header h2{
-    margin: 0;
+    margin: 0 0 10px;
+    font-weight: 600;
 }
 
 .graph{
     position: relative;
     padding: 10px 0;
+    height: 450px;
     margin: 10px 0;
 }
 

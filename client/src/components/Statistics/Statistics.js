@@ -29,11 +29,50 @@ export default function Statistics(props) {
     dispatch(getTasksByProject(props.match.params.projectId));
   }, []);
 
-  var helpNeeded = tasks.filter((t) => t.helpNeeded).length;
+  const helpNeeded = tasks.filter((t) => t.helpNeeded).length;
+  const totalTasks = tasks.length;
+  const completedTasks = tasks.reduce((acc, val) => {
+    if (val.status == "Completed") {
+      return acc + 1;
+    } else {
+      return acc + 0;
+    }
+  }, 0);
+  const totalStoryPoints = tasks.reduce((acc, val) => {
+    return acc + val.storyPoints;
+  }, 0);
+  const completedStoryPoints = tasks.reduce((acc, val) => {
+    if (val.status == "Completed") {
+      return acc + val.storyPoints;
+    } else {
+      return acc + 0;
+    }
+  }, 0);
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
         <h1>Statistics</h1>
+        <div className={styles.helpNeeded}>
+          <h4>Total Tasks</h4>
+          <div></div>
+          <h4>{totalTasks}</h4>
+        </div>
+        <div className={styles.helpNeeded}>
+          <h4>Completed Tasks</h4>
+          <div></div>
+          <h4>{completedTasks}</h4>
+        </div>
+        <div className={styles.helpNeeded}>
+          <h4>Total SP</h4>
+          <div></div>
+          <h4>{totalStoryPoints}</h4>
+        </div>
+        <div className={styles.helpNeeded}>
+          <h4>Completed SP</h4>
+          <div></div>
+          <h4>{completedStoryPoints}</h4>
+        </div>
         <div className={styles.helpNeeded}>
           <h4>Help needed</h4>
           <div></div>

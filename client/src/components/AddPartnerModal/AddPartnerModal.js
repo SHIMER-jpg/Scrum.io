@@ -16,9 +16,6 @@ export function AddPartnerModal({
   assignedUsers,
   projectId,
 }) {
-  const [values, setValues] = useState({
-    Users: [],
-  });
   const dispatch = useDispatch();
   const [mapState, setMapState] = useState(assignedUsers);
 
@@ -42,11 +39,10 @@ export function AddPartnerModal({
   };
 
   function deleteUser(userId) {
-    console.log(userId);
-
     assignedUsers = mapState.filter((v) => {
       return v._id !== userId;
     });
+
     setMapState(assignedUsers);
     dispatch(deleteUserFromProject(projectId, userId));
   }
@@ -58,19 +54,8 @@ export function AddPartnerModal({
     }
   };
 
-  console.log(mapState);
-
   const [isSelectUsersOpen, setIsSelectUsersOpen] = useState(false);
-
   const [query, setQuery, filteredUsers] = useSearch(allUsers);
-
-  const handleRemoveUser = (user, userId) => {
-    setValues({
-      ...values,
-      Users: values.Users.filter((u) => u !== user._id),
-    });
-    dispatch(deleteUserFromProject(projectId, userId));
-  };
 
   return (
     <Modal
@@ -97,7 +82,7 @@ export function AddPartnerModal({
           {mapState && mapState.length > 0 ? (
             mapState.map((e, i) => {
               return (
-                <div className={styles.addedUsersCard}>
+                <div key={e._id} className={styles.addedUsersCard}>
                   {e.key}
                   <img src={e.picture} alt={e.username} />
                   <p>{e.name.split(" ")[0]}</p>
@@ -108,7 +93,7 @@ export function AddPartnerModal({
               );
             })
           ) : (
-            <h3>no users assigned yet</h3>
+            <h3 style={{fontWeight: "500"}}>No users assigned yet.</h3>
           )}
         </div>
       </div>

@@ -6,6 +6,7 @@
   align-items: center;
   padding-bottom: 20px;
   border-bottom: 1px solid rgb(204, 204, 204);
+  margin-bottom: 25px;
 }
 
 .modalHeader > h2 {
@@ -37,7 +38,9 @@
 }
 
 .modalFormGroup input,
-textarea {
+.modalFormGroup textarea,
+.modalFormGroup select,
+.modalFormGroup select {
   all: unset;
   border-radius: 8px;
   padding: 10px;
@@ -46,13 +49,18 @@ textarea {
 }
 
 .modalFormGroup input:focus,
-textarea:focus {
+.modalFormGroup textarea:focus,
+.modalFormGroup select:focus {
   border: 2px solid var(--violet);
   box-shadow: 0 0 0 3px rgba(161, 36, 101, 0.4);
 }
 
 .selectUserContainer {
   position: relative;
+}
+
+.errorMessage {
+  margin: 10px 0 0 0;
 }
 
 .modalSelectUser {
@@ -145,7 +153,7 @@ textarea:focus {
   align-items: center;
 }
 
-button[type="submit"] {
+.modalFormGroup button[type="submit"] {
   all: unset;
   background: var(--violet);
   padding: 10px 15px;
@@ -154,4 +162,22 @@ button[type="submit"] {
   font-weight: 600;
   font-size: 18px;
   align-self: flex-end;
+}
+
+.modalFormGroup button[disabled] {
+  opacity: 0.4;
+}
+
+.userValidationError {
+  background-color: rgb(255, 93, 93);
+  padding: 15px;
+  border-radius: 12px;
+  color: white;
+  font-weight: 600;
+  color: white;
+  font-size: 16px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }

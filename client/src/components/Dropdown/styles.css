@@ -4,7 +4,7 @@
 }
 
 .Dropdown {
-  background: var(--violet);
+  /* background: var(--violet); */
   padding: 10px 15px;
   border-radius: 8px;
   color: white;
@@ -56,7 +56,7 @@
   min-width: 100%;
   width: auto;
   /* top: 125%; */
-  bottom: 100%;
+  bottom: 110%;
   right: 0;
   display: flex;
   flex-direction: column;
@@ -75,7 +75,10 @@
 }
 
 .dark .Dropdown-box {
-  background: var(--violet);
+  /* background: var(--violet); */
+  background-color: white;
+  color: var(--violet);
+  border: 1px solid var(--violet);
   /* border: 1px solid var(--amarillo); */
 }
 
@@ -91,10 +94,12 @@
 }
 
 .Dropdown-option:hover {
-  background-color: var(--amarillo);
-  color: black;
+  background: rgba(161, 36, 101, 0.2);
+  /* color: black; */
 }
 
 .Dropdown-option {
   margin: 0;
+  font-size: 16px;
+  font-weight: 600;
 }

@@ -61,6 +61,14 @@
   gap: 7px;
 }
 
+.filter select {
+  all: unset;
+  border-radius: 8px;
+  padding: 10px;
+  border: 1px solid rgb(204, 204, 204);
+  transition: all 0.1s ease-in-out;
+}
+
 .filter > label {
   font-weight: 600;
 }

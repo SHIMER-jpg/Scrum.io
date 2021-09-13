@@ -7,6 +7,7 @@ import { Provider } from "react-redux";
 import App from "./App";
 import store from "./redux/store/indexStore";
 import "./globals.css";
+// import 'sweetalert2/dist/sweetalert2.min.css'
 
 ReactDOM.render(
   <Provider store={store}>

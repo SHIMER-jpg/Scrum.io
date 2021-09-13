@@ -5,10 +5,15 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useSearch } from "../../hooks/useSearch";
 import useTimeAgo from "../../hooks/useTimeAgo";
+import Swal from "sweetalert2";
 
 // redux actions
-import { getNotesDetails, clearNotes } from "../../redux/NoteDetail/actions";
-import { updateTask } from "../../redux/ManagerView/actions";
+import {
+  getNotesDetails,
+  clearNotes,
+  removeNote,
+} from "../../redux/NoteDetail/actions";
+import { updateTask, deleteTask } from "../../redux/ManagerView/actions";
 import { createNote } from "../../redux/NoteDetail/actions";
 
 //components and utils
@@ -19,13 +24,16 @@ import Dropdown from "../Dropdown/Dropdown";
 import styles from "./TaskModal.module.css";
 
 function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
-  const { title, details, creationDate, _id, storyPoints } = modalDetails;
+  const { title, details, creationDate, _id, storyPoints, asignedTo } =
+    modalDetails;
   const loggedId = useSelector((state) => state.app.loggedUser._id);
   const assignedUsers = useSelector((state) => state.managerView.asignedUsers);
   const [isSelectUsersOpen, setIsSelectUsersOpen] = useState(false);
   const [usersInProject, setUsersInProject] = useState([]);
   const [query, setQuery, filteredUsers] = useSearch(usersInProject);
+  // const [clickDeleteCount, setClickDeleteCount] = useState(0);
 
+  console.log({ modalDetails });
   const isManager = useSelector(
     (state) => state.viewRouter.userRole === "scrumMaster"
   );
@@ -76,16 +84,17 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
 
   const timeAgo = useTimeAgo(new Date(creationDate));
   const dispatch = useDispatch();
-
   const notes = useSelector((state) => state.NotesReducer.notes);
 
   useEffect(() => {
     dispatch(getNotesDetails(_id));
+
     const filteredUsers = assignedUsers
       .filter(({ user }) => user._id !== loggedId)
       .map((u) => u.user);
 
     setUsersInProject(filteredUsers);
+
     return function cleanUp() {
       dispatch(clearNotes());
     };
@@ -97,10 +106,12 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
       field: "status",
       value: target.dataset.value,
     };
+
     setDynamicFields({
       ...dynamicFields,
       status: target.dataset.value,
     });
+
     dispatch(updateTask(change));
   }
   function handlePrioritizationChange({ target }) {
@@ -109,10 +120,12 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
       field: "priorization",
       value: target.value,
     };
+
     setDynamicFields({
       ...dynamicFields,
       priorization: target.value,
     });
+
     setColorMap(
       target.value === "Easy Win"
         ? "8eff7b"
@@ -124,6 +137,7 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
         ? "ff6868"
         : ""
     );
+
     dispatch(updateTask(change));
   }
 
@@ -167,6 +181,27 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
     setIsSelectUsersOpen(false);
     dispatch(updateTask(change));
     setQuery("");
+  };
+
+  const handleDelete = (_id) => {
+    Swal.fire({
+      title: "Are you sure you want to delete this task?",
+      text: "This action is not reversible.",
+      showDenyButton: true,
+      confirmButtonText: "Cancel",
+      denyButtonText: "Delete",
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isDenied) {
+        // si apreto en "BORRAR"
+        setIsModalOpen(false);
+        dispatch(deleteTask(_id));
+      }
+    });
+  };
+
+  const handleRemoveNote = (noteId) => {
+    dispatch(removeNote(noteId));
   };
 
   return (
@@ -244,23 +279,20 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
           <div className={styles.modalFormGroup}>
             <label className={styles.titles}>Priorization: </label>
             {isManager ? (
-              <select onChange={(e) => handlePrioritizationChange(e)}>
+              <select
+                value={dynamicFields.priorization}
+                onChange={(e) => handlePrioritizationChange(e)}
+              >
                 {[
                   "Easy Win",
                   "Deprioritize",
                   "Worth Pursuing",
                   "Strategic Initiative",
-                ].map((value, index) =>
-                  value === dynamicFields.priorization ? (
-                    <option key={index} value={value} selected>
-                      {value}
-                    </option>
-                  ) : (
-                    <option key={index} value={value}>
-                      {value}
-                    </option>
-                  )
-                )}
+                ].map((value, index) => (
+                  <option key={index} value={value}>
+                    {value}
+                  </option>
+                ))}
               </select>
             ) : (
               <span>{dynamicFields.priorization}</span>
@@ -281,7 +313,16 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
                 onChange={(e) => handleArea(e)}
                 placeholder="Write a new note..."
               ></textarea>
-              <button type="submit">Add Note</button>
+              <div className={styles.modalButtons}>
+                <button type="submit">Add Note</button>
+                  <button
+                    className={`${styles[dynamicFields.helpNeeded]}`}
+                    type="submit"
+                    onClick={(e) => (loggedId === asignedTo || isManager) ? handleOnClick(e) : () => {}}
+                  >
+                    {dynamicFields.helpNeeded ? "Help Asked" : "Ask for help"}
+                  </button>
+              </div>
             </form>
           </div>
           <div className={styles.modalFormGroup}>
@@ -290,34 +331,51 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
                 return (
                   <NoteDetail
                     key={note._id}
+                    id={note._id}
                     content={note.content}
                     userName={note.user.name}
                     userPicture={note.user.picture}
+                    removeNote={handleRemoveNote}
+                    render={isManager || loggedId === note.userId}
                   />
                 );
               })}
           </div>
           <div className={styles.modalButtons}>
-            <button
-              className={`${styles[dynamicFields.helpNeeded]}`}
-              type="submit"
-              onClick={(e) => handleOnClick(e)}
-            >
-              {dynamicFields.helpNeeded ? "Help Asked" : "Ask for help"}
-            </button>
-            <Dropdown
-              isVisible={statusDropdownIsOpen}
-              setIsVisible={setStatusDropdownIsOpen}
-              name={dynamicFields.status}
-              handler={handleStatusChange}
-              values={
-                isManager
-                  ? ["Pending", "In progress", "Testing", "Completed"]
-                  : ["Testing", "Completed"]
-              }
-              theme="dark"
-            />
+            {isManager && (
+              <button
+                className={styles.delete}
+                type="submit"
+                onClick={(e) => {
+                  handleDelete(_id);
+                  // setClickDeleteCount(clickDeleteCount + 1);
+                }}
+              >
+                Delete Task
+              </button>
+            )}
+            {(asignedTo === loggedId || isManager) && (
+              <Dropdown
+                isVisible={statusDropdownIsOpen}
+                setIsVisible={setStatusDropdownIsOpen}
+                name={dynamicFields.status}
+                handler={handleStatusChange}
+                values={
+                  isManager
+                    ? ["Pending", "In progress", "Testing", "Completed"]
+                    : ["Testing", "Completed"]
+                }
+                theme="dark"
+              />
+            )}
           </div>
+          {/* {clickDeleteCount > 0 ? (
+            <span className={styles.danger}>
+              Please confirm, this action is not reversible
+            </span>
+          ) : (
+            ""
+          )} */}
         </div>
       </Modal>
     </>
