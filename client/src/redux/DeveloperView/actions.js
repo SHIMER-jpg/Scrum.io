@@ -6,18 +6,14 @@ require("dotenv").config();
 const { REACT_APP_BACKEND_URL } = process.env;
 
 export function getTasksByUser(projectId, userId) {
-  console.log("GET TASKS")
   return async function (dispatch) {
     // obtiene todas las tareas del projecto pasado por projectId para luego filtrar y agarrar solo las del usuario loggeado en el reducer
     const { data } = await axios.get(
       `${REACT_APP_BACKEND_URL}/task/user?userId=${userId}&projectId=${projectId}`
     );
 
-    console.log(data)
     // no me muestre como pendientes las tareas que ya estan completadas.
     const myTasks = data.filter((t) => t.status !== "Completed");
-
-    console.log(myTasks)
 
     dispatch({
       type: CONSTANTS.GET_USER_TASKS,

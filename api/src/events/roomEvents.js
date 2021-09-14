@@ -18,8 +18,6 @@ io.on("connection", (socket) => {
         isRoomInitialized: true,
       });
 
-      console.log("CREATING ROOM");
-
       io.to(projectId).emit("roomInitialized");
     }
   });
