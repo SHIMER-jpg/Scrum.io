@@ -3,13 +3,17 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
+import { Chat } from "../../views/Chat/Chat";
 
 import Header from "../Header/Header";
 import Sidebar from "../Sidebar/Sidebar";
 
 const Layout = ({ children }) => {
   const { loggedUser, socket } = useSelector(({ app }) => app);
+  const role = useSelector((state) => state.viewRouter.userRole);
   const history = useHistory();
+
+  console.log(role);
 
   useEffect(() => {
     if (socket.on && loggedUser) {
@@ -49,7 +53,9 @@ const Layout = ({ children }) => {
         />
         <Sidebar />
         {children}
+        <div>{role && <Chat />}</div>
       </main>
+      {/* <div>{userRole && <Chat />}</div> */}
     </>
   );
 };
