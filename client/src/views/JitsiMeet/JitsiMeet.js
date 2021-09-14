@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useSelector } from "react-redux";
 import { useRouteMatch } from "react-router";
 import styles from "./JitsiMeet.module.css";

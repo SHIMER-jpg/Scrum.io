@@ -9,6 +9,7 @@ import {
   CREATE_TASK,
   DELETE_TASK,
   GET_ALL_USERS,
+  CLEAR_MANAGER_VIEW,
   IMPORT_TASKS_CSV,
   DELETE_TASKS,
 } from "./constants";
@@ -140,6 +141,10 @@ export function updateTask(change) {
       .then(dispatch({ type: UPDATE_TASK, payload: change }));
   };
 }
+
+export const clearManagerView = () => ({
+  type: CLEAR_MANAGER_VIEW
+})
 
 export function deleteProject(projectId) {
   return function (dispatch) {

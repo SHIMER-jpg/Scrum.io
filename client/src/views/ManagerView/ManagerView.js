@@ -1,11 +1,13 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
-import { React, useEffect, useState } from "react";
+import { React, useEffect, useState, useCallback } from "react";
 import {
   getProjectById,
   getTasksByProject,
   getAsignedUsers,
+  clearManagerView
 } from "../../redux/ManagerView/actions";
+
 import { fetchUsers } from "../../redux/Home/actions";
 import { useDispatch, useSelector } from "react-redux";
 import TaskHolder from "../../components/TaskHolder/TaskHolder";
@@ -32,16 +34,34 @@ export default function ManagerView() {
   const project = useSelector((state) => state.managerView.project);
   const assignedUsers = useSelector((state) => state.managerView.asignedUsers);
   const [isLoadingTasks, setIsLoadingTasks] = useState(true);
+  const { socket, loggedUser } = useSelector((state) => state.app)
   const allUsers = useSelector((state) => state.home.users);
-  const loggedUser = useSelector((state) => state.app.loggedUser);
 
+  const handleSocketUpdate = useCallback(({ projectId: projectFromSocket }) => {
+    console.table({"Project ID": projectId, "Project ID from socket": projectFromSocket})
+
+    if (projectFromSocket === projectId) {
+      dispatch(getTasksByProject(projectId));
+    }
+  }, []);
+  
   useEffect(() => {
     dispatch(fetchUsers(loggedUser));
     dispatch(getProjectById(projectId));
     dispatch(getTasksByProject(projectId, setIsLoadingTasks));
     dispatch(getAsignedUsers(projectId));
+
+    // return () => dispatch(clearManagerView())
   }, []);
 
+  useEffect(() => {
+    socket.on("updateTask", handleSocketUpdate)
+
+    return () => {
+      socket.off("updateTask", handleSocketUpdate)
+    }
+  }, [loggedUser]);
+  
   function usersInProject() {
     var array = [];
 
