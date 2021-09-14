@@ -40,7 +40,7 @@
 .modalFormGroup input,
 .modalFormGroup textarea,
 .modalFormGroup select,
-.modalFormGroup select {
+select {
   all: unset;
   border-radius: 8px;
   padding: 10px;
@@ -50,7 +50,7 @@
 
 .modalFormGroup input:focus,
 .modalFormGroup textarea:focus,
-.modalFormGroup select:focus {
+select:focus {
   border: 2px solid var(--violet);
   box-shadow: 0 0 0 3px rgba(161, 36, 101, 0.4);
 }

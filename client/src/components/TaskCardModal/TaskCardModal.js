@@ -31,9 +31,7 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
   const [isSelectUsersOpen, setIsSelectUsersOpen] = useState(false);
   const [usersInProject, setUsersInProject] = useState([]);
   const [query, setQuery, filteredUsers] = useSearch(usersInProject);
-  // const [clickDeleteCount, setClickDeleteCount] = useState(0);
 
-  console.log({ modalDetails });
   const isManager = useSelector(
     (state) => state.viewRouter.userRole === "scrumMaster"
   );

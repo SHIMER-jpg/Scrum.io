@@ -12,11 +12,12 @@ export function getTasksByUser(projectId, userId) {
       `${REACT_APP_BACKEND_URL}/task/user?userId=${userId}&projectId=${projectId}`
     );
 
-    // const myTasks = data.filter((t) => !t.helpNeeded);
+    // no me muestre como pendientes las tareas que ya estan completadas.
+    const myTasks = data.filter((t) => t.status !== "Completed");
 
     dispatch({
       type: CONSTANTS.GET_USER_TASKS,
-      payload: data,
+      payload: myTasks,
     });
   };
 }
@@ -33,3 +34,7 @@ export function getHelpTasks(projectId) {
     });
   };
 }
+
+export const clearDevView = () => ({
+  type: CONSTANTS.CLEAR_DEV_VIEW
+})

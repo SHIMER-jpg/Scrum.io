@@ -28,11 +28,11 @@ export default function Statistics(props) {
 
     dispatch(getTasksByProject(props.match.params.projectId));
   }, []);
-
+  console.log(tasks, "tasksDispatch")
   const helpNeeded = tasks.filter((t) => t.helpNeeded).length;
   const totalTasks = tasks.length;
   const completedTasks = tasks.reduce((acc, val) => {
-    if (val.status == "Completed") {
+    if (val.status === "Completed") {
       return acc + 1;
     } else {
       return acc + 0;
@@ -42,7 +42,7 @@ export default function Statistics(props) {
     return acc + val.storyPoints;
   }, 0);
   const completedStoryPoints = tasks.reduce((acc, val) => {
-    if (val.status == "Completed") {
+    if (val.status === "Completed") {
       return acc + val.storyPoints;
     } else {
       return acc + 0;
