@@ -30,7 +30,7 @@ const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const socket = io.connect(`https://41bc-200-73-171-178.ngrok.io/`, {
+    const socket = io.connect(`${REACT_APP_BACKEND_URL}`, {
       transports: ["websocket"],
     });
 
