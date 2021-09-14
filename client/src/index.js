@@ -4,9 +4,12 @@ import { BrowserRouter } from "react-router-dom";
 import Auth0ProviderWithHistory from "./auth/auth0provider";
 import { Provider } from "react-redux";
 
+import 'react-toastify/dist/ReactToastify.css';
+
 import App from "./App";
 import store from "./redux/store/indexStore";
 import "./globals.css";
+// import 'sweetalert2/dist/sweetalert2.min.css'
 
 ReactDOM.render(
   <Provider store={store}>

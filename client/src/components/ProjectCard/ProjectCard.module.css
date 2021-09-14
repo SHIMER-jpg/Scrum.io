@@ -14,10 +14,29 @@
   box-shadow: 1px 1px 5px rgba(10, 10, 10, 0.15);
 }
 
+.header {
+  display: flex;
+  flex-direction: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
 .header h2 {
-  margin: 0 0 10px;
-  font-size: 28px;
+  margin: 0;
+  font-size: 24px;
   font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.header p {
+  color: rgb(85, 85, 85);
+  margin: 0;
+  white-space: nowrap;
+  margin-left: 8px ;
+  font-weight: 500;
 }
 
 .body h3 {

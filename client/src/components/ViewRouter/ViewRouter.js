@@ -20,18 +20,16 @@ const ViewRouter = () => {
   useEffect(() => {
     loggedUser._id && dispatch(getRole(loggedUser._id, projectId));
 
-    return function clerRole() {
-      dispatch(clearRole());
-    };
+    // return () => dispatch(clearRole())
   }, [loggedUser]);
 
   return (
     <>
       {role ? (
         role === "scrumMaster" ? (
-          <ManagerView projectId={projectId} />
+          <ManagerView />
         ) : (
-          <DeveloperView projectId={projectId} />
+          <DeveloperView />
         )
       ) : (
         <div

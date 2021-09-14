@@ -10,6 +10,7 @@ import { setUser, setSocket } from "./redux/App/actions.js";
 //components
 import PrivateRoute from "./components/HOCS/PrivateRoute";
 import ViewRouter from "./components/ViewRouter/ViewRouter";
+import Statistics from "./components/Statistics/Statistics.js";
 
 // views
 import Home from "./views/Home/Home";
@@ -20,27 +21,29 @@ import ManagerView from "./views/ManagerView/ManagerView";
 import Layout from "./components/Layout/Layout.js";
 import Calendary from "./components/Calendary/Calendary"
 import { Manager } from "socket.io-client";
+import PokerPlanning from "./views/PokerPlanning/PokerPlanning";
+import { Configuration } from "./views/Configuration/Configuration.js";
+import JitsiMeet from "./views/JitsiMeet/JitsiMeet.js";
 
-const BACKEND_HOST = process.env.REACT_APP_BACKEND_HOST;
-const BACKEND_PORT = process.env.REACT_APP_BACKEND_PORT;
+const { REACT_APP_BACKEND_URL } = process.env;
 
 const App = () => {
   const { isLoading, isAuthenticated, getIdTokenClaims } = useAuth0();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const socket = io("http://localhost:3001/");
-    // client-side
-    socket.on("connect", () => {
-      console.log("socket conectado", socket.id); // x8WIv7-mJelg7on_ALbx
+    const socket = io.connect(`${REACT_APP_BACKEND_URL}`, {
+      transports: ["websocket"],
     });
+
+    // client-side
     dispatch(setSocket(socket));
 
     isAuthenticated &&
       (async () => {
         const tokenClaims = await getIdTokenClaims();
         const { data } = await axios.post(
-          `http://${BACKEND_HOST}:${BACKEND_PORT}/user/findOrCreate`,
+          `${REACT_APP_BACKEND_URL}/user/findOrCreate`,
           {
             providerId: tokenClaims.sub,
             picture: tokenClaims.picture,
@@ -81,6 +84,21 @@ const App = () => {
             exact
             component={ViewRouter}
           />
+          <PrivateRoute
+            path="/planning/:projectId"
+            exact
+            component={PokerPlanning}
+          />
+          <PrivateRoute
+            path="/statistics/:projectId"
+            exact
+            component={Statistics}
+          />
+          <PrivateRoute
+            path="/meeting/:projectId"
+            exact
+            component={JitsiMeet}
+          />
           <PrivateRoute path="/manager_view" exact component={ManagerView} />
           <PrivateRoute
             path="/developer_view"
@@ -88,6 +106,7 @@ const App = () => {
             component={DeveloperView}
           />
           <PrivateRoute path="/calendary" exact component={Calendary} />
+          <PrivateRoute path="/configuration" exact component={Configuration} />
         </Layout>
         <Route component={NotFound} />
       </Switch>

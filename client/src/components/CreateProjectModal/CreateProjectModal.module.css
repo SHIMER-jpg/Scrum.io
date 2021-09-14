@@ -1,0 +1,183 @@
+/* MODAL STYLES ===================================================== */
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgb(204, 204, 204);
+  margin-bottom: 25px;
+}
+
+.modalHeader > h2 {
+  margin: 0;
+  font-weight: 600;
+  font-size: 32px;
+}
+
+.modalHeader > button {
+  all: unset;
+  display: flex;
+  align-items: center;
+}
+
+.modalBody {
+  margin-top: 25px;
+}
+
+.modalFormGroup {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.modalFormGroup label {
+  font-weight: 600;
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.modalFormGroup input,
+.modalFormGroup textarea,
+.modalFormGroup select,
+.modalFormGroup select {
+  all: unset;
+  border-radius: 8px;
+  padding: 10px;
+  border: 1px solid rgb(204, 204, 204);
+  transition: all 0.1s ease-in-out;
+}
+
+.modalFormGroup input:focus,
+.modalFormGroup textarea:focus,
+.modalFormGroup select:focus {
+  border: 2px solid var(--violet);
+  box-shadow: 0 0 0 3px rgba(161, 36, 101, 0.4);
+}
+
+.selectUserContainer {
+  position: relative;
+}
+
+.errorMessage {
+  margin: 10px 0 0 0;
+}
+
+.modalSelectUser {
+  position: absolute;
+  top: 120%;
+  display: flex;
+  flex-direction: column;
+  max-height: 145px;
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid rgb(204, 204, 204);
+  background: white;
+  overflow-y: auto;
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.15s ease-in-out;
+  z-index: 1000;
+}
+
+.modalSelectUser.visible {
+  visibility: visible;
+  opacity: 1;
+}
+
+.modalSelectUser > p {
+  margin: 15px;
+  color: rgb(255, 86, 86);
+  font-weight: 600;
+}
+
+.modalUser {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-weight: 500;
+  padding: 10px;
+  transition: all 0.15s ease-in-out;
+}
+
+.modalUser:hover {
+  background: rgba(161, 36, 101, 0.2);
+  cursor: pointer;
+}
+
+.modalUser img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid rgb(204, 204, 204);
+}
+
+.modalUser p {
+  margin: 0;
+}
+
+.addedUsers:not(:empty) {
+  width: 100%;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.addedUsersCard {
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+  background: rgb(238, 238, 238);
+  border: 1px solid rgb(238, 238, 238);
+  overflow: hidden;
+  gap: 10px;
+  padding-right: 10px;
+}
+
+.addedUsersCard img {
+  width: 32px;
+  height: 32px;
+  background: white;
+}
+
+.addedUsersCard p {
+  margin: 0;
+  font-weight: 600;
+}
+
+.addedUsersCard button {
+  all: unset;
+  display: flex;
+  align-items: center;
+}
+
+.modalFormGroup button[type="submit"] {
+  all: unset;
+  background: var(--violet);
+  padding: 10px 15px;
+  border-radius: 8px;
+  color: white;
+  font-weight: 600;
+  font-size: 18px;
+  align-self: flex-end;
+}
+
+.modalFormGroup button[disabled] {
+  opacity: 0.4;
+}
+
+.userValidationError {
+  background-color: rgb(255, 93, 93);
+  padding: 15px;
+  border-radius: 12px;
+  color: white;
+  font-weight: 600;
+  color: white;
+  font-size: 16px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
