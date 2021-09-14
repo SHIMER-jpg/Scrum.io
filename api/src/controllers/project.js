@@ -74,13 +74,27 @@ const createProject = async (req, res, next) => {
     const user = await User.model.findOne({
       _id: req.body.Users,
     });
-
+    
     await transporter.sendMail({
       from: '"Scrum.io" <scrumio64@gmail.com>',
-      to: user.email,
+      to: "cuellojuancruz11@gmail.com",
       subject: "Scrumio",
-      text: `<b>Greetings ${user.name}, through this email we inform you that you have been assigned a new project, please enter Scrum.io to view it.\n
-      Have a nice day<b>`,
+      html: `<!DOCTYPE html>
+      <html lang="en">
+      <head>
+          <title>Document</title>
+      </head>
+      <body>
+        
+        <img src="https://cdn.discordapp.com/attachments/852616096586792990/887439418548420608/unknown.png" alt="Not Image">
+      
+          <h3>Greetings ${user.name}<h3>
+          
+            <p>through this email we inform you that you have been assigned a new project, please enter Scrum.io to view it.\n
+            Have a nice day</p>
+      </body>
+      </html>`
+      ,
     });
 
     res.status(201).json(newProject);

@@ -1,0 +1,78 @@
+Notas:
+
+//PONELE
+Exportar a CSV 
+Configuraciones de cuenta
+
+
+// A CHEQUEAR
+* JODIDO! hacer un roadmap de los usuarios y las tareas en proceso --> Pasa que, los roadmaps tienen mas que ver con proyectos cascada que con scrum amigo (por lo menos estos que me estas mostrando)
+
+
+Estadisticas --> repartir data por sprints --> Podemos agregar un campo a cada task que sea "Nro de sprint" y de ahi armamos la data, es la manera mas sencilla que se me ocurre ahora. (Sino habria que mapear los sprints a fechas y bla bla bla, pero me da mucha paja y no agrega TAAAAnto valor)
+* Agregar la identificacion por sprints de las tasks
+
+* Como decimos que termino el proyecto? --> Proyect Configs --> Un boton que diga "Marcar proyeto como termiinado"
+Notificacion dinamica en funcion del % del sprint, warnings de demoras --> Uf
+
+//ESTE ME GUSTA MUCHO --> Hay que diseñarlo bien para no hacer bardo, basicamente con un mismo set de tasks, se puede buscar de n maneras distintas por n parametros distinitos
+* cambiar la forma de ver las tasks cuando sos scrum master ( por status y... por que mas?), basicamente que te muestre nose el detalle por lista, o filtrado por priorizacion o por sprint --> Algo asi?
+
+//ESTE ME GUSTA MUCHO
+* Mostrar recursos disponibles de cada dev --> Lenguajes en los que desarrolla, cantidad de proyectos asignados
+        PERO, me sirve la idea de que cada DEV tenga un perfil que el scrum manager pueda ver.
+        Podria tener: 
+            * Cantidad de proyectos en los que trabajo
+            * Cantidad de proyectos en simultaneo
+            * Devs con los que mejor se relacionó
+            * Cantidad de story points logrados por proyecto o tareas terminadas por proyecto
+            * Lenguajes favoritos (3 o 4)
+
+//ESTE ME GUSTA ALGO
+* que puedas puntear con estrellas u otro tipo de medida el trabajo realizado con la persona en caso de haber trabajo en equipo xD, asi de esta manera te genera mayor o menor confianza de trabajar con la persona, que el puntaje se genere del promedio de muchos votos
+--> Esta me parece copadisima, tiene una banda que ver con la composicion del equipo, y estaria bueno que se pueda dar un rating a cada usuariio
+
+
+//ESTE ME GUSTA MUCHO
+* Notificaciones en real time --> Lama, tenemos diseño para esto?
+* Chat live --> Lama, tenemos diseño para esto? --> Calculo que persiste en todo el proyecto, independienntemennte a que pestaña vayas, claro.
+El inbox me gusta, pero me parece muy SLACK y onda... ya existe, tampoco se si quiero terminar con un messenger adentro de scrum.io
+
+* Notificaciones por mail --> Blacky, tenemos diseño para esto?
+
+//ESTE ME GUSTA UNA BANDDDDDDA
+* generar un componente de anuncios para mostrar cosas unicamente de importancia y que le avise a todos por medio notificacion ===> solo el scumMaster puede escribir aqui por si quedaron cosas pendientes del meeting o alguien se olvida --> Basicamente, un message board que te reciba onnda "hola chicos, tengo hemorroides asique no voy a tomar la reunion de las 5"
+
+//ESTE ME GUSTA MUCHO
+* Comparacion de actividad de dos devs --> en que quedamos con este? Me gustaria ver si podemos dejar la pestaña de statistics linda, porque hay cosas que hoy la hacen re explotar y villereadas que deje ahi, que la hacen RE poco escalable
+
+//ESTE ME GUSTA MUCHO
+* fotos con la cantidad de integrantes, si las clickeas que te muestre todos los miembros y arriba el scrumMaster del proyect --> CLARO, pero para mi, van en dos partes distintas.
+    En manager view --> Cambiemos el boton de "manage users" por los globitos con de usuarios
+    En la side var --> Agreguemos un boton que sea "Team composition" o algo asi que muestre recursos y estadisticas de cada dev
+            * poderte vincular con slack, drive o github desde config --> me va por el lado de traer estadisticas del usuario desde git
+
+//ESTA PODRIA SER, ALTO WORTH PURSUING LATER
+* poner una tarea como favorita asi no se pierden entre muchas tareas que tienen
+
+//ESTE ME GUSTA MUCHO
+* link de invitacion para que se una al proyecto automaticamente sin tener que invitarlo --> Anda a saber como carajo funcione
+
+//ESTA PODRIA SER, ALTO WORTH PURSUING LATER
+* la posibilidad de poder ponerle fondo a la overview tanto del scrumMaster como del developer, y que quede para siempre dependiendo del gusto de cada persona
+
+//ESTE ES ALTO PENDIENTE, como no vamos a poder cambiar titulo y descripcion?
+* input en el titulo para poder cambiar el nombre tanto de la tarea como del proyecto (solo scrumMaster, (va nose si tarea puede tambien el developer)) y un input para buscar de forma mas dinamicas las tareas (no parece tener sentido pero lo veo mucho en diferentes scrum)
+
+//eeee Podria ser
+* un signo de pregunta que al tocarlo te explique con un slider o algo como funciona la aplicacion o depende donde estes parado te explique como funciona el componente donde tas en el momento (a decidir) --> Corte el tour por la app no? onda, asi se crea un proyecto
+
+//ESTE ME GUSTA ALGO
+* la posibilidad de darle a la gente mas libertad a la hora de escribir una nota (cambios de fuente, negrita, subrayado, emojis, etc) --> Podriamos implementar algun motor de enriqueser texto, que me permita formatearlo como codigo por lo menos (Cambiar de fuente es cuestionable)
+
+//NOSE
+* si el dev no se encuentra comodo dentro del proyecto, que tire un feedback y pueda irse, que este feedback solo le llegue al scrumMaster
+
+//ESTA PUEDE SER
+condicion: tenemos que terminar todo el re-formateo de la manager view primero.
+* que en la busqueda del input te aparezca (@ : para buscar por nombre, #: para buscar por label) 
