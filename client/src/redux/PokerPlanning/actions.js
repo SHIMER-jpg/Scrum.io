@@ -1,7 +1,7 @@
 import axios from "axios";
 import CONSTANTS from "./constants.js";
 
-const { REACT_APP_BACKEND_HOST, REACT_APP_BACKEND_PORT } = process.env;
+const { REACT_APP_BACKEND_URL } = process.env;
 
 export function change(payload) {
   return {
@@ -14,7 +14,7 @@ export function changeTask(idTask, value, cb) {
   return function (dispatch) {
     axios
       .put(
-        `http://${REACT_APP_BACKEND_HOST}:${REACT_APP_BACKEND_PORT}/task/update`,
+        `${REACT_APP_BACKEND_URL}/task/update`,
         { taskId: idTask, field: "storyPoints", value }
       )
       .then((response) => {
