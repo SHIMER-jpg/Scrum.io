@@ -23,7 +23,7 @@ const getDateDiffs = (timestamp) => {
   }
 };
 
-export default function useTimeAgo(timestamp) {
+export default function useTimeAgo(timestamp, style = "long") {
   const [timeAgo, setTimeAgo] = useState(() => getDateDiffs(timestamp));
 
   useEffect(() => {
@@ -41,7 +41,7 @@ export default function useTimeAgo(timestamp) {
   const rtf = new Intl.RelativeTimeFormat("en", {
     // style short:  hace 11 min || hace  10 h
     // style long: hace 11 minutos || hace 10 horas
-    style: "long",
+    style: style,
   });
 
   const { value, unit } = timeAgo;
