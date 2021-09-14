@@ -80,6 +80,10 @@ io.on("connection", (socket) => {
           .map((u) => u.settedValue)
       );
 
+      if(valueSet.toString().includes(".")) {
+        valueSet = Number(valueSet).toFixed(1);
+      }
+
       room.totalValue = valueSet;
       room.minValue = minValue;
       room.maxValue = maxValue;
