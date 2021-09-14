@@ -30,7 +30,7 @@ const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const socket = io.connect(`${REACT_APP_BACKEND_URL}/`, {
+    const socket = io.connect(`${REACT_APP_BACKEND_URL}`, {
       transports: ["websocket"],
     });
 
