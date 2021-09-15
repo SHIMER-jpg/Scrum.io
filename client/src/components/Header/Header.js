@@ -8,7 +8,7 @@ import { IoMdNotificationsOutline } from "react-icons/io";
 import { useHistory } from "react-router-dom";
 
 import useTimeAgo from "../../hooks/useTimeAgo";
-import { markNotificationsAsReaded } from "../../redux/App/actions";
+import { markNotificationsAsReaded, markOneNotificationAsReaded } from "../../redux/App/actions";
 
 import styles from "./Header.module.css";
 
@@ -19,6 +19,7 @@ const mapTypeToText = {
 const Header = () => {
   const dispatch = useDispatch();
   const { logout } = useAuth0();
+  const history = useHistory();
   const user = useSelector((state) => state.app.loggedUser);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
@@ -35,6 +36,11 @@ const Header = () => {
     // notifications.forEach((n) => (n.readed = true));
     dispatch(markNotificationsAsReaded(user._id));
   };
+
+  const handleNotificationClick = (notificationId, projectId) => {
+    dispatch(markOneNotificationAsReaded(user._id, notificationId))
+    history.push(`/project/${projectId}`);
+  }
 
   return (
     <header className={styles.container}>
@@ -62,13 +68,13 @@ const Header = () => {
             <header>
               <p>Notifications</p>
               {notifications.length ? (
-                <p onClick={handleReadNotifications}>Mark as readed</p>
+                <p onClick={handleReadNotifications}>Mark all as readed</p>
               ) : null}
             </header>
             <main>
               {notifications.length ? (
                 notifications.map((notificacion) => (
-                  <Notification key={notificacion._id} {...notificacion} />
+                  <Notification handleNotificationClick={handleNotificationClick} key={notificacion._id} {...notificacion} />
                 ))
               ) : (
                 <div className={styles.noNotifications}>
@@ -107,23 +113,14 @@ const Header = () => {
   );
 };
 
-function Notification({ creationDate, type, projectId: project }) {
-  // const formattedDate = useTimeAgo(
-  //   Date.parse(`${new Date(creationDate)} GMT-0300`),
-  //   "short"
-  // );
-  const formattedDate = useTimeAgo(new Date(creationDate), "narrow");
-  const history = useHistory();
-
-  const handleNotificationClick = () => {
-    history.push(`/project/${project._id}`);
-  };
+function Notification({ _id, createdAt, type, projectId: project, handleNotificationClick }) {
+  const timeAgo = useTimeAgo(new Date(createdAt), "short");
 
   return (
-    <article onClick={handleNotificationClick} className={styles.notification}>
+    <article onClick={() => handleNotificationClick(_id, project._id)} className={styles.notification}>
       <div className={styles.notificationTitle}>
         <p>{project.projectName}</p>
-        <p>{formattedDate}</p>
+        <p>{timeAgo}</p>
       </div>
       <main className={styles.notificationBody}>
         <p>{mapTypeToText[type]}</p>

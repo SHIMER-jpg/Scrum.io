@@ -35,7 +35,7 @@ const createNotification = async (req, res, next) => {
   }
 };
 
-const readNotification = async (req, res, next) => {
+const readAllNotifications = async (req, res, next) => {
   const { userId } = req.params;
 
   try {
@@ -50,8 +50,25 @@ const readNotification = async (req, res, next) => {
   }
 };
 
+const readOneNotification = async (req, res, next) => {
+  const { userId, notificationId } = req.params;
+
+  try {
+    const editedNotifications = await Notification.model.updateMany(
+      { userId, _id: notificationId },
+      { readed: true }
+    );
+
+    res.status(200).json(editedNotifications);
+  } catch (e) {
+    next(e);
+  }
+};
+
+
 module.exports = {
   getNotificationsByUserId,
   createNotification,
-  readNotification
+  readAllNotifications,
+  readOneNotification
 };

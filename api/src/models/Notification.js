@@ -9,9 +9,8 @@ const notificationSchema = new mongoose.Schema({
   },
   content: { type: String, required: false },
   projectId: { type: Schema.Types.ObjectId, ref: "Project", required: true },
-  creationDate: { type: Date, default: Date.now() },
   readed: { type: Schema.Types.Boolean, default: false },
-});
+}, { timestamps: true });
 
 module.exports = {
   schema: notificationSchema,

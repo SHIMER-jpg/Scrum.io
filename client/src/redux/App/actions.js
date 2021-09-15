@@ -34,5 +34,16 @@ export const markNotificationsAsReaded = (userId) => {
   };
 };
 
+export const markOneNotificationAsReaded = (userId, notificationId) => {
+  console.log("marcando como leidas....")
+  return (dispatch) => {
+    axios
+      .put(`${REACT_APP_BACKEND_URL}/notification/user/${userId}/${notificationId}`)
+      .then(() => {
+        dispatch(getNotificationsByUser(userId));
+      });
+  };
+};
+
 
 export const setSocket = (socket) => ({ type: SET_SOCKET, payload: socket });

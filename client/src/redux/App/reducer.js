@@ -28,7 +28,7 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         notifications: action.payload.sort(
-          (a, b) => new Date(b.creationDate) - new Date(a.creationDate)
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
         ),
       };
     }

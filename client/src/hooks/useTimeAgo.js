@@ -37,7 +37,7 @@ export default function useTimeAgo(timestamp, style = "long") {
     }
   }, [timestamp]);
 
-  // Lucero: en vez de sar en-US también se puede usar `navigator.language` para que saque automaticamente el idioma del navegador.
+  // Lucero: en vez de usar `en` también se puede usar `navigator.language` para que saque automaticamente el idioma del navegador.
   const rtf = new Intl.RelativeTimeFormat("en", {
     // style short:  hace 11 min || hace  10 h
     // style long: hace 11 minutos || hace 10 horas
