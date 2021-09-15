@@ -1,5 +1,5 @@
 const Message = require("../models/Message");
-const Chat = require("../models/Chat");
+const Project = require("../models/Project");
 const mongoose = require("mongoose");
 
 const postMessage = async (req, res, next) => {
@@ -10,17 +10,30 @@ const postMessage = async (req, res, next) => {
       content: req.body.content,
     });
     await newMessage.save();
-    const chat = await Chat.model.findOne({
-      projectId: mongoose.Types.ObjectId(req.body.projectId),
+    const project = await Project.model.findOne({
+      _id: mongoose.Types.ObjectId(req.body.projectId),
     });
-    chat.messageIds.push(newMessage._id);
-    chat.save();
+    project.messageIds.push(newMessage._id);
+    project.save();
     res.status(201).json(newMessage);
   } catch (error) {
     next(error);
   }
 };
 
+const getMessages = async (req, res, next) => {
+  try{
+    const { projectId } = req.params;
+    const messages = await Message.model.find({
+      projectId: mongoose.Types.ObjectId(projectId)
+    })
+    res.status(200).json(messages);
+  } catch (error) {
+    next(error);
+  }
+}
+
 module.exports = {
   postMessage,
+  getMessages,
 };

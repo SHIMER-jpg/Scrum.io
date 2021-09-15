@@ -15,6 +15,7 @@ const projectSchema = new mongoose.Schema({
   status: { type: Number, min: 0, max: 100 },
   // tasks: [Task.schema], //quiza sacamos esto,
   taskIds: [{ type: Schema.Types.ObjectId, ref: "Task" }], //quiza sacamos esto,
+  messageIds: [{ type: Schema.Types.ObjectId, ref: "Message" }],
 });
 
 projectSchema.methods.asignUsersToNewProject = async (
