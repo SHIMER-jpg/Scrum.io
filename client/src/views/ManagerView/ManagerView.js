@@ -14,6 +14,10 @@ import TaskHolder from "../../components/TaskHolder/TaskHolder";
 import { FiUsers } from "react-icons/fi";
 import { FaFileCsv } from "react-icons/fa";
 
+import TasksCrud from "../../components/TasksCrud/TasksCrud";
+import { BsTable } from "react-icons/bs";
+import { HiViewBoards } from "react-icons/hi";
+
 import managerStyle from "./ManagerView.module.css";
 import CreateTaskModal from "../../components/CreateTaskModal/CreateTaskModal";
 import { useParams } from "react-router-dom";
@@ -29,6 +33,7 @@ export default function ManagerView() {
   const [modalAddPartner, setModalAddPartner] = useState(false);
   const [importModal, setImportModal] = useState(false);
   const [flag, setFlag] = useState(false);
+  const [tasksView, setTasksView] = useState("boardsView");
 
   const dispatch = useDispatch();
   const project = useSelector((state) => state.managerView.project);
@@ -36,6 +41,15 @@ export default function ManagerView() {
   const [isLoadingTasks, setIsLoadingTasks] = useState(true);
   const { socket, loggedUser } = useSelector((state) => state.app)
   const allUsers = useSelector((state) => state.home.users);
+
+  const switchTasksView = () => {
+    if(tasksView === "boardsView"){
+      setTasksView("crudView");
+    }
+    else{
+      setTasksView("boardsView");
+    }
+  }
 
   const handleSocketUpdate = useCallback(({ projectId: projectFromSocket }) => {
     console.table({"Project ID": projectId, "Project ID from socket": projectFromSocket})
@@ -109,6 +123,16 @@ export default function ManagerView() {
                 projectId={projectId}
               />
             )}
+            
+            <button
+              className="btn-primary"
+              onClick={() => switchTasksView()}
+            >
+              {tasksView === "boardsView"
+                ? <BsTable />
+                : <HiViewBoards />
+              }
+            </button>
 
             <button
               className="btn-primary"
@@ -122,43 +146,50 @@ export default function ManagerView() {
               onClick={() => setImportModal(true)}
             >
               <FaFileCsv size={18} />
-              Import from CSV
+              Import CSV
             </button>
 
             <button
               className="btn-primary"
               onClick={() => setIsModalOpen(true)}
             >
-              + Create Task
+              + New Task
             </button>
           </div>
         </header>
-        <div className={managerStyle.conteinerBody}>
-          {/* Pending Tasks */}
-          <TaskHolder
-            isLoading={isLoadingTasks}
-            status={"Pending"}
-            taskList={tasks.filter((task) => task.status === "Pending")}
-          />
-          {/* In progress Tasks */}
-          <TaskHolder
-            isLoading={isLoadingTasks}
-            status={"In progress"}
-            taskList={tasks.filter((task) => task.status === "In progress")}
-          />
-          {/* Testing Tasks */}
-          <TaskHolder
-            isLoading={isLoadingTasks}
-            status={"Testing"}
-            taskList={tasks.filter((task) => task.status === "Testing")}
-          />
-          {/* Completed Tasks */}
-          <TaskHolder
-            isLoading={isLoadingTasks}
-            status={"Completed"}
-            taskList={tasks.filter((task) => task.status === "Completed")}
-          />
-        </div>
+        {tasksView === "boardsView"
+          ? <div className={managerStyle.conteinerBody}>
+              {/* Pending Tasks */}
+              <TaskHolder
+                isLoading={isLoadingTasks}
+                status={"Pending"}
+                taskList={tasks.filter((task) => task.status === "Pending")}
+              />
+              {/* In progress Tasks */}
+              <TaskHolder
+                isLoading={isLoadingTasks}
+                status={"In progress"}
+                taskList={tasks.filter((task) => task.status === "In progress")}
+              />
+              {/* Testing Tasks */}
+              <TaskHolder
+                isLoading={isLoadingTasks}
+                status={"Testing"}
+                taskList={tasks.filter((task) => task.status === "Testing")}
+              />
+              {/* Completed Tasks */}
+              <TaskHolder
+                isLoading={isLoadingTasks}
+                status={"Completed"}
+                taskList={tasks.filter((task) => task.status === "Completed")}
+              />
+            </div>
+            
+          : <div className={managerStyle.conteinerBody}>
+              <TasksCrud />
+            </div>
+        }
+        
       </div>
     </>
   );
