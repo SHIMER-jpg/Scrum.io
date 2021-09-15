@@ -9,7 +9,7 @@ import io from "socket.io-client";
 import {
   setUser,
   setSocket,
-  getNotificationsByUser,
+  getUnreadNotificationsByUser,
 } from "./redux/App/actions.js";
 //components
 import PrivateRoute from "./components/HOCS/PrivateRoute";
@@ -20,8 +20,6 @@ import Statistics from "./components/Statistics/Statistics.js";
 import Home from "./views/Home/Home";
 import NotFound from "./views/NotFound/NotFound";
 import LandingPage from "./views/LandingPage/LandingPage";
-import DeveloperView from "./views/DeveloperView/DeveloperView";
-import ManagerView from "./views/ManagerView/ManagerView";
 import Layout from "./components/Layout/Layout.js";
 import PokerPlanning from "./views/PokerPlanning/PokerPlanning";
 import { Configuration } from "./views/Configuration/Configuration.js";
@@ -56,7 +54,7 @@ const App = () => {
           }
         );
         dispatch(setUser(data));
-        dispatch(getNotificationsByUser(data._id));
+        dispatch(getUnreadNotificationsByUser(data._id));
       })();
   }, [isAuthenticated]);
 

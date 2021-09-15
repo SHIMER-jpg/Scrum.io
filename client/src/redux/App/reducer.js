@@ -3,12 +3,14 @@ import {
   SET_SOCKET,
   GET_NOTIFICATIONS,
   READ_NOTIFICATIONS,
+  GET_ALL_NOTIFICATIONS
 } from "./constants.js";
 
 const initialState = {
   loggedUser: {},
   socket: {},
-  notifications: [],
+  notifications: [], // unread notifications
+  allNotifications: []
 };
 
 export default function reducer(state = initialState, action) {
@@ -40,6 +42,14 @@ export default function reducer(state = initialState, action) {
           return n;
         }),
       };
+    }
+    case GET_ALL_NOTIFICATIONS: {
+      return {
+        ...state,
+        allNotifications: action.payload.sort(
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+        ),
+      }
     }
     default:
       return state;

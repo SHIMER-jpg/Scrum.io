@@ -42,6 +42,10 @@ const Header = () => {
     history.push(`/project/${projectId}`);
   }
 
+  const handleFooterClick = () => {
+    history.push("/notifications")
+  }
+
   return (
     <header className={styles.container}>
       <section className={styles.header}>
@@ -83,7 +87,7 @@ const Header = () => {
                 </div>
               )}
             </main>
-            <footer className={styles.notificationsFooter}>
+            <footer onClick={handleFooterClick} className={styles.notificationsFooter}>
               <p>View all</p>
             </footer>
           </div>

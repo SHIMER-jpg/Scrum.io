@@ -1,13 +1,22 @@
-const mongoose = require("mongoose");
-
 const Notification = require("../models/Notification");
 
 const getNotificationsByUserId = async (req, res, next) => {
   const { userId } = req.params;
+  const { isReaded } = req.query;
+
+  const query = { userId }
+
+  console.log(req.query)
+
+  if(typeof(req.query.isReaded) !== "undefined" ) {
+    query.readed = isReaded === "false" ? false : true;
+  }
+
+  console.log("QUERY: ", query)
 
   try {
     const notifications = await Notification.model
-      .find({ userId, readed: false })
+      .find(query)
       .populate("projectId")
       .exec();
 
