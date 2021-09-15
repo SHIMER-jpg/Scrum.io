@@ -22,6 +22,7 @@ import Layout from "./components/Layout/Layout.js";
 import PokerPlanning from "./views/PokerPlanning/PokerPlanning";
 import { Configuration } from "./views/Configuration/Configuration.js";
 import JitsiMeet from "./views/JitsiMeet/JitsiMeet.js";
+import AdsContainer from "./views/AdsContainer/AdsContainer.js";
 
 const { REACT_APP_BACKEND_URL } = process.env;
 
@@ -96,6 +97,11 @@ const App = () => {
             path="/meeting/:projectId"
             exact
             component={JitsiMeet}
+          />
+          <PrivateRoute
+            path="/advertisements"
+            exact
+            component={AdsContainer}
           />
           <PrivateRoute path="/manager_view" exact component={ManagerView} />
           <PrivateRoute

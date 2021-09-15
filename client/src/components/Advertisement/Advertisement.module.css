@@ -1,0 +1,24 @@
+.adContainer{
+  margin: 30px;
+  margin-left: 60px;
+  padding: 10px;
+  width: 300px;
+  height: 300px;
+  font:20px;
+  line-height:1.5;
+  border:0;
+  border-radius:3px;
+  background: linear-gradient(#F9EFAF, #F7E98D);
+  box-shadow:0 4px 6px rgba(0,0,0,0.1);
+  overflow:hidden;
+  transition:box-shadow 0.5s ease;
+  border:1px solid rgba(0,0,0,0.1); 
+  cursor:pointer;
+  float: left;
+}
+
+.adContainer:hover {
+  transform: translateY(-8px);
+}
+
+

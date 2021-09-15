@@ -6,6 +6,7 @@ import { HiViewBoards } from "react-icons/hi";
 import { AiOutlineBarChart } from "react-icons/ai";
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
+import {BsFillExclamationCircleFill} from "react-icons/bs";
 
 import styles from "./Sidebar.module.css";
 import { SiGooglehangoutsmeet } from "react-icons/si";
@@ -27,6 +28,11 @@ const Sidebar = () => {
             <div className={styles.item}>
               <NavLink to={`/project/${projectId}`}>
                 <HiViewBoards size={23} /> Overview
+              </NavLink>
+            </div>
+            <div className={styles.item}>
+              <NavLink to="/advertisements">
+                <BsFillExclamationCircleFill size={23} /> Advertisements
               </NavLink>
             </div>
             <div className={styles.item}>
