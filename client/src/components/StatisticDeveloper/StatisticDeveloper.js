@@ -182,7 +182,7 @@ export default function StatisticDeveloper(props) {
 
         <div className={styles.body}>
           <div className={styles.graph}>
-          <Bar
+            <Bar
               className={styles.chart}
               data={{
                 labels: labels,
@@ -190,7 +190,7 @@ export default function StatisticDeveloper(props) {
                   {
                     type: "bar",
                     label: "Completed Tasks",
-                    yAxisID: 'Completed-Tasks',
+                    yAxisID: "Completed-Tasks",
                     borderColor: "#8eff7b",
                     borderWidth: 2,
                     backgroundColor: "#8eff7b",
@@ -199,7 +199,7 @@ export default function StatisticDeveloper(props) {
                   {
                     type: "line",
                     label: "Story Points",
-                    yAxisID: 'Story-Points',
+                    yAxisID: "Story-Points",
                     backgroundColor: "#7befff",
                     data: userData.storyPoints,
                     borderColor: "#7befff",
@@ -210,23 +210,26 @@ export default function StatisticDeveloper(props) {
               options={{
                 maintainAspectRatio: false,
                 scales: {
-                  'Completed-Tasks': {
-                    title:{
-                      display: true,
-                      text: 'Tasks',
+                  "Completed-Tasks": {
+                    grid: {
+                      display: false,
                     },
-                    type: 'linear',
-                    position: 'right'
-                  },
-                  'Story-Points': {
-                    title:{
+                    title: {
                       display: true,
-                      text: 'Story Points',
+                      text: "Tasks",
                     },
-                    type: 'linear',
-                    position: 'left'
+                    type: "linear",
+                    position: "right",
                   },
-                }
+                  "Story-Points": {
+                    title: {
+                      display: true,
+                      text: "Story Points",
+                    },
+                    type: "linear",
+                    position: "left",
+                  },
+                },
               }}
               height={100}
             />
