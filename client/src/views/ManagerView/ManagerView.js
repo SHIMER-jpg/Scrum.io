@@ -186,7 +186,7 @@ export default function ManagerView() {
             </div>
             
           : <div className={managerStyle.conteinerBody}>
-              <TasksCrud />
+              <TasksCrud tasksArray={tasks}/>
             </div>
         }
         
