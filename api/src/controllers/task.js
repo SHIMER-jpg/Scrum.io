@@ -60,8 +60,10 @@ const postTask = async (req, res, next) => {
       from: '"Scrum.io" <scrumio64@gmail.com>',
       to: user.email,
       subject: "Scrumio",
-      html: `<b>Greetings ${user.name}, through this email we inform you that your scrum master has assigned you a new task, please enter Scrum.io to view it.\n 
-      Nice day</b>`,
+      html: `<h2>Greetings ${user.name}</h2>
+      <h3>through this email we inform you that you have been assigned a new task, please enter Scrum.io to view it.</h3>
+      
+      <h3>Have a nice day</h3>`,
     });
 
     res.status(201).json(newTask);

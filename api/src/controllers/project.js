@@ -79,22 +79,10 @@ const createProject = async (req, res, next) => {
       from: '"Scrum.io" <scrumio64@gmail.com>',
       to: "cuellojuancruz11@gmail.com",
       subject: "Scrumio",
-      html: `<!DOCTYPE html>
-      <html lang="en">
-      <head>
-          <title>Document</title>
-      </head>
-      <body>
-        
-        <img src="https://cdn.discordapp.com/attachments/852616096586792990/887439418548420608/unknown.png" alt="Not Image">
+      html: `<h2>Greetings ${user.name}</h2>
+      <h3>through this email we inform you that you have been assigned a new project, please enter Scrum.io to view it.</h3>
       
-          <h3>Greetings ${user.name}<h3>
-          
-            <p>through this email we inform you that you have been assigned a new project, please enter Scrum.io to view it.\n
-            Have a nice day</p>
-      </body>
-      </html>`
-      ,
+      <h3>Have a nice day</h3>`,      
     });
 
     res.status(201).json(newProject);
