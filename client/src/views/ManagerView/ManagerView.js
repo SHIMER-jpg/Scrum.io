@@ -114,13 +114,27 @@ export default function ManagerView() {
                 projectId={projectId}
               />
             )}
-
-            <button
+            <div
+              onClick={() => setModalAddPartner(true)}
+              className={managerStyle.userBlobs}
+            >
+              {assignedUsers.map((user, index) => {
+                return index < 3 ? <img src={user.user.picture} /> : <></>;
+              })}
+              {assignedUsers.length > 2 ? (
+                <div className={managerStyle.more}>
+                  +{assignedUsers.length - 3}
+                </div>
+              ) : (
+                ""
+              )}
+            </div>
+            {/* <button
               className="btn-primary"
               onClick={() => setModalAddPartner(true)}
             >
               <FiUsers /> Manage users
-            </button>
+            </button> */}
 
             <button
               className="btn-primary"
