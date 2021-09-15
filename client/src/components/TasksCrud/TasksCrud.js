@@ -13,6 +13,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 
 // TableParts
 import SetupTableHead from './TableParts/SetupTableHead';
+import SetupTableCellInput from './TableParts/SetupTableCellInput';
 
 // componentes
 import TaskCardModal from "../TaskCardModal/TaskCardModal";
@@ -53,155 +54,160 @@ function descendingComparator(a, b, orderBy) {
 
 // este es el componente del CRUD que va a importar ManagerView
 export default function TasksCrud({ tasksArray, customHandleClick }){
-    const [order, setOrder] = useState('asc');
-    const [orderBy, setOrderBy] = useState('title');
-    const [selected, setSelected] = useState([]);
-    const [page, setPage] = useState(0);
-    const [tasksPerPage, setTasksPerPage] = useState(5);
+  const [order, setOrder] = useState('asc');
+  const [orderBy, setOrderBy] = useState('title');
+  const [selected, setSelected] = useState([]);
+  const [page, setPage] = useState(0);
+  const [tasksPerPage, setTasksPerPage] = useState(5);
 
-    // funciones y estados para el TaskCardModal
-    const [modalIsOpen, setIsModalOpen] = useState(false);
-    const [modalDetails, setModalDetails] = useState({});
+  // estados para mostrar el TaskCardModal
+  const [modalIsOpen, setIsModalOpen] = useState(false);
+  const [modalDetails, setModalDetails] = useState({});
+
+  // funcion para cambiar el orden de cierta propiedad
+  const handleRequestSort = (event, property) => {
+    const isAsc = orderBy === property && order === 'asc';
+    setOrder(isAsc ? 'desc' : 'asc');
+    setOrderBy(property);
+  };
   
-    // funcion para cambiar el orden de cierta propiedad
-    const handleRequestSort = (event, property) => {
-      const isAsc = orderBy === property && order === 'asc';
-      setOrder(isAsc ? 'desc' : 'asc');
-      setOrderBy(property);
-    };
-    
-    // funcion para seleccionar todas las tasks
-    const handleSelectAllClick = (event) => {
-      if (event.target.checked) {
-        const newSelecteds = tasksArray.map((n) => n._id);
-        setSelected(newSelecteds);
-        return;
-      }
-      setSelected([]);
-    };
-    
-    // funcion para tomar cada task seleccionada, se puede tener varias seleccionas a la vez
-    const handleClick = (event, id) => {
-      const selectedIndex = selected.indexOf(id);
-      let newSelected = [];
+  // funcion para seleccionar todas las tasks
+  const handleSelectAllClick = (event) => {
+    if (event.target.checked) {
+      const newSelecteds = tasksArray.map((n) => n._id);
+      setSelected(newSelecteds);
+      return;
+    }
+    setSelected([]);
+  };
   
-      if (selectedIndex === -1) {
-        newSelected = newSelected.concat(selected, id);
-      } else if (selectedIndex === 0) {
-        newSelected = newSelected.concat(selected.slice(1));
-      } else if (selectedIndex === selected.length - 1) {
-        newSelected = newSelected.concat(selected.slice(0, -1));
-      } else if (selectedIndex > 0) {
-        newSelected = newSelected.concat(
-          selected.slice(0, selectedIndex),
-          selected.slice(selectedIndex + 1),
-        );
-      }
+  // funcion para tomar cada task seleccionada, se puede tener varias seleccionas a la vez
+  const handleClick = (event, id) => {
+    const selectedIndex = selected.indexOf(id);
+    let newSelected = [];
+
+    if (selectedIndex === -1) {
+      newSelected = newSelected.concat(selected, id);
+    } else if (selectedIndex === 0) {
+      newSelected = newSelected.concat(selected.slice(1));
+    } else if (selectedIndex === selected.length - 1) {
+      newSelected = newSelected.concat(selected.slice(0, -1));
+    } else if (selectedIndex > 0) {
+      newSelected = newSelected.concat(
+        selected.slice(0, selectedIndex),
+        selected.slice(selectedIndex + 1),
+      );
+    }
+
+    setSelected(newSelected);
+  };
   
-      setSelected(newSelected);
-    };
-    
-    // funcion para cambiar de pagina
-    const handleChangePage = (event, newPage) => {
-      setPage(newPage);
-    };
-    
-    // funcion para cambiar cuantas tareas se deben mostrar por pagina
-    const handleChangeTasksPerPage = (event) => {
-      setTasksPerPage(parseInt(event.target.value, 10));
-      setPage(0);
-    };
-    
-    // comprueba si la tarea esta seleccionada
-    const isSelected = (id) => selected.indexOf(id) !== -1;
-    
-    return(
-        <div className={styles.container}>
-            <Paper className={styles.paper}>
-                <TableContainer>
-                <Table
-                    className={styles.table}
-                    aria-labelledby="tableTitle"
-                    aria-label="enhanced table"
+  // funcion para cambiar de pagina
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+  
+  // funcion para cambiar cuantas tareas se deben mostrar por pagina
+  const handleChangeTasksPerPage = (event) => {
+    setTasksPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+  
+  // comprueba si la tarea esta seleccionada
+  const isSelected = (id) => selected.indexOf(id) !== -1;
+  
+  return(
+    <div className={styles.container}>
+      <Paper className={styles.paper}>
+        <TableContainer>
+          <Table
+            className={styles.table}
+            aria-labelledby="tableTitle"
+            aria-label="enhanced table"
+          >
+            <SetupTableHead
+            styles={styles}
+            numSelected={selected.length}
+            order={order}
+            orderBy={orderBy}
+            onSelectAllClick={handleSelectAllClick}
+            onRequestSort={handleRequestSort}
+            rowCount={tasksArray.length}
+            />
+            <TableBody>
+            {stableSort(tasksArray, getComparator(order, orderBy))
+              .slice(page * tasksPerPage, page * tasksPerPage + tasksPerPage)
+              .map((task, index) => {
+              const isItemSelected = isSelected(task._id);
+              const labelId = `enhanced-table-checkbox-${index}`;
+
+              return (
+                <TableRow
+                hover
+                role="checkbox"
+                aria-checked={isItemSelected}
+                tabIndex={-1}
+                key={task._id}
+                selected={isItemSelected}
                 >
-                    <SetupTableHead
-                    styles={styles}
-                    numSelected={selected.length}
-                    order={order}
-                    orderBy={orderBy}
-                    onSelectAllClick={handleSelectAllClick}
-                    onRequestSort={handleRequestSort}
-                    rowCount={tasksArray.length}
-                    />
-                    <TableBody>
-                    {stableSort(tasksArray, getComparator(order, orderBy))
-                        .slice(page * tasksPerPage, page * tasksPerPage + tasksPerPage)
-                        .map((task, index) => {
-                        const isItemSelected = isSelected(task._id);
-                        const labelId = `enhanced-table-checkbox-${index}`;
+                <TableCell padding="checkbox">
+                  <Checkbox
+                  onClick={(event) => handleClick(event, task._id)}
+                  checked={isItemSelected}
+                  inputProps={{ 'aria-labelledby': labelId }}
+                  />
+                </TableCell>
+                <TableCell 
+                  component="th" 
+                  id={labelId} 
+                  scope="row" 
+                  padding="none"
+                  onClick={() => {
+                    if (customHandleClick) customHandleClick(task);
+                    else {
+                      setModalDetails(task);
+                      setIsModalOpen(true);
+                    }
+                  }}
+                >
+                    {task.title}
+                </TableCell>
+                <TableCell align="center">{task.storyPoints}</TableCell>
+                <SetupTableCellInput property={"priorization"} task={task} taskId={task._id}/>
+                <SetupTableCellInput property={"asignedTo"} task={task} taskId={task._id}/>
+                <SetupTableCellInput property={"status"} task={task} taskId={task._id}/>
+                <TableCell align="center">{new Date(task.creationDate).toLocaleDateString()}</TableCell>
+                <TableCell align="center">
+                  {task.completedDate && task.completedDate !== null
+                    ? new Date(task.completedDate).toLocaleDateString()
+                    : "---"
+                  }
+                </TableCell>
+                <SetupTableCellInput property={"helpNeeded"} task={task} taskId={task._id}/>
+                </TableRow>
+              );
+              })}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 25]}
+          component="div"
+          count={tasksArray.length}
+          rowsPerPage={tasksPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeTasksPerPage}
+        />
+      </Paper>
 
-                        return (
-                            <TableRow
-                            hover
-                            role="checkbox"
-                            aria-checked={isItemSelected}
-                            tabIndex={-1}
-                            key={task._id}
-                            selected={isItemSelected}
-                            >
-                            <TableCell padding="checkbox">
-                                <Checkbox
-                                onClick={(event) => handleClick(event, task._id)}
-                                checked={isItemSelected}
-                                inputProps={{ 'aria-labelledby': labelId }}
-                                />
-                            </TableCell>
-                            <TableCell 
-                              component="th" 
-                              id={labelId} 
-                              scope="row" 
-                              padding="none"
-                              onClick={() => {
-                                if (customHandleClick) customHandleClick(task);
-                                else {
-                                  setModalDetails(task);
-                                  setIsModalOpen(true);
-                                }
-                              }}
-                            >
-                                {task.title}
-                            </TableCell>
-                            <TableCell align="center">{task.storyPoints}</TableCell>
-                            <TableCell align="center">{task.priorization}</TableCell>
-                            <TableCell align="center">{task.asignedTo}</TableCell>
-                            <TableCell align="center">{task.status}</TableCell>
-                            <TableCell align="center">{task.creationDate}</TableCell>
-                            <TableCell align="center">{task.completedDate}</TableCell>
-                            <TableCell align="center">{task.helpNeeded}</TableCell>
-                            </TableRow>
-                        );
-                        })}
-                    </TableBody>
-                </Table>
-                </TableContainer>
-                <TablePagination
-                rowsPerPageOptions={[5, 10, 25]}
-                component="div"
-                count={tasksArray.length}
-                rowsPerPage={tasksPerPage}
-                page={page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeTasksPerPage}
-                />
-            </Paper>
-
-            {modalIsOpen && (
-              <TaskCardModal
-                isOpen={modalIsOpen}
-                setIsModalOpen={setIsModalOpen}
-                modalDetails={modalDetails}
-              />
-            )}
-        </div>
-    )
+        {modalIsOpen && (
+          <TaskCardModal
+            isOpen={modalIsOpen}
+            setIsModalOpen={setIsModalOpen}
+            modalDetails={modalDetails}
+          />
+        )}
+    </div>
+  )
 }
