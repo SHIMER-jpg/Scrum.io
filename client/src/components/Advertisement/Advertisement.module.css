@@ -1,9 +1,8 @@
 .adContainer{
-  margin: 30px;
-  margin-left: 60px;
+  margin: 10px;
   padding: 10px;
-  width: 300px;
-  height: 300px;
+  width: 350px;
+  height: 350px;
   font:20px;
   line-height:1.5;
   border:0;
@@ -16,9 +15,27 @@
   cursor:pointer;
   float: left;
 }
+.note{
+  line-height: 40px;
+}
 
 .adContainer:hover {
   transform: translateY(-8px);
+}
+
+.title{
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.date{
+  font-size: 19px;
+  font-weight: 600;
+}
+
+.description{
+  font-size: 18px;
+  font-weight: 500;
 }
 
 

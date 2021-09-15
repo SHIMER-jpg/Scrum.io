@@ -4,9 +4,11 @@ import styles from './Advertisement.module.css'
 export default function Advertisement({title, description, date}) {
   return (
         <div className={styles.adContainer}>
-          <h3 className={styles.title}>{title}</h3>
-          <h4>{date}</h4>
-          <h5>{description}</h5>
+          <div className={styles.note}>
+            <div className={styles.title}>{title}</div>
+            <div className={styles.date}>{date}</div>
+            <div className={styles.description}>{description}</div>
+          </div>
         </div>
   );
 }
