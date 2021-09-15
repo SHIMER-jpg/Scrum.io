@@ -1,4 +1,5 @@
 import { React, useState } from 'react';
+import { useDispatch } from "react-redux";
 import styles from './TasksCrud.module.css';
 
 // material-ui componentes para la tabla
@@ -11,6 +12,11 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
 
+// react-icons
+import { BsTrashFill } from 'react-icons/bs';
+// sweet-alert
+import Swal from "sweetalert2";
+
 // TableParts
 import SetupTableHead from './TableParts/SetupTableHead';
 import SetupTableCellInput from './TableParts/SetupTableCellInput';
@@ -18,6 +24,9 @@ import SetupTableCellInput from './TableParts/SetupTableCellInput';
 // componentes
 import TaskCardModal from "../TaskCardModal/TaskCardModal";
 
+
+// redux actions
+import { deleteTask } from "../../redux/ManagerView/actions";
 
 // nuevo SUPER ORDENADORINADOR 2.0
 // compara los elementos de forma que los ordene descendentemente (segun la propiedad por la que se esta ordenando)
@@ -115,6 +124,26 @@ export default function TasksCrud({ tasksArray, customHandleClick }){
   
   // comprueba si la tarea esta seleccionada
   const isSelected = (id) => selected.indexOf(id) !== -1;
+
+  // eliminar una tarea 
+  const dispatch = useDispatch();
+
+  const handleDelete = (_id) => {
+    Swal.fire({
+      title: "Are you sure you want to delete this task?",
+      text: "This action is not reversible.",
+      showDenyButton: true,
+      confirmButtonText: "Cancel",
+      denyButtonText: "Delete",
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isDenied) {
+        // si apreto en "BORRAR"
+        setIsModalOpen(false);
+        dispatch(deleteTask(_id));
+      }
+    });
+  };
   
   return(
     <div className={styles.container}>
@@ -184,6 +213,12 @@ export default function TasksCrud({ tasksArray, customHandleClick }){
                   }
                 </TableCell>
                 <SetupTableCellInput property={"helpNeeded"} task={task} taskId={task._id}/>
+                <TableCell align="center">
+                  <BsTrashFill 
+                    size={30}
+                    onClick={() => handleDelete(task._id)}
+                  />
+                </TableCell>
                 </TableRow>
               );
               })}
