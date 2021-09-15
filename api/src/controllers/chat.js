@@ -7,7 +7,8 @@ const getChatByProjectId = async (req, res, next) => {
     const { projectId } = req.params;
     const data = await Chat.model.findOne({
       projectId: mongoose.Types.ObjectId(projectId)
-    });
+    })
+    .populate('messageIds');
     res.status(200).json(data);
   } catch (error) {
     next(error);
