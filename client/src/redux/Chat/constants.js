@@ -1,0 +1,7 @@
+const GET_MESSAGES = "GET_MESSAGES";
+const CREATE_MESSAGES = "CREATE_MESSAGES";
+
+module.exports = {
+  GET_MESSAGES,
+  CREATE_MESSAGES,
+};
