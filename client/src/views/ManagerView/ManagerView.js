@@ -121,7 +121,7 @@ export default function ManagerView() {
               {assignedUsers.map((user, index) => {
                 return index < 3 ? <img src={user.user.picture} /> : <></>;
               })}
-              {assignedUsers.length > 2 ? (
+              {assignedUsers.length > 3 ? (
                 <div className={managerStyle.more}>
                   +{assignedUsers.length - 3}
                 </div>
