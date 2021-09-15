@@ -14,6 +14,9 @@ import Checkbox from '@material-ui/core/Checkbox';
 // TableParts
 import SetupTableHead from './TableParts/SetupTableHead';
 
+// componentes
+import TaskCardModal from "../TaskCardModal/TaskCardModal";
+
 
 // nuevo SUPER ORDENADORINADOR 2.0
 // compara los elementos de forma que los ordene descendentemente (segun la propiedad por la que se esta ordenando)
@@ -49,12 +52,16 @@ function descendingComparator(a, b, orderBy) {
   }
 
 // este es el componente del CRUD que va a importar ManagerView
-export default function TasksCrud({ tasksArray }){
+export default function TasksCrud({ tasksArray, customHandleClick }){
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState('title');
     const [selected, setSelected] = useState([]);
     const [page, setPage] = useState(0);
     const [tasksPerPage, setTasksPerPage] = useState(5);
+
+    // funciones y estados para el TaskCardModal
+    const [modalIsOpen, setIsModalOpen] = useState(false);
+    const [modalDetails, setModalDetails] = useState({});
   
     // funcion para cambiar el orden de cierta propiedad
     const handleRequestSort = (event, property) => {
@@ -129,36 +136,48 @@ export default function TasksCrud({ tasksArray }){
                     <TableBody>
                     {stableSort(tasksArray, getComparator(order, orderBy))
                         .slice(page * tasksPerPage, page * tasksPerPage + tasksPerPage)
-                        .map((row, index) => {
-                        const isItemSelected = isSelected(row._id);
+                        .map((task, index) => {
+                        const isItemSelected = isSelected(task._id);
                         const labelId = `enhanced-table-checkbox-${index}`;
 
                         return (
                             <TableRow
                             hover
-                            onClick={(event) => handleClick(event, row._id)}
                             role="checkbox"
                             aria-checked={isItemSelected}
                             tabIndex={-1}
-                            key={row._id}
+                            key={task._id}
                             selected={isItemSelected}
                             >
                             <TableCell padding="checkbox">
                                 <Checkbox
+                                onClick={(event) => handleClick(event, task._id)}
                                 checked={isItemSelected}
                                 inputProps={{ 'aria-labelledby': labelId }}
                                 />
                             </TableCell>
-                            <TableCell component="th" id={labelId} scope="row" padding="none">
-                                {row.title}
+                            <TableCell 
+                              component="th" 
+                              id={labelId} 
+                              scope="row" 
+                              padding="none"
+                              onClick={() => {
+                                if (customHandleClick) customHandleClick(task);
+                                else {
+                                  setModalDetails(task);
+                                  setIsModalOpen(true);
+                                }
+                              }}
+                            >
+                                {task.title}
                             </TableCell>
-                            <TableCell align="center">{row.storyPoints}</TableCell>
-                            <TableCell align="center">{row.priorization}</TableCell>
-                            <TableCell align="center">{row.asignedTo}</TableCell>
-                            <TableCell align="center">{row.status}</TableCell>
-                            <TableCell align="center">{row.creationDate}</TableCell>
-                            <TableCell align="center">{row.completedDate}</TableCell>
-                            <TableCell align="center">{row.helpNeeded}</TableCell>
+                            <TableCell align="center">{task.storyPoints}</TableCell>
+                            <TableCell align="center">{task.priorization}</TableCell>
+                            <TableCell align="center">{task.asignedTo}</TableCell>
+                            <TableCell align="center">{task.status}</TableCell>
+                            <TableCell align="center">{task.creationDate}</TableCell>
+                            <TableCell align="center">{task.completedDate}</TableCell>
+                            <TableCell align="center">{task.helpNeeded}</TableCell>
                             </TableRow>
                         );
                         })}
@@ -175,6 +194,14 @@ export default function TasksCrud({ tasksArray }){
                 onRowsPerPageChange={handleChangeTasksPerPage}
                 />
             </Paper>
+
+            {modalIsOpen && (
+              <TaskCardModal
+                isOpen={modalIsOpen}
+                setIsModalOpen={setIsModalOpen}
+                modalDetails={modalDetails}
+              />
+            )}
         </div>
     )
 }
