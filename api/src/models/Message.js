@@ -8,7 +8,7 @@ const messageSchema = new mongoose.Schema({
     required: true,
   },
   timeStamp: { type: Date, default: Date.now() },
-  chatId: { type: Schema.Types.ObjectId, ref: "Chat", required: true },
+  projectId: { type: Schema.Types.ObjectId, ref: "Project", required: true },
 });
 
 module.exports = {
