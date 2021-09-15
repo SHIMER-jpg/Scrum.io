@@ -10,7 +10,7 @@ import { setUser, setSocket } from "./redux/App/actions.js";
 //components
 import PrivateRoute from "./components/HOCS/PrivateRoute";
 import ViewRouter from "./components/ViewRouter/ViewRouter";
-import Statistics from "./components/Statistics/Statistics.js";
+import Statistics from "./views/Statistics/Statistics.js";
 
 // views
 import Home from "./views/Home/Home";
