@@ -6,12 +6,14 @@ import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
-import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
+
+// TableParts
+import SetupTableHead from './TableParts/SetupTableHead';
+
 
 // nuevo SUPER ORDENADORINADOR 2.0
 // compara los elementos de forma que los ordene descendentemente (segun la propiedad por la que se esta ordenando)
@@ -45,62 +47,6 @@ function descendingComparator(a, b, orderBy) {
     });
     return stabilizedThis.map((el) => el[0]);
   }
-
-// array con las celdas de la cabeza de la tabla, es decir son las columnas
-const headCells = [
-    { id: 'title', numeric: false, disablePadding: true, label: 'Title' },
-    { id: 'storypoints', numeric: false, disablePadding: true, label: 'Story Points' },
-    { id: 'priorization', numeric: false, disablePadding: true, label: 'Priorization' },
-    { id: 'assigned', numeric: false, disablePadding: true, label: 'Assigned to' },
-    { id: 'status', numeric: false, disablePadding: true, label: 'Status' },
-    { id: 'created', numeric: false, disablePadding: true, label: 'Created' },
-    { id: 'completed', numeric: false, disablePadding: true, label: 'Completed' },
-    { id: 'helpneeded', numeric: false, disablePadding: true, label: 'Help Needed' },
-];
-
-// este es el componente que sera la cabeza de la tabla (despues tengo que modularizarlo)
-const setupTableHead = ({ onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort }) => {
-    // esta funcion creara el sortHandler al que luego se le debera pasar la propiedad a ordenar para que la ordene con la cb que se le pasa al componente por props
-    const createSortHandler = (property) => (event) => {
-        onRequestSort(event, property);
-    }
-
-    return (
-        <TableHead>
-          <TableRow>
-            <TableCell padding="checkbox">
-              <Checkbox
-                indeterminate={numSelected > 0 && numSelected < rowCount}
-                checked={rowCount > 0 && numSelected === rowCount}
-                onChange={onSelectAllClick}
-                inputProps={{ 'aria-label': 'select all tasks' }}
-              />
-            </TableCell>
-            {headCells.map((headCell) => (
-              <TableCell
-                key={headCell.id}
-                align={headCell.numeric ? 'right' : 'left'}
-                padding={headCell.disablePadding ? 'none' : 'normal'}
-                sortDirection={orderBy === headCell.id ? order : false}
-              >
-                <TableSortLabel
-                  active={orderBy === headCell.id}
-                  direction={orderBy === headCell.id ? order : 'asc'}
-                  onClick={createSortHandler(headCell.id)}
-                >
-                  {headCell.label}
-                  {orderBy === headCell.id ? (
-                    <span className={styles.visuallyHidden}>
-                      {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                    </span>
-                  ) : null}
-                </TableSortLabel>
-              </TableCell>
-            ))}
-          </TableRow>
-        </TableHead>
-    );
-}
 
 // este es el componente del CRUD que va a importar ManagerView
 export default function TasksCrud({ tasksArray }){
@@ -170,7 +116,7 @@ export default function TasksCrud({ tasksArray }){
                     aria-labelledby="tableTitle"
                     aria-label="enhanced table"
                 >
-                    <setupTableHead
+                    <SetupTableHead
                     styles={styles}
                     numSelected={selected.length}
                     order={order}
