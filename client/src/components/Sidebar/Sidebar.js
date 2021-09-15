@@ -64,11 +64,13 @@ const Sidebar = () => {
           <BsGear size={23} /> Configuration
         </NavLink>
       </div>
+      {userRole && (
       <div className={styles.item}>
       <NavLink to="/calendary">
           <BsCalendar size={23} /> Calendary
         </NavLink>
       </div>
+      )}
     </nav>
   );
 };

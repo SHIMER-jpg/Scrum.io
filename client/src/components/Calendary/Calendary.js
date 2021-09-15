@@ -1,29 +1,31 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import FullCalendar from '@fullcalendar/react' // must go before plugins
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction';
-import styles from "./Calendary.module.css";
 import { useSelector } from 'react-redux';
+import Modal from "react-modal";
+import CalendaryModal from "../CalendaryModal/CalendaryModal";
 
 
 
-// Modal.setAppElement("#root");
+
+
 
 const Calendary = function(){
 
   const userRole = useSelector(({ viewRouter }) => viewRouter.userRole);
+  const [ModalOpen, setModalOpen] = useState(false)
 
 
   function handleDateClick(){
-    alert("hola")
+    console.log("abrir el modal")
+    setModalOpen(true)
   }
 
 
- 
-
   return(
-
       <div>
+        <CalendaryModal ModalOpen= {ModalOpen} setModalOpen= {setModalOpen} />
         <FullCalendar 
           plugins={[ dayGridPlugin, interactionPlugin  ]}
           initialView="dayGridMonth"
@@ -33,7 +35,6 @@ const Calendary = function(){
             center: 'title',
             right: 'next today',
           }}
-          // selectMirror={true}
           selectable={true}
           dateClick={handleDateClick}
         />
