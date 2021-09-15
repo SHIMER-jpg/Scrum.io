@@ -1,9 +1,11 @@
 const Advertisement = require("../models/Advertisement")
+const mongoose = require("mongoose");
 
 const getAllAdvsByProjectId = async (req, res, next) => {
     try{
         const {projectId} = req.params
-        const ads = Advertisement.model.find({})
+        const mongooseId = mongoose.Types.ObjectId(projectId);
+        const ads = await Advertisement.model.find({projectId: mongooseId})
         res.status(200).json(ads)
     }
     catch(e){
@@ -13,14 +15,14 @@ const getAllAdvsByProjectId = async (req, res, next) => {
 
 const createAdvertisement = async (req, res, next) => {
     try{
-        const {title, date, description} = req.body
-        const newAdvertisement = new Advertisement.model({
+        const {title, description, projectId} = req.body
+        const newAd = new Advertisement.model({
             title: title,
-            date: date,
-            description: description
+            description: description,
+            projectId: projectId
         })
-        await newAdvertisement.save()
-        res.send(200).json('advertisement succefully created')
+        await newAd.save()
+        res.status(200).json('new advertisement created')
     }
     catch(e){
         next(e)
@@ -29,5 +31,5 @@ const createAdvertisement = async (req, res, next) => {
 
 module.exports = {
     getAllAdvsByProjectId,
-    createAdvertisement
+    createAdvertisement,
 };

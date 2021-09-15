@@ -7,4 +7,6 @@ const {
 } = require("../controllers/advertisement.js");
 
 advertisement.get('/:projectId', getAllAdvsByProjectId)
-advertisement.post('/newAdvertisement', createAdvertisement)
+advertisement.post('/createAdvertisement', createAdvertisement)
+
+module.exports = advertisement;

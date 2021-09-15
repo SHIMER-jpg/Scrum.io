@@ -74,15 +74,6 @@ export default function CreateAdModal({isModalOpen, setIsModalOpen}){
           />
        </div>
        <div className={styles.modalFormGroup}>
-       <label>Date:</label>
-          <input
-          type= "text"
-          name= "date"
-          value={input.date}
-          onChange={(e)=>handleChange(e)} 
-          />
-       </div>
-       <div className={styles.modalFormGroup}>
         <label>Description:</label>
             <textarea
             type= "text"
