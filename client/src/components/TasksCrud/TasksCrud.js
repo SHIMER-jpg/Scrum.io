@@ -13,7 +13,7 @@ import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
 
-// nuevo ORDENADOR SUPREMO 2.0
+// nuevo SUPER ORDENADORINADOR 2.0
 // compara los elementos de forma que los ordene descendentemente (segun la propiedad por la que se esta ordenando)
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -189,11 +189,11 @@ export default function TasksCrud({ tasksArray }){
                         return (
                             <TableRow
                             hover
-                            onClick={(event) => handleClick(event, row.name)}
+                            onClick={(event) => handleClick(event, row.title)}
                             role="checkbox"
                             aria-checked={isItemSelected}
                             tabIndex={-1}
-                            key={row.name}
+                            key={row._id}
                             selected={isItemSelected}
                             >
                             <TableCell padding="checkbox">
@@ -203,12 +203,15 @@ export default function TasksCrud({ tasksArray }){
                                 />
                             </TableCell>
                             <TableCell component="th" id={labelId} scope="row" padding="none">
-                                {row.name}
+                                {row.title}
                             </TableCell>
-                            <TableCell align="right">{row.calories}</TableCell>
-                            <TableCell align="right">{row.fat}</TableCell>
-                            <TableCell align="right">{row.carbs}</TableCell>
-                            <TableCell align="right">{row.protein}</TableCell>
+                            <TableCell align="center">{row.storyPoints}</TableCell>
+                            <TableCell align="center">{row.priorization}</TableCell>
+                            <TableCell align="center">{row.asignedTo}</TableCell>
+                            <TableCell align="center">{row.status}</TableCell>
+                            <TableCell align="center">{row.creationDate}</TableCell>
+                            <TableCell align="center">{row.completedDate}</TableCell>
+                            <TableCell align="center">{row.helpNeeded}</TableCell>
                             </TableRow>
                         );
                         })}
@@ -216,7 +219,7 @@ export default function TasksCrud({ tasksArray }){
                 </Table>
                 </TableContainer>
                 <TablePagination
-                tasksArrayPerPageOptions={[5, 10, 25]}
+                rowsPerPageOptions={[5, 10, 25]}
                 component="div"
                 count={tasksArray.length}
                 tasksArrayPerPage={tasksPerPage}
