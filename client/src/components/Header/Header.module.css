@@ -39,7 +39,7 @@
   transition: all 0.15s ease-in-out;
 }
 
-.notificationsButton::after {
+.notificationsCount::after {
   content: "";
   position: absolute;
   width: 18px;
@@ -55,11 +55,26 @@
   background-color: rgba(161, 36, 101, 0.2);
 }
 
+.noNotifications {
+  padding: 15px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.noNotifications p {
+  margin: 0;
+  font-weight: 500;
+}
+
 .notificationsDropdown {
   position: absolute;
   top: 180%;
-  left: calc(50% - 136px);
-  width: 280px;
+  left: calc(50% - 170px);
+  width: 350px;
   height: auto;
   visibility: hidden;
   opacity: 0;
@@ -92,25 +107,37 @@
 .notificationsDropdown header {
   padding: 12px 15px 10px;
   border-bottom: 1px solid rgb(218, 218, 218);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.notificationsDropdown header p {
+.notificationsDropdown header p:nth-child(1) {
   margin: 0;
   font-weight: 600;
   font-size: 20px;
 }
 
+.notificationsDropdown header p:nth-child(2) {
+  margin: 0;
+  font-weight: 600;
+  color: gray;
+  cursor: pointer;
+  font-size: 12px;
+}
+
 .notification {
   padding: 10px 15px;
   transition: all .15s ease-in-out;
+  cursor: pointer;
 }
 
 .notification:hover {
-  background-color: rgba(161, 36, 101, 0.13);
-  cursor: pointer
+  background-color: rgba(161, 36, 101, 0.1);
 }
 
-.notification {
+
+.notification:not(:last-child) {
   border-bottom: 1px solid rgb(218, 218, 218);
 }
 
@@ -125,10 +152,15 @@
   font-size: 17px;
   font-weight: 600;
   color: var(--violet);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .notificationTitle p:nth-child(2) {
-  margin: 0;
+  margin: 0 0 0 5px;
+  width: auto;
+  white-space: nowrap;
   font-size: 13px;
   font: 500;
   color: rgb(165, 165, 165);
@@ -142,6 +174,7 @@
 .notificationsFooter {
   padding: 10px 0;
   cursor: pointer;
+  border-top: 1px solid rgb(218, 218, 218);
   text-align: center;
 }
 

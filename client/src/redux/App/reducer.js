@@ -1,8 +1,14 @@
-import { SET_USER, SET_SOCKET } from "./constants.js";
+import {
+  SET_USER,
+  SET_SOCKET,
+  GET_NOTIFICATIONS,
+  READ_NOTIFICATIONS,
+} from "./constants.js";
 
 const initialState = {
   loggedUser: {},
   socket: {},
+  notifications: [],
 };
 
 export default function reducer(state = initialState, action) {
@@ -18,6 +24,23 @@ export default function reducer(state = initialState, action) {
         ...state,
         socket: action.payload,
       };
+    case GET_NOTIFICATIONS: {
+      return {
+        ...state,
+        notifications: action.payload.sort(
+          (a, b) => new Date(b.creationDate) - new Date(a.creationDate)
+        ),
+      };
+    }
+    case READ_NOTIFICATIONS: {
+      return {
+        ...state,
+        notifications: state.notifications.map((n) => {
+          n.readed = true;
+          return n;
+        }),
+      };
+    }
     default:
       return state;
   }

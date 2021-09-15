@@ -2,46 +2,39 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import { FiChevronDown } from "react-icons/fi";
-import { useSelector } from "react-redux";
+import { ImFileEmpty } from "react-icons/im";
+import { useSelector, useDispatch } from "react-redux";
 import { IoMdNotificationsOutline } from "react-icons/io";
+import { useHistory } from "react-router-dom";
 
 import useTimeAgo from "../../hooks/useTimeAgo";
+import { markNotificationsAsReaded } from "../../redux/App/actions";
 
 import styles from "./Header.module.css";
-
-const NOTIFICACIONES_MOCK = [
-  {
-    _id: 1,
-    title: "Proyecto grupal",
-    type: "assignedTask",
-    timeStamp: 1631645608569,
-  },
-  {
-    _id: 2,
-    title: "Poker planning",
-    type: "assignedTask",
-    timeStamp: 1631645414469,
-  },
-  {
-    _id: 3,
-    title: "CSV + Data",
-    type: "assignedTask",
-    timeStamp: 1631632111469,
-  },
-];
 
 const mapTypeToText = {
   assignedTask: "You have a new task assigned",
 };
 
 const Header = () => {
-  const { user = {}, logout } = useAuth0();
+  const dispatch = useDispatch();
+  const { logout } = useAuth0();
+  const user = useSelector((state) => state.app.loggedUser);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+
+  const notifications = useSelector(({ app }) => app.notifications);
+  const unreadNotifications = notifications.filter((n) => !n.readed);
 
   const userRole = formatUserRole(
     useSelector((state) => state.viewRouter.userRole)
   );
+
+  const handleReadNotifications = () => {
+    // dispatch al backend
+    // notifications.forEach((n) => (n.readed = true));
+    dispatch(markNotificationsAsReaded(user._id));
+  };
 
   return (
     <header className={styles.container}>
@@ -57,7 +50,7 @@ const Header = () => {
             onClick={() => setIsNotificationsOpen(!isNotificationsOpen)}
             className={`${styles.notificationsButton} ${
               isNotificationsOpen && styles.notificationsActive
-            }`}
+            } ${unreadNotifications.length && styles.notificationsCount}`}
           >
             <IoMdNotificationsOutline size={24} strokeWidth={8} />
           </button>
@@ -68,11 +61,21 @@ const Header = () => {
           >
             <header>
               <p>Notifications</p>
+              {notifications.length ? (
+                <p onClick={handleReadNotifications}>Mark as readed</p>
+              ) : null}
             </header>
             <main>
-              {NOTIFICACIONES_MOCK.map((notificacion) => (
-                <Notification key={notificacion._id} {...notificacion} />
-              ))}
+              {notifications.length ? (
+                notifications.map((notificacion) => (
+                  <Notification key={notificacion._id} {...notificacion} />
+                ))
+              ) : (
+                <div className={styles.noNotifications}>
+                  <ImFileEmpty size={24} />
+                  <p>Nothing to see here yet...</p>
+                </div>
+              )}
             </main>
             <footer className={styles.notificationsFooter}>
               <p>View all</p>
@@ -104,13 +107,22 @@ const Header = () => {
   );
 };
 
-function Notification({ title, timeStamp, type }) {
-  const formattedDate = useTimeAgo(new Date(timeStamp), "short");
+function Notification({ creationDate, type, projectId: project }) {
+  // const formattedDate = useTimeAgo(
+  //   Date.parse(`${new Date(creationDate)} GMT-0300`),
+  //   "short"
+  // );
+  const formattedDate = useTimeAgo(new Date(creationDate), "narrow");
+  const history = useHistory();
+
+  const handleNotificationClick = () => {
+    history.push(`/project/${project._id}`);
+  };
 
   return (
-    <article className={styles.notification}>
+    <article onClick={handleNotificationClick} className={styles.notification}>
       <div className={styles.notificationTitle}>
-        <p>{title}</p>
+        <p>{project.projectName}</p>
         <p>{formattedDate}</p>
       </div>
       <main className={styles.notificationBody}>

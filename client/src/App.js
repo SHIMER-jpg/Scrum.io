@@ -6,7 +6,7 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import io from "socket.io-client";
 
-import { setUser, setSocket } from "./redux/App/actions.js";
+import { setUser, setSocket, getNotificationsByUser } from "./redux/App/actions.js";
 //components
 import PrivateRoute from "./components/HOCS/PrivateRoute";
 import ViewRouter from "./components/ViewRouter/ViewRouter";
@@ -51,6 +51,7 @@ const App = () => {
           }
         );
         dispatch(setUser(data));
+        dispatch(getNotificationsByUser(data._id));
       })();
   }, [isAuthenticated]);
 
