@@ -11,16 +11,16 @@ import Checkbox from '@material-ui/core/Checkbox';
 // array con las celdas de la cabeza de la tabla, es decir son las columnas
 const headCells = [
     { id: 'title', numeric: false, disablePadding: true, label: 'Title' },
-    { id: 'storypoints', numeric: false, disablePadding: true, label: 'Story Points' },
+    { id: 'storyPoints', numeric: true, disablePadding: true, label: 'Story Points' },
     { id: 'priorization', numeric: false, disablePadding: true, label: 'Priorization' },
-    { id: 'assigned', numeric: false, disablePadding: true, label: 'Assigned to' },
+    { id: 'asignedTo', numeric: false, disablePadding: true, label: 'Assigned to' },
     { id: 'status', numeric: false, disablePadding: true, label: 'Status' },
-    { id: 'created', numeric: false, disablePadding: true, label: 'Created' },
-    { id: 'completed', numeric: false, disablePadding: true, label: 'Completed' },
-    { id: 'helpneeded', numeric: false, disablePadding: true, label: 'Help Needed' },
+    { id: 'creationDate', numeric: true, disablePadding: true, label: 'Created' },
+    { id: 'completedDate', numeric: true, disablePadding: true, label: 'Completed' },
+    { id: 'helpNeeded', numeric: false, disablePadding: true, label: 'Help Needed' },
 ];
 
-// este es el componente que sera la cabeza de la tabla (despues tengo que modularizarlo)
+// este es el componente que sera la cabeza de la tabla
 export default function SetupTableHead({ onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort }){
     // esta funcion creara el sortHandler al que luego se le debera pasar la propiedad a ordenar para que la ordene con la cb que se le pasa al componente por props
     const createSortHandler = (property) => (event) => {
@@ -41,7 +41,7 @@ export default function SetupTableHead({ onSelectAllClick, order, orderBy, numSe
             {headCells.map((headCell) => (
               <TableCell
                 key={headCell.id}
-                align={headCell.numeric ? 'right' : 'left'}
+                align={'center'}
                 padding={headCell.disablePadding ? 'none' : 'normal'}
                 sortDirection={orderBy === headCell.id ? order : false}
               >

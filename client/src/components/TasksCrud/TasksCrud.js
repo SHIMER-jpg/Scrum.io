@@ -66,7 +66,7 @@ export default function TasksCrud({ tasksArray }){
     // funcion para seleccionar todas las tasks
     const handleSelectAllClick = (event) => {
       if (event.target.checked) {
-        const newSelecteds = tasksArray.map((n) => n.name);
+        const newSelecteds = tasksArray.map((n) => n._id);
         setSelected(newSelecteds);
         return;
       }
@@ -74,12 +74,12 @@ export default function TasksCrud({ tasksArray }){
     };
     
     // funcion para tomar cada task seleccionada, se puede tener varias seleccionas a la vez
-    const handleClick = (event, name) => {
-      const selectedIndex = selected.indexOf(name);
+    const handleClick = (event, id) => {
+      const selectedIndex = selected.indexOf(id);
       let newSelected = [];
   
       if (selectedIndex === -1) {
-        newSelected = newSelected.concat(selected, name);
+        newSelected = newSelected.concat(selected, id);
       } else if (selectedIndex === 0) {
         newSelected = newSelected.concat(selected.slice(1));
       } else if (selectedIndex === selected.length - 1) {
@@ -104,8 +104,9 @@ export default function TasksCrud({ tasksArray }){
       setTasksPerPage(parseInt(event.target.value, 10));
       setPage(0);
     };
-  
-    const isSelected = (name) => selected.indexOf(name) !== -1;
+    
+    // comprueba si la tarea esta seleccionada
+    const isSelected = (id) => selected.indexOf(id) !== -1;
     
     return(
         <div className={styles.container}>
@@ -129,13 +130,13 @@ export default function TasksCrud({ tasksArray }){
                     {stableSort(tasksArray, getComparator(order, orderBy))
                         .slice(page * tasksPerPage, page * tasksPerPage + tasksPerPage)
                         .map((row, index) => {
-                        const isItemSelected = isSelected(row.name);
+                        const isItemSelected = isSelected(row._id);
                         const labelId = `enhanced-table-checkbox-${index}`;
 
                         return (
                             <TableRow
                             hover
-                            onClick={(event) => handleClick(event, row.title)}
+                            onClick={(event) => handleClick(event, row._id)}
                             role="checkbox"
                             aria-checked={isItemSelected}
                             tabIndex={-1}
@@ -168,7 +169,7 @@ export default function TasksCrud({ tasksArray }){
                 rowsPerPageOptions={[5, 10, 25]}
                 component="div"
                 count={tasksArray.length}
-                tasksArrayPerPage={tasksPerPage}
+                rowsPerPage={tasksPerPage}
                 page={page}
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeTasksPerPage}
