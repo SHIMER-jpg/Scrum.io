@@ -1,7 +1,7 @@
 import { RiHomeLine } from "react-icons/ri";
 import { BsGear } from "react-icons/bs";
 import { FaTasks } from "react-icons/fa";
-import { CgCardDiamonds } from "react-icons/cg";
+import { CgCardDiamonds, CgProfile } from "react-icons/cg";
 import { HiViewBoards } from "react-icons/hi";
 import { AiOutlineBarChart } from "react-icons/ai";
 import { IoMdNotificationsOutline } from "react-icons/io";
@@ -61,6 +61,11 @@ const Sidebar = () => {
       <div className={styles.item}>
         <NavLink to="/notifications">
           <IoMdNotificationsOutline size={25} /> Notifications
+        </NavLink>
+      </div>
+      <div className={styles.item}>
+        <NavLink to="/myProfile">
+          <CgProfile size={23} /> My Profile
         </NavLink>
       </div>
       <div className={styles.item}>

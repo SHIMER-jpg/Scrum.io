@@ -5,7 +5,8 @@ import {
   SET_SOCKET,
   GET_NOTIFICATIONS,
   READ_NOTIFICATIONS,
-  GET_ALL_NOTIFICATIONS
+  GET_ALL_NOTIFICATIONS,
+  GET_USER_INFO
 } from "./constants";
 
 const { REACT_APP_BACKEND_URL } = process.env;
@@ -22,8 +23,17 @@ export const getUnreadNotificationsByUser = (userId) => {
     axios
       .get(`${REACT_APP_BACKEND_URL}/notification/user/${userId}?isReaded=false`,)
       .then(({ data }) => {
-        console.log({ data });
         dispatch({ type: GET_NOTIFICATIONS, payload: data });
+      });
+  };
+};
+
+export const getUserInfo = (userId) => {
+  return (dispatch) => {
+    axios
+      .get(`${REACT_APP_BACKEND_URL}/user/userInfo/${userId}`)
+      .then(({ data }) => {
+        dispatch({ type: GET_USER_INFO, payload: data });
       });
   };
 };
