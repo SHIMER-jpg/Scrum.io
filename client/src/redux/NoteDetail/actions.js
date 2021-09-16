@@ -4,6 +4,8 @@ import {
   CLEAR_NOTES,
   CREATE_NOTE,
   REMOVE_NOTE,
+  GET_ADVERTISEMENTS,
+  CREATE_ADVERTISEMENT,
 } from "./constants";
 require("dotenv").config();
 const { REACT_APP_BACKEND_URL } = process.env;
@@ -48,4 +50,39 @@ export function removeNote(noteId) {
 
 export function clearNotes() {
   return { type: CLEAR_NOTES };
+}
+
+//------------- ADVERTISEMENTS -----------------------------------------------
+
+export function getAdvertisementsByProjectId(projectId) {
+  console.log('entro a la action', projectId)
+  return function (dispatch) {
+    axios
+      .get(
+        `${REACT_APP_BACKEND_URL}/advertisement/${projectId}`
+      )
+      .then((json) => {
+        console.log(json.data)
+        dispatch({ type: GET_ADVERTISEMENTS, payload: json.data });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+}
+
+export function createAdvertisement(newAdvertisement) {
+  return function (dispatch) {
+    axios
+      .post(
+        `${REACT_APP_BACKEND_URL}/advertisement/createAdvertisement`,
+        newAdvertisement
+      )
+      .then((json) => {
+        dispatch({ type: CREATE_ADVERTISEMENT, payload: json.data });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 }

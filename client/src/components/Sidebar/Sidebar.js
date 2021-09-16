@@ -31,7 +31,7 @@ const Sidebar = () => {
               </NavLink>
             </div>
             <div className={styles.item}>
-              <NavLink to="/advertisements">
+              <NavLink to={`/advertisements/${projectId}`}>
                 <BsFillExclamationCircleFill size={23} /> Advertisements
               </NavLink>
             </div>

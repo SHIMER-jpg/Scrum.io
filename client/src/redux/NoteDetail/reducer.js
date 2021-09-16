@@ -3,13 +3,17 @@ import {
   CLEAR_NOTES,
   CREATE_NOTE,
   REMOVE_NOTE,
+  GET_ADVERTISEMENTS,
+  CREATE_ADVERTISEMENT
 } from "./constants";
 
 const initialState = {
   notes: [],
+  advertisements: []
 };
 
 const NotesReducer = (state = initialState, action) => {
+  console.log('reduce')
   switch (action.type) {
     case GET_NOTES_DETAILS:
       return {
@@ -30,6 +34,18 @@ const NotesReducer = (state = initialState, action) => {
       return {
         ...state,
         notes: [...state.notes.filter((note) => note._id !== action.payload)],
+      };
+    //------------------- ADVERTISEMENTS ------------------------------------  
+      case GET_ADVERTISEMENTS:
+        console.log('entro al reducer')
+      return {
+        ...state,
+        advertisements: action.payload,
+      };
+    case CREATE_ADVERTISEMENT:
+      return {
+        ...state,
+        advertisements: [...state.advertisements, action.payload],
       };
     default:
       return state;

@@ -2,6 +2,7 @@ import Modal from "react-modal";
 import { IoClose } from "react-icons/io5";
 import React, { useState } from "react";
 import { useDispatch} from "react-redux";
+import { createAdvertisement } from '../../redux/NoteDetail/actions'
 
 import styles from "./CreateAdModal.module.css";
 
@@ -22,15 +23,16 @@ const customStyles = {
   },
 };
 
-export default function CreateAdModal({isModalOpen, setIsModalOpen}){
+export default function CreateAdModal(props){
 
   const dispatch = useDispatch();
 
   const [input, setInput] = useState({
     title: ' ',
-    date: ' ',
-    description: ' '
+    description: ' ',
+    projectId: props.projectId
   })
+  console.log(input)
 
   function handleChange(e){
    setInput({
@@ -41,10 +43,9 @@ export default function CreateAdModal({isModalOpen, setIsModalOpen}){
 
   function handleSubmit(e){
     e.preventDefault();
-    //dispatch(createAdvertisement(input))
+    dispatch(createAdvertisement(input))
     setInput({
       title: ' ',
-      date: ' ',
       description: ' '
   })
 }
@@ -52,13 +53,13 @@ export default function CreateAdModal({isModalOpen, setIsModalOpen}){
   return (
     <Modal
       style={customStyles}
-      isOpen={isModalOpen}
-      onRequestClose={() => setIsModalOpen(false)}
+      isOpen={props.isModalOpen}
+      onRequestClose={() => props.setIsModalOpen(false)}
     >
 
     <header className={styles.modalHeader}>
       <h2>Create Advertisement</h2>
-      <button onClick={() => setIsModalOpen(false)}>
+      <button onClick={() => props.setIsModalOpen(false)}>
           <IoClose size={30} />
       </button>
     </header>

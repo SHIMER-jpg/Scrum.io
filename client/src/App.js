@@ -99,7 +99,7 @@ const App = () => {
             component={JitsiMeet}
           />
           <PrivateRoute
-            path="/advertisements"
+            path="/advertisements/:projectId"
             exact
             component={AdsContainer}
           />
