@@ -55,14 +55,12 @@ export function clearNotes() {
 //------------- ADVERTISEMENTS -----------------------------------------------
 
 export function getAdvertisementsByProjectId(projectId) {
-  console.log('entro a la action', projectId)
   return function (dispatch) {
     axios
       .get(
         `${REACT_APP_BACKEND_URL}/advertisement/${projectId}`
       )
       .then((json) => {
-        console.log(json.data)
         dispatch({ type: GET_ADVERTISEMENTS, payload: json.data });
       })
       .catch((err) => {

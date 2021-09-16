@@ -22,7 +22,7 @@ const createAdvertisement = async (req, res, next) => {
             projectId: projectId
         })
         await newAd.save()
-        res.status(200).json('new advertisement created')
+        res.status(200).json(newAd)
     }
     catch(e){
         next(e)

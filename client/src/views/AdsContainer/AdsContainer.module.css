@@ -15,3 +15,10 @@
   border-bottom: 1px solid rgb(179, 179, 179);
   padding-bottom: 20px;
 }
+
+.noAds{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

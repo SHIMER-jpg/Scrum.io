@@ -36,8 +36,7 @@ const NotesReducer = (state = initialState, action) => {
         notes: [...state.notes.filter((note) => note._id !== action.payload)],
       };
     //------------------- ADVERTISEMENTS ------------------------------------  
-      case GET_ADVERTISEMENTS:
-        console.log('entro al reducer')
+    case GET_ADVERTISEMENTS:
       return {
         ...state,
         advertisements: action.payload,

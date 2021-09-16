@@ -1,7 +1,7 @@
 import Modal from "react-modal";
 import { IoClose } from "react-icons/io5";
 import React, { useState } from "react";
-import { useDispatch} from "react-redux";
+import { useDispatch, useSelector} from "react-redux";
 import { createAdvertisement } from '../../redux/NoteDetail/actions'
 
 import styles from "./CreateAdModal.module.css";
@@ -44,10 +44,12 @@ export default function CreateAdModal(props){
   function handleSubmit(e){
     e.preventDefault();
     dispatch(createAdvertisement(input))
+    props.setIsModalOpen(false)
     setInput({
       title: ' ',
       description: ' '
-  })
+    })
+
 }
 
   return (
