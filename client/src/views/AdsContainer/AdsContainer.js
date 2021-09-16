@@ -55,7 +55,7 @@ export default function AdsContainer (props){
                         date={ad.date.substring(0,10)}
                     />
                 )): <div className={styles.noAds}>
-                    <h1>There's no advertisement</h1>
+                    <h1>There's no advertisements</h1>
                     {userRole === "scrumMaster" ? (<h1>create a new one!</h1>) : null}
                     </div>
                 }

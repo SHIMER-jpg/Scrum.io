@@ -13,7 +13,6 @@ const initialState = {
 };
 
 const NotesReducer = (state = initialState, action) => {
-  console.log('reduce')
   switch (action.type) {
     case GET_NOTES_DETAILS:
       return {
