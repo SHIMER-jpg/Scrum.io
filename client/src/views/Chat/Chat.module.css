@@ -1,20 +1,29 @@
 .chat {
   background-color: #fefefe;
-  box-shadow: 0 0 5px 2px #0505057e;
-  overflow-y: scroll;
-  height: 45%;
+  box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.3);
+  height: 55%;
   position: fixed;
-  top: 53%;
+  top: 43%;
   z-index: 100000;
-  width: 25%;
-  right: 100px;
+  width: 23%;
+  right: 120px;
+  border-radius: 8px;
+  border-top-right-radius: 6px;
+  border-top-left-radius: 6px;
 }
 
 .container {
   position: relative;
   width: 100%;
-  height: 100%;
-  padding: 30px;
+  top: 14%;
+  height: 78%;
+  padding: 8px;
+  overflow-y: scroll;
+}
+.container .message {
+  width: 100%;
+  margin: 8px;
+  transition: 0.2s all ease;
 }
 
 .user {
@@ -24,20 +33,94 @@
   gap: 8px;
 }
 
+.user .text {
+  display: flex;
+  flex-direction: column;
+}
+
+.user .text p {
+  margin: 3px;
+}
+
+.user .text .content {
+  background-color: rgba(161, 36, 100, 0.3);
+  border-radius: 0 6px 6px 6px;
+  padding: 4px 16px;
+  font-weight: 500;
+}
+
+.text .info {
+  display: flex;
+  justify-content: space-between;
+}
+
+.text .info .name {
+  font-weight: 600;
+  color: #a12464;
+}
+
+.info .time {
+  color: #929292;
+}
+
 .user img {
-  height: 30px;
-  width: 30px;
+  height: 32px;
+  width: 32px;
   border-radius: 30px;
+  margin: 6px;
+  align-self: flex-start;
 }
 
-.message {
-  width: 100%;
-  background-color: blue;
-}
-
-.tiping {
-  width: 100%;
+.typing {
+  width: 23%;
+  height: 7%;
   position: fixed;
-  bottom: 30px;
-  background: #b9b9b9;
+  bottom: 10px;
+  background-color: #b9b9b9;
+  background-color: pink;
+  box-shadow: 0 -1px 0 0 rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0 10px;
+}
+
+.typing input {
+  height: 100%;
+  width: 80%;
+  background-color: white;
+}
+
+.typing button {
+  width: 20%;
+  outline: none;
+  border: none;
+  right: 5%;
+  background-color: red;
+}
+
+.chat .header {
+  background-color: #fefefe;
+  position: fixed;
+  width: 23%;
+  height: 8%;
+  z-index: 100002;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.2);
+  border-top-right-radius: 6px;
+  border-top-left-radius: 6px;
+
+}
+
+.chat .header label {
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.chat .header button {
+  border: none;
+  background-color: transparent;
 }

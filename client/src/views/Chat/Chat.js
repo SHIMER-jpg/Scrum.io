@@ -1,13 +1,15 @@
 import { React, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import moment from "moment";
 import {
   createMessage,
   getMessages,
   updateMessage,
 } from "../../redux/Chat/actions";
 import styles from "./Chat.module.css";
+import { CgClose } from "react-icons/cg";
 
-export function Chat() {
+export function Chat({buttonOpen, setButtonOpen}) {
   const projectId = useSelector((state) => state.managerView.project._id);
   const userId = useSelector((state) => state.app.loggedUser._id);
   const chatMap = useSelector((state) => state.chatInfo.messages);
@@ -40,8 +42,26 @@ export function Chat() {
     dispatch(createMessage(userId, projectId, messages));
   }
 
+  function calculateTime(time) {
+    time = moment(time);
+    var now = moment().subtract(4, "hours");
+    if(now.diff(time, "days") >= 1){
+      return now.diff(time, "days") + " days ago";
+    }
+    if(now.diff(time, "hours") >= 1){
+      return now.diff(time, "hours") + " hours ago";
+    }
+    if(now.diff(time, "minutes") >= 1){
+      return now.diff(time, "minutes") + " minutes ago";
+    }
+  }
+
   return (
     <div className={styles.chat}>
+      <div className={styles.header}>
+        <label>Project Chat</label>
+        <button onClick={() => setButtonOpen(!buttonOpen)}><CgClose size={20}/></button>
+      </div>
       <div className={styles.container}>
         {chatMap !== undefined && chatMap.length !== 0
           ? chatMap.map((message, i) => {
@@ -50,19 +70,24 @@ export function Chat() {
                 <div key={i} className={styles.message}>
                   <div className={styles.user}>
                     <img src={message.userId.picture} />
-                    <p> {message.userId.name.split(" ")[0]} </p>
+                    <div className={styles.text}>
+                      <div className={styles.info}>
+                        <p className={styles.name}> {message.userId.name.split(" ")[0]} </p>
+                        <p className={styles.time}> {calculateTime(message.timeStamp)} </p>
+                      </div>
+                      <p className={styles.content}>{message.content}</p>
+                    </div>
                   </div>
-                  <p className={styles.content}>{message.content}</p>
                 </div>
               );
             })
           : []}
-        <div className={styles.tiping}>
-          <form onSubmit={(e) => handleSubmit(e)}>
-            <input onChange={(e) => setMessages(e.target.value)} />
-            <button type="submit ">Send</button>
-          </form>
-        </div>
+      </div>
+      <div className={styles.typing}>
+        <form onSubmit={(e) => handleSubmit(e)}>
+          <input onChange={(e) => setMessages(e.target.value)} />
+          <button type="submit ">Send</button>
+        </form>
       </div>
     </div>
   );
