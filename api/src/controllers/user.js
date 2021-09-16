@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const UserProject = require("../models/UserProject");
+const UserInfo = require("../models/UserInfo");
 const mongoose = require("mongoose");
 
 const getUsersByProjectId = async (req, res, next) => {
@@ -70,6 +71,19 @@ const getAllUsers = async (req, res, next) => {
   }
 };
 
+const getUserInfo = async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+    const userInfo = await UserInfo.model.findOne({
+      userId: mongoose.Types.ObjectId(userId),
+    });
+
+    res.status(200).json(userInfo);
+  } catch (error) {
+    next(error);
+  }
+};
+
 const assignUsers = async (req, res, next) => {
   try {
     const projectId = mongoose.Types.ObjectId(req.params.projectId);
@@ -116,4 +130,5 @@ module.exports = {
   getUserRole,
   assignUsers: assignUsers,
   deleteUser,
+  getUserInfo,
 };
