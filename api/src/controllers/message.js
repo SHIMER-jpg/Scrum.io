@@ -10,11 +10,6 @@ const postMessage = async (req, res, next) => {
       content: req.body.content,
     });
     await newMessage.save();
-    const project = await Project.model.findOne({
-      _id: mongoose.Types.ObjectId(req.body.projectId),
-    });
-    project.messageIds.push(newMessage._id);
-    project.save();
     res.status(201).json(newMessage);
   } catch (error) {
     next(error);

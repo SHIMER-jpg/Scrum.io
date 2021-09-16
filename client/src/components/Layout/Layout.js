@@ -1,9 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
 import { Chat } from "../../views/Chat/Chat";
+import { BsChatDots } from "react-icons/bs";
 
 import Header from "../Header/Header";
 import Sidebar from "../Sidebar/Sidebar";
@@ -12,6 +13,8 @@ const Layout = ({ children }) => {
   const { loggedUser, socket } = useSelector(({ app }) => app);
   const role = useSelector((state) => state.viewRouter.userRole);
   const history = useHistory();
+
+  const [buttonOpen, setButtonOpen] = useState(false);
 
   console.log(role);
 
@@ -53,8 +56,19 @@ const Layout = ({ children }) => {
         />
         <Sidebar />
         {children}
-        <div>{role && <Chat />}</div>
+        <div>
+          {role && (
+            <button onClick={() => setButtonOpen(!buttonOpen)}>
+              <BsChatDots size={30} />
+            </button>
+          )}
+        </div>
       </main>
+      <div>
+        {buttonOpen && (
+          <Chat buttonOpen={buttonOpen} setButtonOpen={setButtonOpen} />
+        )}{" "}
+      </div>
       {/* <div>{userRole && <Chat />}</div> */}
     </>
   );

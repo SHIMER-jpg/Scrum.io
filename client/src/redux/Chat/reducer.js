@@ -14,8 +14,9 @@ export default function chatReducer(state = initialState, action) {
     case "UPDATE_MESSAGE":
       return {
         ...state,
-        messages: [...messages, action.payload],
+        messages: [...state.messages, action.payload],
       };
+
     default:
       return state;
   }

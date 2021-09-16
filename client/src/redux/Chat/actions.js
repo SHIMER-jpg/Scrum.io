@@ -32,3 +32,7 @@ export function createMessage(userId, projectId, content) {
 export function updateMessage(message) {
   return { type: "UPDATE_MESSAGE", payload: message };
 }
+
+export function clearMessages() {
+  return { type: "CLEAR_MESSAGE" };
+}
