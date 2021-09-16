@@ -20,6 +20,7 @@ import Swal from "sweetalert2";
 // TableParts
 import SetupTableHead from './TableParts/SetupTableHead';
 import SetupTableCellInput from './TableParts/SetupTableCellInput';
+import SetupTableToolbar from './TableParts/SetupTableToolbar';
 
 // componentes
 import TaskCardModal from "../TaskCardModal/TaskCardModal";
@@ -148,6 +149,7 @@ export default function TasksCrud({ tasksArray, customHandleClick }){
   return(
     <div className={styles.container}>
       <Paper className={styles.paper}>
+      <SetupTableToolbar tasksSelected={selected}/>
         <TableContainer>
           <Table
             className={styles.table}
