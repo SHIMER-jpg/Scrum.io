@@ -31,11 +31,6 @@ const Sidebar = () => {
               </NavLink>
             </div>
             <div className={styles.item}>
-              <NavLink to={`/advertisements/${projectId}`}>
-                <BsFillExclamationCircleFill size={23} /> Advertisements
-              </NavLink>
-            </div>
-            <div className={styles.item}>
               <NavLink to={`/statistics/${projectId}`}>
                 <AiOutlineBarChart size={23} /> Statistics
               </NavLink>
@@ -49,6 +44,13 @@ const Sidebar = () => {
           </div>
         )
       ) : null}
+      {userRole && (
+        <div className={styles.item}>
+          <NavLink to={`/advertisements/${projectId}`}>
+            <BsFillExclamationCircleFill size={23} /> Advertisements
+          </NavLink>
+        </div>
+      )}
       {userRole && (
         <div className={styles.item}>
           <NavLink to={`/planning/${projectId}`}>

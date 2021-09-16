@@ -40,7 +40,7 @@ export default function AdsContainer (props){
                 <h1 className="main-heading">
                     Advertisements
                 </h1> 
-                { userRole == 'scrumMaster' ?
+                { userRole === 'scrumMaster' ?
                 <button className='btn-primary' 
                 onClick={() => setIsModalOpen(true)}>
                     Create advertisement
@@ -56,7 +56,7 @@ export default function AdsContainer (props){
                     />
                 )): <div className={styles.noAds}>
                     <h1>There's no advertisement</h1>
-                    <h1>create a new one!</h1>
+                    {userRole === "scrumMaster" ? (<h1>create a new one!</h1>) : null}
                     </div>
                 }
             </div>
