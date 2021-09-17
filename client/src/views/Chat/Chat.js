@@ -1,6 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { React, useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import moment from "moment";
 import {
   createMessage,
   getMessages,
@@ -24,8 +24,6 @@ export function Chat({ buttonOpen, setButtonOpen }) {
 
   const container = useRef(null);
 
-  var firstTime = true;
-
   useEffect(() => {
     if (projectId) {
       dispatch(getMessages(projectId));
@@ -38,17 +36,13 @@ export function Chat({ buttonOpen, setButtonOpen }) {
     };
   }, [projectId]);
 
-  const handleNewMessage = (message) => {
-    if (firstTime) {
-      container.current.scrollTop = container.current.scrollHeight;
-      firstTime = false;
-    } else if (
-      container.current.scrollTop + container.current.clientHeight ===
-      container.current.scrollHeight
-    ) {
-      container.current.scrollTop = container.current.scrollHeight;
-    }
+  useEffect(() => {
+    // Lucero:  La solucion: Cada vez que llegue mensaje nuevo mandarlo a abajo del todo de vuelta
+    // El problema es que lo estabamos mandado bien abajo del todo, pero todavia el mensaje no habia llegado, entonces se mandaba a abajo del todo MENOS sin contar el nuevo msg.
+    container.current.scrollTop = 500000;
+  }, [chatMap])
 
+  const handleNewMessage = (message) => {
     if (message.projectId === projectId && message.userId !== userId) {
       dispatch(updateMessage(message));
     }
@@ -63,62 +57,57 @@ export function Chat({ buttonOpen, setButtonOpen }) {
   }
 
   return (
-    <div className={styles.chat}>
-      <div className={styles.chatBox}>
-        <div className={styles.header}>
-          <label>Project Chat</label>
-          <button onClick={() => setButtonOpen(!buttonOpen)}>
-            <CgClose size={20} />
-          </button>
-        </div>
-        <div ref={container} className={styles.container}>
-          {chatMap !== undefined && chatMap.length !== 0
-            ? chatMap.map((message, i) => {
-                console.log(message, "hola soy el mensaje");
-                return <Message message={message} userId={userId} key={i} />;
-              })
-            : []}
-        </div>
-        <div className={styles.typing}>
-          <form onSubmit={(e) => handleSubmit(e)}>
-            <input
-              value={messages}
-              placeholder="Write a message..."
-              onChange={(e) => setMessages(e.target.value)}
-            />
-            <button type="submit ">
-              {" "}
-              <FaTelegramPlane size={26} />{" "}
-            </button>
-          </form>
-        </div>
+    <div className={styles.chatBox}>
+      <header className={styles.header}>
+        <p>Project chat</p>
+        <button onClick={() => setButtonOpen(!buttonOpen)}>
+          <CgClose size={24} />
+        </button>
+      </header>
+      <div ref={container} className={styles.messagesContainer}>
+        {chatMap !== undefined && chatMap.length !== 0
+          ? chatMap.map((message, i) => {
+              return <Message message={message} userId={userId} key={i} />;
+            })
+          : []}
       </div>
+      <form className={styles.typing} onSubmit={(e) => handleSubmit(e)}>
+        <input
+          value={messages}
+          placeholder="Write a message..."
+          onChange={(e) => setMessages(e.target.value)}
+        />
+        <button type="submit ">
+          <FaTelegramPlane size={24} />
+        </button>
+      </form>
     </div>
   );
 }
 
 function Message({ message, userId }) {
-  console.log(message, "holii");
-  const timeAgo = useTimeAgo(new Date(message.createdAt), "short");
+  const timeAgo = useTimeAgo(new Date(message.createdAt), "narrow");
 
   return (
-    <div className={styles.message}>
-      <div className={userId === message.userId._id ? styles.me : styles.user}>
-        {userId !== message.userId._id && <img src={message.userId.picture} />}
-        <div className={styles.messageBox}>
-          <div className={styles.info}>
-            <p className={styles.name}>
-              {" "}
-              {userId !== message.userId._id &&
-                message.userId.name.split(" ")[0]}{" "}
-            </p>
-            <p className={styles.time}> {timeAgo} </p>
-          </div>
-          <div className={styles.text}>
-            <p className={styles.content}>{message.content}</p>
-          </div>
+    <article
+      className={`${styles.message} ${
+        userId === message.userId._id && styles.mine
+      }`}
+    >
+      {message.userId._id !== userId && (
+        <img src={message.userId.picture} alt={message.userId.name} />
+      )}
+      <div className={styles.messageContent}>
+        <div className={styles.contentDetails}>
+          {message.userId._id !== userId ? (
+            <p>{message.userId.name.split(" ")[0]}</p>
+          ) : (
+            <p></p> // para que no se rompan los estilos xd
+          )}
+          <p>{timeAgo}</p>
         </div>
+        <p>{message.content.trim()}</p>
       </div>
-    </div>
+    </article>
   );
 }

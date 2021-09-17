@@ -58,23 +58,31 @@ const Layout = ({ children }) => {
         {children}
         <div>
           {role && (
-            <button onClick={() => setButtonOpen(!buttonOpen)}
-              style={{borderRadius: "32px", padding: "12px", height: "64px", width: "64px",
-                      backgroundColor: "white", color: "#a12464", border: "none",
-                      boxShadow: "0 1px 3px 1px rgba(0, 0, 0, 0.2)", position: "fixed",
-                      zIndex: "100000", right: "30px", bottom: "20px"
-                    }}
+            <button
+              onClick={() => setButtonOpen(!buttonOpen)}
+              style={{
+                borderRadius: "32px",
+                padding: "12px",
+                height: "64px",
+                width: "64px",
+                backgroundColor: "white",
+                color: "#a12464",
+                border: "none",
+                boxShadow: "0 0 3px rgba(0, 0, 0, 0.15)",
+                position: "fixed",
+                zIndex: "100000",
+                right: "30px",
+                bottom: "20px",
+              }}
             >
               <BsChatDots size={30} />
             </button>
           )}
         </div>
-      </main>
-      <div>
-        {(buttonOpen && role) && (
+        {buttonOpen && role && (
           <Chat buttonOpen={buttonOpen} setButtonOpen={setButtonOpen} />
-        )}{" "}
-      </div>
+        )}
+      </main>
       {/* <div>{userRole && <Chat />}</div> */}
     </>
   );
