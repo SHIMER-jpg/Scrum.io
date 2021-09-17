@@ -7,6 +7,7 @@ const {
   postTask,
   getUserTasks,
   deleteTask,
+  deleteSelectedTasks,
   bulkImport,
   bulkRemove,
 } = require("../controllers/task.js");
@@ -22,10 +23,13 @@ task.post("/createTask", postTask);
 task.post("/bulkCreate", bulkImport);
 
 task.put("/update", modifyTask);
+
 task.put("/updateMany", modifyManyTasks);
 
 // Obtiene las tareas de un usuario
 task.get("/user", getUserTasks);
+
+task.delete("/deleteSelectedTasks", deleteSelectedTasks);
 
 task.delete("/:taskId", deleteTask);
 

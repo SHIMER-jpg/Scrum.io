@@ -119,7 +119,6 @@ const modifyManyTasks = async (req, res, next) => {
       { _id: manyTasksId },
       {"$set": update}
     );
-    console.log(updated)
     updateStatus(updated.projectId);
 
     res.status(200).send("Successfully modified tasks");
@@ -160,6 +159,17 @@ const deleteTask = async (req, res, next) => {
     const taskId = mongoose.Types.ObjectId(req.params.taskId);
     await Task.model.remove({ _id: taskId });
     await Note.model.remove({ taskId: taskId });
+    res.status(200).json("success");
+  } catch (error) {
+    next(error);
+  }
+};
+
+const deleteSelectedTasks = async (req, res, next) => {
+  try {
+    const tasksIdArray = req.body.tasksIdArray.map(taskId => mongoose.Types.ObjectId(taskId));
+    await Task.model.deleteMany({ _id: tasksIdArray });
+    await Note.model.deleteMany({ taskId: tasksIdArray });
     res.status(200).json("success");
   } catch (error) {
     next(error);
@@ -222,6 +232,7 @@ module.exports = {
   modifyTask,
   modifyManyTasks,
   getUserTasks,
+  deleteSelectedTasks,
   deleteTask,
   bulkImport,
   bulkRemove,
