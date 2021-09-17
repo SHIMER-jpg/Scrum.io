@@ -85,7 +85,7 @@ export default function CreateAdModal(props){
         }}
         >
         {({isSubmitting, isValidating}) => (
-          <Form className={styles.modalBody} onSubmit={(e)=>handleSubmit(e)}>
+          <Form className={styles.modalBody}>
             <Field as='div' className={styles.modalFormGroup}>
               <label>Title:</label>
               <Field

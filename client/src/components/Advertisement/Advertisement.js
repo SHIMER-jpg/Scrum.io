@@ -6,7 +6,7 @@ export default function Advertisement({title, description, date}) {
         <div className={styles.adContainer}>
           <div className={styles.note}>
             <div className={styles.title}>{title}</div>
-            <div className={styles.date}>{date}</div>
+            <div className={styles.date}>{date.substring(0,10)}</div>
             <div className={styles.description}>{description}</div>
           </div>
         </div>

@@ -13,7 +13,8 @@ export default function AdsContainer (props){
     const [isModalOpen, setIsModalOpen] = useState(false)
     const advertisements = useSelector((state) => state.NotesReducer.advertisements)
 
-    const arrayAds = advertisements.sort((function (a, b) {
+    const arrayAds = advertisements 
+    .sort((function (a, b) {
       if (a.date < b.date) {
         return 1;
       }
@@ -44,7 +45,7 @@ export default function AdsContainer (props){
                 <button className='btn-primary' 
                 onClick={() => setIsModalOpen(true)}>
                     Create advertisement
-                </button> : <div></div>
+                </button> : null
                 }
             </header>
             <div className={styles.ads}>
@@ -52,7 +53,7 @@ export default function AdsContainer (props){
                     <Advertisement 
                         title={ad.title}
                         description={ad.description}
-                        date={ad.date.substring(0,10)}
+                        date={ad.date}
                     />
                 )): <div className={styles.noAds}>
                     <h1>There's no advertisements</h1>
