@@ -16,6 +16,11 @@ export default function chatReducer(state = initialState, action) {
         ...state,
         messages: [...state.messages, action.payload],
       };
+    case "CLEAR_MESSAGE":
+      console.log("hola");
+      return {
+        messages: [],
+      };
 
     default:
       return state;

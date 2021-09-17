@@ -5,6 +5,7 @@ import {
   createMessage,
   getMessages,
   updateMessage,
+  clearMessages,
 } from "../../redux/Chat/actions";
 import styles from "./Chat.module.css";
 import { CgClose } from "react-icons/cg";
@@ -28,11 +29,13 @@ export function Chat({ buttonOpen, setButtonOpen }) {
   useEffect(() => {
     if (projectId) {
       dispatch(getMessages(projectId));
-
       socket.on("newMessage", handleNewMessage);
     }
 
-    return () => socket.off("newMessage", handleNewMessage);
+    return () => {
+      socket.off("newMessage", handleNewMessage);
+      dispatch(clearMessages());
+    };
   }, [projectId]);
 
   const handleNewMessage = (message) => {
@@ -52,8 +55,8 @@ export function Chat({ buttonOpen, setButtonOpen }) {
   };
 
   function handleSubmit(e) {
+    e.preventDefault();
     if (messages !== "") {
-      e.preventDefault();
       dispatch(createMessage(userId, projectId, messages));
       setMessages("");
     }
