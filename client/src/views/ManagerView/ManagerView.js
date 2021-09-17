@@ -13,6 +13,8 @@ import { useDispatch, useSelector } from "react-redux";
 import TaskHolder from "../../components/TaskHolder/TaskHolder";
 import { FiUsers } from "react-icons/fi";
 import { FaFileCsv } from "react-icons/fa";
+import { AiFillEdit } from "react-icons/ai"
+import { GoPlus } from 'react-icons/go'
 
 import managerStyle from "./ManagerView.module.css";
 import CreateTaskModal from "../../components/CreateTaskModal/CreateTaskModal";
@@ -20,11 +22,16 @@ import { useParams } from "react-router-dom";
 import { AddPartnerModal } from "../../components/AddPartnerModal/AddPartnerModal";
 import ImportCsvModal from "../../components/ImportCsvModal/ImportCsvModal";
 
+
+import EditProjectModal from "../../components/EditProjectModal/EditProjectModal";
+
+
 export default function ManagerView() {
   const tasks = useSelector((state) => state.managerView.tasks);
 
   const { projectId } = useParams();
-
+  
+  const [isEditModal, setIsEditModal] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalAddPartner, setModalAddPartner] = useState(false);
   const [importModal, setImportModal] = useState(false);
@@ -85,6 +92,14 @@ export default function ManagerView() {
           projectId={projectId}
         />
       )}
+      {isEditModal && (
+        <EditProjectModal
+          assignedUsers={assignedUsers}
+          isModalOpen={isEditModal}
+          setIsModalOpen={setIsEditModal}
+          projectId={projectId}
+        />
+      )}
       {importModal && (
         <ImportCsvModal
           assignedUsers={usersInProject()}
@@ -112,6 +127,13 @@ export default function ManagerView() {
 
             <button
               className="btn-primary"
+              onClick={() => setIsEditModal(true)}
+            >
+              <AiFillEdit /> Edit
+            </button>
+
+            <button
+              className="btn-primary"
               onClick={() => setModalAddPartner(true)}
             >
               <FiUsers /> Manage users
@@ -129,7 +151,7 @@ export default function ManagerView() {
               className="btn-primary"
               onClick={() => setIsModalOpen(true)}
             >
-              + Create Task
+              <GoPlus /> Create Task
             </button>
           </div>
         </header>
