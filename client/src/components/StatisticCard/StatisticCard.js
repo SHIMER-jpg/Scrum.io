@@ -197,7 +197,7 @@ export default function StatisticCard({ graphType, tasks, project }) {
         }
       });
     } else if (graphType === "BurnDown Chart") charData = burnDownProgress();
-    console.log("char data", charData);
+
     return charData;
   }
 
