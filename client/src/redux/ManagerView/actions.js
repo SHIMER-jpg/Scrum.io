@@ -6,6 +6,7 @@ import {
   DELETE_PROJECT,
   GET_PROJECT_BY_ID,
   UPDATE_TASK,
+  UPDATE_MANY_TASKS,
   CREATE_TASK,
   DELETE_TASK,
   GET_ALL_USERS,
@@ -132,6 +133,7 @@ export function deleteUserFromProject(projectId, userId) {
 }
 
 export function updateTask(change) {
+
   return function (dispatch) {
     axios
       .put(
@@ -139,6 +141,24 @@ export function updateTask(change) {
         change
       )
       .then(dispatch({ type: UPDATE_TASK, payload: change }));
+  };
+}
+export function updateManyTask(change) {
+
+   var changesToRedux = change.tasksId.map(taskId => {
+    return{
+      taskId,
+      fieldsChanged: change.fieldsToChange,
+    }
+  })
+  
+  return function (dispatch) {
+    axios
+      .put(
+        `${REACT_APP_BACKEND_URL}/task/updateMany`,
+        change
+      )
+      .then(dispatch({ type: UPDATE_MANY_TASKS, payload: changesToRedux }));
   };
 }
 

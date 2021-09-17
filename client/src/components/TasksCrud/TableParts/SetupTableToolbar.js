@@ -18,7 +18,7 @@ import { FaUserCircle } from 'react-icons/fa';
 import Swal from "sweetalert2";
 
 // redux actions
-import { updateTask, deleteTask } from "../../../redux/ManagerView/actions";
+import { updateManyTask, deleteTask } from "../../../redux/ManagerView/actions";
 
 export default function SetupTableToolbar({ tasksSelected }){
   // estados para el input de seleccion de usuario asignado
@@ -30,10 +30,10 @@ export default function SetupTableToolbar({ tasksSelected }){
 
   // estados de los campos a modificar de las tasks
   const [dynamicFields, setDynamicFields] = useState({
-    priorization: "Don't Change",
-    status: "Don't Change",
-    asignedTo: "Don't Change",
-    user: "Don't Change",
+    priorization: null,
+    status: null,
+    asignedTo: null,
+    user: null,
   });
 
     useEffect(() => {
@@ -60,11 +60,11 @@ export default function SetupTableToolbar({ tasksSelected }){
 
     // misma funcion de arriba pero personalizada para los cambios del usuario asignado
     const handleAddUser = (user) => {
-      if(user === "Don't Change"){
+      if(user === null){
         setDynamicFields({
           ...dynamicFields,
-          asignedTo: "Don't Change",
-          user: "Don't Change",
+          asignedTo: null,
+          user: null,
         });
       }
       else{
@@ -89,12 +89,18 @@ export default function SetupTableToolbar({ tasksSelected }){
       }).then((result) => {
         /* Read more about isConfirmed, isDenied below */
         if (result.isConfirmed) {
+          let fieldsToChange = {};
+          for(let field in dynamicFields){
+            if(dynamicFields[field] !== null){
+              fieldsToChange[field] = dynamicFields[field];
+            }
+          }
           const changes = {
-            taskId: tasksSelected,
-            fieldsToChange: dynamicFields,
+            tasksId: tasksSelected,
+            fieldsToChange: fieldsToChange,
           };
 
-          dispatch(updateTask(changes));
+          dispatch(updateManyTask(changes));
         }
       });
     }
@@ -155,7 +161,7 @@ export default function SetupTableToolbar({ tasksSelected }){
         ? (
           <>
             <select
-              value={dynamicFields.priorization}
+              value={dynamicFields.priorization !== null ? dynamicFields.priorization : "Don't Change"}
               name="priorization"
               onChange={(e) => handleTaskFieldsChange(e)}
               >
@@ -172,12 +178,12 @@ export default function SetupTableToolbar({ tasksSelected }){
                     isManager && setIsSelectUsersOpen(true);
                 }}
                 >
-                  {dynamicFields.user.picture ? (
+                  {dynamicFields.user !== null ? (
                     <img src={dynamicFields.user.picture} alt="" />
                   ) : (
                     <FaUserCircle size={30} />
                   )}
-                  {dynamicFields.user.name ? <p>{dynamicFields.user.name}</p> : <p>Don't Change</p>}
+                  {dynamicFields.user !== null ? <p>{dynamicFields.user.name}</p> : <p>Don't Change</p>}
                 </div>
             )}
             {isManager && isSelectUsersOpen && (
@@ -200,7 +206,7 @@ export default function SetupTableToolbar({ tasksSelected }){
                 {filteredUsers.length ? (
                     <>
                       <article
-                        onClick={() => handleAddUser("Don't Change")}
+                        onClick={() => handleAddUser(null)}
                         key={"Don't Change"}
                         className={styles.modalUser}
                       >
@@ -226,7 +232,7 @@ export default function SetupTableToolbar({ tasksSelected }){
                 </div>
             )}
             <select
-                value={dynamicFields.status}
+                value={dynamicFields.status !== null ? dynamicFields.status : "Don't Change"}
                 name="status"
                 onChange={(e) => handleTaskFieldsChange(e)}
                 >

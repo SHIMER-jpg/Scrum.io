@@ -5,6 +5,7 @@ import {
   DELETE_PROJECT,
   GET_ALL_USERS,
   UPDATE_TASK,
+  UPDATE_MANY_TASKS,
   DELETE_TASK,
   CLEAR_MANAGER_VIEW,
   DELETE_TASKS,
@@ -39,6 +40,19 @@ const managerViewReducer = (state = initialState, action) => {
       });
       return { ...state, tasks: [...newTasks] };
 
+      case UPDATE_MANY_TASKS:
+        const tasksChanged = state.tasks.map((task) => {
+          let taskModifiedIndex = action.payload.findIndex(payloadTask => payloadTask.taskId === task._id);
+          if(taskModifiedIndex > -1){
+            task = {
+              ...task,
+              ...action.payload[taskModifiedIndex].fieldsChanged,
+            }
+          }
+          return task;
+        });
+      return { ...state, tasks: [...tasksChanged] };
+  
     case GET_ASIGNED_USERS:
       return {
         ...state,
