@@ -123,6 +123,16 @@ const deleteUser = async (req, res, next) => {
   }
 };
 
+//GIT STATS
+const gitLanguages= async (req,res,next)=>{
+  try{
+    const {userId} = req.params
+    
+  }catch(error){
+
+  }
+}
+
 module.exports = {
   getUsersByProjectId,
   findOrCreateUser,
