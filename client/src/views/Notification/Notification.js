@@ -32,6 +32,7 @@ const Notification = () => {
 
   return (
     <section className={styles.container}>
+      <h1>Notifications</h1>
       <main className={styles.notificationsContainer}>
         {isLoading ? (
           <div style={{padding: "25px"}}>

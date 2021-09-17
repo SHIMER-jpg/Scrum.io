@@ -4,9 +4,9 @@ import {
   SET_USER,
   SET_SOCKET,
   GET_NOTIFICATIONS,
-  READ_NOTIFICATIONS,
+  GET_USER_LANGUAGES,
   GET_ALL_NOTIFICATIONS,
-  GET_USER_INFO
+  GET_USER_INFO,
 } from "./constants";
 
 const { REACT_APP_BACKEND_URL } = process.env;
@@ -21,7 +21,9 @@ export const setUser = (payload) => ({
 export const getUnreadNotificationsByUser = (userId) => {
   return (dispatch) => {
     axios
-      .get(`${REACT_APP_BACKEND_URL}/notification/user/${userId}?isReaded=false`,)
+      .get(
+        `${REACT_APP_BACKEND_URL}/notification/user/${userId}?isReaded=false`
+      )
       .then(({ data }) => {
         dispatch({ type: GET_NOTIFICATIONS, payload: data });
       });
@@ -33,8 +35,29 @@ export const getUserInfo = (userId, setIsLoading) => {
     axios
       .get(`${REACT_APP_BACKEND_URL}/user/userInfo/${userId}`)
       .then(({ data }) => {
-        setIsLoading && setIsLoading(false)
+        setIsLoading && setIsLoading(false);
         dispatch({ type: GET_USER_INFO, payload: data });
+      });
+  };
+};
+
+export const getUserLanguages = (username, setIsLoading) => {
+  return (dispatch) => {
+    axios
+      .get(`${REACT_APP_BACKEND_URL}/user/languageStats/${username}`)
+      .then(({ data }) => {
+        setIsLoading && setIsLoading(false);
+        const arrLanguages = [];
+
+        for (const key in data) {
+          arrLanguages.push({
+            language: key,
+            size: data[key].size,
+            color: data[key].color,
+          });
+        }
+        
+        dispatch({ type: GET_USER_LANGUAGES, payload: arrLanguages });
       });
   };
 };
@@ -53,10 +76,10 @@ export const getAllNotificationsByUser = (userId, setIsLoading) => {
 export const markNotificationsAsReaded = (userId) => {
   return (dispatch) => {
     axios
-    .put(`${REACT_APP_BACKEND_URL}/notification/user/${userId}`)
-    .then(() => {
-      dispatch(getUnreadNotificationsByUser(userId));
-    });
+      .put(`${REACT_APP_BACKEND_URL}/notification/user/${userId}`)
+      .then(() => {
+        dispatch(getUnreadNotificationsByUser(userId));
+      });
     // dispatch({ type: READ_NOTIFICATIONS }); // para reflejar el cambio en la UI en tiempo real.
   };
 };

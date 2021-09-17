@@ -4,6 +4,7 @@ import {
   GET_NOTIFICATIONS,
   READ_NOTIFICATIONS,
   GET_ALL_NOTIFICATIONS,
+  GET_USER_LANGUAGES,
   GET_USER_INFO,
 } from "./constants.js";
 
@@ -50,6 +51,15 @@ export default function reducer(state = initialState, action) {
         ...state,
         userInfo: action.payload,
       };
+    case GET_USER_LANGUAGES: {
+      return {
+        ...state,
+        userInfo: {
+          ...state.userInfo,
+          languages: action.payload
+        }
+      }
+    }
     case GET_ALL_NOTIFICATIONS: {
       return {
         ...state,
