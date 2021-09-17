@@ -100,6 +100,34 @@ const modifyTask = async (req, res, next) => {
   }
 };
 
+const modifyManyTasks = async (req, res, next) => {
+  try {
+    const manyTasksId = req.body.tasksId.map(taskId => mongoose.Types.ObjectId(taskId));
+    const update = req.body.fieldsToChange;
+    update.asigedTo ? update.asigedTo = mongoose.Types.ObjectId(update.asigedTo) : null;
+    
+    if(update.status){
+      if(update.status === "Completed"){
+        update.completedDate = Date.now();
+      }
+      else{
+        update.completedDate = null;
+      }
+    }
+
+    const updated = await Task.model.updateMany(
+      { _id: manyTasksId },
+      {"$set": update}
+    );
+    console.log(updated)
+    updateStatus(updated.projectId);
+
+    res.status(200).send("Successfully modified tasks");
+  } catch (error) {
+    next(error);
+  }
+};
+
 const getUserTasks = async (req, res, next) => {
   const { projectId, userId } = req.query;
 
@@ -192,6 +220,7 @@ module.exports = {
   postTask,
   getTasksByProjectId,
   modifyTask,
+  modifyManyTasks,
   getUserTasks,
   deleteTask,
   bulkImport,

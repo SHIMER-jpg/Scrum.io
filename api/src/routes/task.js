@@ -3,6 +3,7 @@ const { Router } = require("express");
 const {
   getTasksByProjectId,
   modifyTask,
+  modifyManyTasks,
   postTask,
   getUserTasks,
   deleteTask,
@@ -21,6 +22,7 @@ task.post("/createTask", postTask);
 task.post("/bulkCreate", bulkImport);
 
 task.put("/update", modifyTask);
+task.put("/updateMany", modifyManyTasks);
 
 // Obtiene las tareas de un usuario
 task.get("/user", getUserTasks);
