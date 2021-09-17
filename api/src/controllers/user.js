@@ -85,6 +85,24 @@ const getUserInfo = async (req, res, next) => {
   }
 };
 
+const editUserInfo = async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+
+    const userInfo = await UserInfo.model.findOneAndUpdate(
+      {
+        userId: mongoose.Types.ObjectId(userId),
+      },
+      { ...req.body },
+      { upsert: true, new: true } // upsert true: find or Create, new: true devuelve la edicion nueva, no la vieja
+    );
+
+    res.status(200).json(userInfo);
+  } catch (error) {
+    next(error);
+  }
+};
+
 const assignUsers = async (req, res, next) => {
   try {
     const projectId = mongoose.Types.ObjectId(req.params.projectId);
@@ -167,4 +185,5 @@ module.exports = {
   getUserInfo,
   gitLanguageStats,
   gitUserStats,
+  editUserInfo
 };

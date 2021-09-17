@@ -38,7 +38,7 @@ const topLanguagesQuery = (variables) => {
       variables,
     },
     {
-      Authorization: `Bearer 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`,
+      Authorization: `Bearer ${GITHUB_TOKEN}`,
     }
   );
 };
