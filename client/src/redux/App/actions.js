@@ -28,11 +28,12 @@ export const getUnreadNotificationsByUser = (userId) => {
   };
 };
 
-export const getUserInfo = (userId) => {
+export const getUserInfo = (userId, setIsLoading) => {
   return (dispatch) => {
     axios
       .get(`${REACT_APP_BACKEND_URL}/user/userInfo/${userId}`)
       .then(({ data }) => {
+        setIsLoading && setIsLoading(false)
         dispatch({ type: GET_USER_INFO, payload: data });
       });
   };

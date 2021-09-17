@@ -4,7 +4,6 @@ import { FaTasks } from "react-icons/fa";
 import { CgCardDiamonds, CgProfile } from "react-icons/cg";
 import { HiViewBoards } from "react-icons/hi";
 import { AiOutlineBarChart } from "react-icons/ai";
-import { IoMdNotificationsOutline } from "react-icons/io";
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 
@@ -58,11 +57,6 @@ const Sidebar = () => {
           </NavLink>
         </div>
       )}
-      <div className={styles.item}>
-        <NavLink to="/notifications">
-          <IoMdNotificationsOutline size={25} /> Notifications
-        </NavLink>
-      </div>
       <div className={styles.item}>
         <NavLink to="/myProfile">
           <CgProfile size={23} /> My Profile
