@@ -18,7 +18,7 @@ import { FaUserCircle } from 'react-icons/fa';
 import Swal from "sweetalert2";
 
 // redux actions
-import { updateManyTask, deleteTask } from "../../../redux/ManagerView/actions";
+import { updateManyTask, deleteSelectedTasks } from "../../../redux/ManagerView/actions";
 
 export default function SetupTableToolbar({ tasksSelected }){
   // estados para el input de seleccion de usuario asignado
@@ -117,7 +117,7 @@ export default function SetupTableToolbar({ tasksSelected }){
         /* Read more about isConfirmed, isDenied below */
         if (result.isDenied) {
           // si apreto en "BORRAR"
-          dispatch(deleteTask(tasksSelected));
+          dispatch(deleteSelectedTasks(tasksSelected));
         }
       });
     };

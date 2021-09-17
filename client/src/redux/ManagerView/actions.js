@@ -9,6 +9,7 @@ import {
   UPDATE_MANY_TASKS,
   CREATE_TASK,
   DELETE_TASK,
+  DELETE_SELECTED_TASKS,
   GET_ALL_USERS,
   CLEAR_MANAGER_VIEW,
   IMPORT_TASKS_CSV,
@@ -183,6 +184,20 @@ export function deleteTasks(projectId) {
         `${REACT_APP_BACKEND_URL}/task/deleteMany/${projectId}`
       )
       .then(dispatch({ type: DELETE_TASKS }));
+  };
+}
+
+export function deleteSelectedTasks(tasksIdArray) {
+  return function (dispatch) {
+    axios
+      .delete(
+        `${REACT_APP_BACKEND_URL}/task/deleteSelectedTasks`,
+        {
+          coso: "a ver si andas capo",
+          tasksIdArray: tasksIdArray
+        }
+      )
+      .then(dispatch({ type: DELETE_SELECTED_TASKS, payload: tasksIdArray }));
   };
 }
 

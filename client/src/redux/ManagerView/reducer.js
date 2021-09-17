@@ -7,6 +7,7 @@ import {
   UPDATE_TASK,
   UPDATE_MANY_TASKS,
   DELETE_TASK,
+  DELETE_SELECTED_TASKS,
   CLEAR_MANAGER_VIEW,
   DELETE_TASKS,
 } from "./constants";
@@ -85,6 +86,11 @@ const managerViewReducer = (state = initialState, action) => {
       return {
         ...state,
         tasks: [],
+      };
+    case DELETE_SELECTED_TASKS:
+      return {
+        ...state,
+        tasks: [...state.tasks.filter((task) => action.payload.findIndex(payloadTaskId => task._id === payloadTaskId) === -1)],
       };
     default:
       return state;
