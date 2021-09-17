@@ -37,7 +37,7 @@ background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
   white-space: nowrap;
 }
 
-.userInfo img {
+.userInfo > img {
   z-index: 1000000;
   width: 135px;
   height: 135px;
@@ -105,17 +105,21 @@ background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
 }
 
 .imgContainer {
-  margin-top: 20px;
-  overflow: hidden;
+  /* margin-top: 20px; */
   width: 100%;
-  height: 100px;
+  height: auto;
+  overflow: hidden;
   display: flex;
   align-items: center;
+  justify-content: center;
+  margin: 20px 0 0 0;
 }
 
 .imgContainer img {
-  margin-left: -10px;
+  /* margin-left: -10px;
   margin-top: 50px;
   width: 270px;
-  height: 255px;
+  height: 255px; */
+  width: 105%;
+  height: 110%;
 }
