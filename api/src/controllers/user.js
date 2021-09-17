@@ -2,6 +2,7 @@ const User = require("../models/User");
 const UserProject = require("../models/UserProject");
 const UserInfo = require("../models/UserInfo");
 const mongoose = require("mongoose");
+const { topLanguagesQuery, userStats } = require("../utils.js");
 
 const getUsersByProjectId = async (req, res, next) => {
   try {
@@ -32,7 +33,7 @@ const getUsersByProjectId = async (req, res, next) => {
 const getUserRole = async (req, res, next) => {
   try {
     const { userId, projectId } = req.query;
-    // console.log("filter data:", userId, projectId);
+
     const data = await UserProject.model.find({
       userId: userId,
       projectId: projectId,
@@ -93,7 +94,6 @@ const assignUsers = async (req, res, next) => {
       projectId: projectId,
       userId: userId,
     });
-    console.log("hola soy fede entreee");
     const newUser = userExists
       ? { error: "User already assigned" }
       : await UserProject.model.create({
@@ -111,7 +111,6 @@ const deleteUser = async (req, res, next) => {
   try {
     const projectId = mongoose.Types.ObjectId(req.params.projectId);
     const userId = mongoose.Types.ObjectId(req.body.userId);
-    console.log(req.body);
 
     const deleteUser = await UserProject.model.findOneAndRemove({
       projectId: projectId,
@@ -124,14 +123,39 @@ const deleteUser = async (req, res, next) => {
 };
 
 //GIT STATS
-const gitLanguages= async (req,res,next)=>{
-  try{
-    const {userId} = req.params
-    
-  }catch(error){
+const gitLanguageStats = async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+    const rta = await topLanguagesQuery({ login: userId });
+    const repositories = rta.data.data.user.repositories.nodes;
+    const stats = repositories.reduce((acc, repo) => {
+      const current = repo.languages.edges.reduce((acc, lang) => {
+        acc[lang.node.name] = { color: lang.node.color, size: lang.size };
+        return acc;
+      }, {});
+      Object.keys(current).forEach((key) => {
+        if (!acc[key]) acc[key] = current[key];
+        else acc[key].size += current[key].size;
+      });
+      return acc;
+    }, {});
 
+    res.status(200).json(stats);
+  } catch (error) {
+    next(error);
   }
-}
+};
+
+const gitUserStats = async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+    const rta = await userStats({ login: userId });
+
+    res.status(200).json(rta.data);
+  } catch (error) {
+    next(error);
+  }
+};
 
 module.exports = {
   getUsersByProjectId,
@@ -141,4 +165,6 @@ module.exports = {
   assignUsers: assignUsers,
   deleteUser,
   getUserInfo,
+  gitLanguageStats,
+  gitUserStats,
 };

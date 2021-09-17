@@ -7,6 +7,8 @@ const {
   getUserInfo,
   assignUsers,
   deleteUser,
+  gitUserStats,
+  gitLanguageStats,
 } = require("../controllers/user.js");
 const user = Router();
 
@@ -21,6 +23,10 @@ user.get("/userInfo/:userId", getUserInfo);
 
 // findOrCreate Auth0 user in DB
 user.post("/findOrCreate", findOrCreateUser);
+
+//git stats
+user.get("/languageStats/:userId", gitLanguageStats);
+user.get("/userStats/:userId", gitUserStats);
 
 // list all users in DB
 user.get("/getAll", getAllUsers);
