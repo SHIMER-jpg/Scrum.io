@@ -53,7 +53,7 @@ const Sidebar = () => {
       {userRole && (
         <div className={styles.item}>
           <NavLink to={`/meeting/${projectId}`}>
-            <SiGooglehangoutsmeet size={23} /> Live Meeting
+            <SiGooglehangoutsmeet size={23} /> Live meeting
           </NavLink>
         </div>
       )}
@@ -66,7 +66,7 @@ const Sidebar = () => {
       )}
       <div className={styles.item}>
         <NavLink to="/myProfile">
-          <CgProfile size={23} /> My Profile
+          <CgProfile size={23} /> My profile
         </NavLink>
       </div>
       <div className={styles.item}>

@@ -8,6 +8,7 @@ const {
   assignUsers,
   deleteUser,
   gitUserStats,
+  editUserInfo,
   gitLanguageStats,
 } = require("../controllers/user.js");
 const user = Router();
@@ -20,6 +21,7 @@ user.get("/userRole", getUserRole);
 
 //get user role
 user.get("/userInfo/:userId", getUserInfo);
+user.put("/userInfo/:userId", editUserInfo)
 
 // findOrCreate Auth0 user in DB
 user.post("/findOrCreate", findOrCreateUser);

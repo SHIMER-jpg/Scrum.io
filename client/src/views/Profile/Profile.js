@@ -1,18 +1,40 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { AiFillLinkedin, AiFillGithub } from "react-icons/ai";
-import axios from "axios";
+import { AiFillLinkedin, AiFillGithub, AiOutlineSearch } from "react-icons/ai";
+import { RiPencilFill } from "react-icons/ri";
+import { BsCheck } from "react-icons/bs";
 
 import Loading from "../../components/Loading/Loading";
-import { getUserInfo, setUser } from "../../redux/App/actions";
+import { getUserInfo, getUserLanguages, editUserInfoFields } from "../../redux/App/actions";
 import Notification from "../Notification/Notification";
 
 import styles from "./Profile.module.css";
 
 const mapIcons = (icon, size) => {
-  if (icon.name === "Linked In") return <AiFillLinkedin size={size} />;
-  if (icon.name === "GitHub") return <AiFillGithub size={size} />;
+  if (icon.name === "Linked In")
+    return (
+      <a
+        className={"unstyled-link"}
+        href={icon.url}
+        target="_blank"
+        rel="noreferrer"
+      >
+        <AiFillLinkedin size={size} />
+      </a>
+    );
+  if (icon.name === "GitHub")
+    return (
+      <a
+        className={"unstyled-link"}
+        href={icon.url}
+        target="_blank"
+        rel="noreferrer"
+      >
+        <AiFillGithub size={size} />
+      </a>
+    );
+
   return null;
 };
 
@@ -24,7 +46,9 @@ const Profile = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    loggedUser && dispatch(getUserInfo(loggedUser._id, setIsLoading));
+    if (loggedUser._id) {
+      dispatch(getUserInfo(loggedUser._id, setIsLoading));
+    }
   }, [loggedUser]);
 
   return isLoading ? (
@@ -41,12 +65,6 @@ const Profile = () => {
               <p>{userInfo.role}</p>
               <div className={styles.socials}>
                 {userInfo.socials?.map((social) => mapIcons(social, 30))}
-              </div>
-              <div className={styles.imgContainer}>
-                <img
-                  src="https://github-readme-stats.vercel.app/api/top-langs/?username=lamaolo"
-                  alt=""
-                />
               </div>
             </div>
           </section>
@@ -74,8 +92,8 @@ const Profile = () => {
               </button>
             </nav>
             <div className={styles.renderContent}>
-              {selectedTab === "aboutMe" && <AboutMeTab />}
-              {selectedTab === "stats" && <StatsTab />}
+              {selectedTab === "aboutMe" && userInfo._id && <AboutMeTab loggedUser={loggedUser} userInfo={userInfo} />}
+              {selectedTab === "stats" && userInfo._id && <StatsTab userInfo={userInfo} />}
               {selectedTab === "notifications" && <Notification />}
             </div>
           </section>
@@ -85,42 +103,178 @@ const Profile = () => {
   );
 };
 
-const AboutMeTab = () => {
-  return (
-    <p>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae nihil
-      laboriosam nam quae a tenetur facere voluptate illum sapiente? Mollitia,
-      eaque impedit ab praesentium aliquam iste dolorum at voluptatum laborum?
-    </p>
-  );
-};
+const AboutMeTab = ({ loggedUser, userInfo }) => {
+  const dispatch = useDispatch();
 
-const StatsTab = () => {
-  const [username, setUsername] = useState("");
+  const [isEditing, setIsEditing] = useState({
+    description: false,
+    location: false,
+  });
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const [values, setValues] = useState({
+    description: userInfo.description,
+    location: userInfo.location,
+  });
+
+  const handleChange = (e) => {
+    setValues({ ...values, [e.target.name]: e.target.value });
+  };
+
+  const handleIsEditing = (field) => {
+    setIsEditing({ ...isEditing, [field]: true });
+  };
+
+  const handleSetEdit = (field) => {
+    setIsEditing({ ...isEditing, [field]: false });
+
+    dispatch(editUserInfoFields(loggedUser._id, values))
+
+    userInfo.description = values.description;
+    userInfo.location = values.location;
   };
 
   return (
-    <>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae
-        nihil laboriosam nam quae a tenetur facere voluptate illum sapiente?
-        Mollitia, eaque impedit ab praesentium aliquam iste dolorum at
-        voluptatum laborum?
-      </p>
-
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          name="username"
-        />
-      </form>
-    </>
+    <div className={styles.description}>
+      <div className={styles.descriptionField}>
+        <div className={styles.descriptionHeader}>
+          <h2>User description</h2>
+          {isEditing.description ? (
+            <button onClick={() => handleSetEdit("description")}>
+              <BsCheck strokeWidth={1.5} />
+            </button>
+          ) : (
+            <button onClick={() => handleIsEditing("description")}>
+              <RiPencilFill />
+            </button>
+          )}
+        </div>
+        {isEditing.description ? (
+          <input type="text" name="description" onChange={handleChange} value={values.description} />
+        ) : (
+          <p>{userInfo.description}</p>
+        )}
+      </div>
+      <div className={styles.descriptionField}>
+        <div className={styles.descriptionHeader}>
+          <h2>Location</h2>
+          {isEditing.location ? (
+            <button onClick={() => handleSetEdit("location")}>
+              <BsCheck strokeWidth={1.5} />
+            </button>
+          ) : (
+            <button onClick={() => handleIsEditing("location")}>
+              <RiPencilFill />
+            </button>
+          )}
+        </div>
+        <p>{userInfo.location}</p>
+      </div>
+    </div>
   );
+};
+
+const StatsTab = ({ userInfo }) => {
+  const [username, setUsername] = useState("");
+  const [languages, setLanguages] = useState([]);
+  const dispatch = useDispatch();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(getUserLanguages(username));
+  };
+
+  useEffect(() => {
+    if (userInfo.languages) {
+      // los ordeno, y tomo los primeros 3
+      const topLanguages = userInfo.languages
+        .sort((a, b) => (a.size < b.size ? 1 : -1))
+        .slice(0, 4);
+
+      const totalSize = topLanguages.reduce(
+        (acc, current) => (acc += current.size),
+        0
+      );
+
+      const selectedLanguages = [];
+
+      topLanguages.forEach((lang) => {
+        selectedLanguages.push({
+          name: lang.language,
+          size: ((lang.size * 100) / totalSize).toFixed(1),
+          color: lang.color,
+        });
+      });
+      console.log(selectedLanguages);
+      setLanguages(selectedLanguages);
+    }
+  }, [userInfo]);
+
+  return (
+    <section className={styles.stats}>
+      {!userInfo?.languages?.length ? (
+        <form onSubmit={handleSubmit}>
+          <div>
+            <AiFillGithub size={24} />
+          </div>
+          <input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            name="username"
+            placeholder="Write your GitHub username..."
+            required
+            autoComplete="off"
+          />
+          <button type="submit">
+            <AiOutlineSearch size={20} />
+          </button>
+        </form>
+      ) : (
+        <section className={styles.statsContainer}>
+          <div className={styles.chartsContainer}>
+            <p>Most used languages</p>
+            <div className={styles.charts}>
+              {languages.map((lang) => (
+                <div className={styles.chart}>
+                  <div key={lang.name} className={styles.languageBar}>
+                    <div
+                      style={{
+                        height: lang.size + "%",
+                        width: "100%",
+                        background: lang.color,
+                      }}
+                    ></div>
+                  </div>
+                  <div className={styles.langStats}>
+                    <p>{lang.name}</p>
+                    <p>{lang.size}%</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className={styles.performance}>
+            <div className={styles.performanceItem}>
+              <p>Projects worked</p>
+              <p>{userInfo.projectsWorked}</p>
+            </div>
+            <div className={styles.performanceItem}>
+              <p>Rating</p>
+              <p>{userInfo.rating}</p>
+            </div>
+            <div className={styles.performanceItem}>
+              <p>Total story points</p>
+              <p>{userInfo.totalStoryPoints}</p>
+            </div>
+          </div>
+        </section>
+      )}
+    </section>
+  );
+};
+
+const UserStats = ({ languages }) => {
+  return languages.map((lang) => <p>xD</p>);
 };
 
 export default Profile;
