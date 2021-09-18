@@ -125,6 +125,12 @@
   margin-bottom: 25px;
 }
 
+.description .descriptionField input {
+  margin-top: 8px !important;
+  margin-bottom: 25px !important;
+  all: unset;
+}
+
 /* STATS VIEW!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11 */
 
 .stats {

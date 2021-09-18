@@ -6,7 +6,7 @@ import { RiPencilFill } from "react-icons/ri";
 import { BsCheck } from "react-icons/bs";
 
 import Loading from "../../components/Loading/Loading";
-import { getUserInfo, getUserLanguages } from "../../redux/App/actions";
+import { getUserInfo, getUserLanguages, editUserInfoFields } from "../../redux/App/actions";
 import Notification from "../Notification/Notification";
 
 import styles from "./Profile.module.css";
@@ -92,8 +92,8 @@ const Profile = () => {
               </button>
             </nav>
             <div className={styles.renderContent}>
-              {selectedTab === "aboutMe" && <AboutMeTab userInfo={userInfo} />}
-              {selectedTab === "stats" && <StatsTab userInfo={userInfo} />}
+              {selectedTab === "aboutMe" && userInfo._id && <AboutMeTab loggedUser={loggedUser} userInfo={userInfo} />}
+              {selectedTab === "stats" && userInfo._id && <StatsTab userInfo={userInfo} />}
               {selectedTab === "notifications" && <Notification />}
             </div>
           </section>
@@ -103,21 +103,35 @@ const Profile = () => {
   );
 };
 
-const AboutMeTab = ({ userInfo }) => {
+const AboutMeTab = ({ loggedUser, userInfo }) => {
+  const dispatch = useDispatch();
+
   const [isEditing, setIsEditing] = useState({
     description: false,
     location: false,
   });
 
+  const [values, setValues] = useState({
+    description: userInfo.description,
+    location: userInfo.location,
+  });
+
+  const handleChange = (e) => {
+    setValues({ ...values, [e.target.name]: e.target.value });
+  };
+
   const handleIsEditing = (field) => {
     setIsEditing({ ...isEditing, [field]: true });
   };
 
-  const handleSetEdit = field => {
-    setIsEditing({...isEditing, [field]: false})
-    
-    console.log(isEditing)
-  }
+  const handleSetEdit = (field) => {
+    setIsEditing({ ...isEditing, [field]: false });
+
+    dispatch(editUserInfoFields(loggedUser._id, values))
+
+    userInfo.description = values.description;
+    userInfo.location = values.location;
+  };
 
   return (
     <div className={styles.description}>
@@ -125,8 +139,8 @@ const AboutMeTab = ({ userInfo }) => {
         <div className={styles.descriptionHeader}>
           <h2>User description</h2>
           {isEditing.description ? (
-            <button  onClick={() => handleSetEdit("description")}>
-              <BsCheck />
+            <button onClick={() => handleSetEdit("description")}>
+              <BsCheck strokeWidth={1.5} />
             </button>
           ) : (
             <button onClick={() => handleIsEditing("description")}>
@@ -134,14 +148,24 @@ const AboutMeTab = ({ userInfo }) => {
             </button>
           )}
         </div>
-        <p>{userInfo.description}</p>
+        {isEditing.description ? (
+          <input type="text" name="description" onChange={handleChange} value={values.description} />
+        ) : (
+          <p>{userInfo.description}</p>
+        )}
       </div>
       <div className={styles.descriptionField}>
         <div className={styles.descriptionHeader}>
           <h2>Location</h2>
-          <button onClick={() => handleIsEditing("location")}>
-            <RiPencilFill />
-          </button>
+          {isEditing.location ? (
+            <button onClick={() => handleSetEdit("location")}>
+              <BsCheck strokeWidth={1.5} />
+            </button>
+          ) : (
+            <button onClick={() => handleIsEditing("location")}>
+              <RiPencilFill />
+            </button>
+          )}
         </div>
         <p>{userInfo.location}</p>
       </div>

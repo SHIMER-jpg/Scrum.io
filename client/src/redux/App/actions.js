@@ -7,6 +7,7 @@ import {
   GET_USER_LANGUAGES,
   GET_ALL_NOTIFICATIONS,
   GET_USER_INFO,
+  EDIT_USER_INFO
 } from "./constants";
 
 const { REACT_APP_BACKEND_URL } = process.env;
@@ -61,6 +62,18 @@ export const getUserLanguages = (username, setIsLoading) => {
       });
   };
 };
+
+export const editUserInfoFields = (userId, payload, setIsLoading) => {
+  return (dispatch) => {
+    axios
+      .put(`${REACT_APP_BACKEND_URL}/user/userInfo/${userId}`, payload)
+      .then(({ data }) => {
+        setIsLoading && setIsLoading(false);
+        
+        dispatch({ type: EDIT_USER_INFO, payload: data });
+      });
+  };
+}
 
 export const getAllNotificationsByUser = (userId, setIsLoading) => {
   return (dispatch) => {
