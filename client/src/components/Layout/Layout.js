@@ -5,6 +5,8 @@ import { ToastContainer, toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
 import { Chat } from "../../views/Chat/Chat";
 import { BsChatDots } from "react-icons/bs";
+import styles from "./Layout.module.css";
+import { BsFillCircleFill } from "react-icons/bs";
 
 import Header from "../Header/Header";
 import Sidebar from "../Sidebar/Sidebar";
@@ -15,8 +17,9 @@ const Layout = ({ children }) => {
   const history = useHistory();
 
   const [buttonOpen, setButtonOpen] = useState(false);
+  const [alert, setAlert] = useState(false);
 
-  console.log(role);
+  console.log(alert);
 
   useEffect(() => {
     if (socket.on && loggedUser) {
@@ -39,6 +42,13 @@ const Layout = ({ children }) => {
     }
   }, [loggedUser]);
 
+  function toggleChat() {
+    if (!buttonOpen) {
+      setAlert(false);
+    }
+    setButtonOpen(!buttonOpen);
+  }
+
   return (
     <>
       <Header />
@@ -58,30 +68,34 @@ const Layout = ({ children }) => {
         {children}
         <div>
           {role && (
-            <button
-              onClick={() => setButtonOpen(!buttonOpen)}
-              style={{
-                borderRadius: "32px",
-                padding: "12px",
-                height: "64px",
-                width: "64px",
-                backgroundColor: "white",
-                color: "#a12464",
-                border: "none",
-                boxShadow: "0 0 3px rgba(0, 0, 0, 0.15)",
-                position: "fixed",
-                zIndex: "100000",
-                right: "30px",
-                bottom: "20px",
-              }}
-            >
-              <BsChatDots size={30} />
-            </button>
+            <div className={styles.buttonMessage}>
+              {alert ? (
+                <div>
+                  <button
+                    className={styles.alertButton}
+                    onClick={() => toggleChat()}
+                  >
+                    <div className={styles.dot}></div>
+                    <BsChatDots size={30} />
+                  </button>
+                </div>
+              ) : (
+                <button className={styles.button} onClick={() => toggleChat()}>
+                  <BsChatDots size={30} />
+                </button>
+              )}
+            </div>
           )}
         </div>
-        {buttonOpen && role && (
-          <Chat buttonOpen={buttonOpen} setButtonOpen={setButtonOpen} />
-        )}
+        <div className={buttonOpen ? styles.show : styles.hidden}>
+          {role && (
+            <Chat
+              setAlert={setAlert}
+              buttonOpen={buttonOpen}
+              setButtonOpen={setButtonOpen}
+            />
+          )}
+        </div>
       </main>
       {/* <div>{userRole && <Chat />}</div> */}
     </>

@@ -36,3 +36,8 @@ export function updateMessage(message) {
 export function clearMessages() {
   return { type: "CLEAR_MESSAGE" };
 }
+
+export function saveLength(payload) {
+  console.log(payload);
+  return { type: "SAVE_LENGTH", payload: payload };
+}

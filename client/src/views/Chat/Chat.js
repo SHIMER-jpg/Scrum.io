@@ -6,28 +6,55 @@ import {
   getMessages,
   updateMessage,
   clearMessages,
+  saveLength,
 } from "../../redux/Chat/actions";
 import styles from "./Chat.module.css";
 import { CgClose } from "react-icons/cg";
 import { FaTelegramPlane } from "react-icons/fa";
 import useTimeAgo from "../../hooks/useTimeAgo";
 
-export function Chat({ buttonOpen, setButtonOpen }) {
+export function Chat({ buttonOpen, setButtonOpen, setAlert }) {
   const projectId = useSelector((state) => state.managerView.project._id);
   const userId = useSelector((state) => state.app.loggedUser._id);
   const chatMap = useSelector((state) => state.chatInfo.messages);
   const socket = useSelector((state) => state.app.socket);
+  const chatLength = useSelector((state) => state.chatInfo.messageQuantity);
 
   const dispatch = useDispatch();
 
   const [messages, setMessages] = useState("");
+  const [chatMessages, setChatMessages] = useState([]);
 
   const container = useRef(null);
+
+  useEffect(() => {
+    if (buttonOpen) {
+      dispatch(saveLength(chatMessages.length));
+    }
+  }, [buttonOpen]);
+
+  useEffect(() => {
+    if (chatMessages.length === 0) {
+      setChatMessages(chatMap);
+    } else if (chatLength.length !== chatMap.length) {
+      if (!buttonOpen) {
+        setAlert(true);
+      } else {
+        setAlert(false);
+      }
+    }
+  }, [chatMap]);
 
   useEffect(() => {
     if (projectId) {
       dispatch(getMessages(projectId));
       socket.on("newMessage", handleNewMessage);
+    }
+
+    if (chatLength !== chatMap.length) {
+      if (!buttonOpen) {
+        setAlert(true);
+      }
     }
 
     return () => {
@@ -40,7 +67,7 @@ export function Chat({ buttonOpen, setButtonOpen }) {
     // Lucero:  La solucion: Cada vez que llegue mensaje nuevo mandarlo a abajo del todo de vuelta
     // El problema es que lo estabamos mandado bien abajo del todo, pero todavia el mensaje no habia llegado, entonces se mandaba a abajo del todo MENOS sin contar el nuevo msg.
     container.current.scrollTop = 500000;
-  }, [chatMap])
+  }, [chatMap]);
 
   const handleNewMessage = (message) => {
     if (message.projectId === projectId && message.userId !== userId) {
@@ -53,6 +80,7 @@ export function Chat({ buttonOpen, setButtonOpen }) {
     if (messages !== "") {
       dispatch(createMessage(userId, projectId, messages));
       setMessages("");
+      dispatch(saveLength(chatMessages.length));
     }
   }
 
@@ -102,7 +130,7 @@ function Message({ message, userId }) {
           {message.userId._id !== userId ? (
             <p>{message.userId.name.split(" ")[0]}</p>
           ) : (
-            <p></p> // para que no se rompan los estilos xd
+            <p></p> // para que no se rompan los estilos xd //gracias
           )}
           <p>{timeAgo}</p>
         </div>

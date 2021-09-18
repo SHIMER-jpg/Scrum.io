@@ -2,6 +2,7 @@ import { GET_MESSAGES } from "./constants";
 
 const initialState = {
   messages: [],
+  messageQuantity: 0,
 };
 
 export default function chatReducer(state = initialState, action) {
@@ -17,9 +18,14 @@ export default function chatReducer(state = initialState, action) {
         messages: [...state.messages, action.payload],
       };
     case "CLEAR_MESSAGE":
-      console.log("hola");
       return {
+        ...state,
         messages: [],
+      };
+    case "SAVE_LENGTH":
+      return {
+        ...state,
+        messageQuantity: action.payload,
       };
 
     default:
