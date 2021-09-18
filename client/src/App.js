@@ -25,6 +25,7 @@ import PokerPlanning from "./views/PokerPlanning/PokerPlanning";
 import { Configuration } from "./views/Configuration/Configuration.js";
 import JitsiMeet from "./views/JitsiMeet/JitsiMeet.js";
 import Profile from "./views/Profile/Profile";
+import TeamComposition from "./views/TeamComposition/TeamComposition.js";
 
 const { REACT_APP_BACKEND_URL } = process.env;
 
@@ -95,6 +96,11 @@ const App = () => {
             path="/statistics/:projectId"
             exact
             component={Statistics}
+          />
+          <PrivateRoute
+            path="/teamComp/:projectId"
+            exact
+            component={TeamComposition}
           />
           <PrivateRoute
             path="/meeting/:projectId"

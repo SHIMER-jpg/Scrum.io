@@ -1,4 +1,4 @@
-import { RiHomeLine } from "react-icons/ri";
+import { RiHomeLine, RiTeamFill } from "react-icons/ri";
 import { BsGear } from "react-icons/bs";
 import { FaTasks } from "react-icons/fa";
 import { CgCardDiamonds, CgProfile } from "react-icons/cg";
@@ -54,6 +54,13 @@ const Sidebar = () => {
         <div className={styles.item}>
           <NavLink to={`/meeting/${projectId}`}>
             <SiGooglehangoutsmeet size={23} /> Live Meeting
+          </NavLink>
+        </div>
+      )}
+      {userRole && (
+        <div className={styles.item}>
+          <NavLink to={`/teamComp/${projectId}`}>
+            <RiTeamFill size={23} /> Team Comp
           </NavLink>
         </div>
       )}
