@@ -121,7 +121,42 @@ const updateStatus = async (projectId) => {
   project.status = Math.trunc((completedSum / tasks.length) * 100);
 
   project.save();
-  console.log("STATUS OF", project._id, "UPDATED TO", project.status);
+};
+
+const getTeamComp = async (req, res, next) => {
+  try {
+    const projectId = mongoose.Types.ObjectId(req.params.projectId);
+    const users = await UserProject.model.aggregate([
+      { $match: { projectId: projectId } },
+      {
+        $lookup: {
+          from: "users",
+          localField: "userId",
+          foreignField: "_id",
+          as: "user",
+        },
+      },
+      {
+        $lookup: {
+          from: "userinfos",
+          localField: "userId",
+          foreignField: "userId",
+          as: "userInfo",
+        },
+      },
+      {
+        $unwind: "$userInfo",
+      },
+    ]);
+
+    res.status(200).json(
+      users.map((item) => {
+        return { userInfo: item.userInfo, user: item.user[0] };
+      })
+    );
+  } catch (error) {
+    next(error);
+  }
 };
 
 module.exports = {
@@ -130,4 +165,5 @@ module.exports = {
   getProjectByUserId,
   deleteProject,
   updateStatus,
+  getTeamComp,
 };
