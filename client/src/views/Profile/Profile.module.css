@@ -100,6 +100,136 @@
   padding: 0 10px 20px 20px;
 }
 
+/* EDIT PROFILE VIEW !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
+.editProfile h2 {
+  margin: 0;
+  font-size: 23px;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.editProfileForm {
+  display: flex;  
+  gap: 30px;
+}
+
+.editProfileForm button {
+  all: unset;
+  padding: 8px;
+  border-radius: 5px;
+  font-weight: 600;
+  transition: all .15s ease-in-out;
+  background-color: var(--violet);
+  color: white;
+  border: 2px solid transparent;
+}
+
+.editProfileForm button:hover {
+  color: var(--violet);
+  border: 2px solid var(--violet);
+  background-color: white;
+}
+
+.modalFormGroup {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  width: 400px;
+}
+
+.modalFormGroup label {
+  font-weight: 600;
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.modalFormGroup input,
+.modalFormGroup select {
+  width: 100%;
+  all: unset;
+  border-radius: 8px;
+  padding: 8px;
+  border: 1px solid rgb(204, 204, 204);
+  transition: all 0.1s ease-in-out;
+}
+
+.modalFormGroup input:focus,
+.modalFormGroup textarea:focus,
+.modalFormGroup select:focus {
+  border: 2px solid var(--violet);
+  box-shadow: 0 0 0 3px rgba(161, 36, 101, 0.4);
+}
+
+.addSoftSkill > div {
+  display: flex;
+}
+
+.addSoftSkill > div > input {
+  width: 100%;
+  border-radius: 8px 0 0 8px;
+  border-right: none !important;
+}
+
+.addSoftSkill > div > input:focus {
+  border: 2px solid var(--violet);
+  width: 100%;
+  border-radius: 8px 0 0 8px;
+  box-shadow: none;
+}
+
+.addSoftSkill > div > button {
+  border-radius: 0px 8px 8px 0px;
+  width: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.softSkills {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.softSkills p {
+  border: 1px solid var(--violet);
+  padding: 5px 8px;
+  border-radius: 5px;
+  font-size: 14px;
+  color: var(--violet);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+
+.editProfileSocialsFormGroup {
+  width: 400px;
+  margin-bottom: 20px;
+}
+
+.editProfileSocialsFormGroup label {
+  display: block;
+  font-weight: 600;
+  font-size: 16px;
+  margin-bottom: 8px !important;
+}
+
+.editProfileSocialInput {
+  display: flex;
+  gap: 10px;
+  border-radius: 8px;
+  padding: 7px;
+  border: 1px solid rgb(204, 204, 204);
+  transition: all 0.1s ease-in-out;
+}
+
+.editProfileSocialInput input {
+  all: unset;
+  padding: 0 10px 0 0;
+  width: 100%;
+}
+
+
 /* ABOUT ME VIEW !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
 
 .descriptionHeader {
@@ -126,9 +256,10 @@
 }
 
 .description .descriptionField input {
+  all: unset;
   margin-top: 8px !important;
   margin-bottom: 25px !important;
-  all: unset;
+  width: 100%;
 }
 
 /* STATS VIEW!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11 */

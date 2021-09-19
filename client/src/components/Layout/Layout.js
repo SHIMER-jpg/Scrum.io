@@ -28,7 +28,11 @@ const Layout = ({ children }) => {
             draggable: true,
             progress: undefined,
             onClick: () => {
-              history.push(`/project/${projectId}`);
+              // history.push(`/project/${projectId}`);
+              history.push({
+                pathname: `/project/${projectId}`,
+                state: { projectId }
+              })
             },
           });
         }

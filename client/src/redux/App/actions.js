@@ -64,6 +64,7 @@ export const getUserLanguages = (username, setIsLoading) => {
 };
 
 export const editUserInfoFields = (userId, payload, setIsLoading) => {
+  console.log({userId, payload})
   return (dispatch) => {
     axios
       .put(`${REACT_APP_BACKEND_URL}/user/userInfo/${userId}`, payload)

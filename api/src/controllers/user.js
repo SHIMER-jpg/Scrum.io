@@ -52,9 +52,23 @@ const findOrCreateUser = async (req, res, next) => {
     });
 
     if (userInDB) {
+      const userInfo = await UserInfo.model.findOne({
+        userId: userInDB._id,
+      });
+
+      if (!userInfo) {
+        UserInfo.model.create({
+          userId: userInDB._id,
+        });
+      }
+
       return res.status(200).json(userInDB);
     } else {
       const newUser = await User.model.create(req.body);
+      UserInfo.model.create({
+        userId: newUser._id,
+      });
+
       res.status(201).json(newUser);
     }
   } catch (error) {
@@ -89,8 +103,8 @@ const editUserInfo = async (req, res, next) => {
   try {
     const { userId } = req.params;
 
-    console.log(userId)
-    console.log(req.body)
+    console.log(userId);
+    console.log(req.body);
 
     const userInfo = await UserInfo.model.findOneAndUpdate(
       {
@@ -188,5 +202,5 @@ module.exports = {
   getUserInfo,
   gitLanguageStats,
   gitUserStats,
-  editUserInfo
+  editUserInfo,
 };
