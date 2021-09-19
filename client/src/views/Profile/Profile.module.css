@@ -1,6 +1,7 @@
 .container {
   padding: 35px;
   width: 100%;
+  overflow: hidden;
 }
 
 .header {
@@ -16,6 +17,7 @@
   height: auto;
   display: flex;
   flex-direction: column;
+  border-radius: 0 0 8px 8px;
 }
 
 .data {

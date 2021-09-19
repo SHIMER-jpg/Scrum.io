@@ -119,7 +119,7 @@ export default function ManagerView() {
               className={managerStyle.userBlobs}
             >
               {assignedUsers.map((user, index) => {
-                return index < 3 ? <img src={user.user.picture} /> : <></>;
+                return index < 3 ? <img src={user.user.picture} alt={user.user.name} title={user.user.name} /> : <></>;
               })}
               {assignedUsers.length > 3 ? (
                 <div className={managerStyle.more}>

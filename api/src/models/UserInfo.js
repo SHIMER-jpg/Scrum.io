@@ -13,8 +13,9 @@ const userInfoSchema = new mongoose.Schema({
   //como hacemos el localtime?
   localTime: { type: String }, //deberia ser algo como gtm-3 y de ahi parsear en el front
   quote: { type: String },
-  rating: { type: Number, Min: 0 },
+  rating: { type: Number, Min: 0, default: 5 },
   projectsWorked: { type: Number, Min: 0 },
+  totalStoryPoints: { type: Number, min: 0},
   background: { type: String }, //por ahora
   socials: [{ name: String, url: String }],
   linkedin: { type: String },
