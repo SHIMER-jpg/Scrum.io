@@ -6,7 +6,11 @@ import { RiPencilFill } from "react-icons/ri";
 import { BsCheck } from "react-icons/bs";
 
 import Loading from "../../components/Loading/Loading";
-import { getUserInfo, getUserLanguages, editUserInfoFields } from "../../redux/App/actions";
+import {
+  getUserInfo,
+  getUserLanguages,
+  editUserInfoFields,
+} from "../../redux/App/actions";
 import Notification from "../Notification/Notification";
 
 import styles from "./Profile.module.css";
@@ -92,8 +96,12 @@ const Profile = () => {
               </button>
             </nav>
             <div className={styles.renderContent}>
-              {selectedTab === "aboutMe" && userInfo._id && <AboutMeTab loggedUser={loggedUser} userInfo={userInfo} />}
-              {selectedTab === "stats" && userInfo._id && <StatsTab userInfo={userInfo} />}
+              {selectedTab === "aboutMe" && userInfo._id && (
+                <AboutMeTab loggedUser={loggedUser} userInfo={userInfo} />
+              )}
+              {selectedTab === "stats" && userInfo._id && (
+                <StatsTab userInfo={userInfo} />
+              )}
               {selectedTab === "notifications" && <Notification />}
             </div>
           </section>
@@ -127,7 +135,7 @@ const AboutMeTab = ({ loggedUser, userInfo }) => {
   const handleSetEdit = (field) => {
     setIsEditing({ ...isEditing, [field]: false });
 
-    dispatch(editUserInfoFields(loggedUser._id, values))
+    dispatch(editUserInfoFields(loggedUser._id, values));
 
     userInfo.description = values.description;
     userInfo.location = values.location;
@@ -149,7 +157,12 @@ const AboutMeTab = ({ loggedUser, userInfo }) => {
           )}
         </div>
         {isEditing.description ? (
-          <input type="text" name="description" onChange={handleChange} value={values.description} />
+          <input
+            type="text"
+            name="description"
+            onChange={handleChange}
+            value={values.description}
+          />
         ) : (
           <p>{userInfo.description}</p>
         )}
@@ -167,7 +180,16 @@ const AboutMeTab = ({ loggedUser, userInfo }) => {
             </button>
           )}
         </div>
-        <p>{userInfo.location}</p>
+        {isEditing.location ? (
+          <input
+            type="text"
+            name="location"
+            onChange={handleChange}
+            value={values.location}
+          />
+        ) : (
+          <p>{userInfo.location}</p>
+        )}
       </div>
     </div>
   );

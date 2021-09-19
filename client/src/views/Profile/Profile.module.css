@@ -126,9 +126,10 @@
 }
 
 .description .descriptionField input {
+  all: unset;
   margin-top: 8px !important;
   margin-bottom: 25px !important;
-  all: unset;
+  width: 100%;
 }
 
 /* STATS VIEW!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11 */
