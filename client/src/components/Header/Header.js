@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import { FiChevronDown } from "react-icons/fi";
 import { ImFileEmpty } from "react-icons/im";
@@ -8,7 +8,10 @@ import { IoMdNotificationsOutline } from "react-icons/io";
 import { useHistory } from "react-router-dom";
 
 import useTimeAgo from "../../hooks/useTimeAgo";
-import { markNotificationsAsReaded, markOneNotificationAsReaded } from "../../redux/App/actions";
+import {
+  markNotificationsAsReaded,
+  markOneNotificationAsReaded,
+} from "../../redux/App/actions";
 
 import styles from "./Header.module.css";
 
@@ -38,13 +41,19 @@ const Header = () => {
   };
 
   const handleNotificationClick = (notificationId, projectId) => {
-    dispatch(markOneNotificationAsReaded(user._id, notificationId))
-    history.push(`/project/${projectId}`);
-  }
+    dispatch(markOneNotificationAsReaded(user._id, notificationId));
+    history.push({
+      pathname: `/project/${projectId}`,
+      state: { projectId }
+    })
+  };
 
   const handleFooterClick = () => {
-    history.push("/notifications")
-  }
+    history.push({
+      pathname: "/myProfile",
+      state: { redirectSelectedTab: "notifications"}
+    })
+  };
 
   return (
     <header className={styles.container}>
@@ -78,7 +87,11 @@ const Header = () => {
             <main>
               {notifications.length ? (
                 notifications.map((notificacion) => (
-                  <Notification handleNotificationClick={handleNotificationClick} key={notificacion._id} {...notificacion} />
+                  <Notification
+                    handleNotificationClick={handleNotificationClick}
+                    key={notificacion._id}
+                    {...notificacion}
+                  />
                 ))
               ) : (
                 <div className={styles.noNotifications}>
@@ -87,7 +100,10 @@ const Header = () => {
                 </div>
               )}
             </main>
-            <footer onClick={handleFooterClick} className={styles.notificationsFooter}>
+            <footer
+              onClick={handleFooterClick}
+              className={styles.notificationsFooter}
+            >
               <p>View all</p>
             </footer>
           </div>
@@ -117,11 +133,20 @@ const Header = () => {
   );
 };
 
-function Notification({ _id, createdAt, type, projectId: project, handleNotificationClick }) {
+function Notification({
+  _id,
+  createdAt,
+  type,
+  projectId: project,
+  handleNotificationClick,
+}) {
   const timeAgo = useTimeAgo(new Date(createdAt), "short");
 
   return (
-    <article onClick={() => handleNotificationClick(_id, project._id)} className={styles.notification}>
+    <article
+      onClick={() => handleNotificationClick(_id, project._id)}
+      className={styles.notification}
+    >
       <div className={styles.notificationTitle}>
         <p>{project.projectName}</p>
         <p>{timeAgo}</p>

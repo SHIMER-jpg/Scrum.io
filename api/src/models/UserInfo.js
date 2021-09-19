@@ -17,6 +17,8 @@ const userInfoSchema = new mongoose.Schema({
   projectsWorked: { type: Number, Min: 0 },
   background: { type: String }, //por ahora
   socials: [{ name: String, url: String }],
+  linkedin: { type: String },
+  github: { type: String },
 });
 
 /*
