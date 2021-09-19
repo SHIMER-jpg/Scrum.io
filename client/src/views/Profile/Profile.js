@@ -137,13 +137,7 @@ const Profile = ({ location }) => {
   );
 };
 
-const AboutMeTab = ({ loggedUser, userInfo }) => {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    userInfo?.github && dispatch(getUserLanguages(userInfo.github));
-  }, [userInfo]);
-
+const AboutMeTab = ({ userInfo }) => {
   return (
     <div className={styles.description}>
       <div className={styles.descriptionField}>
@@ -280,7 +274,7 @@ const EditProfile = ({ loggedUser, userInfo, handleSubmit }) => {
           </div>
           <div className={`${styles.modalFormGroup} ${styles.softSkills}`}>
             {values.softSkills.map((s) => (
-              <p onClick={() => handleRemoveSoftSkill(s)}>
+              <p key={s} onClick={() => handleRemoveSoftSkill(s)}>
                 {s} | <b>X</b>
               </p>
             ))}
@@ -298,7 +292,6 @@ const EditProfile = ({ loggedUser, userInfo, handleSubmit }) => {
                 onChange={handleChange}
                 name="github"
                 placeholder="Write your GitHub username..."
-                required
                 autoComplete="off"
               />
             </div>
@@ -313,7 +306,6 @@ const EditProfile = ({ loggedUser, userInfo, handleSubmit }) => {
                 onChange={handleChange}
                 name="linkedin"
                 placeholder="Paste the URL of your LinkedIn profile"
-                required
                 autoComplete="off"
               />
             </div>
@@ -325,7 +317,14 @@ const EditProfile = ({ loggedUser, userInfo, handleSubmit }) => {
 };
 
 const StatsTab = ({ userInfo }) => {
+  const dispatch = useDispatch();
   const [languages, setLanguages] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    userInfo?.github &&
+      dispatch(getUserLanguages(userInfo.github, setIsLoading));
+  }, []);
 
   useEffect(() => {
     if (userInfo.languages) {
@@ -356,7 +355,11 @@ const StatsTab = ({ userInfo }) => {
   return (
     <section className={styles.stats}>
       {!userInfo?.languages?.length ? (
-        <p>Write your GitHub username</p>
+        isLoading ? (
+          <Loading />
+        ) : (
+          <p>Write your GitHub username to see your stats</p>
+        )
       ) : (
         <section className={styles.statsContainer}>
           <div className={styles.chartsContainer}>
@@ -399,10 +402,6 @@ const StatsTab = ({ userInfo }) => {
       )}
     </section>
   );
-};
-
-const UserStats = ({ languages }) => {
-  return languages.map((lang) => <p>xD</p>);
 };
 
 export default Profile;

@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const UserProject = require("../models/UserProject");
 const UserInfo = require("../models/UserInfo");
+const Task = require("../models/Task");
 const mongoose = require("mongoose");
 const { topLanguagesQuery, userStats } = require("../utils.js");
 
@@ -52,15 +53,24 @@ const findOrCreateUser = async (req, res, next) => {
     });
 
     if (userInDB) {
-      const userInfo = await UserInfo.model.findOne({
-        userId: userInDB._id,
-      });
+      const projects = await UserProject.model.find({ userId: userInDB._id });
+      const tasks = await Task.model.find({ asignedTo: userInDB._id });
 
-      if (!userInfo) {
-        UserInfo.model.create({
+      const storyPoints = tasks.reduce((acc, task) => acc += task.storyPoints, 0)
+
+      const userInfo = await UserInfo.model.findOneAndUpdate(
+        {
           userId: userInDB._id,
-        });
-      }
+        },
+        { projectsWorked: projects.length, totalStoryPoints: storyPoints },
+        { upsert: true, new: true }
+      );
+
+      // if (!userInfo) {
+      //   UserInfo.model.create({
+      //     userId: userInDB._id,
+      //   });
+      // }
 
       return res.status(200).json(userInDB);
     } else {
@@ -102,9 +112,6 @@ const getUserInfo = async (req, res, next) => {
 const editUserInfo = async (req, res, next) => {
   try {
     const { userId } = req.params;
-
-    console.log(userId);
-    console.log(req.body);
 
     const userInfo = await UserInfo.model.findOneAndUpdate(
       {

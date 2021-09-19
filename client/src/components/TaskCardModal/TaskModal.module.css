@@ -218,6 +218,8 @@
   display: flex;
   margin: auto;
   margin-right: 10px;
+  white-space: nowrap;
+  margin-left: 15px;
 }
 .danger {
   color: red;
