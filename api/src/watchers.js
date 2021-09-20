@@ -16,6 +16,10 @@ connection.once("open", () => {
 
   const messagesChangeStream = connection.collection("messages").watch();
 
+  notificationChangeStream.on("change", (change) => {
+    // console.log("NOTIFICATION CHANGE: ", change)
+  })
+
   messagesChangeStream.on("change", async (change) => {
     const message = await connection.models.Message.findOne({
       _id: change?.documentKey._id,
@@ -26,17 +30,20 @@ connection.once("open", () => {
   });
 
   taskChangeStream.on("change", async (change) => {
+    console.log("CHANGE ON tASK!!!")
     const task = await connection.models.Task.findOne({
       _id: change?.documentKey._id,
     });
 
     if (change.operationType === "insert" && task.status !== "Completed") {
       // io.to(change.fullDocument.asignedTo).emit("newTaskAssigned")
-      await Notification.model.create({
+      Notification.model.create({
         userId: task.asignedTo,
         projectId: task.projectId,
         type: "assignedTask",
       });
+
+      console.log("CREANDO NOTIFICACION 1!!!!!!!!!!!!!!!!!!1")
 
       io.emit("newTaskAssigned", {
         userId: task.asignedTo,
@@ -51,11 +58,13 @@ connection.once("open", () => {
         change.updateDescription.updatedFields.asignedTo &&
         task.status !== "Completed"
       ) {
-        await Notification.model.create({
+        Notification.model.create({
           userId: task.asignedTo,
           projectId: task.projectId,
           type: "assignedTask",
         });
+
+        console.log("CREANDO NOTIFICACIONES 2!!!!!!!!!!!!!!!!!!")
 
         io.emit("newTaskAssigned", {
           userId: task.asignedTo,
@@ -81,7 +90,15 @@ connection.once("open", () => {
     // la voy a emitir a todos los usuarios del proyecto ~MENOS~ el Scrum master
     const usersToEmit = usersInProject.filter(e => e.role === "developer").map((e) => e.userId)
 
-    console.log(usersToEmit)
+    if(change.operationType === "insert") {
+      const notifications = usersInProject.filter(e => e.role === "developer").map(u => ({
+        userId: u.userId,
+        projectId: u.projectId,
+        content: ad.title,
+        type: "ad"
+      }))
+      await Notification.model.insertMany(notifications)
+    }
 
     io.emit("newAd", {
       projectId: ad.projectId,

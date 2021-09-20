@@ -27,14 +27,14 @@ const createNotification = async (req, res, next) => {
   const { type, content, projectId } = req.body;
 
   try {
-    const createdNotification = await Notification.model.create({
-      userId,
-      type,
-      content,
-      projectId,
-    });
+    // const createdNotification = await Notification.model.create({
+    //   userId,
+    //   type,
+    //   content,
+    //   projectId,
+    // });
 
-    res.status(200).json(createdNotification);
+    res.status(200).json("createdNotification");
   } catch (e) {
     next(e);
   }

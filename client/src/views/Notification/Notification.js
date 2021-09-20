@@ -11,6 +11,7 @@ import styles from "./Notification.module.css";
 
 const mapTypeToText = {
   assignedTask: "You have a new task assigned",
+  ad: "Your scrum master has written an important ad."
 };
 
 const Notification = () => {

@@ -9,7 +9,7 @@ import styles from "./Layout.module.css";
 
 import Header from "../Header/Header";
 import Sidebar from "../Sidebar/Sidebar";
-import { getUnreadNotificationsByUser } from "../../redux/App/actions"
+import { getUnreadNotificationsByUser } from "../../redux/App/actions";
 
 const Layout = ({ children }) => {
   const { loggedUser, socket } = useSelector(({ app }) => app);
@@ -24,7 +24,7 @@ const Layout = ({ children }) => {
     if (socket.on && loggedUser) {
       socket.on("newTaskAssigned", ({ userId, projectId }) => {
         if (loggedUser._id === userId) {
-          dispatch(getUnreadNotificationsByUser(loggedUser._id))
+          dispatch(getUnreadNotificationsByUser(loggedUser._id));
 
           toast.info("You have a new task assigned.", {
             position: "bottom-right",
@@ -38,8 +38,8 @@ const Layout = ({ children }) => {
               // history.push(`/project/${projectId}`);
               history.push({
                 pathname: `/project/${projectId}`,
-                state: { projectId }
-              })
+                state: { projectId },
+              });
             },
           });
         }
@@ -47,6 +47,7 @@ const Layout = ({ children }) => {
 
       socket.on("newAd", ({ projectId, users }) => {
         if (users.includes(loggedUser._id)) {
+          dispatch(getUnreadNotificationsByUser(loggedUser._id));
           toast.info("New important advertisement.", {
             position: "bottom-right",
             autoClose: 3000,
@@ -56,7 +57,10 @@ const Layout = ({ children }) => {
             draggable: true,
             progress: undefined,
             onClick: () => {
-              history.push(`/project/${projectId}`);
+              history.push({
+                pathname: `/project/${projectId}`,
+                state: { projectId },
+              });
             },
           });
         }

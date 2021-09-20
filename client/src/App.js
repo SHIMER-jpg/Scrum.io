@@ -108,7 +108,6 @@ const App = () => {
             exact
             component={AdsContainer}
           />
-          <PrivateRoute path="/manager_view" exact component={ManagerView} />
           <PrivateRoute
             path="/meeting/:projectId"
             exact
