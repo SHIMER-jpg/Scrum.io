@@ -40,6 +40,9 @@ export default function SetupTableToolbar({ tasksSelected, setTasksFilter, tasks
     user: null,
   });
 
+  // este es el estado para mostrar/ocultar los filtros
+  const [showFilterList, setShowFilterList] = useState(false);
+
     useEffect(() => {
         const filteredUsers = assignedUsers
             .filter(({ user }) => user._id !== loggedId)
@@ -87,10 +90,10 @@ export default function SetupTableToolbar({ tasksSelected, setTasksFilter, tasks
     // funcion para tomar los filtros seleccionados y crear las cb que filtraran las tasks
     const handleFilters = (e) => {
       var filterCb;
-  
-      if (e.target.value === "All Tasks") {
-        filterCb = (e) => {
-          return e;
+
+      if (e.target.value === "All Status" || e.target.value === "All Priorizations" || e.target.value === 0) {
+        filterCb = (task) => {
+          return task;
         };
       } 
       else {
@@ -150,8 +153,8 @@ export default function SetupTableToolbar({ tasksSelected, setTasksFilter, tasks
     };
 
     // options de los selects
-    const priorizationOptions = ["Don't Change", "Easy Win", "Deprioritize", "Worth Pursuing", "Strategic Initiative"];
-    const statusOptions = ["Don't Change", "Pending", "In progress", "Completed", "Testing"];
+    const priorizationOptions = ["Easy Win", "Deprioritize", "Worth Pursuing", "Strategic Initiative"];
+    const statusOptions = ["Pending", "In progress", "Completed", "Testing"];
 
     return (
       <Toolbar
@@ -195,6 +198,9 @@ export default function SetupTableToolbar({ tasksSelected, setTasksFilter, tasks
                 name="priorization"
                 onChange={(e) => handleTaskFieldsChange(e)}
                 >
+                  <option key={"Don't Change"} value={null}>
+                    {"Don't Change"}
+                  </option>
                 {priorizationOptions.map((value, index) => (
                     <option key={index} value={value}>
                     {value}
@@ -276,6 +282,9 @@ export default function SetupTableToolbar({ tasksSelected, setTasksFilter, tasks
                   name="status"
                   onChange={(e) => handleTaskFieldsChange(e)}
                   >
+                    <option key={"Don't Change"} value={null}>
+                      {"Don't Change"}
+                    </option>
                   {statusOptions.map((value, index) => (
                       <option key={index} value={value}>
                       {value}
@@ -302,11 +311,55 @@ export default function SetupTableToolbar({ tasksSelected, setTasksFilter, tasks
           </>
         ) 
         : (
-          <Tooltip title="Filter list" className={styles.toolBarBtn}>
-            <IconButton>
-              <BsFilter size={30}/>
-            </IconButton>
-          </Tooltip>
+          <>
+            <Tooltip title="Filter list" className={styles.toolBarBtn}>
+              <IconButton
+                onClick={() => setShowFilterList(!showFilterList)}
+              >
+                <BsFilter size={30}/>
+              </IconButton>
+            </Tooltip>
+            {showFilterList
+              ? (
+                  <div className={styles.filterList}>
+                    <select
+                      name="priorization"
+                      onChange={(e) => handleFilters(e)}
+                    >
+                      <option key={"All Priorizations"} value={"All Priorizations"}>
+                        {"All Priorizations"}
+                      </option>
+                    {priorizationOptions.map((value, index) => (
+                      <option key={index} value={value}>
+                      {value}
+                      </option>
+                    ))}
+                    </select>
+                    <input
+                      type="number"
+                      name="sprintId"
+                      onChange={(e) => handleFilters(e)}
+                      min="0"
+                      max={projectSprintCount}
+                    />
+                    <select
+                      name="status"
+                      onChange={(e) => handleFilters(e)}
+                    >
+                      <option key={"All Status"} value={"All Status"}>
+                        {"All Status"}
+                      </option>
+                    {statusOptions.map((value, index) => (
+                      <option key={index} value={value}>
+                      {value}
+                      </option>
+                    ))}
+                    </select>
+                  </div>
+                )
+              : <></>
+            }
+          </>
         )}
       </Toolbar>
     );

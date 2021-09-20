@@ -94,17 +94,17 @@ export default function TasksCrud({ tasks, customHandleClick }){
 
   // esto esta mirando el estado de los filtros, siempre que se haga un cambio se filtraran las tasks que se muestran
   useEffect(() => {
-    var filteredTasks = tasks;
-    if (typeof tasksFilter.selectComplex === "function") {
-      filteredTasks = filteredTasks.filter(tasksFilter.selectComplex);
+    var filteredTasks = [...tasks];
+    if (typeof tasksFilter.priorization === "function") {
+      filteredTasks = filteredTasks.filter(tasksFilter.priorization);
     }
-    if (typeof tasksFilter.showNoValueTask === "function") {
-      filteredTasks = filteredTasks.filter(tasksFilter.showNoValueTask);
+    if (typeof tasksFilter.status === "function") {
+      filteredTasks = filteredTasks.filter(tasksFilter.status);
     }
-    if (typeof tasksFilter.select === "function") {
-      filteredTasks = filteredTasks.slice().sort(tasksFilter.select);
+    if (typeof tasksFilter.sprintId === "function") {
+      filteredTasks = filteredTasks.filter(tasksFilter.sprintId);
     } else {
-      setTasksArray(tasks);
+      setTasksArray([...tasks]);
     }
 
     setTasksArray(filteredTasks);
