@@ -36,6 +36,7 @@ const Profile = ({ location }) => {
 
   const handleEditSubmit = (e, values) => {
     e.preventDefault();
+    console.log(values)
 
     dispatch(editUserInfoFields(loggedUser._id, values));
     setSelectedTab("aboutMe");
@@ -44,6 +45,7 @@ const Profile = ({ location }) => {
     userInfo.location = values.location;
     userInfo.github = values.github;
     userInfo.linkedin = values.linkedin;
+    userInfo.softSkills = values.softSkills;
     userInfo.role = values.role;
   };
 

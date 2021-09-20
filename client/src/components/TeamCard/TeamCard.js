@@ -121,28 +121,28 @@ const StatsTab = ({ userInfo }) => {
                 ))}
               </div>
             </div>
-            <div className={styles.softSkillsContainer}>
-              <p>Soft Skills</p>
-              <ul className={styles.softSkills}>
-                {userInfo.softSkills.map((item, index) => {
-                  return <li key={index}>{item}</li>;
-                })}
-              </ul>
+            <div className={styles.performance}>
+              <div className={styles.performanceItem}>
+                <p>Projects worked</p>
+                <p>{userInfo.projectsWorked}</p>
+              </div>
+              <div className={styles.performanceItem}>
+                <p>Rating</p>
+                <p>{userInfo.rating || 5}</p>
+              </div>
+              <div className={styles.performanceItem}>
+                <p>Total story points</p>
+                <p>{userInfo.totalStoryPoints}</p>
+              </div>
             </div>
           </div>
-          <div className={styles.performance}>
-            <div className={styles.performanceItem}>
-              <p>Projects worked</p>
-              <p>{userInfo.projectsWorked}</p>
-            </div>
-            <div className={styles.performanceItem}>
-              <p>Rating</p>
-              <p>{userInfo.rating}</p>
-            </div>
-            <div className={styles.performanceItem}>
-              <p>Total story points</p>
-              <p>{userInfo.totalStoryPoints}</p>
-            </div>
+          <div className={styles.softSkillsContainer}>
+            <p>Soft Skills</p>
+            <ul className={styles.softSkills}>
+              {userInfo.softSkills.map((item, index) => {
+                return <li key={index}>{item}</li>;
+              })}
+            </ul>
           </div>
         </section>
       )}
