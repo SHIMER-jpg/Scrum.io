@@ -13,6 +13,7 @@ const headCells = [
     { id: 'title', numeric: false, disablePadding: true, label: 'Title' },
     { id: 'storyPoints', numeric: true, disablePadding: true, label: 'Points' },
     { id: 'priorization', numeric: false, disablePadding: true, label: 'Priorization' },
+    { id: 'sprintId', numeric: true, disablePadding: true, label: 'Sprint' },
     { id: 'asignedTo', numeric: false, disablePadding: true, label: 'Assigned to' },
     { id: 'status', numeric: false, disablePadding: true, label: 'Status' },
     { id: 'creationDate', numeric: true, disablePadding: true, label: 'Created' },

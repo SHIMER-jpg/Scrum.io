@@ -21,6 +21,9 @@ import Swal from "sweetalert2";
 import { updateManyTask, deleteSelectedTasks } from "../../../redux/ManagerView/actions";
 
 export default function SetupTableToolbar({ tasksSelected }){
+
+  const projectSprintCount = useSelector((state) => state.managerView.project.sprintCount);
+
   // estados para el input de seleccion de usuario asignado
   const loggedId = useSelector((state) => state.app.loggedUser._id);
   const assignedUsers = useSelector((state) => state.managerView.asignedUsers);
@@ -31,6 +34,7 @@ export default function SetupTableToolbar({ tasksSelected }){
   // estados de los campos a modificar de las tasks
   const [dynamicFields, setDynamicFields] = useState({
     priorization: null,
+    sprintId: null,
     status: null,
     asignedTo: null,
     user: null,
@@ -54,7 +58,9 @@ export default function SetupTableToolbar({ tasksSelected }){
     function handleTaskFieldsChange(event) {
         setDynamicFields({
             ...dynamicFields,
-            [event.target.name]: event.target.value,
+            [event.target.name]: event.target.value === 0 
+            ? null
+            : event.target.value
         });
     }
 
@@ -174,6 +180,14 @@ export default function SetupTableToolbar({ tasksSelected }){
                     </option>
                 ))}
               </select>
+              <input
+                type="number"
+                name="sprintId"
+                value={dynamicFields.sprintId !== null ? dynamicFields.sprintId : 0}
+                onChange={(e) => handleTaskFieldsChange(e)}
+                min="0"
+                max={projectSprintCount}
+              />
               <div className={styles.toolBarSelectUsers}>
                 
                 <div

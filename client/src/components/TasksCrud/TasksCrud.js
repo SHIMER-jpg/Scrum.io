@@ -211,9 +211,10 @@ export default function TasksCrud({ tasksArray, customHandleClick }){
                     {task.title}
                 </TableCell>
                 <TableCell align="center">{task.storyPoints}</TableCell>
-                <SetupTableCellInput property={"priorization"} task={task} taskId={task._id}/>
-                <SetupTableCellInput property={"asignedTo"} task={task} taskId={task._id}/>
-                <SetupTableCellInput property={"status"} task={task} taskId={task._id}/>
+                <SetupTableCellInput property={"priorization"} task={task} />
+                <SetupTableCellInput property={"sprintId"} task={task} />
+                <SetupTableCellInput property={"asignedTo"} task={task} />
+                <SetupTableCellInput property={"status"} task={task} />
                 <TableCell align="center">{new Date(task.creationDate).toLocaleDateString()}</TableCell>
                 <TableCell align="center">
                   {task.completedDate && task.completedDate !== null

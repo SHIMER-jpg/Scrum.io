@@ -12,6 +12,9 @@ import Checkbox from '@material-ui/core/Checkbox';
 import { updateTask } from "../../../redux/ManagerView/actions";
 
 export default function SetupTableCellInput({ property, task }){
+
+    const projectSprintCount = useSelector((state) => state.managerView.project.sprintCount);
+
     // estado para modificar un campo de la task
     const [dynamicField, setDynamicField] = useState({
         [property]: task[property],
@@ -147,6 +150,15 @@ export default function SetupTableCellInput({ property, task }){
                     <Checkbox
                         onClick={(event) => handleTaskFieldsChange(event, task._id)}
                         checked={dynamicField[property]}
+                    />
+                : property === "sprintId"
+                ? 
+                    <input
+                    type="number"
+                    value={dynamicField[property]}
+                    onChange={(e) => handleTaskFieldsChange(e)}
+                    min="1"
+                    max={projectSprintCount}
                     />
                 :
                     <select
