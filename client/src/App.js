@@ -24,7 +24,8 @@ import Layout from "./components/Layout/Layout.js";
 import PokerPlanning from "./views/PokerPlanning/PokerPlanning";
 import { Configuration } from "./views/Configuration/Configuration.js";
 import JitsiMeet from "./views/JitsiMeet/JitsiMeet.js";
-import Notification from "./views/Notification/Notification.js";
+import Profile from "./views/Profile/Profile";
+import TeamComposition from "./views/TeamComposition/TeamComposition.js";
 
 const { REACT_APP_BACKEND_URL } = process.env;
 
@@ -97,15 +98,16 @@ const App = () => {
             component={Statistics}
           />
           <PrivateRoute
+            path="/teamComp/:projectId"
+            exact
+            component={TeamComposition}
+          />
+          <PrivateRoute
             path="/meeting/:projectId"
             exact
             component={JitsiMeet}
           />
-          <PrivateRoute
-            path="/notifications"
-            exact
-            component={Notification}
-          />
+          <PrivateRoute path="/myProfile" exact component={Profile} />
           <PrivateRoute path="/configuration" exact component={Configuration} />
         </Layout>
         <Route component={NotFound} />

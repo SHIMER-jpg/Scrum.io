@@ -1,0 +1,26 @@
+.container {
+  padding: 25px 0 25px 30px;
+  width: 100%;
+  min-height: calc(100vh - 70px);
+  height: auto;
+  overflow-y: scroll;
+}
+
+.header {
+  margin-bottom: 50px;
+  width: calc(100% - 30px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgb(179, 179, 179);
+  padding-bottom: 20px;
+}
+
+.body {
+  margin-top: 30px;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 30px;
+}

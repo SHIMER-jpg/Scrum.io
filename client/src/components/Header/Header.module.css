@@ -128,14 +128,14 @@
 
 .notification {
   padding: 10px 15px;
-  transition: all .15s ease-in-out;
+  transition: all 0.15s ease-in-out;
   cursor: pointer;
+  z-index: 10001;
 }
 
 .notification:hover {
   background-color: rgba(161, 36, 101, 0.1);
 }
-
 
 .notification:not(:last-child) {
   border-bottom: 1px solid rgb(218, 218, 218);

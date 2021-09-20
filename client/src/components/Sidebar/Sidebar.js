@@ -1,10 +1,9 @@
-import { RiHomeLine } from "react-icons/ri";
+import { RiHomeLine, RiTeamFill } from "react-icons/ri";
 import { BsGear } from "react-icons/bs";
 import { FaTasks } from "react-icons/fa";
-import { CgCardDiamonds } from "react-icons/cg";
+import { CgCardDiamonds, CgProfile } from "react-icons/cg";
 import { HiViewBoards } from "react-icons/hi";
 import { AiOutlineBarChart } from "react-icons/ai";
-import { IoMdNotificationsOutline } from "react-icons/io";
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 
@@ -54,13 +53,20 @@ const Sidebar = () => {
       {userRole && (
         <div className={styles.item}>
           <NavLink to={`/meeting/${projectId}`}>
-            <SiGooglehangoutsmeet size={23} /> Live Meeting
+            <SiGooglehangoutsmeet size={23} /> Live meeting
+          </NavLink>
+        </div>
+      )}
+      {userRole && (
+        <div className={styles.item}>
+          <NavLink to={`/teamComp/${projectId}`}>
+            <RiTeamFill size={23} /> Team Comp
           </NavLink>
         </div>
       )}
       <div className={styles.item}>
-        <NavLink to="/notifications">
-          <IoMdNotificationsOutline size={25} /> Notifications
+        <NavLink to="/myProfile">
+          <CgProfile size={23} /> My profile
         </NavLink>
       </div>
       <div className={styles.item}>

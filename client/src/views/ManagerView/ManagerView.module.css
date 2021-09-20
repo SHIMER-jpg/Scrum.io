@@ -29,7 +29,6 @@
 
 .userBlobs {
   display: flex;
-  padding: 10px 15px;
   flex-wrap: wrap;
   cursor: pointer;
 }
@@ -38,16 +37,20 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 40px;
-  width: 40px;
-  border-radius: 20px;
+  height: 45px;
+  width: 45px;
+  border-radius: 50%;
   font-weight: 600;
   color: white;
   user-select: none;
+  border: 3px solid #f3f3f3;
+
 }
+
 .userBlobs img {
-  height: 40px;
-  width: 40px;
-  border-radius: 20px;
+  height: 45px;
+  width: 45px;
+  border-radius: 50%;
   margin-right: -10px;
+  border: 3px solid #f3f3f3;
 }

@@ -7,6 +7,7 @@ import appReducer from "./App/reducer";
 import viewRouter from "./ViewRouter/reducer";
 import NotesReducer from "./NoteDetail/reducer.js";
 import pokerplanning from "../redux/PokerPlanning/reducer";
+import teamCompReducer from "../redux/TeamComposition/reducer";
 import chatReducer from "./Chat/reducer.js";
 
 const rootReducer = combineReducers({
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   viewRouter: viewRouter,
   NotesReducer: NotesReducer,
   pokerplanning: pokerplanning,
+  teamCompReducer: teamCompReducer,
   chatInfo: chatReducer,
 });
 

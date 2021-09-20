@@ -3,12 +3,12 @@ import { useSelector } from "react-redux";
 import { useRouteMatch } from "react-router";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { getRole } from "../../redux/ViewRouter/actions";
+import { getRole, clearRole } from "../../redux/ViewRouter/actions";
 import ManagerView from "../../views/ManagerView/ManagerView.js";
 import DeveloperView from "../../views/DeveloperView/DeveloperView.js";
 import Loading from "../Loading/Loading";
 
-const ViewRouter = () => {
+const ViewRouter = ({ location: { state } }) => {
   const route = useRouteMatch();
   const dispatch = useDispatch();
 
@@ -22,6 +22,13 @@ const ViewRouter = () => {
 
     // return () => dispatch(clearRole())
   }, [loggedUser]);
+
+  useEffect(() => {
+    if(state?.projectId) {
+      dispatch(clearRole())
+      loggedUser._id && dispatch(getRole(loggedUser._id, state.projectId));
+    }
+  }, [state])
 
   return (
     <>

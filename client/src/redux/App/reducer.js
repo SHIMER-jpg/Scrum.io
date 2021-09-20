@@ -3,14 +3,17 @@ import {
   SET_SOCKET,
   GET_NOTIFICATIONS,
   READ_NOTIFICATIONS,
-  GET_ALL_NOTIFICATIONS
+  GET_ALL_NOTIFICATIONS,
+  GET_USER_LANGUAGES,
+  GET_USER_INFO,
 } from "./constants.js";
 
 const initialState = {
   loggedUser: {},
   socket: {},
   notifications: [], // unread notifications
-  allNotifications: []
+  allNotifications: [],
+  userInfo: {},
 };
 
 export default function reducer(state = initialState, action) {
@@ -43,13 +46,27 @@ export default function reducer(state = initialState, action) {
         }),
       };
     }
+    case GET_USER_INFO:
+      return {
+        ...state,
+        userInfo: action.payload,
+      };
+    case GET_USER_LANGUAGES: {
+      return {
+        ...state,
+        userInfo: {
+          ...state.userInfo,
+          languages: action.payload
+        }
+      }
+    }
     case GET_ALL_NOTIFICATIONS: {
       return {
         ...state,
         allNotifications: action.payload.sort(
           (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
         ),
-      }
+      };
     }
     default:
       return state;
