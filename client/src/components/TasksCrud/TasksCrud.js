@@ -1,4 +1,4 @@
-import { React, useState } from 'react';
+import { React, useState, useEffect } from 'react';
 import { useDispatch } from "react-redux";
 import styles from './TasksCrud.module.css';
 
@@ -73,6 +73,12 @@ export default function TasksCrud({ tasksArray, customHandleClick }){
   // estados para mostrar el TaskCardModal
   const [modalIsOpen, setIsModalOpen] = useState(false);
   const [modalDetails, setModalDetails] = useState({});
+
+  // deselecciona todas las tareas seleccionadas apenas hay un cambio en las tareas cargadas
+  // esto es para que despues de terminar una accion que involucra a varias tareas, se deseleccionen y no se quede la TableToolbar activa
+  useEffect(() => {
+    setSelected([]);
+  },[tasksArray])
 
   // funcion para cambiar el orden de cierta propiedad
   const handleRequestSort = (event, property) => {

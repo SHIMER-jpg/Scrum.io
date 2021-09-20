@@ -37,6 +37,14 @@ export default function SetupTableCellInput({ property, task }){
         (state) => state.viewRouter.userRole === "scrumMaster"
     );
     
+    // se encarga de actualizar los campos de los input en la tabla cada vez que cambian las propiedades de la task
+    useEffect(() => {
+        setDynamicField({
+            [property]: task[property],
+            user: task.user
+        })
+    },[task])
+    
     const dispatch = useDispatch();
 
     // funcion para tomar los cambios de los campos y actualizar la task
