@@ -63,12 +63,24 @@ function descendingComparator(a, b, orderBy) {
   }
 
 // este es el componente del CRUD que va a importar ManagerView
-export default function TasksCrud({ tasksArray, customHandleClick }){
+export default function TasksCrud({ tasks, customHandleClick }){
+
+  //este es el estado que posee un array de tasks localmente, existe para poder filtrarlas sin que afecte al estado global (asi no se tiene que pedir de nuev al back)
+  const [tasksArray, setTasksArray] = useState(tasks);
+
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('title');
   const [selected, setSelected] = useState([]);
   const [page, setPage] = useState(0);
   const [tasksPerPage, setTasksPerPage] = useState(5);
+
+  // estados para los filtros
+  var [tasksFilter, setTasksFilter] = useState({
+    priorization: null,
+    status: null,
+    asignedTo: null,
+    sprintId: null,
+  });
 
   // estados para mostrar el TaskCardModal
   const [modalIsOpen, setIsModalOpen] = useState(false);
@@ -79,6 +91,24 @@ export default function TasksCrud({ tasksArray, customHandleClick }){
   useEffect(() => {
     setSelected([]);
   },[tasksArray])
+
+  // esto esta mirando el estado de los filtros, siempre que se haga un cambio se filtraran las tasks que se muestran
+  useEffect(() => {
+    var filteredTasks = tasks;
+    if (typeof tasksFilter.selectComplex === "function") {
+      filteredTasks = filteredTasks.filter(tasksFilter.selectComplex);
+    }
+    if (typeof tasksFilter.showNoValueTask === "function") {
+      filteredTasks = filteredTasks.filter(tasksFilter.showNoValueTask);
+    }
+    if (typeof tasksFilter.select === "function") {
+      filteredTasks = filteredTasks.slice().sort(tasksFilter.select);
+    } else {
+      setTasksArray(tasks);
+    }
+
+    setTasksArray(filteredTasks);
+  }, [tasksFilter, tasks]);
 
   // funcion para cambiar el orden de cierta propiedad
   const handleRequestSort = (event, property) => {
@@ -155,7 +185,7 @@ export default function TasksCrud({ tasksArray, customHandleClick }){
   return(
     <div className={styles.container}>
       <Paper className={styles.paper}>
-      <SetupTableToolbar tasksSelected={selected}/>
+      <SetupTableToolbar tasksSelected={selected} setTasksFilter={setTasksFilter} tasksFilter={tasksFilter}/>
         <TableContainer>
           <Table
             className={styles.table}

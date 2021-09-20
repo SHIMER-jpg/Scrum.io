@@ -20,7 +20,7 @@ import Swal from "sweetalert2";
 // redux actions
 import { updateManyTask, deleteSelectedTasks } from "../../../redux/ManagerView/actions";
 
-export default function SetupTableToolbar({ tasksSelected }){
+export default function SetupTableToolbar({ tasksSelected, setTasksFilter, tasksFilter }){
 
   const projectSprintCount = useSelector((state) => state.managerView.project.sprintCount);
 
@@ -82,6 +82,27 @@ export default function SetupTableToolbar({ tasksSelected }){
         setIsSelectUsersOpen(false);
         setQuery("");
       }
+    };
+
+    // funcion para tomar los filtros seleccionados y crear las cb que filtraran las tasks
+    const handleFilters = (e) => {
+      var filterCb;
+  
+      if (e.target.value === "All Tasks") {
+        filterCb = (e) => {
+          return e;
+        };
+      } 
+      else {
+        filterCb = (task) => {
+          return task[e.target.name] === e.target.value;
+        };
+      }
+  
+      setTasksFilter({
+        ...tasksFilter,
+        [e.target.name]: filterCb,
+      });
     };
 
     // funcion para despachar los cambios y modificar todas las tasks seleccionadas
