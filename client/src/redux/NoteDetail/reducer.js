@@ -3,12 +3,10 @@ import {
   CLEAR_NOTES,
   CREATE_NOTE,
   REMOVE_NOTE,
-  GET_TEAMCOMP,
 } from "./constants";
 
 const initialState = {
   notes: [],
-  teamComp: [],
 };
 
 const NotesReducer = (state = initialState, action) => {
@@ -27,12 +25,6 @@ const NotesReducer = (state = initialState, action) => {
       return {
         ...state,
         notes: [],
-      };
-
-    case GET_TEAMCOMP:
-      return {
-        ...state,
-        teamComp: action.payload,
       };
     case REMOVE_NOTE:
       return {

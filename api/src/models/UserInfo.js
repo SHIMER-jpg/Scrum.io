@@ -15,7 +15,7 @@ const userInfoSchema = new mongoose.Schema({
   quote: { type: String },
   rating: { type: Number, Min: 0, default: 5 },
   projectsWorked: { type: Number, Min: 0 },
-  totalStoryPoints: { type: Number, min: 0},
+  totalStoryPoints: { type: Number, min: 0 },
   background: { type: String }, //por ahora
   socials: [{ name: String, url: String }],
   linkedin: { type: String },

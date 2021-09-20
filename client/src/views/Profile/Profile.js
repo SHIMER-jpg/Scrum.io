@@ -156,16 +156,17 @@ const AboutMeTab = ({ userInfo }) => {
         <div className={styles.descriptionHeader}>
           <h2>Soft skills</h2>
         </div>
-
-        {!userInfo.softSkills.length ? (
-          <p>No soft skills provided.</p>
-        ) : (
-          <ul>
-            {userInfo.softSkills.map((s) => (
-              <li key={s}>{s}</li>
-            ))}
-          </ul>
-        )}
+        <div className={styles.softSkillsList}>
+          {!userInfo.softSkills.length ? (
+            <p>No soft skills provided.</p>
+          ) : (
+            <ul>
+              {userInfo.softSkills.map((s) => (
+                <li key={s}>{s}</li>
+              ))}
+            </ul>
+          )}
+        </div>
       </div>
     </div>
   );
@@ -347,7 +348,7 @@ const StatsTab = ({ userInfo }) => {
           color: lang.color,
         });
       });
-      console.log(selectedLanguages);
+
       setLanguages(selectedLanguages);
     }
   }, [userInfo]);

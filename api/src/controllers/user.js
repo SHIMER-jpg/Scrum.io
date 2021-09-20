@@ -56,7 +56,10 @@ const findOrCreateUser = async (req, res, next) => {
       const projects = await UserProject.model.find({ userId: userInDB._id });
       const tasks = await Task.model.find({ asignedTo: userInDB._id });
 
-      const storyPoints = tasks.reduce((acc, task) => acc += task.storyPoints, 0)
+      const storyPoints = tasks.reduce(
+        (acc, task) => (acc += task.storyPoints),
+        0
+      );
 
       const userInfo = await UserInfo.model.findOneAndUpdate(
         {

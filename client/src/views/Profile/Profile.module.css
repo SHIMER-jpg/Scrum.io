@@ -111,13 +111,13 @@
 }
 
 .editProfileForm {
-  display: flex;  
+  display: flex;
   gap: 30px;
 }
 
 .editProfileInfo {
   width: 50%;
-} 
+}
 
 .editProfileSocials {
   width: 50%;
@@ -128,7 +128,7 @@
   padding: 8px;
   border-radius: 5px;
   font-weight: 600;
-  transition: all .15s ease-in-out;
+  transition: all 0.15s ease-in-out;
   background-color: var(--violet);
   color: white;
   border: 2px solid transparent;
@@ -201,6 +201,25 @@
   gap: 10px;
 }
 
+.softSkillsList {
+  max-width: max-content;
+}
+
+.softSkillsList ul {
+  list-style-type: none;
+}
+
+.softSkillsList li {
+  border: 1px solid var(--violet);
+  padding: 5px 8px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  font-size: 14px;
+  color: var(--violet);
+  font-weight: 500;
+  cursor: pointer;
+}
+
 .softSkills p {
   border: 1px solid var(--violet);
   padding: 5px 8px;
@@ -210,7 +229,6 @@
   font-weight: 500;
   cursor: pointer;
 }
-
 
 .editProfileSocialsFormGroup {
   width: 100%;
@@ -239,7 +257,6 @@
   width: 100%;
 }
 
-
 /* ABOUT ME VIEW !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
 
 .descriptionHeader {
@@ -247,7 +264,6 @@
   gap: 15px;
   align-items: center;
 }
-
 
 .descriptionHeader h2 {
   font-weight: 600;
@@ -257,7 +273,6 @@
 
 .descriptionHeader button {
   all: unset;
-
 }
 
 .description p {
