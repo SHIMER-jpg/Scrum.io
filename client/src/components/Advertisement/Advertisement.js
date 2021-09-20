@@ -10,14 +10,15 @@ import { IoClose } from "react-icons/io5";
 export default function Advertisement({
   title,
   description,
-  date,
+  createdAt,
   id,
   role,
   color,
 }) {
+
   const advertisementId = id;
   const dispatch = useDispatch();
-  const dateTimeAgo = useTimeAgo(new Date(date));
+  const dateTimeAgo = useTimeAgo(new Date(createdAt));
   const [colorNote] = useState(
     color == "Orange"
       ? styles.orange

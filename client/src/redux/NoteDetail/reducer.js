@@ -42,13 +42,11 @@ const NotesReducer = (state = initialState, action) => {
         ...state,
         advertisements: action.payload,
       };
-
     case CREATE_ADVERTISEMENT:
       return {
         ...state,
         advertisements: [...state.advertisements, action.payload],
       };
-
     case DELETE_ADVERTISEMENT:
       return {
         ...state,
@@ -56,13 +54,11 @@ const NotesReducer = (state = initialState, action) => {
           ...state.advertisements.filter((ad) => ad._id !== action.payload),
         ],
       };
-
     case CLEAR_ADVERTISEMENTS:
       return {
         ...state,
         advertisements: [],
       };
-
     default:
       return state;
   }

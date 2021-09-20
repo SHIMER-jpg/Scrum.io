@@ -68,7 +68,6 @@ export function createAdvertisement(newAdvertisement) {
         newAdvertisement
       )
       .then((json) => {
-        console.log(json.data);
         dispatch({ type: CREATE_ADVERTISEMENT, payload: json.data });
       })
       .catch((err) => {

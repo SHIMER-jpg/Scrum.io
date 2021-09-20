@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Advertisement from "../../components/Advertisement/Advertisement";
 import CreateAdModal from "../../components/CreateAdModal/CreateAdModal";
 import styles from "./AdsContainer.module.css";
+import Loading from "../../components/Loading/Loading";
 
 import {
   getAdvertisementsByProjectId,
@@ -16,6 +17,7 @@ export default function AdsContainer(props) {
   const advertisements = useSelector(
     (state) => state.NotesReducer.advertisements
   );
+  const [isLoading, setIsLoading] = useState(true);
 
   const [ads, setAds] = useState([]);
 
@@ -27,8 +29,11 @@ export default function AdsContainer(props) {
   }, []);
 
   useEffect(() => {
-    setAds(
-      advertisements.sort(function (a, b) {
+    setAds(advertisements);
+  }, [advertisements]);
+
+  /**
+   * advertisements.sort(function (a, b) {
         if (a.createdAt < b.createdAt) {
           return 1;
         }
@@ -37,9 +42,7 @@ export default function AdsContainer(props) {
         }
         return 0;
       })
-    );
-  }, [advertisements]);
-
+   */
   return (
     <div className={styles.adsContainer}>
       {isModalOpen && (
@@ -58,21 +61,33 @@ export default function AdsContainer(props) {
         ) : null}
       </header>
       <div className={styles.ads}>
-        {ads.length > 0 ? (
-          ads.map((ad) => (
-            <Advertisement
-              title={ad.title}
-              description={ad.description}
-              date={ad.createdAt}
-              id={ad._id}
-              role={userRole}
-              color={ad.color}
-            />
-          ))
+        {advertisements.length > 0 ? (
+          advertisements
+            .sort(function (a, b) {
+              if (a.createdAt < b.createdAt) {
+                return 1;
+              }
+              if (a.createdAt > b.createdAt) {
+                return -1;
+              }
+              return 0;
+            })
+            .map((ad) => (
+              <Advertisement
+                key={ad._id}
+                title={ad.title}
+                description={ad.description}
+                createdAt={ad.createdAt}
+                id={ad._id}
+                color={ad.color}
+                role={userRole}
+              />
+            ))
         ) : (
           <div className={styles.noAds}>
-            <h1>There's no advertisements</h1>
-            {userRole === "scrumMaster" ? <h1>create a new one!</h1> : null}
+            <h1>There are no advertisements yet</h1>
+            <br></br>
+            {userRole === "scrumMaster" ? <h1>Create a new one!</h1> : null}
           </div>
         )}
       </div>
