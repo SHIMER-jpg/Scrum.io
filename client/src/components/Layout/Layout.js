@@ -29,6 +29,23 @@ const Layout = ({ children }) => {
           });
         }
       });
+
+      socket.on("newAd", ({ projectId, users }) => {
+        if (users.includes(loggedUser._id)) {
+          toast.info("New important advertisement.", {
+            position: "bottom-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            onClick: () => {
+              history.push(`/project/${projectId}`);
+            },
+          });
+        }
+      });
     }
   }, [loggedUser]);
 

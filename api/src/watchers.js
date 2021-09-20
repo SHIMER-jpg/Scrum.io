@@ -7,11 +7,10 @@ connection.once("open", () => {
   console.log("Setting watchers");
 
   const taskChangeStream = connection.collection("tasks").watch();
-
+  const adsChangeStream = connection.collection("advertisements").watch();
   const noteChangeStream = connection.collection("notes").watch();
 
   taskChangeStream.on("change", async (change) => {
-    console.log(change)
     const task = await connection.models.Task.findOne({
       _id: change?.documentKey._id,
     });
@@ -27,7 +26,10 @@ connection.once("open", () => {
         projectId: task.projectId,
       });
     } else if (change.operationType === "update") {
-      if (change.updateDescription.updatedFields.asignedTo && task.status !== "Completed") {
+      if (
+        change.updateDescription.updatedFields.asignedTo &&
+        task.status !== "Completed"
+      ) {
         io.emit("newTaskAssigned", {
           userId: task.asignedTo,
           projectId: task.projectId,
@@ -38,6 +40,26 @@ connection.once("open", () => {
         projectId: task.projectId,
       });
     }
+  });
+
+  adsChangeStream.on("change", async (change) => {
+    const ad = await connection.models.Advertisement.findOne({
+      _id: change?.documentKey._id,
+    });
+
+    const usersInProject = await connection.models.UserProjects.find({
+      projectId: ad.projectId,
+    });
+
+    // la voy a emitir a todos los usuarios del proyecto ~MENOS~ el Scrum master
+    const usersToEmit = usersInProject.filter(e => e.role === "developer").map((e) => e.userId)
+
+    console.log(usersToEmit)
+
+    io.emit("newAd", {
+      projectId: ad.projectId,
+      users: usersToEmit,
+    });
   });
 
   noteChangeStream.on("change", (change) => {
