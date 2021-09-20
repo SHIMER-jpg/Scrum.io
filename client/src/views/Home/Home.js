@@ -9,6 +9,7 @@ import CreateProjectModal from "../../components/CreateProjectModal/CreateProjec
 import ProjectHolder from "../../components/ProjectHolder/ProjectHolder";
 import Loading from "../../components/Loading/Loading";
 import { clearRole } from "../../redux/ViewRouter/actions";
+import { clearMessages } from "../../redux/Chat/actions";
 
 import styles from "./Home.module.css";
 
@@ -28,6 +29,7 @@ const Home = () => {
 
   useEffect(() => {
     dispatch(clearRole());
+    dispatch(clearMessages());
   }, []);
 
   return (
@@ -47,7 +49,11 @@ const Home = () => {
         )}
       </main>
       {isModalOpen && (
-        <CreateProjectModal setIsLoadingProjects={setIsLoadingProjects} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+        <CreateProjectModal
+          setIsLoadingProjects={setIsLoadingProjects}
+          isModalOpen={isModalOpen}
+          setIsModalOpen={setIsModalOpen}
+        />
       )}
     </section>
   );
