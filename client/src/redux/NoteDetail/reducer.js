@@ -6,12 +6,12 @@ import {
   GET_ADVERTISEMENTS,
   CREATE_ADVERTISEMENT,
   DELETE_ADVERTISEMENT,
-  CLEAR_ADVERTISEMENTS
+  CLEAR_ADVERTISEMENTS,
 } from "./constants";
 
 const initialState = {
   notes: [],
-  advertisements: []
+  advertisements: [],
 };
 
 const NotesReducer = (state = initialState, action) => {
@@ -36,28 +36,33 @@ const NotesReducer = (state = initialState, action) => {
         ...state,
         notes: [...state.notes.filter((note) => note._id !== action.payload)],
       };
-    //------------------- ADVERTISEMENTS ------------------------------------  
+    //------------------- ADVERTISEMENTS ------------------------------------
     case GET_ADVERTISEMENTS:
       return {
         ...state,
         advertisements: action.payload,
       };
+
     case CREATE_ADVERTISEMENT:
       return {
         ...state,
         advertisements: [...state.advertisements, action.payload],
       };
+
     case DELETE_ADVERTISEMENT:
       return {
         ...state,
-        advertisements: [...state.advertisements.filter((ad) => ad._id !== action.payload)],
-      };  
+        advertisements: [
+          ...state.advertisements.filter((ad) => ad._id !== action.payload),
+        ],
+      };
+
     case CLEAR_ADVERTISEMENTS:
-      console.log('entro al reducer')
       return {
         ...state,
         advertisements: [],
-      };  
+      };
+
     default:
       return state;
   }

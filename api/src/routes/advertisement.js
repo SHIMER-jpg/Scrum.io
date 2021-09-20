@@ -2,13 +2,13 @@ const { Router } = require("express");
 
 const advertisement = Router();
 const {
-  getAllAdvsByProjectId,
+  getAllAdsByProjectId,
   createAdvertisement,
-  deleteAdvertisement
+  deleteAdvertisement,
 } = require("../controllers/advertisement.js");
 
-advertisement.get('/:projectId', getAllAdvsByProjectId)
-advertisement.post('/createAdvertisement', createAdvertisement)
-advertisement.delete('/:advertisementId', deleteAdvertisement)
+advertisement.get("/:projectId", getAllAdsByProjectId);
+advertisement.post("/createAdvertisement", createAdvertisement);
+advertisement.delete("/:advertisementId", deleteAdvertisement);
 
 module.exports = advertisement;

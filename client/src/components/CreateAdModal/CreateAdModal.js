@@ -1,8 +1,8 @@
 import Modal from "react-modal";
 import { IoClose } from "react-icons/io5";
 import React, { useState } from "react";
-import { useDispatch} from "react-redux";
-import { createAdvertisement } from '../../redux/NoteDetail/actions';
+import { useDispatch } from "react-redux";
+import { createAdvertisement } from "../../redux/NoteDetail/actions";
 
 import styles from "./CreateAdModal.module.css";
 
@@ -26,32 +26,31 @@ const customStyles = {
   },
 };
 
-export default function CreateAdModal(props){
-
+export default function CreateAdModal(props) {
   const dispatch = useDispatch();
 
   const [input, setInput] = useState({
     title: "",
     description: "",
     color: "",
-    projectId: props.projectId
-  })
+    projectId: props.projectId,
+  });
 
-  function handleChange(e){
+  function handleChange(e) {
     setInput({
       ...input,
-      [e.target.name] : e.target.value
-    })
+      [e.target.name]: e.target.value,
+    });
   }
 
-  function handleSubmit(e){
+  function handleSubmit(e) {
     e.preventDefault();
-    dispatch(createAdvertisement(input))
-    props.setIsModalOpen(false)
+    dispatch(createAdvertisement(input));
+    props.setIsModalOpen(false);
     setInput({
       title: "",
-      description: ""
-    })
+      description: "",
+    });
   }
 
   return (
@@ -69,14 +68,14 @@ export default function CreateAdModal(props){
       <Formik
         initialValues={input}
         validationSchema={Yup.object({
-          title: Yup.string().required('It must have a title.'),
-          description: Yup.string().required('You must provide a description.')
+          title: Yup.string().required("It must have a title."),
+          description: Yup.string().required("You must provide a description."),
         })}
         onSubmit={(_, actions) => {
           if (!input.title || !input.description) {
             actions.setSubmitting(false);
           } else {
-            dispatch(createAdvertisement({ ...input}));
+            dispatch(createAdvertisement({ ...input }));
             setInput({
               title: "",
               description: "",
@@ -84,16 +83,16 @@ export default function CreateAdModal(props){
             props.setIsModalOpen(false);
           }
         }}
-        >
-        {({isSubmitting, isValidating}) => (
+      >
+        {({ isSubmitting, isValidating }) => (
           <Form className={styles.modalBody}>
-            <Field as='div' className={styles.modalFormGroup}>
+            <Field as="div" className={styles.modalFormGroup}>
               <label>Title:</label>
               <Field
-                placeholder='Title of your ad'
+                placeholder="Title of your ad"
                 name="title"
                 type="text"
-                onChange={(e)=>handleChange(e)}
+                onChange={(e) => handleChange(e)}
               />
               <ErrorMessage name="title" component="div">
                 {(msg) => (
@@ -103,14 +102,14 @@ export default function CreateAdModal(props){
                 )}
               </ErrorMessage>
             </Field>
-            <Field as='div' className={styles.modalFormGroup}>
+            <Field as="div" className={styles.modalFormGroup}>
               <label>Description:</label>
-              <Field
-                type= "text"
-                name= "description"
+              <textarea
+                type="text"
+                name="description"
                 value={input.description}
-                placeholder= "Description"
-                onChange={(e)=>handleChange(e)} 
+                placeholder="Description"
+                onChange={(e) => handleChange(e)}
               />
               <ErrorMessage name="description" component="div">
                 {(msg) => (
@@ -121,12 +120,11 @@ export default function CreateAdModal(props){
               </ErrorMessage>
             </Field>
             <Field className={styles.modalFormGroup} as="div">
-            <label>Color</label>
+              <label>Color</label>
               <select
                 name="color"
                 value={input.color}
                 onChange={(e) => handleChange(e)}
-
               >
                 <option value="">Select a color</option>
                 <option value="Lightblue">Light Blue</option>
@@ -143,7 +141,7 @@ export default function CreateAdModal(props){
                 )}
               </ErrorMessage>
             </Field>
-            <Field as='div' className={styles.modalFormGroup}>
+            <Field as="div" className={styles.modalFormGroup}>
               <button disabled={isSubmitting && !isValidating} type="submit">
                 Create
               </button>
@@ -153,4 +151,4 @@ export default function CreateAdModal(props){
       </Formik>
     </Modal>
   );
-};
+}
