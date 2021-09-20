@@ -167,9 +167,9 @@ const deleteTask = async (req, res, next) => {
 
 const deleteSelectedTasks = async (req, res, next) => {
   try {
-    const tasksIdArray = req.body.tasksIdArray.map(taskId => mongoose.Types.ObjectId(taskId));
-    await Task.model.deleteMany({ _id: tasksIdArray });
-    await Note.model.deleteMany({ taskId: tasksIdArray });
+    const manyTasksId = req.body.tasksIdArray.map(taskId => mongoose.Types.ObjectId(taskId));
+    await Task.model.deleteMany({ _id: manyTasksId });
+    await Note.model.deleteMany({ taskId: manyTasksId });
     res.status(200).json("success");
   } catch (error) {
     next(error);

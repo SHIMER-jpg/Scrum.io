@@ -29,7 +29,7 @@ task.put("/updateMany", modifyManyTasks);
 // Obtiene las tareas de un usuario
 task.get("/user", getUserTasks);
 
-task.delete("/deleteSelectedTasks", deleteSelectedTasks);
+task.put("/deleteSelectedTasks", deleteSelectedTasks); // es una ruta 'put' porque en la 'delete' se ignora el body y nunca recibe el array con tareas a borrar
 
 task.delete("/:taskId", deleteTask);
 

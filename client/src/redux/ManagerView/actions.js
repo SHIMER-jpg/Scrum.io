@@ -188,14 +188,14 @@ export function deleteTasks(projectId) {
 }
 
 export function deleteSelectedTasks(tasksIdArray) {
+  const tasksToDelete = {
+    tasksIdArray
+  }
   return function (dispatch) {
     axios
-      .delete(
+      .put(
         `${REACT_APP_BACKEND_URL}/task/deleteSelectedTasks`,
-        {
-          coso: "a ver si andas capo",
-          tasksIdArray: tasksIdArray
-        }
+        tasksToDelete
       )
       .then(dispatch({ type: DELETE_SELECTED_TASKS, payload: tasksIdArray }));
   };
