@@ -119,6 +119,7 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
 
     dispatch(updateTask(change));
   }
+
   function handlePrioritizationChange({ target }) {
     const change = {
       taskId: _id,

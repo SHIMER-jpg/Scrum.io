@@ -12,8 +12,19 @@ connection.once("open", () => {
   const notificationChangeStream = connection.collection("notifications").watch();
 
 
+  const messagesChangeStream = connection.collection("messages").watch();
+
+  messagesChangeStream.on("change", async (change) => {
+    const message = await connection.models.Message.findOne({
+      _id: change?.documentKey._id,
+    })
+      .populate("userId")
+      .exec();
+    if (change.operationType === "insert") io.emit("newMessage", message);
+  });
+
   taskChangeStream.on("change", async (change) => {
-    console.log(change)
+    console.log(change);
     const task = await connection.models.Task.findOne({
       _id: change?.documentKey._id,
     });
