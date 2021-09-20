@@ -116,11 +116,16 @@ const editUserInfo = async (req, res, next) => {
   try {
     const { userId } = req.params;
 
+    console.log(req.body);
+
     const userInfo = await UserInfo.model.findOneAndUpdate(
       {
         userId: mongoose.Types.ObjectId(userId),
       },
-      { ...req.body },
+      {
+        ...req.body,
+        softSkills: req.body.softSkills, // forzar a que se actualicen para que funcione
+      },
       { upsert: true, new: true } // upsert true: find or Create, new: true devuelve la edicion nueva, no la vieja
     );
 
