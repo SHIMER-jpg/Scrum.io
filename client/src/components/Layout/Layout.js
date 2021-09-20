@@ -6,7 +6,6 @@ import { useHistory } from "react-router-dom";
 import { Chat } from "../../views/Chat/Chat";
 import { BsChatDots } from "react-icons/bs";
 import styles from "./Layout.module.css";
-import { BsFillCircleFill } from "react-icons/bs";
 
 import Header from "../Header/Header";
 import Sidebar from "../Sidebar/Sidebar";
@@ -18,8 +17,6 @@ const Layout = ({ children }) => {
 
   const [buttonOpen, setButtonOpen] = useState(false);
   const [alert, setAlert] = useState(false);
-
-  console.log(alert);
 
   useEffect(() => {
     if (socket.on && loggedUser) {

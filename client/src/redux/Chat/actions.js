@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { GET_MESSAGES, CREATE_MESSAGES } from "./constants.js";
+import { GET_MESSAGES } from "./constants.js";
 
 require("dotenv").config();
 const { REACT_APP_BACKEND_URL } = process.env;
@@ -38,6 +38,5 @@ export function clearMessages() {
 }
 
 export function saveLength(payload) {
-  console.log(payload);
   return { type: "SAVE_LENGTH", payload: payload };
 }
