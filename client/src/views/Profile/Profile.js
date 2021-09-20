@@ -36,7 +36,6 @@ const Profile = ({ location }) => {
 
   const handleEditSubmit = (e, values) => {
     e.preventDefault();
-    console.log(values)
 
     dispatch(editUserInfoFields(loggedUser._id, values));
     setSelectedTab("aboutMe");

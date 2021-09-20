@@ -115,9 +115,6 @@ const getUserInfo = async (req, res, next) => {
 const editUserInfo = async (req, res, next) => {
   try {
     const { userId } = req.params;
-
-    console.log(req.body);
-
     const userInfo = await UserInfo.model.findOneAndUpdate(
       {
         userId: mongoose.Types.ObjectId(userId),
