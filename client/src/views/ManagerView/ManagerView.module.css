@@ -26,3 +26,28 @@
   gap: 30px;
   overflow-x: auto;
 }
+
+.userBlobs {
+  display: flex;
+  padding: 10px 15px;
+  flex-wrap: wrap;
+  cursor: pointer;
+}
+.more {
+  background-color: var(--violet);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  width: 40px;
+  border-radius: 20px;
+  font-weight: 600;
+  color: white;
+  user-select: none;
+}
+.userBlobs img {
+  height: 40px;
+  width: 40px;
+  border-radius: 20px;
+  margin-right: -10px;
+}

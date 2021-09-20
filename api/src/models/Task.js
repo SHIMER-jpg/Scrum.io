@@ -27,7 +27,9 @@ const taskSchema = new mongoose.Schema(
     },
     details: { type: String },
     helpNeeded: { type: Boolean, default: false },
-
+    sprintId: { type: Number },
+    nextTasks: [{ type: Schema.Types.ObjectId, ref: "Task" }],
+    prevTasks: [{ type: Schema.Types.ObjectId, ref: "Task" }],
     projectId: { type: Schema.Types.ObjectId, ref: "Project" },
     noteIds: [{ type: Schema.Types.ObjectId, ref: "Note" }],
   },

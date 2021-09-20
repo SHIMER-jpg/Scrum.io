@@ -53,16 +53,17 @@ const getProjectByUserId = async (req, res, next) => {
 
 const createProject = async (req, res, next) => {
   try {
-    const newProject = new Project.model({
+    const newProject = await new Project.model({
       projectName: req.body.projectName,
       creationDate: req.body.creationDate,
+      startDate: req.body.startDate,
       requiredDate: req.body.requiredDate,
       description: req.body.description,
       sprintCount: req.body.sprintCount,
-      currentSprint: req.body.currentSprint,
       sprintDuration: req.body.sprintDuration,
     });
 
+    newProject.set("auxiliaryDates");
     newProject.asignUsersToNewProject(
       req.body.Users,
       req.body.scrumMaster,
@@ -82,7 +83,6 @@ const createProject = async (req, res, next) => {
       text: `<b>Greetings ${user.name}, through this email we inform you that you have been assigned a new project, please enter Scrum.io to view it.\n
       Have a nice day<b>`,
     });
-
     res.status(201).json(newProject);
   } catch (error) {
     next(error);
