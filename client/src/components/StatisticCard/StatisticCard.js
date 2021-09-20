@@ -25,6 +25,8 @@ export default function StatisticCard({ graphType, tasks, project }) {
     sprintNumber: 1,
   });
 
+  const [labelDays, setLabelDays] = useState([]);
+
   function handleDataChartOption(e) {
     if (
       e.target.name === "sprintNumber" &&
@@ -50,47 +52,54 @@ export default function StatisticCard({ graphType, tasks, project }) {
     }
   }, [tasks]);
 
-  //CALCULATIONS FOR IDEAL PROGRESS
-  let firstDay =
-    project.creationDate && moment(project.creationDate.substring(0, 10));
-  let lastDay =
-    project.requiredDate && moment(project.requiredDate.substring(0, 10));
-  let days = firstDay && lastDay.diff(firstDay, "days");
+  useEffect(() => {
+    let firstDay =
+      project.creationDate && moment(project.creationDate.substring(0, 10));
+    let lastDay =
+      project.requiredDate && moment(project.requiredDate.substring(0, 10));
+    let days = firstDay && lastDay.diff(firstDay, "days");
+    let dataDays = [];
+    for (let i = 0; i <= days; i++) {
+      dataDays[i] = i;
+    }
+    setLabelDays(dataDays);
+  }, []);
 
-  let dataDays = [];
-  for (let i = 0; i <= days; i++) {
-    dataDays[i] = i;
+  //CALCULATIONS FOR IDEAL PROGRESS
+  function idealProgress() {
+    if (tasks.length > 0) {
+      var storyPoints = tasks.map((t) => t.storyPoints).reduce((a, b) => a + b);
+      storyPoints = parseInt(storyPoints, 10);
+      var storyPointsPerDay = parseFloat(
+        (storyPoints / labelDays.length).toFixed(2)
+      );
+      let sum = 0;
+      var dataStoryPoints = [];
+      for (let i = 0; i <= labelDays.length; i++) {
+        dataStoryPoints[i] = Math.round(sum);
+        sum = sum + storyPointsPerDay;
+      }
+      dataStoryPoints = dataStoryPoints.reverse();
+
+      return dataStoryPoints;
+    }
   }
 
-  if (tasks.length > 0) {
-    var storyPoints = tasks.map((t) => t.storyPoints).reduce((a, b) => a + b);
-    storyPoints = parseInt(storyPoints, 10);
-
-    var storyPointsPerDay = parseFloat((storyPoints / days).toFixed(2));
-
-    let sum = 0;
-    var dataStoryPoints = [];
-    for (let i = 0; i <= days; i++) {
-      dataStoryPoints[i] = Math.round(sum);
-      sum = sum + storyPointsPerDay;
-    }
-    dataStoryPoints = dataStoryPoints.reverse();
-
+  function burnDownProgress() {
     //CALCULATIONS FOR ACTUAL PROGRESS
-
-    let completedTasks =
-      tasks
-        .filter((t) => t.status === "Completed")
-        .sort(function (a, b) {
-          if (a.completedDate > b.completedDate) {
-            return 1;
-          }
-          if (a.completedDate < b.completedDate) {
-            return -1;
-          }
-          return 0;
-        });
-        console.log(completedTasks, "tasks")
+    let firstDay =
+      project.creationDate && moment(project.creationDate.substring(0, 10));
+    let completedTasks = tasks
+      .filter((t) => t.status === "Completed")
+      .sort(function (a, b) {
+        if (a.completedDate > b.completedDate) {
+          return 1;
+        }
+        if (a.completedDate < b.completedDate) {
+          return -1;
+        }
+        return 0;
+      });
     var lastCompletedDate = moment(
       completedTasks[completedTasks.length - 1].completedDate.substring(0, 10)
     );
@@ -103,7 +112,7 @@ export default function StatisticCard({ graphType, tasks, project }) {
     });
 
     var devStoryPoints = new Array(finalDate + 1);
-    devStoryPoints.fill(dataStoryPoints[0]);
+    devStoryPoints.fill(idealProgress()[0]);
 
     var devStoryPointsCorrected = [];
     devStoryPoints.forEach((point, index) => {
@@ -127,39 +136,39 @@ export default function StatisticCard({ graphType, tasks, project }) {
         );
       }
     });
+    return devStoryPointsCorrected;
+    // for (let i = 0; i <= completedDates.length; i++) {
+    //   for (let j = 0; j < completedTasks.length; j++) {
+    //     if (completedTasks[j].completedDate === completedDates[i]) {
+
+    //       devStoryPoints[i + 1] =
+    //         dataStoryPoints[i] - completedTasks[j].storyPoints;
+    //     }
+    //   }
+    // }
+    // console.log(devStoryPoints, dataStoryPoints);
+
+    // let tasksPerDay = Math.round(tasks.length / days);
+    // let dataTasksPerDay = [];
+    // let add = 0;
+    // for (let i = 0; i <= days; i++) {
+    //   dataTasksPerDay[i] = add;
+    //   add = add + tasksPerDay;
+    // }
+    // dataTasksPerDay = dataTasksPerDay.reverse();
+
+    // let tasksCompletedPerDay = [];
+    // for (let h = 1; h < devStoryPoints.length; h++) {
+    //   tasksCompletedPerDay[h] = 0;
+    // }
+    // for (let i = 0; i <= completedDates.length; i++) {
+    //   for (let j = 0; j < completedTasks.length; j++) {
+    //     if (completedTasks[j].completedDate === completedDates[i]) {
+    //       tasksCompletedPerDay[i] = dataTasksPerDay[i] - 1;
+    //     }
+    //   }
+    // }
   }
-  // for (let i = 0; i <= completedDates.length; i++) {
-  //   for (let j = 0; j < completedTasks.length; j++) {
-  //     if (completedTasks[j].completedDate === completedDates[i]) {
-
-  //       devStoryPoints[i + 1] =
-  //         dataStoryPoints[i] - completedTasks[j].storyPoints;
-  //     }
-  //   }
-  // }
-  // console.log(devStoryPoints, dataStoryPoints);
-
-  // let tasksPerDay = Math.round(tasks.length / days);
-  // let dataTasksPerDay = [];
-  // let add = 0;
-  // for (let i = 0; i <= days; i++) {
-  //   dataTasksPerDay[i] = add;
-  //   add = add + tasksPerDay;
-  // }
-  // dataTasksPerDay = dataTasksPerDay.reverse();
-
-  // let tasksCompletedPerDay = [];
-  // for (let h = 1; h < devStoryPoints.length; h++) {
-  //   tasksCompletedPerDay[h] = 0;
-  // }
-  // for (let i = 0; i <= completedDates.length; i++) {
-  //   for (let j = 0; j < completedTasks.length; j++) {
-  //     if (completedTasks[j].completedDate === completedDates[i]) {
-  //       tasksCompletedPerDay[i] = dataTasksPerDay[i] - 1;
-  //     }
-  //   }
-  // }
-
   // funcion para setear la data por StoryPoints
   function charDataByStoryPoints() {
     var charData = [0, 0, 0, 0];
@@ -187,9 +196,11 @@ export default function StatisticCard({ graphType, tasks, project }) {
           charData[3] += t.storyPoints;
         }
       });
-    }
+    } else if (graphType === "BurnDown Chart") charData = burnDownProgress();
+
     return charData;
   }
+
   // funcion para setear la data por tasks
   function charDataByTasks() {
     var charData = [0, 0, 0, 0];
@@ -300,18 +311,19 @@ export default function StatisticCard({ graphType, tasks, project }) {
             ) : graphType === "BurnDown Chart" ? (
               <Line
                 data={{
-                  labels: dataDays,
+                  labels: labelDays,
                   datasets: [
                     {
                       label: "Actual development",
-                      data: devStoryPointsCorrected,
+                      // data: devStoryPointsCorrected,
+                      data: graphData.byStoryPoints,
                       // data: charDataOption === 'byStoryPoints' ? devStoryPoints : tasksCompletedPerDay,
                       backgroundColor: ["#a12464"],
                       borderColor: ["#a12464"],
                     },
                     {
                       label: "Ideal development",
-                      data: dataStoryPoints,
+                      data: idealProgress(),
                       // data: charDataOption === 'byStoryPoints' ? dataStoryPoints : dataTasksPerDay,
                       backgroundColor: ["#7BEFFF"],
                       borderColor: ["#7BEFFF"],

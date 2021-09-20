@@ -5,7 +5,7 @@ import {
   getProjectById,
   getTasksByProject,
   getAsignedUsers,
-  clearManagerView
+  clearManagerView,
 } from "../../redux/ManagerView/actions";
 
 import { fetchUsers } from "../../redux/Home/actions";
@@ -39,7 +39,7 @@ export default function ManagerView() {
   const project = useSelector((state) => state.managerView.project);
   const assignedUsers = useSelector((state) => state.managerView.asignedUsers);
   const [isLoadingTasks, setIsLoadingTasks] = useState(true);
-  const { socket, loggedUser } = useSelector((state) => state.app)
+  const { socket, loggedUser } = useSelector((state) => state.app);
   const allUsers = useSelector((state) => state.home.users);
 
   const switchTasksView = () => {
@@ -52,13 +52,16 @@ export default function ManagerView() {
   }
 
   const handleSocketUpdate = useCallback(({ projectId: projectFromSocket }) => {
-    console.table({"Project ID": projectId, "Project ID from socket": projectFromSocket})
+    console.table({
+      "Project ID": projectId,
+      "Project ID from socket": projectFromSocket,
+    });
 
     if (projectFromSocket === projectId) {
       dispatch(getTasksByProject(projectId));
     }
   }, []);
-  
+
   useEffect(() => {
     dispatch(fetchUsers(loggedUser));
     dispatch(getProjectById(projectId));
@@ -69,13 +72,13 @@ export default function ManagerView() {
   }, []);
 
   useEffect(() => {
-    socket.on("updateTask", handleSocketUpdate)
+    socket.on("updateTask", handleSocketUpdate);
 
     return () => {
-      socket.off("updateTask", handleSocketUpdate)
-    }
+      socket.off("updateTask", handleSocketUpdate);
+    };
   }, [loggedUser]);
-  
+
   function usersInProject() {
     var array = [];
 
@@ -97,6 +100,8 @@ export default function ManagerView() {
           isModalOpen={isModalOpen}
           setIsModalOpen={setIsModalOpen}
           projectId={projectId}
+          sprintCount={project.sprintCount}
+          tasks={tasks}
         />
       )}
       {importModal && (
@@ -134,12 +139,28 @@ export default function ManagerView() {
               }
             </button>
 
-            <button
+            
+            <div
+              onClick={() => setModalAddPartner(true)}
+              className={managerStyle.userBlobs}
+            >
+              {assignedUsers.map((user, index) => {
+                return index < 3 ? <img src={user.user.picture} alt={user.user.name} title={user.user.name} /> : <></>;
+              })}
+              {assignedUsers.length > 3 ? (
+                <div className={managerStyle.more}>
+                  +{assignedUsers.length - 3}
+                </div>
+              ) : (
+                ""
+              )}
+            </div>
+            {/* <button
               className="btn-primary"
               onClick={() => setModalAddPartner(true)}
             >
               <FiUsers /> Manage users
-            </button>
+            </button> */}
 
             <button
               className="btn-primary"

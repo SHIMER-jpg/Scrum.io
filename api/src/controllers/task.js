@@ -27,11 +27,6 @@ const getTasksByProjectId = async (req, res, next) => {
         $unwind: "$user",
       },
     ]);
-
-    // const data = await Task.model
-    //   .find({ projectId })
-    //   .populate("project")
-    //   .exec();
     res.status(200).json(data);
   } catch (error) {
     next(error);
@@ -48,6 +43,7 @@ const postTask = async (req, res, next) => {
       priorization: req.body.priorization,
       details: req.body.details,
       projectId: req.body.projectId,
+      sprintId: req.body.sprintId,
     });
 
     await newTask.save();
@@ -78,12 +74,11 @@ const modifyTask = async (req, res, next) => {
       req.body.field == "asigedTo"
         ? mongoose.Types.ObjectId(req.body.value)
         : req.body.value;
-    
-    if(req.body.field === "status"){
-      if(req.body.value === "Completed"){
+
+    if (req.body.field === "status") {
+      if (req.body.value === "Completed") {
         update.completedDate = Date.now();
-      }
-      else{
+      } else {
         update.completedDate = null;
       }
     }

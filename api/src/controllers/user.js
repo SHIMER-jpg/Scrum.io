@@ -1,6 +1,9 @@
 const User = require("../models/User");
 const UserProject = require("../models/UserProject");
+const UserInfo = require("../models/UserInfo");
+const Task = require("../models/Task");
 const mongoose = require("mongoose");
+const { topLanguagesQuery, userStats } = require("../utils.js");
 
 const getUsersByProjectId = async (req, res, next) => {
   try {
@@ -31,7 +34,7 @@ const getUsersByProjectId = async (req, res, next) => {
 const getUserRole = async (req, res, next) => {
   try {
     const { userId, projectId } = req.query;
-    // console.log("filter data:", userId, projectId);
+
     const data = await UserProject.model.find({
       userId: userId,
       projectId: projectId,
@@ -50,9 +53,35 @@ const findOrCreateUser = async (req, res, next) => {
     });
 
     if (userInDB) {
+      const projects = await UserProject.model.find({ userId: userInDB._id });
+      const tasks = await Task.model.find({ asignedTo: userInDB._id });
+
+      const storyPoints = tasks.reduce(
+        (acc, task) => (acc += task.storyPoints),
+        0
+      );
+
+      const userInfo = await UserInfo.model.findOneAndUpdate(
+        {
+          userId: userInDB._id,
+        },
+        { projectsWorked: projects.length, totalStoryPoints: storyPoints },
+        { upsert: true, new: true }
+      );
+
+      // if (!userInfo) {
+      //   UserInfo.model.create({
+      //     userId: userInDB._id,
+      //   });
+      // }
+
       return res.status(200).json(userInDB);
     } else {
       const newUser = await User.model.create(req.body);
+      UserInfo.model.create({
+        userId: newUser._id,
+      });
+
       res.status(201).json(newUser);
     }
   } catch (error) {
@@ -70,6 +99,42 @@ const getAllUsers = async (req, res, next) => {
   }
 };
 
+const getUserInfo = async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+    const userInfo = await UserInfo.model.findOne({
+      userId: mongoose.Types.ObjectId(userId),
+    });
+
+    res.status(200).json(userInfo);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const editUserInfo = async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+
+    console.log(req.body);
+
+    const userInfo = await UserInfo.model.findOneAndUpdate(
+      {
+        userId: mongoose.Types.ObjectId(userId),
+      },
+      {
+        ...req.body,
+        softSkills: req.body.softSkills, // forzar a que se actualicen para que funcione
+      },
+      { upsert: true, new: true } // upsert true: find or Create, new: true devuelve la edicion nueva, no la vieja
+    );
+
+    res.status(200).json(userInfo);
+  } catch (error) {
+    next(error);
+  }
+};
+
 const assignUsers = async (req, res, next) => {
   try {
     const projectId = mongoose.Types.ObjectId(req.params.projectId);
@@ -79,7 +144,6 @@ const assignUsers = async (req, res, next) => {
       projectId: projectId,
       userId: userId,
     });
-    console.log("hola soy fede entreee");
     const newUser = userExists
       ? { error: "User already assigned" }
       : await UserProject.model.create({
@@ -97,13 +161,47 @@ const deleteUser = async (req, res, next) => {
   try {
     const projectId = mongoose.Types.ObjectId(req.params.projectId);
     const userId = mongoose.Types.ObjectId(req.body.userId);
-    console.log(req.body);
 
     const deleteUser = await UserProject.model.findOneAndRemove({
       projectId: projectId,
       userId: userId,
     });
     res.status(204).json({ msg: "hola fede" });
+  } catch (error) {
+    next(error);
+  }
+};
+
+//GIT STATS
+const gitLanguageStats = async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+    const rta = await topLanguagesQuery({ login: userId });
+    const repositories = rta.data.data.user.repositories.nodes;
+    const stats = repositories.reduce((acc, repo) => {
+      const current = repo.languages.edges.reduce((acc, lang) => {
+        acc[lang.node.name] = { color: lang.node.color, size: lang.size };
+        return acc;
+      }, {});
+      Object.keys(current).forEach((key) => {
+        if (!acc[key]) acc[key] = current[key];
+        else acc[key].size += current[key].size;
+      });
+      return acc;
+    }, {});
+
+    res.status(200).json(stats);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const gitUserStats = async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+    const rta = await userStats({ login: userId });
+
+    res.status(200).json(rta.data);
   } catch (error) {
     next(error);
   }
@@ -116,4 +214,8 @@ module.exports = {
   getUserRole,
   assignUsers: assignUsers,
   deleteUser,
+  getUserInfo,
+  gitLanguageStats,
+  gitUserStats,
+  editUserInfo,
 };
