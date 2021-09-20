@@ -4,7 +4,7 @@ import Advertisement from "../../components/Advertisement/Advertisement";
 import CreateAdModal from "../../components/CreateAdModal/CreateAdModal";
 import styles from './AdsContainer.module.css'
 
-import { getAdvertisementsByProjectId } from "../../redux/NoteDetail/actions";
+import { getAdvertisementsByProjectId, clearAdvertisements } from "../../redux/NoteDetail/actions";
 
 export default function AdsContainer (props){
 
@@ -25,9 +25,16 @@ export default function AdsContainer (props){
     }))
 
     useEffect(() => {
-        dispatch(getAdvertisementsByProjectId(props.match.params.projectId))
+        dispatch(getAdvertisementsByProjectId(props.match.params.projectId));
     }, [])
 
+    useEffect(() => {
+        console.log('entro al use effect')
+        return () => {
+            dispatch(clearAdvertisements())
+        }
+    }, [])
+    
     return (
         <div className={styles.adsContainer}>
             {isModalOpen && (
@@ -54,6 +61,9 @@ export default function AdsContainer (props){
                         title={ad.title}
                         description={ad.description}
                         date={ad.date}
+                        id={ad._id}
+                        role={userRole}
+                        color={ad.color}
                     />
                 )): <div className={styles.noAds}>
                     <h1>There's no advertisements</h1>

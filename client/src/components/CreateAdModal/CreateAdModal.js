@@ -1,8 +1,8 @@
 import Modal from "react-modal";
 import { IoClose } from "react-icons/io5";
 import React, { useState } from "react";
-import { useDispatch, useSelector} from "react-redux";
-import { createAdvertisement } from '../../redux/NoteDetail/actions'
+import { useDispatch} from "react-redux";
+import { createAdvertisement } from '../../redux/NoteDetail/actions';
 
 import styles from "./CreateAdModal.module.css";
 
@@ -27,12 +27,13 @@ const customStyles = {
 };
 
 export default function CreateAdModal(props){
-//FALTA VALIDAR EL BOTON DE CREATE PARA QUE NO CIERRE EL MODAL SI NO CUMPLE LAS CONDICIONES  
+
   const dispatch = useDispatch();
 
   const [input, setInput] = useState({
     title: "",
     description: "",
+    color: "",
     projectId: props.projectId
   })
 
@@ -112,6 +113,29 @@ export default function CreateAdModal(props){
                 onChange={(e)=>handleChange(e)} 
               />
               <ErrorMessage name="description" component="div">
+                {(msg) => (
+                  <p className={styles.errorMessage} style={{ color: "red" }}>
+                    {msg}
+                  </p>
+                )}
+              </ErrorMessage>
+            </Field>
+            <Field className={styles.modalFormGroup} as="div">
+            <label>Color</label>
+              <select
+                name="color"
+                value={input.color}
+                onChange={(e) => handleChange(e)}
+
+              >
+                <option value="">Select a color</option>
+                <option value="Lightblue">Light Blue</option>
+                <option value="Orange">Orange</option>
+                <option value="Pink">Pink</option>
+                <option value="Purple">Purple</option>
+                <option value="Green">Green</option>
+              </select>
+              <ErrorMessage name="selectColors" component="div">
                 {(msg) => (
                   <p className={styles.errorMessage} style={{ color: "red" }}>
                     {msg}

@@ -6,6 +6,8 @@ import {
   REMOVE_NOTE,
   GET_ADVERTISEMENTS,
   CREATE_ADVERTISEMENT,
+  DELETE_ADVERTISEMENT,
+  CLEAR_ADVERTISEMENTS
 } from "./constants";
 require("dotenv").config();
 const { REACT_APP_BACKEND_URL } = process.env;
@@ -83,4 +85,19 @@ export function createAdvertisement(newAdvertisement) {
         console.log(err);
       });
   };
+}
+
+export function deleteAdvertisement(advertisementId) {
+  return function (dispatch) {
+    axios
+      .delete(
+        `${REACT_APP_BACKEND_URL}/advertisement/${advertisementId}`
+      )
+      .then(dispatch({ type: DELETE_ADVERTISEMENT, payload: advertisementId }));
+  };
+}
+
+export function clearAdvertisements() {
+  console.log('entro a la action')
+  return { type: CLEAR_ADVERTISEMENTS };
 }

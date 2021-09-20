@@ -10,6 +10,10 @@ const advertisementSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  color: {
+    type: String,
+    required: true,
+  },
   date: { type: Date, default: Date.now() },
   projectId: { type: Schema.Types.ObjectId },
 });

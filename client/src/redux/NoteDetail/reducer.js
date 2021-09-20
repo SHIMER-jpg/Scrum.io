@@ -4,7 +4,9 @@ import {
   CREATE_NOTE,
   REMOVE_NOTE,
   GET_ADVERTISEMENTS,
-  CREATE_ADVERTISEMENT
+  CREATE_ADVERTISEMENT,
+  DELETE_ADVERTISEMENT,
+  CLEAR_ADVERTISEMENTS
 } from "./constants";
 
 const initialState = {
@@ -45,6 +47,17 @@ const NotesReducer = (state = initialState, action) => {
         ...state,
         advertisements: [...state.advertisements, action.payload],
       };
+    case DELETE_ADVERTISEMENT:
+      return {
+        ...state,
+        advertisements: [...state.advertisements.filter((ad) => ad._id !== action.payload)],
+      };  
+    case CLEAR_ADVERTISEMENTS:
+      console.log('entro al reducer')
+      return {
+        ...state,
+        advertisements: [],
+      };  
     default:
       return state;
   }

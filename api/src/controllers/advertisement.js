@@ -15,11 +15,12 @@ const getAllAdvsByProjectId = async (req, res, next) => {
 
 const createAdvertisement = async (req, res, next) => {
     try{
-        const {title, description, projectId} = req.body
+        const {title, description, projectId, color} = req.body
         const newAd = new Advertisement.model({
             title: title,
             description: description,
-            projectId: projectId
+            projectId: projectId,
+            color: color
         })
         await newAd.save()
         res.status(200).json(newAd)
@@ -29,7 +30,19 @@ const createAdvertisement = async (req, res, next) => {
     }
 }
 
+const deleteAdvertisement = async (req, res, next) => {
+    try{
+        const advertisementId = mongoose.Types.ObjectId(req.params.advertisementId);
+        await Advertisement.model.remove({ _id: advertisementId });
+        res.status(200).send('success')
+    }
+    catch(e){
+        next(e)
+    }
+}
+
 module.exports = {
     getAllAdvsByProjectId,
     createAdvertisement,
+    deleteAdvertisement
 };

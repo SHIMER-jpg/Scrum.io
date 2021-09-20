@@ -1,26 +1,102 @@
-.adContainer{
-  margin: 10px;
+.orange{
+  margin: 20px;
   padding: 10px;
-  width: 350px;
-  height: 350px;
+  width: 320px;
+  height: 320px;
   font:20px;
   line-height:1.5;
   border:0;
   border-radius:3px;
-  background: linear-gradient(#F9EFAF, #F7E98D);
+  background: #FFBD6F;
   box-shadow:0 4px 6px rgba(0,0,0,0.1);
   overflow:hidden;
   transition:box-shadow 0.5s ease;
   border:1px solid rgba(0,0,0,0.1); 
   cursor:pointer;
   float: left;
+  border-radius: 20px;
 }
-.note{
-  line-height: 40px;
+.lightBlue{
+  margin: 20px;
+  padding: 10px;
+  width: 320px;
+  height: 320px;
+  font:20px;
+  line-height:1.5;
+  border:0;
+  border-radius:3px;
+  background: #aff5ff;
+  box-shadow:0 4px 6px rgba(0,0,0,0.1);
+  overflow:hidden;
+  transition:box-shadow 0.5s ease;
+  border:1px solid rgba(0,0,0,0.1); 
+  cursor:pointer;
+  float: left;
+  border-radius: 20px;
+}
+.pink{
+  margin: 20px;
+  padding: 10px;
+  width: 320px;
+  height: 320px;
+  font:20px;
+  line-height:1.5;
+  border:0;
+  border-radius:3px;
+  background: #ffa4a4;
+  box-shadow:0 4px 6px rgba(0,0,0,0.1);
+  overflow:hidden;
+  transition:box-shadow 0.5s ease;
+  border:1px solid rgba(0,0,0,0.1); 
+  cursor:pointer;
+  float: left;
+  border-radius: 20px;
+}
+.purple{
+  margin: 20px;
+  padding: 10px;
+  width: 320px;
+  height: 320px;
+  font:20px;
+  line-height:1.5;
+  border:0;
+  border-radius:3px;
+  background: #c67ba2;
+  box-shadow:0 4px 6px rgba(0,0,0,0.1);
+  overflow:hidden;
+  transition:box-shadow 0.5s ease;
+  border:1px solid rgba(0,0,0,0.1); 
+  cursor:pointer;
+  float: left;
+  border-radius: 20px;
 }
 
-.adContainer:hover {
+
+.green{
+  margin: 20px;
+  padding: 10px;
+  width: 320px;
+  height: 320px;
+  font:20px;
+  line-height:1.5;
+  border:0;
+  border-radius:3px;
+  background: #bbffaf;
+  box-shadow:0 4px 6px rgba(0,0,0,0.1);
+  overflow:hidden;
+  transition:box-shadow 0.5s ease;
+  border:1px solid rgba(0,0,0,0.1); 
+  cursor:pointer;
+  float: left;
+  border-radius: 20px;
+}
+
+.orange:hover, .pink:hover, .lightBlue:hover, .purple:hover {
   transform: translateY(-8px);
+}
+
+.note{
+  line-height: 40px;
 }
 
 .title{
@@ -36,6 +112,19 @@
 .description{
   font-size: 18px;
   font-weight: 500;
+}
+
+.icon{
+  display: flex;
+  justify-content: flex-end;
+}
+
+.icon:hover{
+  color: grey;
+}
+
+.icon > button{
+  all: unset;
 }
 
 
