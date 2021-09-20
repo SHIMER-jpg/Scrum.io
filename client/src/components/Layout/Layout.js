@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
 import { Chat } from "../../views/Chat/Chat";
@@ -9,10 +9,12 @@ import styles from "./Layout.module.css";
 
 import Header from "../Header/Header";
 import Sidebar from "../Sidebar/Sidebar";
+import { getUnreadNotificationsByUser } from "../../redux/App/actions"
 
 const Layout = ({ children }) => {
   const { loggedUser, socket } = useSelector(({ app }) => app);
   const role = useSelector((state) => state.viewRouter.userRole);
+  const dispatch = useDispatch();
   const history = useHistory();
 
   const [buttonOpen, setButtonOpen] = useState(false);
@@ -22,9 +24,11 @@ const Layout = ({ children }) => {
     if (socket.on && loggedUser) {
       socket.on("newTaskAssigned", ({ userId, projectId }) => {
         if (loggedUser._id === userId) {
+          dispatch(getUnreadNotificationsByUser(loggedUser._id))
+
           toast.info("You have a new task assigned.", {
             position: "bottom-right",
-            autoClose: 3000,
+            autoClose: 3500,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
@@ -52,7 +56,7 @@ const Layout = ({ children }) => {
       <main style={{ display: "flex", minHeight: "calc(100vh - 70px)" }}>
         <ToastContainer
           position="bottom-right"
-          autoClose={3000}
+          autoClose={3500}
           hideProgressBar={false}
           newestOnTop={false}
           closeOnClick

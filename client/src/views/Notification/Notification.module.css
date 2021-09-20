@@ -1,0 +1,74 @@
+.container {
+  padding: 35px;
+  width: 100%;
+  min-height: calc(100vh - 70px);
+  height: auto;
+  overflow-y: scroll;
+}
+
+.header {
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgb(179, 179, 179);
+  padding-bottom: 20px;
+}
+
+.notificationsContainer {
+  /* max-width: 650px; */
+  margin-top: 50px;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0px 0px 3px 0 rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+
+.notificationItem {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: all .15s ease-in-out;
+  cursor: pointer;
+}
+
+.notificationItemReaded {
+  background-color: rgb(243, 243, 243);
+}
+
+.notificationItem:hover {
+  background-color: rgba(161, 36, 101, 0.1);
+}
+
+.notificationItem:not(:last-child) {
+  border-bottom: 1px solid rgb(211, 211, 211);
+}
+
+.notificationItemHeader {
+  display: flex;
+  justify-content: space-between;
+}
+
+.notificationItemHeader p:nth-child(1) {
+  margin: 0;
+  font-weight: 600;
+  font-size: 21px;
+  color: var(--violet);
+}
+
+.notificationItemHeader p:nth-child(2) {
+  margin: 0;
+  font-weight: 500;
+  font-size: 16px;
+  color: gray;
+}
+
+.notificationMain p {
+  margin: 0;
+  font-weight: 400;
+  font-size: 16px;
+}
