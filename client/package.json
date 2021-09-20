@@ -11,6 +11,7 @@
     "axios": "^0.21.1",
     "chart.js": "^3.5.1",
     "formik": "^2.2.9",
+    "framer-motion": "^4.1.17",
     "moment": "^2.29.1",
     "node-fetch": "^2.6.1",
     "node-sass": "^4.14.1",

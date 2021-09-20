@@ -6,23 +6,27 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import io from "socket.io-client";
 
-import { setUser, setSocket } from "./redux/App/actions.js";
+import {
+  setUser,
+  setSocket,
+  getUnreadNotificationsByUser,
+} from "./redux/App/actions.js";
 //components
 import PrivateRoute from "./components/HOCS/PrivateRoute";
 import ViewRouter from "./components/ViewRouter/ViewRouter";
-import Statistics from "./components/Statistics/Statistics.js";
+import Statistics from "./views/Statistics/Statistics.js";
 
 // views
 import Home from "./views/Home/Home";
 import NotFound from "./views/NotFound/NotFound";
 import LandingPage from "./views/LandingPage/LandingPage";
-import DeveloperView from "./views/DeveloperView/DeveloperView";
-import ManagerView from "./views/ManagerView/ManagerView";
 import Layout from "./components/Layout/Layout.js";
 import PokerPlanning from "./views/PokerPlanning/PokerPlanning";
 import { Configuration } from "./views/Configuration/Configuration.js";
 import JitsiMeet from "./views/JitsiMeet/JitsiMeet.js";
 import AdsContainer from "./views/AdsContainer/AdsContainer.js";
+import Profile from "./views/Profile/Profile";
+import TeamComposition from "./views/TeamComposition/TeamComposition.js";
 
 const { REACT_APP_BACKEND_URL } = process.env;
 
@@ -52,6 +56,7 @@ const App = () => {
           }
         );
         dispatch(setUser(data));
+        dispatch(getUnreadNotificationsByUser(data._id));
       })();
   }, [isAuthenticated]);
 
@@ -94,9 +99,9 @@ const App = () => {
             component={Statistics}
           />
           <PrivateRoute
-            path="/meeting/:projectId"
+            path="/teamComp/:projectId"
             exact
-            component={JitsiMeet}
+            component={TeamComposition}
           />
           <PrivateRoute
             path="/advertisements/:projectId"
@@ -105,10 +110,11 @@ const App = () => {
           />
           <PrivateRoute path="/manager_view" exact component={ManagerView} />
           <PrivateRoute
-            path="/developer_view"
+            path="/meeting/:projectId"
             exact
-            component={DeveloperView}
+            component={JitsiMeet}
           />
+          <PrivateRoute path="/myProfile" exact component={Profile} />
           <PrivateRoute path="/configuration" exact component={Configuration} />
         </Layout>
         <Route component={NotFound} />

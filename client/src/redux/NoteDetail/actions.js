@@ -1,4 +1,3 @@
-import axios from "axios";
 import {
   GET_NOTES_DETAILS,
   CLEAR_NOTES,
@@ -8,7 +7,9 @@ import {
   CREATE_ADVERTISEMENT,
   DELETE_ADVERTISEMENT,
   CLEAR_ADVERTISEMENTS,
+  GET_TEAMCOMP,
 } from "./constants";
+import axios from "axios";
 require("dotenv").config();
 const { REACT_APP_BACKEND_URL } = process.env;
 

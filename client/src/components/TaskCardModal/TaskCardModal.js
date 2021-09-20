@@ -24,8 +24,15 @@ import Dropdown from "../Dropdown/Dropdown";
 import styles from "./TaskModal.module.css";
 
 function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
-  const { title, details, creationDate, _id, storyPoints, asignedTo } =
-    modalDetails;
+  const {
+    title,
+    details,
+    creationDate,
+    _id,
+    storyPoints,
+    asignedTo,
+    sprintId,
+  } = modalDetails;
   const loggedId = useSelector((state) => state.app.loggedUser._id);
   const assignedUsers = useSelector((state) => state.managerView.asignedUsers);
   const [isSelectUsersOpen, setIsSelectUsersOpen] = useState(false);
@@ -112,6 +119,7 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
 
     dispatch(updateTask(change));
   }
+
   function handlePrioritizationChange({ target }) {
     const change = {
       taskId: _id,
@@ -275,6 +283,10 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
             </span>
           </div>
           <div className={styles.modalFormGroup}>
+            <label>Sprint</label>
+            <span>{sprintId || "Not assigned yet"}</span>
+          </div>
+          <div className={styles.modalFormGroup}>
             <label className={styles.titles}>Priorization: </label>
             {isManager ? (
               <select
@@ -313,13 +325,17 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
               ></textarea>
               <div className={styles.modalButtons}>
                 <button type="submit">Add Note</button>
-                  <button
-                    className={`${styles[dynamicFields.helpNeeded]}`}
-                    type="submit"
-                    onClick={(e) => (loggedId === asignedTo || isManager) ? handleOnClick(e) : () => {}}
-                  >
-                    {dynamicFields.helpNeeded ? "Help Asked" : "Ask for help"}
-                  </button>
+                <button
+                  className={`${styles[dynamicFields.helpNeeded]}`}
+                  type="submit"
+                  onClick={(e) =>
+                    loggedId === asignedTo || isManager
+                      ? handleOnClick(e)
+                      : () => {}
+                  }
+                >
+                  {dynamicFields.helpNeeded ? "Help Asked" : "Ask for help"}
+                </button>
               </div>
             </form>
           </div>
@@ -346,7 +362,6 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
                 type="submit"
                 onClick={(e) => {
                   handleDelete(_id);
-                  // setClickDeleteCount(clickDeleteCount + 1);
                 }}
               >
                 Delete Task
@@ -367,13 +382,6 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
               />
             )}
           </div>
-          {/* {clickDeleteCount > 0 ? (
-            <span className={styles.danger}>
-              Please confirm, this action is not reversible
-            </span>
-          ) : (
-            ""
-          )} */}
         </div>
       </Modal>
     </>
