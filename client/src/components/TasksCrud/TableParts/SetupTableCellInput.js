@@ -91,23 +91,23 @@ export default function SetupTableCellInput({ property, task }){
     ;
 
     return(
-        <TableCell align="center">
+        <TableCell className={styles.tableInput} align="center">
             {property === "asignedTo"
                 ? <>
-                    {!isSelectUsersOpen && (
-                        <div
-                        className={styles.userBox}
-                        onClick={() => {
-                            isManager && setIsSelectUsersOpen(true);
-                        }}
-                        >
+                    
+                    <div
+                    className={styles.userBox}
+                    onClick={() => {
+                        isManager && setIsSelectUsersOpen(true);
+                    }}
+                    >
                         <img
                             src={dynamicField.user.picture}
                             alt={dynamicField.user.name}
                         />
                         <p>{dynamicField.user.name}</p>
-                        </div>
-                    )}
+                    </div>
+                    
                     {isManager && isSelectUsersOpen && (
                         <div
                         className={`${styles.modalSelectUser} ${

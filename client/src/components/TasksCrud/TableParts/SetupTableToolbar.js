@@ -12,7 +12,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
 
 // react-icons
-import { BsTrashFill, BsCheckBox } from 'react-icons/bs';
+import { BsTrashFill, BsCheckBox, BsFilter } from 'react-icons/bs';
 import { FaUserCircle } from 'react-icons/fa';
 // sweet-alert
 import Swal from "sweetalert2";
@@ -128,6 +128,7 @@ export default function SetupTableToolbar({ tasksSelected }){
 
     return (
       <Toolbar
+        className={styles.toolBar}
         sx={{
           pl: { sm: 2 },
           pr: { xs: 1, sm: 1 },
@@ -143,6 +144,7 @@ export default function SetupTableToolbar({ tasksSelected }){
             color="inherit"
             variant="subtitle1"
             component="div"
+            className={styles.toolBarSelected}
           >
             {tasksSelected.length} selected
           </Typography>
@@ -156,22 +158,24 @@ export default function SetupTableToolbar({ tasksSelected }){
             Project's Tasks
           </Typography>
         )}
-  
+        
         {tasksSelected.length > 0 
         ? (
           <>
-            <select
-              value={dynamicFields.priorization !== null ? dynamicFields.priorization : "Don't Change"}
-              name="priorization"
-              onChange={(e) => handleTaskFieldsChange(e)}
-              >
-              {priorizationOptions.map((value, index) => (
-                  <option key={index} value={value}>
-                  {value}
-                  </option>
-              ))}
-            </select>
-            {!isSelectUsersOpen && (
+            <div className={styles.toolBarFields}>
+              <select
+                value={dynamicFields.priorization !== null ? dynamicFields.priorization : "Don't Change"}
+                name="priorization"
+                onChange={(e) => handleTaskFieldsChange(e)}
+                >
+                {priorizationOptions.map((value, index) => (
+                    <option key={index} value={value}>
+                    {value}
+                    </option>
+                ))}
+              </select>
+              <div className={styles.toolBarSelectUsers}>
+                
                 <div
                 className={styles.userBox}
                 onClick={() => {
@@ -185,83 +189,87 @@ export default function SetupTableToolbar({ tasksSelected }){
                   )}
                   {dynamicFields.user !== null ? <p>{dynamicFields.user.name}</p> : <p>Don't Change</p>}
                 </div>
-            )}
-            {isManager && isSelectUsersOpen && (
-                <div
-                className={`${styles.modalSelectUser} ${
-                    isSelectUsersOpen ? styles.visible : undefined
-                }`}
-                >
-                <input
-                    onBlur={() => setIsSelectUsersOpen(false)}
-                    onFocus={() => setIsSelectUsersOpen(true)}
-                    type="text"
-                    id="assignedTo"
-                    name="assignedTo"
-                    value={query}
-                    placeholder="Type a name..."
-                    autoComplete="off"
-                    onChange={(e) => setQuery(e.target.value)}
-                />
-                {filteredUsers.length ? (
-                    <>
-                      <article
-                        onClick={() => handleAddUser(null)}
-                        key={"Don't Change"}
-                        className={styles.modalUser}
-                      >
-                        <FaUserCircle size={30} />
-                        <p>Don't Change</p>
-                      </article>
-
-                      {filteredUsers.map((user) => (
-                        <article
-                            onClick={() => handleAddUser(user)}
-                            key={user._id}
+                
+                {isManager && isSelectUsersOpen && (
+                    <div
+                    className={`${styles.modalSelectUser} ${
+                        isSelectUsersOpen ? styles.visible : undefined
+                    }`}
+                    >
+                    <input
+                        onBlur={() => setIsSelectUsersOpen(false)}
+                        onFocus={() => setIsSelectUsersOpen(true)}
+                        type="text"
+                        id="assignedTo"
+                        name="assignedTo"
+                        value={query}
+                        placeholder="Type a name..."
+                        autoComplete="off"
+                        onChange={(e) => setQuery(e.target.value)}
+                    />
+                    {filteredUsers.length ? (
+                        <>
+                          <article
+                            onClick={() => handleAddUser(null)}
+                            key={"Don't Change"}
                             className={styles.modalUser}
-                        >
-                            <img src={user.picture} alt={user.name} />
-                            <p>{user.name}</p>
-                        </article>
-                        ))
-                      }
-                    </>
-                ) : (
-                    <p>There's no user with that name :(</p>
+                          >
+                            <FaUserCircle size={30} />
+                            <p>Don't Change</p>
+                          </article>
+
+                          {filteredUsers.map((user) => (
+                            <article
+                                onClick={() => handleAddUser(user)}
+                                key={user._id}
+                                className={styles.modalUser}
+                            >
+                                <img src={user.picture} alt={user.name} />
+                                <p>{user.name}</p>
+                            </article>
+                            ))
+                          }
+                        </>
+                    ) : (
+                        <p>There's no user with that name :(</p>
+                    )}
+                    </div>
                 )}
-                </div>
-            )}
-            <select
-                value={dynamicFields.status !== null ? dynamicFields.status : "Don't Change"}
-                name="status"
-                onChange={(e) => handleTaskFieldsChange(e)}
+              </div>
+              <select
+                  value={dynamicFields.status !== null ? dynamicFields.status : "Don't Change"}
+                  name="status"
+                  onChange={(e) => handleTaskFieldsChange(e)}
+                  >
+                  {statusOptions.map((value, index) => (
+                      <option key={index} value={value}>
+                      {value}
+                      </option>
+                  ))}
+              </select>
+            </div>
+            <div className={styles.toolBarOptions}>
+              <Tooltip title="Confirm" className={styles.toolBarBtn}>
+                <IconButton
+                  onClick={() => handleSubmitSelectedTasks()}
                 >
-                {statusOptions.map((value, index) => (
-                    <option key={index} value={value}>
-                    {value}
-                    </option>
-                ))}
-            </select>
-            <Tooltip title="Confirm">
-              <IconButton
-                onClick={() => handleSubmitSelectedTasks()}
-              >
-                <BsCheckBox/>
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Delete">
-              <IconButton
-                onClick={() => handleDeleteSelected()}
-              >
-                <BsTrashFill/>
-              </IconButton>
-            </Tooltip>
+                  <BsCheckBox/>
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Delete" className={styles.toolBarBtn}> 
+                <IconButton
+                  onClick={() => handleDeleteSelected()}
+                >
+                  <BsTrashFill/>
+                </IconButton>
+              </Tooltip>
+            </div>
           </>
         ) 
         : (
-          <Tooltip title="Filter list">
+          <Tooltip title="Filter list" className={styles.toolBarBtn}>
             <IconButton>
-              Filtrar
+              <BsFilter size={30}/>
             </IconButton>
           </Tooltip>
         )}

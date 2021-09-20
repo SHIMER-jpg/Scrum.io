@@ -11,13 +11,13 @@ import Checkbox from '@material-ui/core/Checkbox';
 // array con las celdas de la cabeza de la tabla, es decir son las columnas
 const headCells = [
     { id: 'title', numeric: false, disablePadding: true, label: 'Title' },
-    { id: 'storyPoints', numeric: true, disablePadding: true, label: 'Story Points' },
+    { id: 'storyPoints', numeric: true, disablePadding: true, label: 'Points' },
     { id: 'priorization', numeric: false, disablePadding: true, label: 'Priorization' },
     { id: 'asignedTo', numeric: false, disablePadding: true, label: 'Assigned to' },
     { id: 'status', numeric: false, disablePadding: true, label: 'Status' },
     { id: 'creationDate', numeric: true, disablePadding: true, label: 'Created' },
     { id: 'completedDate', numeric: true, disablePadding: true, label: 'Completed' },
-    { id: 'helpNeeded', numeric: false, disablePadding: true, label: 'Help Needed' },
+    { id: 'helpNeeded', numeric: false, disablePadding: true, label: 'Help' },
 ];
 
 // este es el componente que sera la cabeza de la tabla
@@ -28,7 +28,7 @@ export default function SetupTableHead({ onSelectAllClick, order, orderBy, numSe
     }
 
     return (
-        <TableHead>
+        <TableHead className={styles.tableHead}>
           <TableRow>
             <TableCell padding="checkbox">
               <Checkbox
@@ -59,6 +59,7 @@ export default function SetupTableHead({ onSelectAllClick, order, orderBy, numSe
                 </TableSortLabel>
               </TableCell>
             ))}
+            <TableCell/>
           </TableRow>
         </TableHead>
     );

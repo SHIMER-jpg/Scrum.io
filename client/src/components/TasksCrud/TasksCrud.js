@@ -199,6 +199,7 @@ export default function TasksCrud({ tasksArray, customHandleClick }){
                   id={labelId} 
                   scope="row" 
                   padding="none"
+                  className={styles.titleField}
                   onClick={() => {
                     if (customHandleClick) customHandleClick(task);
                     else {
@@ -223,7 +224,8 @@ export default function TasksCrud({ tasksArray, customHandleClick }){
                 <SetupTableCellInput property={"helpNeeded"} task={task} taskId={task._id}/>
                 <TableCell align="center">
                   <BsTrashFill 
-                    size={30}
+                    className={styles.tableRowDelete}
+                    size={25}
                     onClick={() => handleDelete(task._id)}
                   />
                 </TableCell>
