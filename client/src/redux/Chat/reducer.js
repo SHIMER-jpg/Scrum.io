@@ -19,8 +19,8 @@ export default function chatReducer(state = initialState, action) {
       };
     case "CLEAR_MESSAGE":
       return {
-        ...state,
         messages: [],
+        messageQuantity: 0,
       };
     case "SAVE_LENGTH":
       return {
