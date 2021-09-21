@@ -43,8 +43,11 @@ export default function SetupTableToolbar({ tasksSelected, setTasksFilter, tasks
   // este es el estado para mostrar/ocultar los filtros
   const [showFilterList, setShowFilterList] = useState(false);
 
-  // estado del usuario para el filtro
-  const [filterUser, setFilterUser] = useState({
+  // estados de los campos de la lista de filtros
+  const [filterListFields, setFilterListFields] = useState({
+    priorization: null,
+    sprintId: null,
+    status: null,
     user: null,
   });
 
@@ -79,7 +82,7 @@ export default function SetupTableToolbar({ tasksSelected, setTasksFilter, tasks
     const handleAddUser = (user, filter) => {
       if(user === null){
         if(filter){
-          setFilterUser({
+          setFilterListFields({
             user: null,
           });
           handleFilters(null, true);
@@ -95,7 +98,7 @@ export default function SetupTableToolbar({ tasksSelected, setTasksFilter, tasks
       }
       else{
         if(filter){
-          setFilterUser({
+          setFilterListFields({
             user: user,
           });
           handleFilters(user, true);
@@ -111,6 +114,19 @@ export default function SetupTableToolbar({ tasksSelected, setTasksFilter, tasks
         setQuery("");
       }
     };
+
+    // funcion para cambiar los estados de los filtros
+    const handleFiltersFields = (event) => {
+      setFilterListFields({
+        ...filterListFields,
+        [event.target.name]: event.target.name === "sprintId" 
+        ? parseInt(event.target.value) === 0
+          ? null
+          : parseInt(event.target.value)
+        : event.target.value
+    });
+    }
+
 
     // funcion para tomar los filtros seleccionados y crear las cb que filtraran las tasks
     // user es un booleano, si es true entonces crea una cb para filtrar por usuario seleccionado
@@ -380,7 +396,8 @@ export default function SetupTableToolbar({ tasksSelected, setTasksFilter, tasks
             <div className={showFilterList ? styles.showFilterList : styles.hideFilterList}>
               <select
                 name="priorization"
-                onChange={(e) => handleFilters(e)}
+                value={filterListFields.priorization}
+                onChange={(e) => {handleFilters(e); handleFiltersFields(e)}}
               >
                 <option key={"All Priorizations"} value={"All Priorizations"}>
                   {"All Priorizations"}
@@ -394,7 +411,8 @@ export default function SetupTableToolbar({ tasksSelected, setTasksFilter, tasks
               <input
                 type="number"
                 name="sprintId"
-                onChange={(e) => handleFilters(e)}
+                value={filterListFields.sprintId}
+                onChange={(e) => {handleFilters(e); handleFiltersFields(e)}}
                 min="0"
                 max={projectSprintCount}
               />
@@ -405,12 +423,12 @@ export default function SetupTableToolbar({ tasksSelected, setTasksFilter, tasks
                     isManager && setIsSelectUsersOpen(true);
                 }}
                 >
-                  {filterUser.user !== null ? (
-                    <img src={filterUser.user.picture} alt="" />
+                  {filterListFields.user !== null ? (
+                    <img src={filterListFields.user.picture} alt="" />
                   ) : (
                     <FaUserCircle size={30} />
                   )}
-                  {filterUser.user !== null ? <p>{filterUser.user.name}</p> : <p>All Users</p>}
+                  {filterListFields.user !== null ? <p>{filterListFields.user.name}</p> : <p>All Users</p>}
                 </div>
                 
                 {isManager && isSelectUsersOpen && (
@@ -461,7 +479,8 @@ export default function SetupTableToolbar({ tasksSelected, setTasksFilter, tasks
                 </div>
                 <select
                   name="status"
-                  onChange={(e) => handleFilters(e)}
+                  value={filterListFields.status}
+                  onChange={(e) =>{handleFilters(e); handleFiltersFields(e)}}
                 >
                   <option key={"All Status"} value={"All Status"}>
                     {"All Status"}
