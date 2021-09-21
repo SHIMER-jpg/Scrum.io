@@ -6,8 +6,10 @@ import {
   DELETE_PROJECT,
   GET_PROJECT_BY_ID,
   UPDATE_TASK,
+  UPDATE_MANY_TASKS,
   CREATE_TASK,
   DELETE_TASK,
+  DELETE_SELECTED_TASKS,
   GET_ALL_USERS,
   CLEAR_MANAGER_VIEW,
   IMPORT_TASKS_CSV,
@@ -132,6 +134,7 @@ export function deleteUserFromProject(projectId, userId) {
 }
 
 export function updateTask(change) {
+
   return function (dispatch) {
     axios
       .put(
@@ -139,6 +142,24 @@ export function updateTask(change) {
         change
       )
       .then(dispatch({ type: UPDATE_TASK, payload: change }));
+  };
+}
+export function updateManyTask(change) {
+
+   var changesToRedux = change.tasksId.map(taskId => {
+    return{
+      taskId,
+      fieldsChanged: change.fieldsToChange,
+    }
+  })
+  
+  return function (dispatch) {
+    axios
+      .put(
+        `${REACT_APP_BACKEND_URL}/task/updateMany`,
+        change
+      )
+      .then(dispatch({ type: UPDATE_MANY_TASKS, payload: changesToRedux }));
   };
 }
 
@@ -163,6 +184,20 @@ export function deleteTasks(projectId) {
         `${REACT_APP_BACKEND_URL}/task/deleteMany/${projectId}`
       )
       .then(dispatch({ type: DELETE_TASKS }));
+  };
+}
+
+export function deleteSelectedTasks(tasksIdArray) {
+  const tasksToDelete = {
+    tasksIdArray
+  }
+  return function (dispatch) {
+    axios
+      .put(
+        `${REACT_APP_BACKEND_URL}/task/deleteSelectedTasks`,
+        tasksToDelete
+      )
+      .then(dispatch({ type: DELETE_SELECTED_TASKS, payload: tasksIdArray }));
   };
 }
 

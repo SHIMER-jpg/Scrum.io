@@ -1,32 +1,26 @@
-import axios from "axios";
 import {
   GET_NOTES_DETAILS,
   CLEAR_NOTES,
   CREATE_NOTE,
   REMOVE_NOTE,
+  GET_TEAMCOMP,
 } from "./constants";
+import axios from "axios";
 require("dotenv").config();
 const { REACT_APP_BACKEND_URL } = process.env;
 
 export function getNotesDetails(taskId) {
   return function (dispatch) {
-    axios
-      .get(
-        `${REACT_APP_BACKEND_URL}/note/${taskId}`
-      )
-      .then((json) => {
-        dispatch({ type: GET_NOTES_DETAILS, payload: json.data });
-      });
+    axios.get(`${REACT_APP_BACKEND_URL}/note/${taskId}`).then((json) => {
+      dispatch({ type: GET_NOTES_DETAILS, payload: json.data });
+    });
   };
 }
 
 export function createNote(newNote) {
   return function (dispatch) {
     axios
-      .post(
-        `${REACT_APP_BACKEND_URL}/note/newNote`,
-        newNote
-      )
+      .post(`${REACT_APP_BACKEND_URL}/note/newNote`, newNote)
       .then((json) => {
         dispatch({ type: CREATE_NOTE, payload: json.data });
       })
@@ -39,9 +33,7 @@ export function createNote(newNote) {
 export function removeNote(noteId) {
   return function (dispatch) {
     axios
-      .delete(
-        `${REACT_APP_BACKEND_URL}/note/${noteId}`
-      )
+      .delete(`${REACT_APP_BACKEND_URL}/note/${noteId}`)
       .then(dispatch({ type: REMOVE_NOTE, payload: noteId }));
   };
 }

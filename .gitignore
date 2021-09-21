@@ -106,3 +106,4 @@ dist
 # package-lock.json
 api/package-lock.json
 client/package-lock.json
+/package-lock.json/

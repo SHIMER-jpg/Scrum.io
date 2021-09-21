@@ -1,0 +1,441 @@
+.container {
+  padding: 35px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.header {
+  border-radius: 8px 8px 0 0;
+  height: 170px;
+  background-color: #000000;
+  background-color: #000000;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='250' height='30' viewBox='0 0 1000 120'%3E%3Cg fill='none' stroke='%23222' stroke-width='10' %3E%3Cpath d='M-500 75c0 0 125-30 250-30S0 75 0 75s125 30 250 30s250-30 250-30s125-30 250-30s250 30 250 30s125 30 250 30s250-30 250-30'/%3E%3Cpath d='M-500 45c0 0 125-30 250-30S0 45 0 45s125 30 250 30s250-30 250-30s125-30 250-30s250 30 250 30s125 30 250 30s250-30 250-30'/%3E%3Cpath d='M-500 105c0 0 125-30 250-30S0 105 0 105s125 30 250 30s250-30 250-30s125-30 250-30s250 30 250 30s125 30 250 30s250-30 250-30'/%3E%3Cpath d='M-500 15c0 0 125-30 250-30S0 15 0 15s125 30 250 30s250-30 250-30s125-30 250-30s250 30 250 30s125 30 250 30s250-30 250-30'/%3E%3Cpath d='M-500-15c0 0 125-30 250-30S0-15 0-15s125 30 250 30s250-30 250-30s125-30 250-30s250 30 250 30s125 30 250 30s250-30 250-30'/%3E%3Cpath d='M-500 135c0 0 125-30 250-30S0 135 0 135s125 30 250 30s250-30 250-30s125-30 250-30s250 30 250 30s125 30 250 30s250-30 250-30'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+.profile {
+  background-color: white;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  border-radius: 0 0 8px 8px;
+}
+
+.data {
+  display: flex;
+}
+
+.userInfo {
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-right: 1px solid rgb(199, 199, 199);
+  height: 100%;
+  white-space: nowrap;
+}
+
+.userInfo > img {
+  z-index: 1000000;
+  width: 135px;
+  height: 135px;
+  border-radius: 50%;
+  border: 8px solid white;
+  margin-top: -95px;
+}
+
+.userInfo h2 {
+  margin: 10px 0 0 0;
+  font-weight: 600;
+  font-size: 27px;
+}
+
+.userInfo p {
+  font-size: 18px;
+  margin-top: 10px;
+}
+
+.socials {
+  width: 90%;
+  padding-top: 25px;
+  margin-top: 15px;
+  border-top: 2px dashed rgb(201, 201, 201);
+  color: var(--violet);
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.nav {
+  padding: 12px;
+  display: flex;
+  gap: 15px;
+  margin-bottom: 25px;
+  border-bottom: 1px solid rgb(199, 199, 199);
+}
+
+.nav button {
+  padding: 5px 10px !important;
+  all: unset;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 17px;
+  color: var(--inactive-menu-item);
+  transition: all 0.15s ease-in-out;
+}
+
+.content p {
+  margin: 0;
+}
+
+.nav button.active {
+  background-color: rgba(204, 0, 26, 0.2);
+  color: var(--red);
+}
+
+.renderContent {
+  padding: 0 20px 20px;
+}
+
+/* EDIT PROFILE VIEW !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
+.editProfile h2 {
+  margin: 0;
+  font-size: 23px;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.editProfileForm {
+  display: flex;
+  gap: 30px;
+}
+
+.editProfileInfo {
+  width: 50%;
+}
+
+.editProfileSocials {
+  width: 50%;
+}
+
+.editProfileForm button {
+  all: unset;
+  padding: 8px;
+  border-radius: 5px;
+  font-weight: 600;
+  transition: all 0.15s ease-in-out;
+  background-color: var(--violet);
+  color: white;
+  border: 2px solid transparent;
+}
+
+.editProfileForm button:hover {
+  color: var(--violet);
+  border: 2px solid var(--violet);
+  background-color: white;
+}
+
+.modalFormGroup {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.modalFormGroup label {
+  font-weight: 600;
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.modalFormGroup input,
+.modalFormGroup select {
+  width: 100%;
+  all: unset;
+  border-radius: 8px;
+  padding: 8px;
+  border: 1px solid rgb(204, 204, 204);
+  transition: all 0.1s ease-in-out;
+}
+
+.modalFormGroup input:focus,
+.modalFormGroup textarea:focus,
+.modalFormGroup select:focus {
+  border: 2px solid var(--violet);
+  box-shadow: 0 0 0 3px rgba(161, 36, 101, 0.4);
+}
+
+.addSoftSkill > div {
+  display: flex;
+}
+
+.addSoftSkill > div > input {
+  width: 100%;
+  border-radius: 8px 0 0 8px;
+  border-right: none !important;
+}
+
+.addSoftSkill > div > input:focus {
+  border: 2px solid var(--violet);
+  width: 100%;
+  border-radius: 8px 0 0 8px;
+  box-shadow: none;
+}
+
+.addSoftSkill > div > button {
+  border-radius: 0px 8px 8px 0px;
+  width: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.softSkills {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.softSkillsList {
+  max-width: max-content;
+}
+
+.softSkillsList ul {
+  list-style-type: none;
+}
+
+.softSkillsList li {
+  border: 1px solid var(--violet);
+  padding: 5px 8px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  font-size: 14px;
+  color: var(--violet);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.softSkills p {
+  border: 1px solid var(--violet);
+  padding: 5px 8px;
+  border-radius: 5px;
+  font-size: 14px;
+  color: var(--violet);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.editProfileSocialsFormGroup {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.editProfileSocialsFormGroup label {
+  display: block;
+  font-weight: 600;
+  font-size: 16px;
+  margin-bottom: 8px !important;
+}
+
+.editProfileSocialInput {
+  display: flex;
+  gap: 10px;
+  border-radius: 8px;
+  padding: 7px;
+  border: 1px solid rgb(204, 204, 204);
+  transition: all 0.1s ease-in-out;
+}
+
+.editProfileSocialInput input {
+  all: unset;
+  padding: 0 10px 0 0;
+  width: 100%;
+}
+
+/* ABOUT ME VIEW !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
+
+.descriptionHeader {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.descriptionHeader h2 {
+  font-weight: 600;
+  font-size: 21px;
+  margin: 0;
+}
+
+.descriptionHeader button {
+  all: unset;
+}
+
+.description p {
+  margin-top: 8px;
+  margin-bottom: 25px;
+}
+
+.description .descriptionField input {
+  all: unset;
+  margin-top: 8px !important;
+  margin-bottom: 25px !important;
+  width: 100%;
+}
+
+/* STATS VIEW!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11 */
+
+.stats {
+  display: flex;
+}
+
+.stats form {
+  border-radius: 8px;
+  border: 1px solid rgb(189, 189, 189);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 380px;
+  overflow: hidden;
+}
+
+.stats form > div {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+}
+
+.stats button,
+.stats input {
+  all: unset;
+}
+
+.stats input {
+  padding: 12px 0;
+  width: 100%;
+  flex-grow: 1;
+}
+
+.stats button {
+  padding: 12px;
+  border-left: 1px solid rgb(189, 189, 189);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease-in-out;
+}
+
+.stats button:hover {
+  background-color: rgb(236, 236, 236);
+}
+
+.statsContainer {
+  display: flex;
+  gap: 20px;
+}
+
+.chartsContainer {
+  padding: 20px;
+  border: 1px solid rgb(189, 189, 189);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.chartsContainer p {
+  font-size: 18px;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.charts {
+  display: flex;
+  justify-content: space-between;
+  gap: 35px;
+}
+
+.chart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.languageBar {
+  flex-grow: 1;
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  height: 200px;
+  width: 55px;
+  background-color: rgba(204, 0, 27, 0.045);
+  border: 1px solid rgb(238, 238, 238);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.langStats {
+  text-align: center;
+}
+
+.langStats p:nth-child(1) {
+  margin: 0;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.langStats p:nth-child(2) {
+  margin: 0;
+  font-size: 9px;
+  color: gray;
+  font-weight: 500;
+}
+
+.performance {
+  height: 100%;
+  padding: 20px;
+  border: 1px solid rgb(189, 189, 189);
+  border-radius: 8px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 20px;
+  max-width: 500px;
+  align-self: flex-start;
+}
+
+.performanceItem {
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  border-radius: 8px;
+  gap: 10px;
+  background-color: rgba(204, 0, 26, 0.2);
+}
+
+.performanceItem:nth-child(3) {
+  grid-column-start: span 2;
+}
+
+.performanceItem p:nth-child(1) {
+  font-weight: 500;
+  font-size: 18px;
+  color: var(--red);
+}
+
+.performanceItem p:nth-child(2) {
+  font-size: 32px;
+  color: var(--red);
+  font-weight: 600;
+}
