@@ -43,6 +43,11 @@ export default function SetupTableToolbar({ tasksSelected, setTasksFilter, tasks
   // este es el estado para mostrar/ocultar los filtros
   const [showFilterList, setShowFilterList] = useState(false);
 
+  // estado del usuario para el filtro
+  const [filterUser, setFilterUser] = useState({
+    user: null,
+  });
+
     useEffect(() => {
         const filteredUsers = assignedUsers
             .filter(({ user }) => user._id !== loggedId)
@@ -68,44 +73,81 @@ export default function SetupTableToolbar({ tasksSelected, setTasksFilter, tasks
     }
 
     // misma funcion de arriba pero personalizada para los cambios del usuario asignado
-    const handleAddUser = (user) => {
+    // filter es booleano para saber si se selecciono usuario para filtrar o modificar la task
+    const handleAddUser = (user, filter) => {
       if(user === null){
-        setDynamicFields({
-          ...dynamicFields,
-          asignedTo: null,
-          user: null,
-        });
+        if(filter){
+          setFilterUser({
+            user: null,
+          });
+          handleFilters(null, true);
+        }
+        else{
+          setDynamicFields({
+            ...dynamicFields,
+            asignedTo: null,
+            user: null,
+          });
+        }
+        setIsSelectUsersOpen(false);
       }
       else{
-        setDynamicFields({
-          ...dynamicFields,
-          asignedTo: user._id,
-          user: user,
-        });
+        if(filter){
+          setFilterUser({
+            user: user,
+          });
+          handleFilters(user, true);
+        }
+        else{
+          setDynamicFields({
+            ...dynamicFields,
+            asignedTo: user._id,
+            user: user,
+          });
+        }
         setIsSelectUsersOpen(false);
         setQuery("");
       }
     };
 
     // funcion para tomar los filtros seleccionados y crear las cb que filtraran las tasks
-    const handleFilters = (e) => {
+    // user es un booleano, si es true entonces crea una cb para filtrar por usuario seleccionado
+    const handleFilters = (e, user) => {
       var filterCb;
-
-      if (e.target.value === "All Status" || e.target.value === "All Priorizations" || e.target.value === 0) {
-        filterCb = (task) => {
-          return task;
-        };
-      } 
-      else {
-        filterCb = (task) => {
-          return task[e.target.name] === e.target.value;
-        };
+      if(user){
+        // en este caso, e = user
+        if (e === null) {
+          filterCb = (task) => {
+            return task;
+          };
+        } 
+        else {
+          filterCb = (task) => {
+            return task.asignedTo === e._id;
+          };
+        }
+        setTasksFilter({
+          ...tasksFilter,
+          asignedTo: filterCb,
+        });
       }
-  
-      setTasksFilter({
-        ...tasksFilter,
-        [e.target.name]: filterCb,
-      });
+      else{
+        if (e.target.value === "All Status" || e.target.value === "All Priorizations" || e.target.value === 0) {
+          filterCb = (task) => {
+            return task;
+          };
+        } 
+        else {
+          filterCb = (task) => {
+            return task[e.target.name] === e.target.value;
+          };
+        }
+    
+        setTasksFilter({
+          ...tasksFilter,
+          [e.target.name]: filterCb,
+        });
+      }
     };
 
     // funcion para despachar los cambios y modificar todas las tasks seleccionadas
@@ -311,55 +353,112 @@ export default function SetupTableToolbar({ tasksSelected, setTasksFilter, tasks
           </>
         ) 
         : (
-          <>
-            <Tooltip title="Filter list" className={styles.toolBarBtn}>
+          <div className={styles.toolBarFilter}>
+            <Tooltip title="Filter list" className={showFilterList ? styles.toolBarBtnActive : styles.toolBarBtn}>
               <IconButton
                 onClick={() => setShowFilterList(!showFilterList)}
               >
                 <BsFilter size={30}/>
               </IconButton>
             </Tooltip>
-            {showFilterList
-              ? (
-                  <div className={styles.filterList}>
-                    <select
-                      name="priorization"
-                      onChange={(e) => handleFilters(e)}
+      
+            <div className={showFilterList ? styles.showFilterList : styles.hideFilterList}>
+              <select
+                name="priorization"
+                onChange={(e) => handleFilters(e)}
+              >
+                <option key={"All Priorizations"} value={"All Priorizations"}>
+                  {"All Priorizations"}
+                </option>
+              {priorizationOptions.map((value, index) => (
+                <option key={index} value={value}>
+                {value}
+                </option>
+              ))}
+              </select>
+              <input
+                type="number"
+                name="sprintId"
+                onChange={(e) => handleFilters(e)}
+                min="0"
+                max={projectSprintCount}
+              />
+              <div className={styles.toolBarSelectUsers}>
+                <div
+                className={styles.userBox}
+                onClick={() => {
+                    isManager && setIsSelectUsersOpen(true);
+                }}
+                >
+                  {filterUser.user !== null ? (
+                    <img src={filterUser.user.picture} alt="" />
+                  ) : (
+                    <FaUserCircle size={30} />
+                  )}
+                  {filterUser.user !== null ? <p>{filterUser.user.name}</p> : <p>All Users</p>}
+                </div>
+                
+                {isManager && isSelectUsersOpen && (
+                    <div
+                    className={`${styles.modalSelectUser} ${
+                        isSelectUsersOpen ? styles.visible : undefined
+                    }`}
                     >
-                      <option key={"All Priorizations"} value={"All Priorizations"}>
-                        {"All Priorizations"}
-                      </option>
-                    {priorizationOptions.map((value, index) => (
-                      <option key={index} value={value}>
-                      {value}
-                      </option>
-                    ))}
-                    </select>
                     <input
-                      type="number"
-                      name="sprintId"
-                      onChange={(e) => handleFilters(e)}
-                      min="0"
-                      max={projectSprintCount}
+                        onBlur={() => setIsSelectUsersOpen(false)}
+                        onFocus={() => setIsSelectUsersOpen(true)}
+                        type="text"
+                        id="assignedTo"
+                        name="assignedTo"
+                        value={query}
+                        placeholder="Type a name..."
+                        autoComplete="off"
+                        onChange={(e) => setQuery(e.target.value)}
                     />
-                    <select
-                      name="status"
-                      onChange={(e) => handleFilters(e)}
-                    >
-                      <option key={"All Status"} value={"All Status"}>
-                        {"All Status"}
-                      </option>
-                    {statusOptions.map((value, index) => (
-                      <option key={index} value={value}>
-                      {value}
-                      </option>
-                    ))}
-                    </select>
-                  </div>
-                )
-              : <></>
-            }
-          </>
+                    {filteredUsers.length ? (
+                        <>
+                          <article
+                            onClick={() => handleAddUser(null, true)}
+                            key={"All Users"}
+                            className={styles.modalUser}
+                          >
+                            <FaUserCircle size={30} />
+                            <p>All Users</p>
+                          </article>
+
+                          {filteredUsers.map((user) => (
+                            <article
+                                onClick={() => handleAddUser(user, true)}
+                                key={user._id}
+                                className={styles.modalUser}
+                            >
+                                <img src={user.picture} alt={user.name} />
+                                <p>{user.name}</p>
+                            </article>
+                            ))
+                          }
+                        </>
+                    ) : (
+                        <p>There's no user with that name :(</p>
+                    )}
+                    </div>
+                )}
+                </div>
+                <select
+                  name="status"
+                  onChange={(e) => handleFilters(e)}
+                >
+                  <option key={"All Status"} value={"All Status"}>
+                    {"All Status"}
+                  </option>
+                {statusOptions.map((value, index) => (
+                  <option key={index} value={value}>
+                  {value}
+                  </option>
+                ))}
+                </select>
+            </div>
+          </div>
         )}
       </Toolbar>
     );

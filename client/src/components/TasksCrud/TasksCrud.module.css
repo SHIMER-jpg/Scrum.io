@@ -65,6 +65,10 @@
   color: #f50057;
 }
 
+.toolBarBtnActive{
+  color: #f50057;
+}
+
 .toolBarFields{
   display: flex;
   justify-content: space-between;
@@ -84,7 +88,39 @@
 
 .toolBarSelectUsers{
   position: relative;
+}
 
+.toolBarFilter{
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row-reverse;
+}
+
+.showFilterList{
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  gap: 10px;
+  padding: 10px;
+
+  opacity: 1;
+  visibility: visible;
+  transition: 1s all ease;
+}
+
+.hideFilterList{
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  gap: 10px;
+  padding: 10px;
+
+  opacity: 0;
+  visibility: hidden;
+  transition: 1s all ease;
 }
 /* table fields */
 
@@ -107,6 +143,9 @@
     display: flex;
     align-items: center;
     user-select: none;
+    border: 2px solid #d4d4d4;
+    padding: 0 10px;
+    cursor: pointer;
 }
 
 .userBox img {
@@ -118,7 +157,10 @@
 .userBox p {
     line-height: 1;
     font-size: 13px;
+    font-weight: 500;
     margin-left: 10px;
+    min-width: 100px;
+    text-align: center;
 }
 
 .selectUserContainer {

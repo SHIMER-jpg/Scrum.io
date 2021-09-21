@@ -103,6 +103,9 @@ export default function TasksCrud({ tasks, customHandleClick }){
     }
     if (typeof tasksFilter.sprintId === "function") {
       filteredTasks = filteredTasks.filter(tasksFilter.sprintId);
+    } 
+    if (typeof tasksFilter.asignedTo === "function") {
+      filteredTasks = filteredTasks.filter(tasksFilter.asignedTo);
     } else {
       setTasksArray([...tasks]);
     }
