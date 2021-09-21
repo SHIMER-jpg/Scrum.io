@@ -405,6 +405,20 @@ export default function StatisticCard({ graphType, tasks, project }) {
                   ],
                 }}
                 options={{
+                  plugins: {
+                    autocolors: false,
+                      annotation: {
+                        annotations: {
+                          line1: {
+                            type: 'line',
+                            xMin: 0,
+                            xMax: 5,
+                            borderColor: 'rgb(255, 99, 132)',
+                            borderWidth: 2,
+                          }
+                        }
+                      }
+                  },
                   maintainAspectRatio: false,
                   responsive: true,
                   scales: {
