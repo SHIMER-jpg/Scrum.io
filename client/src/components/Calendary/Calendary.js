@@ -3,46 +3,46 @@ import FullCalendar from '@fullcalendar/react' // must go before plugins
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction';
 import { useSelector } from 'react-redux';
-import Modal from "react-modal";
 import CalendaryModal from "../CalendaryModal/CalendaryModal";
+import style from "./Calendary.module.css"
 
 
 
-
-
+const date = 0
 
 const Calendary = function(){
 
-  const userRole = useSelector(({ viewRouter }) => viewRouter.userRole);
+  // const userRole = useSelector(({ viewRouter }) => viewRouter.userRole);
   const [ModalOpen, setModalOpen] = useState(false)
+  const [date, setDate] = useState()
 
-
-  function handleDateClick(){
-    console.log("abrir el modal")
+  function handleDateClick(dateClickInfo){
+    setDate(dateClickInfo.dateStr)
     setModalOpen(true)
   }
 
 
   return(
-      <div>
-        <CalendaryModal ModalOpen= {ModalOpen} setModalOpen= {setModalOpen} />
-        <FullCalendar 
-          plugins={[ dayGridPlugin, interactionPlugin  ]}
+      <div className= {style.calendar}>
+        
+        <CalendaryModal ModalOpen= {ModalOpen} setModalOpen= {setModalOpen} date={date}/>
+        <FullCalendar
+          headerToolbar = {{
+          left: 'prev,next today',
+          center: 'title',
+          right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
+          }}
+          themeSystem= "standard"
+          plugins={[ dayGridPlugin, interactionPlugin ]}
           initialView="dayGridMonth"
           weekends={true}
-          headerToolbar={{
-            left: 'prev',
-            center: 'title',
-            right: 'next today',
-          }}
           selectable={true}
           dateClick={handleDateClick}
         />
       </div>
   )
 }
-  
-    
+
 
 
 

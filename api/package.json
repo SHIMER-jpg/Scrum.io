@@ -25,6 +25,7 @@
     "fetch": "^1.1.0",
     "ioredis": "^4.19.2",
     "jsonwebtoken": "^8.5.1",
+    "moment": "^2.29.1",
     "mongoose": "^5.13.8",
     "morgan": "^1.10.0",
     "node-fetch": "^2.6.1",

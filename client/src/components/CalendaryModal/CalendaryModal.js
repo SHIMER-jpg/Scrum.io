@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Modal from "react-modal";
 import { useSelector } from "react-redux";
 import style from "./CalendaryModal.module.css"
@@ -24,15 +25,40 @@ const customStyles = {
   };
 
 
-function CreateTaskModal({ModalOpen, setModalOpen}) {
+function CreateTaskModal({ModalOpen, setModalOpen, date}) {
 
     const users = useSelector((state) => state.home.users);
+    const initialState = {title: ""}
 
 
-    function usersHandler(){
+    const [datos, setDatos] = useState(initialState)
+
+    const {title} = datos
+
+
+
+    function handlerUsers(){
         alert("poder agregar usuarios, no me mates shimer")
         // abre un modal donde se visualizan los usuarios para poder agregar
     }
+
+    function handleConfirm(){
+      setModalOpen(false)
+      
+    }
+
+    function changeHandler(e){
+      setDatos({
+        ...datos,
+        title: e.target.value
+      })
+    }
+    
+    function handleClose(){
+      setDatos(initialState)
+      setModalOpen(false)
+    }
+
 
     return(
         <Modal 
@@ -41,10 +67,12 @@ function CreateTaskModal({ModalOpen, setModalOpen}) {
         onRequestClose={() => setModalOpen(false)}
         >
             <h3>Title</h3>
-            <input type="text" placeholder="Add title" className={style.Title}/>
-            <button onClick={() => usersHandler()}>Add users</button>
+            <h3>{date}</h3>
+            <input onChange={(e) => changeHandler(e)} value={title} type="text" placeholder="Add title" className={style.Title}/>
+            <button onClick={() => handlerUsers()}>Add users</button>
             <a href="https://meet.jit.si/" target="_blank">Meetin</a>
-            <button onClick={ () => setModalOpen(false)}>Ready</button>
+            <button onClick={ () => handleConfirm()}>Confirm</button>
+            <button onClick= {() => handleClose()}>X</button>
 
         </Modal>
     )
