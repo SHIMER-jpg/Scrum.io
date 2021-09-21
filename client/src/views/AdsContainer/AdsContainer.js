@@ -87,7 +87,7 @@ export default function AdsContainer(props) {
           <div className={styles.noAds}>
             <h1>There are no advertisements yet</h1>
             <br></br>
-            {userRole === "scrumMaster" ? <h1>Create a new one!</h1> : null}
+            {userRole === "scrumMaster" ? <h2>Create a new one!</h2> : null}
           </div>
         )}
       </div>

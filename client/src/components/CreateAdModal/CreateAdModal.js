@@ -124,6 +124,7 @@ export default function CreateAdModal(props) {
               <select
                 name="color"
                 value={input.color}
+                required
                 onChange={(e) => handleChange(e)}
               >
                 <option value="">Select a color</option>
@@ -132,6 +133,9 @@ export default function CreateAdModal(props) {
                 <option value="Pink">Pink</option>
                 <option value="Purple">Purple</option>
                 <option value="Green">Green</option>
+                <option value="Blueviolet">Blueviolet</option>
+                <option value="Azure">Azure</option>
+                <option value="Teal">Teal</option>
               </select>
               <ErrorMessage name="selectColors" component="div">
                 {(msg) => (

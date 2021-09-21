@@ -1,14 +1,18 @@
 .adsContainer{
-  padding: 25px 30px 25px 30px;
+  padding: 30px;
   width: 100%;
   min-height: calc(100vh - 70px);
-  height: auto;
-  overflow-y: scroll;
+}
+
+.ads {
+  column-count: 4;
+  column-gap: 30px;
+  /* row-gap: 30px; */
+  height: 100vh;
 }
 
 .adsHeader{
   margin-bottom: 50px;
-  width: calc(100% - 30px);
   display: flex;
   justify-content: space-between;
   align-items: center;

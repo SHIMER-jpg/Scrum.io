@@ -1,10 +1,11 @@
 .note {
-  margin: 20px;
-  padding: 10px;
-  width: 320px;
-  min-height: 320px;
+  /* margin: 20px; */
+  /* min-height: 320px; */
+  /* float: left; */
+  /* padding: 10px;
+  width: 100%;
   height: auto;
-  font: 20px;
+  font-size: 20px;
   line-height: 1.5;
   border: 0;
   border-radius: 3px;
@@ -12,14 +13,23 @@
   overflow: hidden;
   transition: box-shadow 0.5s ease;
   border: 1px solid rgba(0, 0, 0, 0.1);
-  float: left;
-  border-radius: 20px;
+  border-radius: 20px; */
+  display: inline-block;
+  width: 100%;
+  margin-bottom: 30px;
+  border-radius: 8px;
+  padding: 20px;
+  transition: all .15s ease-in-out;
+}
+
+.note:hover {
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0.158);
 }
 
 .orange {
   background: #ffbd6f;
 }
-.lightBlue {
+.lightblue {
   background-color: #aff5ff;
 }
 
@@ -35,49 +45,59 @@
   background: #bbffaf;
 }
 
+.blueviolet {
+  background-color: rgb(165, 76, 248);
+}
+
+.azure {
+  background-color: azure;
+}
+
+.teal {
+  background-color: teal;
+  color: white !important;
+}
+
+.teal p {
+  color: white !important;
+}
+
+.note header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.note header h3 {
+  font-weight: 600;
+  margin: 0;
+  font-size: 23px;
+}
+
+.date p {
+  margin: 10px 0 20px;
+  color: rgb(51, 51, 51);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.description {
+  padding: 0;
+}
+
+.description p {
+  margin: 0;
+  font-weight: 500;
+}
+
 .orange:hover,
 .pink:hover,
 .lightBlue:hover,
 .purple:hover {
-  transform: translateY(-8px);
-}
-
-.title {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 20px;
-  font-weight: 600;
-}
-.title h3 {
-  margin: 0px;
-  padding: 0px;
-}
-
-.date {
-  font-size: 19px;
-  font-weight: 600;
-}
-
-.description {
-  height: auto;
-  font-size: 18px;
-  font-weight: 300;
-}
-.description p {
-  margin: 0;
-  white-space: pre-wrap;
-  margin-left: 8px;
-  font-weight: 500;
-}
-
-.icon {
-  display: flex;
-  justify-content: flex-end;
+  /* transform: translateY(-8px); */
 }
 
 .icon:hover {
-  color: grey;
+  /* color: grey; */
 }
 
 .icon > button {
