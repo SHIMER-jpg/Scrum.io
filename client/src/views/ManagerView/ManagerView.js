@@ -43,13 +43,12 @@ export default function ManagerView() {
   const allUsers = useSelector((state) => state.home.users);
 
   const switchTasksView = () => {
-    if(tasksView === "boardsView"){
+    if (tasksView === "boardsView") {
       setTasksView("crudView");
-    }
-    else{
+    } else {
       setTasksView("boardsView");
     }
-  }
+  };
 
   const handleSocketUpdate = useCallback(({ projectId: projectFromSocket }) => {
     console.table({
@@ -128,24 +127,20 @@ export default function ManagerView() {
                 projectId={projectId}
               />
             )}
-            
-            <button
-              className="btn-primary"
-              onClick={() => switchTasksView()}
-            >
-              {tasksView === "boardsView"
-                ? <BsTable />
-                : <HiViewBoards />
-              }
-            </button>
-
-            
             <div
               onClick={() => setModalAddPartner(true)}
               className={managerStyle.userBlobs}
             >
               {assignedUsers.map((user, index) => {
-                return index < 3 ? <img src={user.user.picture} alt={user.user.name} title={user.user.name} /> : <></>;
+                return index < 3 ? (
+                  <img
+                    src={user.user.picture}
+                    alt={user.user.name}
+                    title={user.user.name}
+                  />
+                ) : (
+                  <></>
+                );
               })}
               {assignedUsers.length > 3 ? (
                 <div className={managerStyle.more}>
@@ -155,12 +150,10 @@ export default function ManagerView() {
                 ""
               )}
             </div>
-            {/* <button
-              className="btn-primary"
-              onClick={() => setModalAddPartner(true)}
-            >
-              <FiUsers /> Manage users
-            </button> */}
+
+            <button className="btn-primary" onClick={() => switchTasksView()}>
+              {tasksView === "boardsView" ? <BsTable /> : <HiViewBoards />}
+            </button>
 
             <button
               className="btn-primary"
@@ -178,39 +171,38 @@ export default function ManagerView() {
             </button>
           </div>
         </header>
-        {tasksView === "boardsView"
-          ? <div className={managerStyle.conteinerBody}>
-              {/* Pending Tasks */}
-              <TaskHolder
-                isLoading={isLoadingTasks}
-                status={"Pending"}
-                taskList={tasks.filter((task) => task.status === "Pending")}
-              />
-              {/* In progress Tasks */}
-              <TaskHolder
-                isLoading={isLoadingTasks}
-                status={"In progress"}
-                taskList={tasks.filter((task) => task.status === "In progress")}
-              />
-              {/* Testing Tasks */}
-              <TaskHolder
-                isLoading={isLoadingTasks}
-                status={"Testing"}
-                taskList={tasks.filter((task) => task.status === "Testing")}
-              />
-              {/* Completed Tasks */}
-              <TaskHolder
-                isLoading={isLoadingTasks}
-                status={"Completed"}
-                taskList={tasks.filter((task) => task.status === "Completed")}
-              />
-            </div>
-            
-          : <div className={managerStyle.conteinerBody}>
-              <TasksCrud tasks={tasks} />
-            </div>
-        }
-        
+        {tasksView === "boardsView" ? (
+          <div className={managerStyle.conteinerBody}>
+            {/* Pending Tasks */}
+            <TaskHolder
+              isLoading={isLoadingTasks}
+              status={"Pending"}
+              taskList={tasks.filter((task) => task.status === "Pending")}
+            />
+            {/* In progress Tasks */}
+            <TaskHolder
+              isLoading={isLoadingTasks}
+              status={"In progress"}
+              taskList={tasks.filter((task) => task.status === "In progress")}
+            />
+            {/* Testing Tasks */}
+            <TaskHolder
+              isLoading={isLoadingTasks}
+              status={"Testing"}
+              taskList={tasks.filter((task) => task.status === "Testing")}
+            />
+            {/* Completed Tasks */}
+            <TaskHolder
+              isLoading={isLoadingTasks}
+              status={"Completed"}
+              taskList={tasks.filter((task) => task.status === "Completed")}
+            />
+          </div>
+        ) : (
+          <div className={managerStyle.conteinerBody}>
+            <TasksCrud tasks={tasks} />
+          </div>
+        )}
       </div>
     </>
   );
