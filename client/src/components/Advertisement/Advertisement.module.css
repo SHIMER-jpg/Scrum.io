@@ -20,6 +20,7 @@
   border-radius: 8px;
   padding: 20px;
   transition: all .15s ease-in-out;
+  word-wrap: break-word;
 }
 
 .note:hover {

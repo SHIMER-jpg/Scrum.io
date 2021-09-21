@@ -48,11 +48,12 @@ export function clearNotes() {
 
 //------------- ADVERTISEMENTS -----------------------------------------------
 
-export function getAdvertisementsByProjectId(projectId) {
+export function getAdvertisementsByProjectId(projectId, setIsLoading) {
   return function (dispatch) {
     axios
       .get(`${REACT_APP_BACKEND_URL}/advertisement/${projectId}`)
       .then((json) => {
+        setIsLoading && setIsLoading(false);
         dispatch({ type: GET_ADVERTISEMENTS, payload: json.data });
       })
       .catch((err) => {

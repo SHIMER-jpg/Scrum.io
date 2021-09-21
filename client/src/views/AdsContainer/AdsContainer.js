@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Advertisement from "../../components/Advertisement/Advertisement";
@@ -19,18 +20,19 @@ export default function AdsContainer(props) {
   );
   const [isLoading, setIsLoading] = useState(true);
 
-  const [ads, setAds] = useState([]);
-
   useEffect(() => {
-    dispatch(getAdvertisementsByProjectId(props.match.params.projectId));
+    dispatch(
+      getAdvertisementsByProjectId(props.match.params.projectId, setIsLoading)
+    );
+
     return () => {
       dispatch(clearAdvertisements());
     };
   }, []);
 
-  useEffect(() => {
-    setAds(advertisements);
-  }, [advertisements]);
+  // useEffect(() => {
+  //   setAds(advertisements);
+  // }, [advertisements]);
 
   /**
    * advertisements.sort(function (a, b) {
@@ -60,9 +62,11 @@ export default function AdsContainer(props) {
           </button>
         ) : null}
       </header>
-      <div className={styles.ads}>
-        {advertisements.length > 0 ? (
-          advertisements
+      {isLoading ? (
+        <Loading />
+      ) : advertisements.length > 0 ? (
+        <div className={styles.ads}>
+          {advertisements
             .sort(function (a, b) {
               if (a.createdAt < b.createdAt) {
                 return 1;
@@ -82,15 +86,13 @@ export default function AdsContainer(props) {
                 color={ad.color}
                 role={userRole}
               />
-            ))
-        ) : (
-          <div className={styles.noAds}>
-            <h1>There are no advertisements yet</h1>
-            <br></br>
-            {userRole === "scrumMaster" ? <h2>Create a new one!</h2> : null}
-          </div>
-        )}
-      </div>
+            ))}
+        </div>
+      ) : (
+        <div className={styles.noAds}>
+          <h2 style={{fontWeight: "500"}}>There are no advertisements yet.</h2>
+        </div>
+      )}
     </div>
   );
 }

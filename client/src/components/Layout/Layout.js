@@ -46,6 +46,7 @@ const Layout = ({ children }) => {
       });
 
       socket.on("newAd", ({ projectId, users }) => {
+        console.log("NEW AD!!!", {projectId, users})
         if (users.includes(loggedUser._id)) {
           dispatch(getUnreadNotificationsByUser(loggedUser._id));
           toast.info("New important advertisement.", {
