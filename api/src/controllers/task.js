@@ -114,6 +114,7 @@ const modifyManyTasks = async (req, res, next) => {
       { _id: manyTasksId },
       {"$set": update}
     );
+    
     updateStatus(updated.projectId);
 
     res.status(200).send("Successfully modified tasks");
@@ -152,8 +153,11 @@ const getUserTasks = async (req, res, next) => {
 const deleteTask = async (req, res, next) => {
   try {
     const taskId = mongoose.Types.ObjectId(req.params.taskId);
-    await Task.model.remove({ _id: taskId });
+    const updated = await Task.model.remove({ _id: taskId });
     await Note.model.remove({ taskId: taskId });
+
+    updateStatus(updated.projectId);
+
     res.status(200).json("success");
   } catch (error) {
     next(error);
@@ -163,8 +167,11 @@ const deleteTask = async (req, res, next) => {
 const deleteSelectedTasks = async (req, res, next) => {
   try {
     const manyTasksId = req.body.tasksIdArray.map(taskId => mongoose.Types.ObjectId(taskId));
-    await Task.model.deleteMany({ _id: manyTasksId });
+    const updated = await Task.model.deleteMany({ _id: manyTasksId });
     await Note.model.deleteMany({ taskId: manyTasksId });
+
+    updateStatus(updated.projectId);
+
     res.status(200).json("success");
   } catch (error) {
     next(error);

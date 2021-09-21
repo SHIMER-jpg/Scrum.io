@@ -67,14 +67,22 @@ export default function SetupTableToolbar({ tasksSelected, setTasksFilter, tasks
 
     // funcion para tomar los cambios de los campos 
     function handleTaskFieldsChange(event) {
+      if(event.target.name === "sprintId"){
         setDynamicFields({
-            ...dynamicFields,
-            [event.target.name]: event.target.name === "sprintId" 
-            ? parseInt(event.target.value) === 0
-              ? null
-              : parseInt(event.target.value)
-            : event.target.value
+          ...dynamicFields,
+          [event.target.name]: parseInt(event.target.value) === 0
+          ? null
+          : parseInt(event.target.value) > projectSprintCount
+          ? projectSprintCount
+          : parseInt(event.target.value)
+      });
+      }
+      else{
+        setDynamicFields({
+          ...dynamicFields,
+          [event.target.name]: event.target.value
         });
+      }
     }
     
     // misma funcion de arriba pero personalizada para los cambios del usuario asignado
@@ -117,21 +125,28 @@ export default function SetupTableToolbar({ tasksSelected, setTasksFilter, tasks
 
     // funcion para cambiar los estados de los filtros
     const handleFiltersFields = (event) => {
-      setFilterListFields({
-        ...filterListFields,
-        [event.target.name]: event.target.name === "sprintId" 
-        ? parseInt(event.target.value) === 0
+      if(event.target.name === "sprintId"){
+        setFilterListFields({
+          ...filterListFields,
+          [event.target.name]: parseInt(event.target.value) === 0
           ? null
+          : parseInt(event.target.value) > projectSprintCount
+          ? projectSprintCount
           : parseInt(event.target.value)
-        : event.target.value
-    });
+        });
+      }
+      else{
+        setFilterListFields({
+          ...filterListFields,
+          [event.target.name]: event.target.value
+        });
+      }
     }
 
 
     // funcion para tomar los filtros seleccionados y crear las cb que filtraran las tasks
     // user es un booleano, si es true entonces crea una cb para filtrar por usuario seleccionado
     const handleFilters = (e, user) => {
-      console.log(e.target.value === 0)
       var filterCb;
       if(user){
         // en este caso, e = user
@@ -151,23 +166,27 @@ export default function SetupTableToolbar({ tasksSelected, setTasksFilter, tasks
         });
       }
       else{
-        if(e.target.value === "All Status" || e.target.value === "All Priorizations") {
-          filterCb = (task) => {
-            return task;
-          };
-        } 
-        else if(e.target.name === "sprintId"){
+        if(e.target.name === "sprintId"){
           if(parseInt(e.target.value) === 0){
             filterCb = (task) => {
               return task;
             };
           }
           else{
+            const sprint = parseInt(e.target.value) > projectSprintCount
+            ? projectSprintCount
+            : parseInt(e.target.value)
+
             filterCb = (task) => {
-              return task.sprintId === parseInt(e.target.value);
+              return task[e.target.name] === sprint;
             };
           }
         }
+        else if(e.target.value === "All Status" || e.target.value === "All Priorizations") {
+          filterCb = (task) => {
+            return task;
+          };
+        } 
         else {
           filterCb = (task) => {
             return task[e.target.name] === e.target.value;

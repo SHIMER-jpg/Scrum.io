@@ -52,6 +52,13 @@ export default function SetupTableCellInput({ property, task }){
 
     // funcion para tomar los cambios de los campos y actualizar la task
     function handleTaskFieldsChange(event) {
+        if(property === "sprintId"){
+            event.target.value = parseInt(event.target.value) === 0
+            ? null
+            : parseInt(event.target.value) > projectSprintCount
+            ? projectSprintCount
+            : parseInt(event.target.value)
+        }
         const change = {
             taskId: task._id,
             field: property,
