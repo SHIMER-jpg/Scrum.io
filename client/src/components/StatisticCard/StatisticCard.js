@@ -13,6 +13,7 @@ import moment from "moment";
 moment().format();
 
 export default function StatisticCard({ graphType, tasks, project }) {
+
   const [graphData, setGraphData] = useState({
     byStoryPoints: [],
     byTasks: [],
@@ -26,6 +27,8 @@ export default function StatisticCard({ graphType, tasks, project }) {
   });
 
   const [labelDays, setLabelDays] = useState([]);
+  const [idealProgress, setIdealProgress] = useState([]);
+  const [renderedTasks, setRenderedTasks] = useState(tasks);
 
   function handleDataChartOption(e) {
     if (
@@ -41,46 +44,112 @@ export default function StatisticCard({ graphType, tasks, project }) {
     }
   }
 
-  // se encarga de setear los datos de los graficos
-  useEffect(() => {
-    if (tasks.length > 0) {
-      setGraphData({
-        ...graphData,
-        byStoryPoints: charDataByStoryPoints(),
-        byTasks: charDataByTasks(),
-      });
-    }
-  }, [tasks]);
+  // function getLabels() {
+  //   let firstDay =
+  //     project.creationDate && moment(project.creationDate.substring(0, 10));
+  //   let lastDay =
+  //     project.requiredDate && moment(project.requiredDate.substring(0, 10));
+  //   if(charDataOption.projectOrSprint === "bySprint"){
+  //     firstDay.add((project.sprintDuration * 7) * (charDataOption.sprintNumber - 1), "days");
+  //     lastDay.subtract((project.sprintDuration * 7) * (project.sprintCount - charDataOption.sprintNumber) - 3, "days");
+  //   }
+  //   let days = firstDay && lastDay.diff(firstDay, "days");
+  //   let dataDays = [];
+  //   for (let i = 1; i <= days; i++) {
+  //     dataDays[i-1] = i;
+  //   }
+  //   return dataDays;
+  // }
 
   useEffect(() => {
     let firstDay =
       project.creationDate && moment(project.creationDate.substring(0, 10));
     let lastDay =
       project.requiredDate && moment(project.requiredDate.substring(0, 10));
+    if(charDataOption.projectOrSprint === "bySprint"){
+      firstDay.add((project.sprintDuration * 7) * (charDataOption.sprintNumber - 1), "days");
+      lastDay.subtract((project.sprintDuration * 7) * (project.sprintCount - charDataOption.sprintNumber) - 3, "days");
+    }
     let days = firstDay && lastDay.diff(firstDay, "days");
     let dataDays = [];
-    for (let i = 0; i <= days; i++) {
-      dataDays[i] = i;
+    for (let i = 1; i <= days; i++) {
+      dataDays[i-1] = i;
     }
     setLabelDays(dataDays);
-  }, []);
+    console.log(labelDays, "labels")
+
+    var auxProgress = getIdealProgress();
+    setIdealProgress(auxProgress);
+    console.log(idealProgress, "ideal progress");
+    console.log("holaaa")
+  }, [])
+
+  //filters tasks by selected sprint id
+  useEffect(() => {
+
+    //calculates labels (x axis)
+    let firstDay =
+      project.creationDate && moment(project.creationDate.substring(0, 10));
+    let lastDay =
+      project.requiredDate && moment(project.requiredDate.substring(0, 10));
+    if(charDataOption.projectOrSprint === "bySprint"){
+      firstDay.add((project.sprintDuration * 7) * (charDataOption.sprintNumber - 1), "days");
+      lastDay.subtract((project.sprintDuration * 7) * (project.sprintCount - charDataOption.sprintNumber) - 3, "days");
+    }
+    let days = firstDay && lastDay.diff(firstDay, "days");
+    let dataDays = [];
+    for (let i = 1; i <= days; i++) {
+      dataDays[i-1] = i;
+    }
+    setLabelDays(dataDays);
+
+    //filters tasks to be rendered
+    var auxTasks = tasks;
+    if(charDataOption.projectOrSprint === "bySprint"){
+      auxTasks = tasks.filter((task) => task.sprintId === charDataOption.sprintNumber);
+      setRenderedTasks(auxTasks);
+      console.log(renderedTasks, "rend tasks")
+    }
+    if(charDataOption.projectOrSprint === "byProject"){
+      setRenderedTasks(tasks);
+    }
+
+    //calculates ideal Progress graph
+    var auxProgress = getIdealProgress();
+    setIdealProgress(auxProgress);
+    console.log(idealProgress, "ideal progress");
+    console.log("holaaa")
+
+  }, [charDataOption])
+
+  //sets graph data when filteres tasks change
+  useEffect(() => {
+    if (renderedTasks.length > 0) {
+      setGraphData({
+        ...graphData,
+        byStoryPoints: charDataByStoryPoints(),
+        byTasks: charDataByTasks(),
+      });
+      console.log(graphData, "graph");
+    }
+  }, [renderedTasks]);
 
   //CALCULATIONS FOR IDEAL PROGRESS
-  function idealProgress() {
-    if (tasks.length > 0) {
-      var storyPoints = tasks.map((t) => t.storyPoints).reduce((a, b) => a + b);
+  function getIdealProgress() {
+    if (renderedTasks.length > 0) {
+      var storyPoints = renderedTasks.map((t) => t.storyPoints).reduce((a, b) => a + b);
       storyPoints = parseInt(storyPoints, 10);
       var storyPointsPerDay = parseFloat(
         (storyPoints / labelDays.length).toFixed(2)
       );
       let sum = 0;
       var dataStoryPoints = [];
-      for (let i = 0; i <= labelDays.length; i++) {
+      for (let i = 0; i < labelDays.length; i++) {
         dataStoryPoints[i] = Math.round(sum);
         sum = sum + storyPointsPerDay;
       }
       dataStoryPoints = dataStoryPoints.reverse();
-
+      console.log(dataStoryPoints, "ideal function")
       return dataStoryPoints;
     }
   }
@@ -89,7 +158,11 @@ export default function StatisticCard({ graphType, tasks, project }) {
     //CALCULATIONS FOR ACTUAL PROGRESS
     let firstDay =
       project.creationDate && moment(project.creationDate.substring(0, 10));
-    let completedTasks = tasks
+    console.log(project);
+    if(charDataOption.projectOrSprint === "bySprint"){
+      firstDay.add((project.sprintDuration * 7) * (charDataOption.sprintNumber - 1), "days");
+    }
+    let completedTasks = renderedTasks
       .filter((t) => t.status === "Completed")
       .sort(function (a, b) {
         if (a.completedDate > b.completedDate) {
@@ -112,7 +185,8 @@ export default function StatisticCard({ graphType, tasks, project }) {
     });
 
     var devStoryPoints = new Array(finalDate + 1);
-    devStoryPoints.fill(idealProgress()[0]);
+    console.log(idealProgress[0], "fill con cero");
+    devStoryPoints.fill(getIdealProgress()[0]);
 
     var devStoryPointsCorrected = [];
     devStoryPoints.forEach((point, index) => {
@@ -173,7 +247,7 @@ export default function StatisticCard({ graphType, tasks, project }) {
   function charDataByStoryPoints() {
     var charData = [0, 0, 0, 0];
     if (graphType === "Tasks Priorization Chart") {
-      tasks.forEach((t) => {
+      renderedTasks.forEach((t) => {
         if (t.priorization === "Easy Win") {
           charData[0] += t.storyPoints;
         } else if (t.priorization === "Strategic Initiative") {
@@ -185,7 +259,7 @@ export default function StatisticCard({ graphType, tasks, project }) {
         }
       });
     } else if (graphType === "Project Report") {
-      tasks.forEach((t) => {
+      renderedTasks.forEach((t) => {
         if (t.status === "Pending") {
           charData[0] += t.storyPoints;
         } else if (t.status === "In progress") {
@@ -197,7 +271,6 @@ export default function StatisticCard({ graphType, tasks, project }) {
         }
       });
     } else if (graphType === "BurnDown Chart") charData = burnDownProgress();
-    console.log("char data", charData);
     return charData;
   }
 
@@ -205,7 +278,7 @@ export default function StatisticCard({ graphType, tasks, project }) {
   function charDataByTasks() {
     var charData = [0, 0, 0, 0];
     if (graphType === "Tasks Priorization Chart") {
-      tasks.forEach((t) => {
+      renderedTasks.forEach((t) => {
         if (t.priorization === "Easy Win") {
           charData[0] += 1;
         } else if (t.priorization === "Strategic Initiative") {
@@ -217,7 +290,7 @@ export default function StatisticCard({ graphType, tasks, project }) {
         }
       });
     } else if (graphType === "Project Report") {
-      tasks.forEach((t) => {
+      renderedTasks.forEach((t) => {
         if (t.status === "Pending") {
           charData[0] += 1;
         } else if (t.status === "In progress") {
@@ -272,6 +345,7 @@ export default function StatisticCard({ graphType, tasks, project }) {
                   responsive: true,
                   scales: {
                     y: {
+                      display: false,
                       beginAtZero: true,
                     },
                   },
@@ -323,7 +397,7 @@ export default function StatisticCard({ graphType, tasks, project }) {
                     },
                     {
                       label: "Ideal development",
-                      data: idealProgress(),
+                      data: idealProgress,
                       // data: charDataOption === 'byStoryPoints' ? dataStoryPoints : dataTasksPerDay,
                       backgroundColor: ["#7BEFFF"],
                       borderColor: ["#7BEFFF"],
@@ -337,6 +411,9 @@ export default function StatisticCard({ graphType, tasks, project }) {
                     y: {
                       beginAtZero: true,
                     },
+                    x: {
+                      beginAtZero: false,
+                    }
                   },
                 }}
               />
@@ -347,7 +424,6 @@ export default function StatisticCard({ graphType, tasks, project }) {
             <></>
           )}
         </div>
-        {graphType !== "BurnDown Chart" ? (
           <div className={styles.footer}>
             <select onChange={(e) => handleDataChartOption(e)} name="dataBy">
               <option value="byStoryPoints">Story Points</option>
@@ -364,15 +440,13 @@ export default function StatisticCard({ graphType, tasks, project }) {
               <input
                 type="number"
                 min="1"
+                max={project.sprintCount}
                 onChange={(e) => handleDataChartOption(e)}
                 name="sprintNumber"
                 value={charDataOption.sprintNumber}
               />
             )}
           </div>
-        ) : (
-          <></>
-        )}
       </div>
     </div>
   );
