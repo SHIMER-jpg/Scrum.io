@@ -6,7 +6,7 @@
   width: 380px;
   border-radius: 8px;
   overflow: hidden;
-  background-color: #fefefe;
+  background-color: var(--white);
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.15);
   display: flex;
   flex-direction: column;
@@ -27,12 +27,14 @@
   margin: 0;
   font-size: 20px;
   font-weight: 500;
+  color: var(--black);
 }
 
 .header button {
   all: unset;
   display: flex;
   align-items: center;
+  color: var(--black);
 }
 
 .messagesContainer {
@@ -81,7 +83,7 @@
 
 .contentDetails p:nth-child(1) {
   font-size: 12px;
-  color: black;
+  color: var(--black);
   font-weight: 500;
 }
 
@@ -105,6 +107,7 @@
   padding: 10px 12px;
   border-radius: 0 8px 8px 8px;
   background-color: rgba(161, 36, 101, 0.2);
+  color: var(--black);
 }
 
 .mine .messageContent > p {
@@ -125,6 +128,7 @@
   padding: 20px;
   flex-grow: 1;
   font-size: 16px;
+  color: var(--black);
 }
 
 .typing button {
@@ -136,6 +140,7 @@
   justify-content: center;
   border-left: 1px solid rgb(214, 214, 214);
   transition: all 0.12s ease-in-out;
+  color: var(--black);
 }
 
 .typing button:hover {

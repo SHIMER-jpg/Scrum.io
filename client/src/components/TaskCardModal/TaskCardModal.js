@@ -79,6 +79,7 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
       borderRadius: "8px",
       maxWidth: "650px",
       borderTop: `8px solid #${colorMap}`,
+      backgroundColor: "var(--white)"
     },
     overlay: {
       backgroundColor: "rgba(0,0,0,0.5)",
@@ -268,7 +269,7 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
               onChange={handleFieldChange}
             ></input>
           )}
-          <div style={{ display: "flex", alignItems: "center" }}>
+          <div style={{ display: "flex", alignItems: "center", color: "var(--black)" }}>
             {!isTitleOpen ? (
               <BsPencilSquare
                 size={20}

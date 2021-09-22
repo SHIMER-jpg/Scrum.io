@@ -1,7 +1,7 @@
 .container {
   display: flex;
   flex-direction: column;
-  background-color: #f3f3f3;
+  background-color: var(--bgColor);;
   padding: 20px;
   border-radius: 8px;
   margin-bottom: 10px;

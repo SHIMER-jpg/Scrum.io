@@ -34,7 +34,7 @@ button[type="submit"] {
   background: var(--violet);
   padding: 10px 15px;
   border-radius: 8px;
-  color: white;
+  color: var(--white);
   font-weight: 600;
   display: flex;
   align-items: center;

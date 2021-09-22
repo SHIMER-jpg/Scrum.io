@@ -2,12 +2,14 @@
   width: 100%;
   height: auto;
   overflow-y: scroll;
+  background-color: var(--white);
 }
 
 
 .notificationsContainer {
   /* max-width: 650px; */
-  background-color: white;
+  border: 1px solid var(--separator);
+  background-color: var(--white);
   border-radius: 12px;
   box-shadow: 0px 0px 3px 0 rgba(0, 0, 0, 0.2);
   overflow: hidden;
@@ -33,12 +35,16 @@
   background-color: rgb(243, 243, 243);
 }
 
+:global(.darkMode) .notificationItemReaded {
+  background-color: rgb(39, 39, 39);
+}
+
 .notificationItem:hover {
   background-color: rgba(161, 36, 101, 0.1);
 }
 
 .notificationItem:not(:last-child) {
-  border-bottom: 1px solid rgb(211, 211, 211);
+  border-bottom: 1px solid var(--separator);
 }
 
 .notificationItemHeader {

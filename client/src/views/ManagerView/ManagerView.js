@@ -133,7 +133,7 @@ export default function ManagerView() {
       )}
       <div className={managerStyle.conteiner}>
         <header className={managerStyle.conteinerHeader}>
-          <div style={{ display: "flex", alignItems: "center" }}>
+          <div style={{ display: "flex", alignItems: "center", color: "var(--black)" }}>
             {!isTitleOpen ? (
               <h1 className="main-heading">
                 {project?.projectName || "Loading..."}

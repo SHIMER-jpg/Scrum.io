@@ -9,7 +9,14 @@ import 'react-toastify/dist/ReactToastify.css';
 import App from "./App";
 import store from "./redux/store/indexStore";
 import "./globals.css";
-// import 'sweetalert2/dist/sweetalert2.min.css'
+
+const isDarkMode = localStorage.getItem("darkMode");
+
+if(isDarkMode) {
+  document.body.classList.add("darkMode");
+} else {
+  document.body.classList.remove("darkMode");
+}
 
 ReactDOM.render(
   <Provider store={store}>

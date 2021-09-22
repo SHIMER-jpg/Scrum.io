@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -64,7 +64,7 @@ const App = () => {
     <div
       style={{
         height: "100vh",
-        backgroundColor: "white",
+        backgroundColor: "var(--white)",
         display: "grid",
         placeItems: "center",
       }}

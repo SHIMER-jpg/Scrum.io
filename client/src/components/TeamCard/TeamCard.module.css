@@ -7,7 +7,7 @@
 
 .detailContainer {
   border-radius: 8px;
-  background-color: white;
+  background-color: var(--white);
   height: 460px;
   width: 500px;
 }
@@ -25,7 +25,7 @@
   flex-direction: column;
   align-items: center;
   border-radius: 8px;
-  background-color: white;
+  background-color: var(--white);
   user-select: none;
 }
 
@@ -39,7 +39,7 @@
 }
 
 .profile {
-  background-color: white;
+  background-color: var(--white);
   height: auto;
   display: flex;
   flex-direction: column;
@@ -62,7 +62,7 @@
   width: 135px;
   height: 135px;
   border-radius: 50%;
-  border: 8px solid white;
+  border: 8px solid var(--white);
   margin-top: -95px;
 }
 
