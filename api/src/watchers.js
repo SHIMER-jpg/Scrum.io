@@ -1,6 +1,5 @@
 const { connection } = require("./db");
 const io = require("./socket");
-const Notification = require("./models/Notification");
 
 connection.once("open", () => {
   console.log("Db connected");

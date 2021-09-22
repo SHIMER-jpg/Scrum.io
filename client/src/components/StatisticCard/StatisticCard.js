@@ -149,13 +149,13 @@ export default function StatisticCard({ graphType, tasks, project }) {
 
     var devStoryPoints = new Array(finalDate + 1);
     devStoryPoints.fill(idealProgress()[0]);
-
     var devStoryPointsCorrected = [];
     devStoryPoints.forEach((point, index) => {
       if (index === 0) {
         devStoryPointsCorrected.push(devStoryPoints[index]);
         return;
       }
+
       const minus = completedTasks.reduce((acc, val) => {
         if (val.daysFromStart === index) {
           return acc + parseInt(val.storyPoints);
@@ -163,6 +163,7 @@ export default function StatisticCard({ graphType, tasks, project }) {
           return acc + 0;
         }
       }, 0);
+
       if (minus === 0) {
         devStoryPointsCorrected.push(devStoryPointsCorrected[index - 1]);
         return;
