@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import { FiChevronDown } from "react-icons/fi";
 import { ImFileEmpty } from "react-icons/im";
@@ -17,6 +17,7 @@ import styles from "./Header.module.css";
 
 const mapTypeToText = {
   assignedTask: "You have a new task assigned",
+  ad: "Your scrum master has written an important ad."
 };
 
 const Header = () => {

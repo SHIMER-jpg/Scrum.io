@@ -1,0 +1,106 @@
+.note {
+  /* margin: 20px; */
+  /* min-height: 320px; */
+  /* float: left; */
+  /* padding: 10px;
+  width: 100%;
+  height: auto;
+  font-size: 20px;
+  line-height: 1.5;
+  border: 0;
+  border-radius: 3px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: box-shadow 0.5s ease;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 20px; */
+  display: inline-block;
+  width: 100%;
+  margin-bottom: 30px;
+  border-radius: 8px;
+  padding: 20px;
+  transition: all .15s ease-in-out;
+  word-wrap: break-word;
+}
+
+.note:hover {
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0.158);
+}
+
+.orange {
+  background: #ffbd6f;
+}
+.lightblue {
+  background-color: #aff5ff;
+}
+
+.pink {
+  background-color: #ffa4a4;
+}
+
+.purple {
+  background: #c67ba2;
+}
+
+.green {
+  background: #bbffaf;
+}
+
+.blueviolet {
+  background-color: rgb(165, 76, 248);
+}
+
+.azure {
+  background-color: azure;
+}
+
+.teal {
+  background-color: teal;
+  color: white !important;
+}
+
+.teal p {
+  color: white !important;
+}
+
+.note header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.note header h3 {
+  font-weight: 600;
+  margin: 0;
+  font-size: 23px;
+}
+
+.date p {
+  margin: 10px 0 20px;
+  color: rgb(51, 51, 51);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.description {
+  padding: 0;
+}
+
+.description p {
+  margin: 0;
+  font-weight: 500;
+}
+
+.orange:hover,
+.pink:hover,
+.lightBlue:hover,
+.purple:hover {
+  /* transform: translateY(-8px); */
+}
+
+.icon:hover {
+  /* color: grey; */
+}
+
+.icon > button {
+  all: unset;
+}

@@ -6,6 +6,7 @@ import { HiViewBoards } from "react-icons/hi";
 import { AiOutlineBarChart } from "react-icons/ai";
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
+import {BsFillExclamationCircleFill} from "react-icons/bs";
 
 import styles from "./Sidebar.module.css";
 import { SiGooglehangoutsmeet } from "react-icons/si";
@@ -42,6 +43,13 @@ const Sidebar = () => {
           </div>
         )
       ) : null}
+      {userRole && (
+        <div className={styles.item}>
+          <NavLink to={`/advertisements/${projectId}`}>
+            <BsFillExclamationCircleFill size={23} /> Advertisements
+          </NavLink>
+        </div>
+      )}
       {userRole && (
         <div className={styles.item}>
           <NavLink to={`/planning/${projectId}`}>

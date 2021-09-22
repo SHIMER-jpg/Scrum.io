@@ -1,0 +1,29 @@
+.adsContainer{
+  padding: 30px;
+  width: 100%;
+  min-height: calc(100vh - 70px);
+  overflow: hidden;
+}
+
+.ads {
+  column-count: 4;
+  column-gap: 30px;
+  /* row-gap: 30px; */
+  height: 100vh;
+}
+
+.adsHeader{
+  margin-bottom: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgb(179, 179, 179);
+  padding-bottom: 20px;
+}
+
+.noAds{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

@@ -8,12 +8,25 @@ connection.once("open", () => {
   console.log("Setting watchers");
 
   const taskChangeStream = connection.collection("tasks").watch();
+  const adsChangeStream = connection.collection("advertisements").watch();
   const noteChangeStream = connection.collection("notes").watch();
   const notificationChangeStream = connection
     .collection("notifications")
     .watch();
 
   const messagesChangeStream = connection.collection("messages").watch();
+
+  notificationChangeStream.on("change", async (change) => {
+    console.log("NOTIFICATION CHANGE: ", change);
+
+    // if (change.operationType === "insert") {
+    //   const notification = await connection.models.Notification.findOne({
+    //     _id: change?.documentKey._id,
+    //   });
+
+    //   io.emit("updateNotifications", { userId: notification.userId });
+    // }
+  });
 
   messagesChangeStream.on("change", async (change) => {
     const message = await connection.models.Message.findOne({
@@ -30,13 +43,6 @@ connection.once("open", () => {
     });
 
     if (change.operationType === "insert" && task.status !== "Completed") {
-      // io.to(change.fullDocument.asignedTo).emit("newTaskAssigned")
-      await Notification.model.create({
-        userId: task.asignedTo,
-        projectId: task.projectId,
-        type: "assignedTask",
-      });
-
       io.emit("newTaskAssigned", {
         userId: task.asignedTo,
         projectId: task.projectId,
@@ -50,12 +56,6 @@ connection.once("open", () => {
         change.updateDescription.updatedFields.asignedTo &&
         task.status !== "Completed"
       ) {
-        await Notification.model.create({
-          userId: task.asignedTo,
-          projectId: task.projectId,
-          type: "assignedTask",
-        });
-
         io.emit("newTaskAssigned", {
           userId: task.asignedTo,
           projectId: task.projectId,
@@ -64,6 +64,28 @@ connection.once("open", () => {
 
       io.emit("updateTask", {
         projectId: task.projectId,
+      });
+    }
+  });
+
+  adsChangeStream.on("change", async (change) => {
+    const ad = await connection.models.Advertisement.findOne({
+      _id: change?.documentKey._id,
+    });
+
+    if (change.operationType === "insert") {
+      const usersInProject = await connection.models.UserProjects.find({
+        projectId: ad.projectId,
+      });
+
+      // la voy a emitir a todos los usuarios del proyecto ~MENOS~ el Scrum master
+      const usersToEmit = usersInProject
+        .filter((e) => e.role === "developer")
+        .map((e) => e.userId);
+
+      io.emit("newAd", {
+        projectId: ad.projectId,
+        users: usersToEmit,
       });
     }
   });

@@ -19,6 +19,7 @@ const Home = () => {
 
   const userLogged = useSelector((state) => state.app.loggedUser);
   const projectList = useSelector((state) => state.home.projectList);
+  
   const dispatch = useDispatch();
 
   useEffect(() => {

@@ -1,3 +1,4 @@
+/* eslint-disable import/no-anonymous-default-export */
 import { GET_TEAMCOMP, GET_CARD_STATS } from "./constants";
 
 const initialState = {

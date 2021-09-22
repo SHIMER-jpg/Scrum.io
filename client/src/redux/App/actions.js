@@ -98,7 +98,6 @@ export const markNotificationsAsReaded = (userId) => {
 };
 
 export const markOneNotificationAsReaded = (userId, notificationId) => {
-  console.log("marcando como leidas....");
   return (dispatch) => {
     axios
       .put(

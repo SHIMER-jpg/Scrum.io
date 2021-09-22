@@ -24,6 +24,7 @@ import Layout from "./components/Layout/Layout.js";
 import PokerPlanning from "./views/PokerPlanning/PokerPlanning";
 import { Configuration } from "./views/Configuration/Configuration.js";
 import JitsiMeet from "./views/JitsiMeet/JitsiMeet.js";
+import AdsContainer from "./views/AdsContainer/AdsContainer.js";
 import Profile from "./views/Profile/Profile";
 import TeamComposition from "./views/TeamComposition/TeamComposition.js";
 
@@ -101,6 +102,11 @@ const App = () => {
             path="/teamComp/:projectId"
             exact
             component={TeamComposition}
+          />
+          <PrivateRoute
+            path="/advertisements/:projectId"
+            exact
+            component={AdsContainer}
           />
           <PrivateRoute
             path="/meeting/:projectId"
