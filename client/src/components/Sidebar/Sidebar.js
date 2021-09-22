@@ -63,14 +63,16 @@ const Sidebar = () => {
           </NavLink>
         </div>
       )}
+      {userRole && (
+        <div className={styles.item}>
+          <NavLink to="/configuration">
+            <BsGear size={23} /> Configuration
+          </NavLink>
+        </div>
+      )}
       <div className={styles.item}>
         <NavLink to="/myProfile">
           <CgProfile size={23} /> My profile
-        </NavLink>
-      </div>
-      <div className={styles.item}>
-        <NavLink to="/configuration">
-          <BsGear size={23} /> Configuration
         </NavLink>
       </div>
     </nav>
