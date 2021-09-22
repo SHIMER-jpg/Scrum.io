@@ -45,15 +45,15 @@ const Header = () => {
     dispatch(markOneNotificationAsReaded(user._id, notificationId));
     history.push({
       pathname: `/project/${projectId}`,
-      state: { projectId }
-    })
+      state: { projectId },
+    });
   };
 
   const handleFooterClick = () => {
     history.push({
       pathname: "/myProfile",
-      state: { redirectSelectedTab: "notifications"}
-    })
+      state: { redirectSelectedTab: "notifications" },
+    });
   };
 
   return (
@@ -87,13 +87,17 @@ const Header = () => {
             </header>
             <main>
               {notifications.length ? (
-                notifications.map((notificacion) => (
-                  <Notification
-                    handleNotificationClick={handleNotificationClick}
-                    key={notificacion._id}
-                    {...notificacion}
-                  />
-                ))
+                notifications.map((notification, index) =>
+                  index < 15 ? (
+                    <Notification
+                      handleNotificationClick={handleNotificationClick}
+                      key={notification._id}
+                      {...notification}
+                    />
+                  ) : (
+                    <></>
+                  )
+                )
               ) : (
                 <div className={styles.noNotifications}>
                   <ImFileEmpty size={24} />

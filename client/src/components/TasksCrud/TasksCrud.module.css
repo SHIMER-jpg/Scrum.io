@@ -1,0 +1,231 @@
+/* table general */
+.container{
+  width: 100%;
+  position: relative;
+}
+
+.paper{
+  width: 100%;
+}
+
+.paper select{
+  font-size: 12px;
+  padding: 5px;
+  text-align: center;
+}
+
+.paper input[type="number"]{
+  font-size: 12px;
+  padding: 5px;
+  font-weight: 500;
+  text-align: center;
+  border: 2px solid #d4d4d4;
+  transition: all ease 0.5s;
+}
+
+.visuallyHidden {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1;
+    margin: -1;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    top: 20;
+    width: 1;
+}
+
+.tableRowDelete{
+  color: #7c7c7c;
+  transition: 0.5s all ease;
+}
+
+.tableRowDelete:hover{
+  color: #f50057;
+  cursor: pointer;
+}
+
+/* table toolbar */
+.toolBar{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(189, 189, 189, 0.761);
+}
+
+.toolBarSelected{
+  font-weight: 500;
+}
+
+.toolBarBtn{
+  transition: 0.5s all ease;
+}
+
+.toolBarBtn:hover{
+  color: #f50057;
+}
+
+.toolBarBtnActive{
+  color: #f50057;
+}
+
+.toolBarFields{
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  flex-direction: row;
+}
+
+.toolBarFields select{
+  font-size: 15px;
+  padding: 5px 10px;
+}
+
+.toolBarFields input[type="number"]{
+  font-size: 15px;
+  padding: 5px 10px;
+}
+
+.toolBarSelectUsers{
+  position: relative;
+}
+
+.toolBarFilter{
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row-reverse;
+}
+
+.showFilterList{
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  gap: 10px;
+  padding: 10px;
+
+  opacity: 1;
+  visibility: visible;
+  transition: 1s all ease;
+}
+
+.hideFilterList{
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  gap: 10px;
+  padding: 10px;
+
+  opacity: 0;
+  visibility: hidden;
+  transition: 1s all ease;
+}
+/* table fields */
+
+.titleField{
+  max-width: 20%;
+  word-wrap: break-word;
+}
+
+.titleField:hover{
+  cursor: pointer;
+}
+.tableInput{
+  position: relative;
+}
+
+/* asignedTo field */
+
+.userBox {
+    position: relative;
+    display: flex;
+    align-items: center;
+    user-select: none;
+    border: 2px solid #d4d4d4;
+    padding: 0 10px;
+    cursor: pointer;
+}
+
+.userBox img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+
+.userBox p {
+    line-height: 1;
+    font-size: 13px;
+    font-weight: 500;
+    margin-left: 10px;
+    min-width: 100px;
+    text-align: center;
+}
+
+.selectUserContainer {
+    position: relative;
+  }
+  
+  .modalSelectUser {
+    display: flex;
+    position: absolute;
+    flex-direction: column;
+    max-height: 150px;
+    width: 150%;
+    left: -20%;
+    border-radius: 8px;
+    border: 1px solid rgb(104, 43, 43);
+    background: white;
+    overflow-y: auto;
+    visibility: hidden;
+    opacity: 0;
+    transition: all 0.15s ease-in-out;
+    z-index: 1000;
+  }
+  
+  .modalSelectUser.visible {
+    visibility: visible;
+    opacity: 1;
+  }
+  
+  .modalSelectUser > p {
+    margin: 15px;
+    color: rgb(255, 86, 86);
+    font-weight: 600;
+  }
+  
+  .modalUser {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-weight: 500;
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.15s ease-in-out;
+  }
+  
+  .modalUser:hover {
+    background: rgba(161, 36, 101, 0.2);
+    cursor: pointer;
+  }
+  
+  .modalUser img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid rgb(204, 204, 204);
+  }
+  
+  .modalUser p {
+    margin: 0;
+  }
+  
+  .addedUsers:not(:empty) {
+    width: 100%;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
