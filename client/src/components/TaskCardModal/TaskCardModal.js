@@ -23,6 +23,8 @@ import { createNote } from "../../redux/NoteDetail/actions";
 import { IoClose } from "react-icons/io5";
 import NoteDetail from "../NoteDetail/NoteDetail";
 import Dropdown from "../Dropdown/Dropdown";
+import { AiFillEdit } from "react-icons/ai";
+import EditTaskModal from "../EditTaskModal/EditTaskModal";
 
 import styles from "./TaskModal.module.css";
 
@@ -241,6 +243,14 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
 
   return (
     <>
+      {isEditTaskModal && (
+        <EditTaskModal
+          assignedUsers={assignedUsers}
+          isModalOpen={isEditTaskModal}
+          setIsModalOpen={setIsEditTaskModal}
+          projectId={_id}
+        />
+      )}
       <Modal
         isOpen={isOpen}
         style={customStyles}
@@ -248,7 +258,14 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
         contentLabel="Task Card"
       >
         <header className={styles.modalHeader}>
-          <h2>{title}</h2>
+          <h2>
+            {title}
+            <AiFillEdit
+            onClick={() => setIsEditTaskModal(true)}
+            size="17"
+            cursor="pointer"
+          />
+            </h2>
           <span className={styles.taskCard_StoryPoints}>{storyPoints} SP</span>
           <button onClick={() => setIsModalOpen(false)}>
             <IoClose size={30} />
