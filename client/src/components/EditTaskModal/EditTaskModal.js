@@ -1,14 +1,14 @@
 import React, {useState} from 'react';
 import {useDispatch} from "react-redux";
 import {Formik, Form, Field, ErrorMessage} from 'formik';
+import { updateTask } from '../../redux/ManagerView/actions';
 import Modal from "react-modal";
 import { IoClose } from "react-icons/io5";
-import { BiSave } from "react-icons/bi"
-import { editProject } from '../../redux/ManagerView/actions';
-import styles from "./EditProjectModal.module.css";
+import { BiSave } from "react-icons/bi";
+import styles from "./EditTaskModal.module.css";
 import * as Yup from "yup";
 
-export default function EditProjectModal ({isModalOpen, setIsModalOpen, projectId}) {
+export default function EditTaskModal ({isModalOpen, setIsModalOpen, _id}) {
    const customStyles = {
       content: {
          padding: "10px",
@@ -28,11 +28,12 @@ export default function EditProjectModal ({isModalOpen, setIsModalOpen, projectI
 
    const dispatch = useDispatch();
    const [values, setValues] = useState({
-      id: projectId,
-      projectName: "",
+      id: _id,
+      title: "",
    });
 
    const handleChange = (e) => {
+      console.log(e.target)
       setValues({
          ...values,
          [e.target.name]: e.target.value,
@@ -46,7 +47,6 @@ export default function EditProjectModal ({isModalOpen, setIsModalOpen, projectI
          onRequestClose={() => setIsModalOpen(false)}
       >
          <header className={styles.modalHeader}>
-            <h2>New Title</h2>
             <button onClick={() => setIsModalOpen(false)}>
               <IoClose size={30}/>
             </button>
@@ -54,16 +54,16 @@ export default function EditProjectModal ({isModalOpen, setIsModalOpen, projectI
          <Formik 
             initialValues={values}
             validationSchema={Yup.object({
-               projectName: Yup.string().required("It must have a name.")
+               title: Yup.string().required("It must have a name.")
             })}
             onSubmit={(_, actions) => {
-               if (!values.projectName) {
+               if (!values.title) {
                  actions.setSubmitting(false);
                } else {
-                  dispatch(editProject(values));
+                  dispatch(updateTask(values));
                   setValues({
-                     id: projectId,
-                     projectName:"",
+                     id: _id,
+                     title:"",
                   });
                   setIsModalOpen(false);
                }
@@ -74,22 +74,19 @@ export default function EditProjectModal ({isModalOpen, setIsModalOpen, projectI
                   <Field as="div" styles={styles.modalFormGroup}>
                      <Field as="div" styles={styles.modalButtons}>
                         <Field 
-                           placeholder="New name of the project" 
-                           name="projectName" 
+                           placeholder="New name of the task" 
+                           name="title" 
                            type="text" 
                            onChange={handleChange} 
-                           value={values.projectName} 
+                           value={values.title} 
                         />
                         <Field as="div" className={styles.modalFormGroup}>
-                           <button 
-                              disabled={isSubmitting && !isValidating} 
-                              type="submit" 
-                           >
+                           <button disabled={isSubmitting && !isValidating} type="submit">
                              <BiSave size={20}/>
                            </button>
                         </Field>
                      </Field>
-                        <ErrorMessage name="projectName" component="div">
+                        <ErrorMessage name="title" component="div">
                            {(msg) => (<p style={{ color: "red" }}>{msg}</p>)}
                         </ErrorMessage>
                   </Field>

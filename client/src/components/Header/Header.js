@@ -123,7 +123,7 @@ function Notification({ _id, createdAt, type, projectId: project, handleNotifica
   return (
     <article onClick={() => handleNotificationClick(_id, project._id)} className={styles.notification}>
       <div className={styles.notificationTitle}>
-        <p>{project.projectName}</p>
+        <p>{project?.projectName}</p>
         <p>{timeAgo}</p>
       </div>
       <main className={styles.notificationBody}>

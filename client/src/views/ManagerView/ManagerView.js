@@ -21,17 +21,15 @@ import CreateTaskModal from "../../components/CreateTaskModal/CreateTaskModal";
 import { useParams } from "react-router-dom";
 import { AddPartnerModal } from "../../components/AddPartnerModal/AddPartnerModal";
 import ImportCsvModal from "../../components/ImportCsvModal/ImportCsvModal";
-
-
 import EditProjectModal from "../../components/EditProjectModal/EditProjectModal";
-
+import EditTaskModal from "../../components/EditTaskModal/EditTaskModal";
 
 export default function ManagerView() {
   const tasks = useSelector((state) => state.managerView.tasks);
 
   const { projectId } = useParams();
   
-  const [isEditModal, setIsEditModal] = useState(false);
+  const [isEditProjectModal, setIsEditProjectModal] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalAddPartner, setModalAddPartner] = useState(false);
   const [importModal, setImportModal] = useState(false);
@@ -92,11 +90,10 @@ export default function ManagerView() {
           projectId={projectId}
         />
       )}
-      {isEditModal && (
+      {isEditProjectModal && (
         <EditProjectModal
-          assignedUsers={assignedUsers}
-          isModalOpen={isEditModal}
-          setIsModalOpen={setIsEditModal}
+          isModalOpen={isEditProjectModal}
+          setIsModalOpen={setIsEditProjectModal}
           projectId={projectId}
         />
       )}
@@ -112,7 +109,12 @@ export default function ManagerView() {
       <div className={managerStyle.conteiner}>
         <header className={managerStyle.conteinerHeader}>
           <h1 className="main-heading">
-            {project.projectName || "Loading..."}
+            {project?.projectName || "Loading..."}
+            <AiFillEdit 
+              onClick={() => setIsEditProjectModal(true)}
+              size="17"
+              cursor="pointer"
+            />
           </h1>
           <div style={{ display: "flex", gap: "30px" }}>
             {modalAddPartner && (
@@ -125,12 +127,6 @@ export default function ManagerView() {
               />
             )}
 
-            <button
-              className="btn-primary"
-              onClick={() => setIsEditModal(true)}
-            >
-              <AiFillEdit /> Edit
-            </button>
 
             <button
               className="btn-primary"

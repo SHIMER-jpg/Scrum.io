@@ -14,7 +14,6 @@ import { SiGooglehangoutsmeet } from "react-icons/si";
 const Sidebar = () => {
   const userRole = useSelector(({ viewRouter }) => viewRouter.userRole);
   const projectId = useSelector(({ managerView }) => managerView.project._id);
-
   return (
     <nav className={styles.container}>
       <div className={styles.item}>
