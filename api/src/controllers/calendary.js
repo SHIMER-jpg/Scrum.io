@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
-const Event = require("../models/calendary")
+const Event = require("../models/Event")
+var moment = require('moment')
 
 const { Router } = require("express");
 
@@ -14,6 +15,7 @@ const { Router } = require("express");
 
   const createEvent = (async(req, res, next) => {
     try{
+      console.log(req.body)
       const event = new Event(req.body)
       await event.save()
       res.status(201).json(event)

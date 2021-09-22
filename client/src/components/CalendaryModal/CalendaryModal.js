@@ -31,12 +31,12 @@ const customStyles = {
 
 
 
-function CalendaryModal({ModalOpen, setModalOpen, onEventAdded}) {
+function CalendaryModal({ModalOpen, setModalOpen}) {
 
   const dispatch = useDispatch()
 
 
-
+  
 
 
   const { projectId : projectParams} = useParams()
@@ -49,10 +49,21 @@ function CalendaryModal({ModalOpen, setModalOpen, onEventAdded}) {
 
 
    function changeHandler (e) {
-     setData({
+     if(e.target.name === "title"){
+      setData({
+        ...data,
+        [e.target.name]: e.target.value
+      })      
+      return
+     }
+    console.log("target value",e.target.value)
+    let value = moment(e.target.value)
+    console.log("value",value)     
+    setData({
        ...data,
        [e.target.name]: e.target.value
      })
+     console.log("value", data)  
   }
 
   const projectId = useSelector((state) => state.managerView.project._id)
@@ -86,9 +97,9 @@ return(
     <input placeholder="Title" value={data.title} name="title" onChange={e => changeHandler(e)}/>
       <div>
         <label>Start Date</label>
-        <input type="date" name="end"
+        <input type="date" name="start"
         onChange={(e) => changeHandler(e)}
-        value={data.end}
+        value={data.start}
         />
         {/* <Datetime value={data.start} name="start" onChange={(e) => startDate(e.target.value)} /> */}
       </div>
