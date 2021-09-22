@@ -4,6 +4,8 @@ import { useRouteMatch } from "react-router";
 import React from "react";
 import { SiSpectrum } from "react-icons/si";
 
+import styles from "./JitsiMeet.module.css"
+
 const JitsiMeet = () => {
   const { projectId } = useRouteMatch().params;
   const name = useSelector((state) => state.app.loggedUser.name);

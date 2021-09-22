@@ -56,7 +56,7 @@ const NotificationItem = ({ _id, createdAt, readed,  type, projectId: project, h
     <article onClick={() => handleClick(_id, project._id)} className={`${styles.notificationItem} ${readed && styles.notificationItemReaded}`}>
       <header className={styles.notificationItemHeader}>
         <Link to="/notifications" className="unstyled-link">
-          <p>{project.projectName}</p>
+          <p>{project?.projectName}</p>
         </Link>
         <p>
           {timeAgo}
