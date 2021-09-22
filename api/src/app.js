@@ -38,10 +38,8 @@ app.use((req, res, next) => {
   next();
 });
 
-
 app.use("/", routes);
 
 module.exports = server;
 
 // const io = require("./socket");
- 

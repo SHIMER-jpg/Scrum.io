@@ -39,7 +39,6 @@ const getProjectByUserId = async (req, res, next) => {
         $unwind: "$projects",
       },
     ]);
-
     res.status(200).json(
       data.map((project) => {
         delete project.projects.taskIds;
@@ -159,6 +158,22 @@ const getTeamComp = async (req, res, next) => {
   }
 };
 
+const editProject = async (req, res, next) => {
+  try {
+    const id = req.body.id;
+    const newProjectName = req.body.projectName;
+
+    const project = await Project.model.findOneAndUpdate(
+      { _id: id },
+      { projectName: newProjectName },
+      { new: true }
+    );
+    res.status(200).json(project);
+  } catch (e) {
+    next(e);
+  }
+};
+
 module.exports = {
   getProjectById,
   createProject,
@@ -166,4 +181,5 @@ module.exports = {
   deleteProject,
   updateStatus,
   getTeamComp,
+  editProject,
 };

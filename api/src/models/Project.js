@@ -48,9 +48,9 @@ projectSchema.virtual("auxiliaryDates").set(function () {
   this.set(
     "sprintEndDates",
     (sprintDates = [...Array(this.sprintCount).keys()]
-      .map((value) => value * this.sprintDuration)
+      .map((value) => value * this.sprintDuration + 1)
       .map((value) => {
-        let auxDate = new Date();
+        let auxDate = new Date(date);
         auxDate.setDate(date.getDate() + value * 7);
         return auxDate;
       }))

@@ -6,6 +6,7 @@ import {
   getTasksByProject,
   getAsignedUsers,
   clearManagerView,
+  editProject,
 } from "../../redux/ManagerView/actions";
 
 import { fetchUsers } from "../../redux/Home/actions";
@@ -13,6 +14,10 @@ import { useDispatch, useSelector } from "react-redux";
 import TaskHolder from "../../components/TaskHolder/TaskHolder";
 import { FiUsers } from "react-icons/fi";
 import { FaFileCsv } from "react-icons/fa";
+import { AiFillEdit } from "react-icons/ai";
+import { GoPlus } from "react-icons/go";
+import { BsPencilSquare } from "react-icons/bs";
+import { TiTick } from "react-icons/ti";
 
 import TasksCrud from "../../components/TasksCrud/TasksCrud";
 import { BsTable } from "react-icons/bs";
@@ -23,12 +28,15 @@ import CreateTaskModal from "../../components/CreateTaskModal/CreateTaskModal";
 import { useParams } from "react-router-dom";
 import { AddPartnerModal } from "../../components/AddPartnerModal/AddPartnerModal";
 import ImportCsvModal from "../../components/ImportCsvModal/ImportCsvModal";
+import EditProjectModal from "../../components/EditProjectModal/EditProjectModal";
+import EditTaskModal from "../../components/EditTaskModal/EditTaskModal";
 
 export default function ManagerView() {
   const tasks = useSelector((state) => state.managerView.tasks);
 
   const { projectId } = useParams();
 
+  const [isEditProjectModal, setIsEditProjectModal] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalAddPartner, setModalAddPartner] = useState(false);
   const [importModal, setImportModal] = useState(false);
@@ -42,14 +50,24 @@ export default function ManagerView() {
   const { socket, loggedUser } = useSelector((state) => state.app);
   const allUsers = useSelector((state) => state.home.users);
 
+  const [isTitleOpen, setIsTitleOpen] = useState(false);
+  const [title, setTitle] = useState(project?.title);
+
   const switchTasksView = () => {
-    if(tasksView === "boardsView"){
+    if (tasksView === "boardsView") {
       setTasksView("crudView");
-    }
-    else{
+    } else {
       setTasksView("boardsView");
     }
-  }
+  };
+  const handleTitleChange = ({ target }) => {
+    setTitle(target.value);
+  };
+  
+  const handleTitleSubmit = () => {
+    setIsTitleOpen(false);
+    dispatch(editProject({ id: projectId, projectName: title }));
+  };
 
   const handleSocketUpdate = useCallback(({ projectId: projectFromSocket }) => {
     console.table({
@@ -115,9 +133,35 @@ export default function ManagerView() {
       )}
       <div className={managerStyle.conteiner}>
         <header className={managerStyle.conteinerHeader}>
-          <h1 className="main-heading">
-            {project.projectName || "Loading..."}
-          </h1>
+          <div style={{ display: "flex", alignItems: "center" }}>
+            {!isTitleOpen ? (
+              <h1 className="main-heading">
+                {project?.projectName || "Loading..."}
+              </h1>
+            ) : (
+              <input
+                name="title"
+                value={title}
+                onChange={handleTitleChange}
+              ></input>
+            )}
+            {!isTitleOpen ? (
+              <BsPencilSquare
+                size={20}
+                onClick={() => setIsTitleOpen(true)}
+                style={{
+                  marginLeft: "10px",
+                  cursor: "pointer",
+                }}
+              />
+            ) : (
+              <TiTick
+                onClick={handleTitleSubmit}
+                size={24}
+                style={{ marginLeft: "10px", cursor: "pointer" }}
+              />
+            )}
+          </div>
           <div style={{ display: "flex", gap: "30px" }}>
             {modalAddPartner && (
               <AddPartnerModal
@@ -128,24 +172,20 @@ export default function ManagerView() {
                 projectId={projectId}
               />
             )}
-            
-            <button
-              className="btn-primary"
-              onClick={() => switchTasksView()}
-            >
-              {tasksView === "boardsView"
-                ? <BsTable />
-                : <HiViewBoards />
-              }
-            </button>
-
-            
             <div
               onClick={() => setModalAddPartner(true)}
               className={managerStyle.userBlobs}
             >
               {assignedUsers.map((user, index) => {
-                return index < 3 ? <img src={user.user.picture} alt={user.user.name} title={user.user.name} /> : <></>;
+                return index < 3 ? (
+                  <img
+                    src={user.user.picture}
+                    alt={user.user.name}
+                    title={user.user.name}
+                  />
+                ) : (
+                  <></>
+                );
               })}
               {assignedUsers.length > 3 ? (
                 <div className={managerStyle.more}>
@@ -155,12 +195,10 @@ export default function ManagerView() {
                 ""
               )}
             </div>
-            {/* <button
-              className="btn-primary"
-              onClick={() => setModalAddPartner(true)}
-            >
-              <FiUsers /> Manage users
-            </button> */}
+
+            <button className="btn-primary" onClick={() => switchTasksView()}>
+              {tasksView === "boardsView" ? <BsTable /> : <HiViewBoards />}
+            </button>
 
             <button
               className="btn-primary"
@@ -174,43 +212,42 @@ export default function ManagerView() {
               className="btn-primary"
               onClick={() => setIsModalOpen(true)}
             >
-              + New Task
+              <GoPlus /> Create Task
             </button>
           </div>
         </header>
-        {tasksView === "boardsView"
-          ? <div className={managerStyle.conteinerBody}>
-              {/* Pending Tasks */}
-              <TaskHolder
-                isLoading={isLoadingTasks}
-                status={"Pending"}
-                taskList={tasks.filter((task) => task.status === "Pending")}
-              />
-              {/* In progress Tasks */}
-              <TaskHolder
-                isLoading={isLoadingTasks}
-                status={"In progress"}
-                taskList={tasks.filter((task) => task.status === "In progress")}
-              />
-              {/* Testing Tasks */}
-              <TaskHolder
-                isLoading={isLoadingTasks}
-                status={"Testing"}
-                taskList={tasks.filter((task) => task.status === "Testing")}
-              />
-              {/* Completed Tasks */}
-              <TaskHolder
-                isLoading={isLoadingTasks}
-                status={"Completed"}
-                taskList={tasks.filter((task) => task.status === "Completed")}
-              />
-            </div>
-            
-          : <div className={managerStyle.conteinerBody}>
-              <TasksCrud tasks={tasks} />
-            </div>
-        }
-        
+        {tasksView === "boardsView" ? (
+          <div className={managerStyle.conteinerBody}>
+            {/* Pending Tasks */}
+            <TaskHolder
+              isLoading={isLoadingTasks}
+              status={"Pending"}
+              taskList={tasks.filter((task) => task.status === "Pending")}
+            />
+            {/* In progress Tasks */}
+            <TaskHolder
+              isLoading={isLoadingTasks}
+              status={"In progress"}
+              taskList={tasks.filter((task) => task.status === "In progress")}
+            />
+            {/* Testing Tasks */}
+            <TaskHolder
+              isLoading={isLoadingTasks}
+              status={"Testing"}
+              taskList={tasks.filter((task) => task.status === "Testing")}
+            />
+            {/* Completed Tasks */}
+            <TaskHolder
+              isLoading={isLoadingTasks}
+              status={"Completed"}
+              taskList={tasks.filter((task) => task.status === "Completed")}
+            />
+          </div>
+        ) : (
+          <div className={managerStyle.conteinerBody}>
+            <TasksCrud tasks={tasks} />
+          </div>
+        )}
       </div>
     </>
   );

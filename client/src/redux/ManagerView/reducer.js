@@ -10,6 +10,7 @@ import {
   DELETE_SELECTED_TASKS,
   CLEAR_MANAGER_VIEW,
   DELETE_TASKS,
+  EDIT_PROJECT,
 } from "./constants";
 
 const initialState = {
@@ -31,7 +32,11 @@ const managerViewReducer = (state = initialState, action) => {
         ...state,
         tasks: [...action.payload],
       };
-
+    case EDIT_PROJECT:
+      return {
+        ...state,
+        project: {...state.project, projectName: action.payload.projectName},
+      }
     case UPDATE_TASK:
       const newTasks = state.tasks.map((task) => {
         if (task._id === action.payload.taskId) {

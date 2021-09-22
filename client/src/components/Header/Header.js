@@ -152,7 +152,7 @@ function Notification({
       className={styles.notification}
     >
       <div className={styles.notificationTitle}>
-        <p>{project.projectName}</p>
+        <p>{project?.projectName}</p>
         <p>{timeAgo}</p>
       </div>
       <main className={styles.notificationBody}>
