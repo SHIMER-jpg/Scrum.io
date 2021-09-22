@@ -43,16 +43,6 @@ export default function CreateAdModal(props) {
     });
   }
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    dispatch(createAdvertisement(input));
-    props.setIsModalOpen(false);
-    setInput({
-      title: "",
-      description: "",
-    });
-  }
-
   return (
     <Modal
       style={customStyles}

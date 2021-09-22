@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useSelector } from "react-redux";
 import { useRouteMatch } from "react-router";
-import styles from "./JitsiMeet.module.css";
 import React from "react";
 
 const JitsiMeet = () => {
@@ -9,9 +8,6 @@ const JitsiMeet = () => {
   const name = useSelector((state) => state.app.loggedUser.name);
   const jitsiContainerId = "jitsi-container-id";
   const [jitsi, setJitsi] = React.useState({});
-  const handleClose = () => {
-    jitsi?.dispose?.();
-  };
 
   const loadJitsiScript = () => {
     let resolveLoadJitsiScriptPromise = null;

@@ -7,7 +7,6 @@ import {
   CREATE_ADVERTISEMENT,
   DELETE_ADVERTISEMENT,
   CLEAR_ADVERTISEMENTS,
-  GET_TEAMCOMP,
 } from "./constants";
 import axios from "axios";
 require("dotenv").config();
