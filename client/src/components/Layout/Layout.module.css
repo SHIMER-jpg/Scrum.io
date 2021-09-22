@@ -7,6 +7,7 @@
   opacity: 0;
 }
 
+
 .buttonMessage button {
   border-radius: 32px;
   padding: 12px;
@@ -14,7 +15,7 @@
   width: 64px;
   background-color: var(--white);
   color: #a12464;
-  border: none;
+  border: 1px solid var(--separator);
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.15);
   position: fixed;
   z-index: 100000;
