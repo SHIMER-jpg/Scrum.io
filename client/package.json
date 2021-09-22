@@ -20,6 +20,7 @@
     "react": "^17.0.1",
     "react-chartjs-2": "^3.0.4",
     "react-datetime": "^3.1.1",
+    "react-datetime-picker": "^3.4.0",
     "react-dom": "^17.0.1",
     "react-icons": "^4.2.0",
     "react-loading-skeleton": "^2.2.0",

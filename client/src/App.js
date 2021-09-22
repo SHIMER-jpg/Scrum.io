@@ -105,7 +105,7 @@ const App = () => {
             exact
             component={DeveloperView}
           />
-          <PrivateRoute path="/calendary" exact component={Calendary} />
+          <PrivateRoute path="/calendary/:projectId" exact component={Calendary} />
           <PrivateRoute path="/configuration" exact component={Configuration} />
         </Layout>
         <Route component={NotFound} />

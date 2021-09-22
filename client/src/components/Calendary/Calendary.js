@@ -5,8 +5,6 @@ import interactionPlugin from '@fullcalendar/interaction';
 import { useSelector } from 'react-redux';
 import CalendaryModal from "../CalendaryModal/CalendaryModal";
 import style from "./Calendary.module.css"
-import axios from "axios";
-
 
 
 
@@ -18,6 +16,8 @@ const Calendary = function(){
   const [ModalOpen, setModalOpen] = useState(false)
   const [date, setDate] = useState()
   const calendarRef = useRef(null)
+  const useRole = useSelector((state) => state.viewRouter.userRole)
+
 
   function onEventAdded(event){
     let calendarApi = calendarRef.current.getApi()
@@ -36,9 +36,16 @@ const Calendary = function(){
 
 
   return(
+    
       <section className= {style.calendar}>
+        {useRole === "scrumMaster" 
+        ? 
+        <>
         <button onClick={() => handleDateClick()}>Add Event</button>
         <CalendaryModal ModalOpen= {ModalOpen} setModalOpen= {setModalOpen} date={date} onEventAdded= {event => onEventAdded(event)}/>
+        </>
+        :
+        null}
         <div style={{position:"relative", zIndex: 0}}>
           <FullCalendar
             ref={calendarRef}

@@ -66,7 +66,7 @@ const Sidebar = () => {
       </div>
       {userRole && (
       <div className={styles.item}>
-      <NavLink to="/calendary">
+      <NavLink to={`/calendary/${projectId}`}>
           <BsCalendar size={23} /> Calendary
         </NavLink>
       </div>

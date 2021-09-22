@@ -1,9 +1,13 @@
 import { useState } from "react";
 import Modal from "react-modal";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import style from "./CalendaryModal.module.css"
-import Datetime from 'react-datetime';
+// import Datetime from 'react-datetime';
+import DateTimePicker from 'react-datetime-picker';
+import moment from "moment"
 
+import { NavLink, useParams, Redirect} from 'react-router-dom'
+import { createDate } from "../../redux/Calendar/actions"
 
 Modal.setAppElement("#root");
 
@@ -13,7 +17,6 @@ const customStyles = {
       padding: "40px",
       inset: "unset",
       width: "100%",
-      maxHeight: "90vh",
       borderRadius: "8px",
       maxWidth: "650px",
     },
@@ -26,32 +29,50 @@ const customStyles = {
   };
 
 
-function CreateTaskModal({ModalOpen, setModalOpen, date, onEventAdded}) {
 
-  const initialState = {title: ""}
 
-  const [title, setTitle] = useState(initialState);
-  const [start, setStart] = useState(new Date());
-  const [end, setEnd] = useState(new Date());
+function CalendaryModal({ModalOpen, setModalOpen, onEventAdded}) {
 
-   function titleHandler (e) {
-     setTitle({
-       ...title,
-       title: e.target.value
+  const dispatch = useDispatch()
+
+
+
+
+
+  const { projectId : projectParams} = useParams()
+
+  const [ data, setData ] = useState({
+    title: "",
+    start: "",
+    end: "",
+  })
+
+
+   function changeHandler (e) {
+     setData({
+       ...data,
+       [e.target.name]: e.target.value
      })
   }
 
+  const projectId = useSelector((state) => state.managerView.project._id)
 
-
-  const onSubmit = (e) => {
+  const submitHandler = (e) => {
     e.preventDefault()
 
-    onEventAdded({
-      title,
-      start,
-      end
-    })
+    // onEventAdded({
+    //   title,
+    //   start,
+    //   end
+    // })
     setModalOpen(false)
+    console.log("dispachacion de fecha")
+    dispatch(createDate(data))
+  }
+
+
+  if (!projectId) {
+    return <Redirect to={`/project/${ projectParams }`} />;
   }
 
 
@@ -61,19 +82,28 @@ return(
     isOpen={ModalOpen}
     onRequestClose={() => setModalOpen(false)}
   >
-  <form onSubmit={onsubmit}>
-    <input placeholder="Title" value={title.title}  onChange={e => titleHandler(e)}/>
+  <form onSubmit={submitHandler}>
+    <input placeholder="Title" value={data.title} name="title" onChange={e => changeHandler(e)}/>
       <div>
         <label>Start Date</label>
-        <Datetime value={start} onChange={(date) => setStart(date)}/>
+        <input type="date" name="end"
+        onChange={(e) => changeHandler(e)}
+        value={data.end}
+        />
+        {/* <Datetime value={data.start} name="start" onChange={(e) => startDate(e.target.value)} /> */}
       </div>
-
-
+      <NavLink to={`/meeting/${projectId}`}>
+        <button>Meeting</button>
+      </NavLink>
       <div>
+        <input type="number" max="23" min="0"/>
         <label>End Date</label>
-        <Datetime value={end} onChange={(date) => setEnd(date)}/>
+        <input type="date" name="end"
+        onChange={(e) => changeHandler(e)}
+        value={data.end}
+        />
+        {/* <Datetime value={data.end} name="end" onChange={(e) => endDate(e.target.value)}/> */}
       </div>
-
       <button>Add Event</button>
   </form>
 
@@ -145,4 +175,4 @@ return(
 
 
 
-export default CreateTaskModal
+export default CalendaryModal
