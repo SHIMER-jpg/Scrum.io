@@ -118,24 +118,27 @@ const modifyTask = async (req, res, next) => {
 
 const modifyManyTasks = async (req, res, next) => {
   try {
-    const manyTasksId = req.body.tasksId.map(taskId => mongoose.Types.ObjectId(taskId));
+    const manyTasksId = req.body.tasksId.map((taskId) =>
+      mongoose.Types.ObjectId(taskId)
+    );
     const update = req.body.fieldsToChange;
-    update.asigedTo ? update.asigedTo = mongoose.Types.ObjectId(update.asigedTo) : null;
-    
-    if(update.status){
-      if(update.status === "Completed"){
+    update.asigedTo
+      ? (update.asigedTo = mongoose.Types.ObjectId(update.asigedTo))
+      : null;
+
+    if (update.status) {
+      if (update.status === "Completed") {
         update.completedDate = Date.now();
-      }
-      else{
+      } else {
         update.completedDate = null;
       }
     }
 
     const updated = await Task.model.updateMany(
       { _id: manyTasksId },
-      {"$set": update}
+      { $set: update }
     );
-    
+
     updateStatus(updated.projectId);
 
     res.status(200).send("Successfully modified tasks");
@@ -187,7 +190,9 @@ const deleteTask = async (req, res, next) => {
 
 const deleteSelectedTasks = async (req, res, next) => {
   try {
-    const manyTasksId = req.body.tasksIdArray.map(taskId => mongoose.Types.ObjectId(taskId));
+    const manyTasksId = req.body.tasksIdArray.map((taskId) =>
+      mongoose.Types.ObjectId(taskId)
+    );
     const updated = await Task.model.deleteMany({ _id: manyTasksId });
     await Note.model.deleteMany({ taskId: manyTasksId });
 
@@ -222,6 +227,7 @@ const bulkImport = async (req, res, next) => {
         storyPoints: doc.storyPoints,
         priorization: doc.priorization,
         details: doc.details,
+        sprintId: doc.sprint,
       };
       if (doc.completedDate == "") delete task.completedDate;
       return task;

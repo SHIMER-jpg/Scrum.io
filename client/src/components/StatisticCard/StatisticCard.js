@@ -5,12 +5,14 @@ import { React, useEffect, useState } from "react";
 import PopperHelp from "../PopperHelp/PopperHelp.js";
 
 // componentes charts de chartjs
-import { Pie, Line, Bar } from "react-chartjs-2";
+import { Chart, Pie, Line, Bar } from "react-chartjs-2";
+
+import annotationPlugin from "chartjs-plugin-annotation";
 
 import styles from "./StatisticCard.module.css";
-
 import moment from "moment";
 moment().format();
+Chart.register(annotationPlugin);
 
 export default function StatisticCard({ graphType, tasks, project }) {
   const [graphData, setGraphData] = useState({
@@ -26,6 +28,38 @@ export default function StatisticCard({ graphType, tasks, project }) {
   });
 
   const [labelDays, setLabelDays] = useState([]);
+
+  function getSprintLine() {
+    const firstDay = project.startDate
+      ? project.startDate && moment(project.startDate.substring(0, 10))
+      : project.creationDate && moment(project.creationDate.substring(0, 10));
+    const sprintLineArray = project.sprintEndDates.map((date, index) => {
+      const dateToMoment = moment(date.substring(0, 10));
+      const value = dateToMoment.diff(firstDay, "days");
+      const line = {
+        type: "line",
+        xMin: value,
+        xMax: value,
+        borderColor: "rgb(204, 0, 25, 0.5)",
+        borderWidth: 2,
+        label: {
+          enabled: true,
+          content: "Sprint " + (index + 1),
+          backgroundColor: "rgb(255,255,255,0)",
+          color: "rgb(204, 0, 25, 1)",
+          position: "end",
+          rotation: "270",
+          xAdjust: -10,
+        },
+      };
+      return line;
+    });
+    const annotations = {};
+    sprintLineArray.forEach((line) => {
+      annotations[`line${line.xMax}`] = line;
+    });
+    return annotations;
+  }
 
   function handleDataChartOption(e) {
     if (
@@ -50,11 +84,12 @@ export default function StatisticCard({ graphType, tasks, project }) {
         byTasks: charDataByTasks(),
       });
     }
-  }, [tasks]);
+  }, [tasks, charDataOption.sprintNumber]);
 
   useEffect(() => {
-    let firstDay =
-      project.creationDate && moment(project.creationDate.substring(0, 10));
+    let firstDay = project.startDate
+      ? project.startDate && moment(project.startDate.substring(0, 10))
+      : project.creationDate && moment(project.creationDate.substring(0, 10));
     let lastDay =
       project.requiredDate && moment(project.requiredDate.substring(0, 10));
     let days = firstDay && lastDay.diff(firstDay, "days");
@@ -100,8 +135,9 @@ export default function StatisticCard({ graphType, tasks, project }) {
         }
         return 0;
       });
+    if (completedTasks.length < 1) return [];
     var lastCompletedDate = moment(
-      completedTasks[completedTasks.length - 1].completedDate.substring(0, 10)
+      completedTasks[completedTasks.length - 1].completedDate?.substring(0, 10)
     );
     var finalDate = lastCompletedDate.diff(firstDay, "days");
 
@@ -172,8 +208,12 @@ export default function StatisticCard({ graphType, tasks, project }) {
   // funcion para setear la data por StoryPoints
   function charDataByStoryPoints() {
     var charData = [0, 0, 0, 0];
+    const filteredTasks =
+      charDataOption.projectOrSprint === "bySprint"
+        ? tasks.filter((t) => t.sprintId == charDataOption.sprintNumber)
+        : tasks;
     if (graphType === "Tasks Priorization Chart") {
-      tasks.forEach((t) => {
+      filteredTasks.forEach((t) => {
         if (t.priorization === "Easy Win") {
           charData[0] += t.storyPoints;
         } else if (t.priorization === "Strategic Initiative") {
@@ -185,7 +225,7 @@ export default function StatisticCard({ graphType, tasks, project }) {
         }
       });
     } else if (graphType === "Project Report") {
-      tasks.forEach((t) => {
+      filteredTasks.forEach((t) => {
         if (t.status === "Pending") {
           charData[0] += t.storyPoints;
         } else if (t.status === "In progress") {
@@ -204,6 +244,10 @@ export default function StatisticCard({ graphType, tasks, project }) {
   // funcion para setear la data por tasks
   function charDataByTasks() {
     var charData = [0, 0, 0, 0];
+    const filteredTasks =
+      charDataOption.projectOrSprint === "bySprint"
+        ? tasks.filter((t) => t.sprintId == charDataOption.sprintNumber)
+        : tasks;
     if (graphType === "Tasks Priorization Chart") {
       tasks.forEach((t) => {
         if (t.priorization === "Easy Win") {
@@ -338,6 +382,21 @@ export default function StatisticCard({ graphType, tasks, project }) {
                       beginAtZero: true,
                     },
                   },
+                  plugins: {
+                    annotation: {
+                      drawTime: "afterDatasetsDraw",
+                      annotations: getSprintLine(),
+                      // {
+                      //   line1: {
+                      //     type: "line",
+                      //     xMax: 10,
+                      //     xMin: 10,
+                      //     borderColor: "rgb(255, 99, 132)",
+                      //     borderWidth: 2,
+                      //   },
+                      // },
+                    },
+                  },
                 }}
               />
             ) : (
@@ -363,7 +422,8 @@ export default function StatisticCard({ graphType, tasks, project }) {
             {charDataOption.projectOrSprint === "bySprint" && (
               <input
                 type="number"
-                min="1"
+                min={1}
+                max={project.sprintCount}
                 onChange={(e) => handleDataChartOption(e)}
                 name="sprintNumber"
                 value={charDataOption.sprintNumber}
@@ -377,3 +437,21 @@ export default function StatisticCard({ graphType, tasks, project }) {
     </div>
   );
 }
+
+// annotation: {
+//   annotations: [
+//     {
+//       type: "line",
+//       mode: "horizontal",
+//       // scaleID: "y-axis-1",
+//       value: 129,
+//       borderColor: "black",
+//       borderWidth: 10,
+//       label: {
+//         backgroundColor: "red",
+//         content: "Test Label",
+//         enabled: true,
+//       },
+//     },
+//   ],
+// },
