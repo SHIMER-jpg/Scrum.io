@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import FullCalendar from '@fullcalendar/react' // must go before plugins
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction';
 import { useSelector } from 'react-redux';
 import CalendaryModal from "../CalendaryModal/CalendaryModal";
 import style from "./Calendary.module.css"
+import axios from "axios";
+
 
 
 
@@ -15,31 +17,46 @@ const Calendary = function(){
   // const userRole = useSelector(({ viewRouter }) => viewRouter.userRole);
   const [ModalOpen, setModalOpen] = useState(false)
   const [date, setDate] = useState()
+  const calendarRef = useRef(null)
+
+  function onEventAdded(event){
+    let calendarApi = calendarRef.current.getApi()
+    calendarApi.addEvent(event)
+
+  }
+
+  async function handleEventAdd(data){
+    
+  }
 
   function handleDateClick(dateClickInfo){
-    setDate(dateClickInfo.dateStr)
+    // setDate(dateClickInfo.dateStr)
     setModalOpen(true)
   }
 
 
   return(
-      <div className= {style.calendar}>
-        
-        <CalendaryModal ModalOpen= {ModalOpen} setModalOpen= {setModalOpen} date={date}/>
-        <FullCalendar
-          headerToolbar = {{
-          left: 'prev,next today',
-          center: 'title',
-          right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
-          }}
-          themeSystem= "standard"
-          plugins={[ dayGridPlugin, interactionPlugin ]}
-          initialView="dayGridMonth"
-          weekends={true}
-          selectable={true}
-          dateClick={handleDateClick}
-        />
-      </div>
+      <section className= {style.calendar}>
+        <button onClick={() => handleDateClick()}>Add Event</button>
+        <CalendaryModal ModalOpen= {ModalOpen} setModalOpen= {setModalOpen} date={date} onEventAdded= {event => onEventAdded(event)}/>
+        <div style={{position:"relative", zIndex: 0}}>
+          <FullCalendar
+            ref={calendarRef}
+            // headerToolbar = {{
+            // left: 'prev,next today',
+            // center: 'title',
+            // right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
+            // }}
+            // themeSystem= "standard"
+            plugins={[ dayGridPlugin, interactionPlugin ]}
+            initialView="dayGridMonth"
+            eventAdd={event => handleEventAdd(event)}
+            // weekends={true}
+            // selectable={true}
+            // dateClick={handleDateClick}
+          />
+        </div>
+      </section>
   )
 }
 
