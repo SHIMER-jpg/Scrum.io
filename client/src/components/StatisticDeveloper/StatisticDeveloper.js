@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
-import { Bar } from "react-chartjs-2";
+import { Bar, Chart } from "react-chartjs-2";
+import annotationPlugin from "chartjs-plugin-annotation";
 import moment from "moment";
 import styles from "./StatisticDeveloper.module.css";
 
@@ -10,6 +11,7 @@ import PopperHelp from "../PopperHelp/PopperHelp.js";
 import { FaUserCircle } from "react-icons/fa";
 
 import { useSearch } from "../../hooks/useSearch";
+Chart.register(annotationPlugin);
 
 export default function StatisticDeveloper(props) {
   //---STATES----------------------------------------
@@ -30,9 +32,41 @@ export default function StatisticDeveloper(props) {
     completedUserTasks,
     view
   );
-  const labels = getLabels(project.requiredDate, project.creationDate, view);
+  const labels = getLabels(project.requiredDate, project.startDate, view);
 
   const [query, setQuery, filteredUsers] = useSearch(selectedUsers);
+
+  function getSprintLine() {
+    const firstDay = project.startDate
+      ? project.startDate && moment(project.startDate.substring(0, 10))
+      : project.creationDate && moment(project.creationDate.substring(0, 10));
+    const sprintLineArray = project.sprintEndDates.map((date, index) => {
+      const dateToMoment = moment(date.substring(0, 10));
+      const value = dateToMoment.diff(firstDay, "days");
+      const line = {
+        type: "line",
+        xMin: value,
+        xMax: value,
+        borderColor: "rgb(204, 0, 25, 0.25)",
+        borderWidth: 2,
+        label: {
+          enabled: true,
+          content: "Sprint " + (index + 1),
+          backgroundColor: "rgb(255,255,255,0)",
+          color: "rgb(204, 0, 25, 0.5)",
+          position: "end",
+          rotation: "270",
+          xAdjust: -10,
+        },
+      };
+      return line;
+    });
+    const annotations = {};
+    sprintLineArray.forEach((line) => {
+      annotations[`line${line.xMax}`] = line;
+    });
+    return annotations;
+  }
 
   function calculateDays(required, created, view) {
     //dinamically calculates the difference between two periods of time
@@ -45,7 +79,7 @@ export default function StatisticDeveloper(props) {
     //creates an array with the calculated values to be set as labels
     var days = calculateDays(finalDate, initialDate, view);
     var labelArray = [];
-    for (let i = 0; i <= days; i++) {
+    for (let i = 0; i < days; i++) {
       labelArray.push(i + 1);
     }
     return labelArray;
@@ -125,7 +159,7 @@ export default function StatisticDeveloper(props) {
               <div
                 className={styles.userBox}
                 onClick={() => {
-                  setIsSelectUsersOpen(true);
+                  setIsSelectUsersOpen(!isSelectUsersOpen);
                 }}
               >
                 {user.picture ? (
@@ -228,6 +262,12 @@ export default function StatisticDeveloper(props) {
                     },
                     type: "linear",
                     position: "left",
+                  },
+                },
+                plugins: {
+                  annotation: {
+                    drawTime: "afterDatasetsDraw",
+                    annotations: getSprintLine(),
                   },
                 },
               }}

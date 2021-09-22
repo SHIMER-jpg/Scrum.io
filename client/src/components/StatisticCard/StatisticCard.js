@@ -135,8 +135,9 @@ export default function StatisticCard({ graphType, tasks, project }) {
         }
         return 0;
       });
+    if (completedTasks.length < 1) return [];
     var lastCompletedDate = moment(
-      completedTasks[completedTasks.length - 1].completedDate.substring(0, 10)
+      completedTasks[completedTasks.length - 1].completedDate?.substring(0, 10)
     );
     var finalDate = lastCompletedDate.diff(firstDay, "days");
 

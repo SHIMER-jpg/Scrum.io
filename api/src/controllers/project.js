@@ -39,7 +39,6 @@ const getProjectByUserId = async (req, res, next) => {
         $unwind: "$projects",
       },
     ]);
-
     res.status(200).json(
       data.map((project) => {
         delete project.projects.taskIds;
