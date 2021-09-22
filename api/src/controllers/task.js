@@ -2,6 +2,7 @@ const { transporter } = require("../nodemailer/nodemailer");
 
 const Task = require("../models/Task");
 const Note = require("../models/Note");
+const Notification = require("../models/Notification");
 const Project = require("../models/Project");
 const { updateStatus } = require("./project");
 const User = require("../models/User");
@@ -35,6 +36,12 @@ const getTasksByProjectId = async (req, res, next) => {
 
 const postTask = async (req, res, next) => {
   try {
+    await Notification.model.create({
+      userId: req.body.assignedTo,
+      projectId: req.body.projectId,
+      type: "assignedTask"
+    })
+
     var newTask = new Task.model({
       title: req.body.title,
       asignedTo: req.body.assignedTo,
@@ -68,6 +75,7 @@ const postTask = async (req, res, next) => {
 
 const modifyTask = async (req, res, next) => {
   try {
+    
     const { taskId } = req.body;
     const update = {};
     update[req.body.field] =
@@ -83,10 +91,23 @@ const modifyTask = async (req, res, next) => {
       }
     }
 
+    if (req.body.field === "asignedTo") {
+      const toUpdate = await Task.model.findOne({
+        _id: taskId
+      })
+
+      await Notification.model.create({
+        userId: req.body.value,
+        projectId: toUpdate.projectId,
+        type: "assignedTask"
+      })
+    }
+    
     const updated = await Task.model.findOneAndUpdate(
       { _id: mongoose.Types.ObjectId(taskId) },
       update
     );
+
     updateStatus(updated.projectId);
 
     res.status(200).send("Successfully modified task");

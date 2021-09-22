@@ -24,6 +24,7 @@ const Layout = ({ children }) => {
     if (socket.on && loggedUser) {
       socket.on("newTaskAssigned", ({ userId, projectId }) => {
         if (loggedUser._id === userId) {
+          console.log("dispachando notificaciones de task....")
           dispatch(getUnreadNotificationsByUser(loggedUser._id));
 
           toast.info("You have a new task assigned.", {
@@ -46,8 +47,8 @@ const Layout = ({ children }) => {
       });
 
       socket.on("newAd", ({ projectId, users }) => {
-        console.log("NEW AD!!!", {projectId, users})
         if (users.includes(loggedUser._id)) {
+          console.log("DISPACHANDO NOTIS DE AD");
           dispatch(getUnreadNotificationsByUser(loggedUser._id));
           toast.info("New important advertisement.", {
             position: "bottom-right",

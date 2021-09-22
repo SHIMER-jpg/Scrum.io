@@ -20,6 +20,7 @@ export const setUser = (payload) => ({
 });
 
 export const getUnreadNotificationsByUser = (userId) => {
+  console.log("leyendo notificaciones de " + userId)
   return (dispatch) => {
     axios
       .get(

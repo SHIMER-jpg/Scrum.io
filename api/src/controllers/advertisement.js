@@ -1,4 +1,7 @@
 const Advertisement = require("../models/Advertisement");
+const UserProject = require("../models/UserProject");
+const Notification = require("../models/Notification");
+
 const mongoose = require("mongoose");
 
 const getAllAdsByProjectId = async (req, res, next) => {
@@ -26,13 +29,31 @@ const getAllAdsByProjectId = async (req, res, next) => {
 const createAdvertisement = async (req, res, next) => {
   try {
     const { title, description, projectId, color } = req.body;
+
     const newAd = new Advertisement.model({
       title: title,
       description: description,
       projectId: projectId,
       color: color,
     });
+
     await newAd.save();
+
+    const usersInProject = await UserProject.model.find({
+      projectId: newAd.projectId,
+    });
+
+    const notifications = usersInProject
+      .filter((e) => e.role === "developer")
+      .map((u) => ({
+        userId: u.userId,
+        projectId: u.projectId,
+        content: newAd.title,
+        type: "ad",
+      }));
+
+    await Notification.model.insertMany(notifications);
+
     res.status(200).json(newAd);
   } catch (e) {
     next(e);
