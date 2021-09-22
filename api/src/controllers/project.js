@@ -162,13 +162,17 @@ const editProject = async (req, res, next) => {
   try {
     const id = req.body.id;
     const newProjectName = req.body.projectName;
-    console.log(id, newProjectName, "esto es del back");
-    const project = await Project.model.findOneAndUpdate({_id: id}, {projectName: newProjectName}, {new: true});
+
+    const project = await Project.model.findOneAndUpdate(
+      { _id: id },
+      { projectName: newProjectName },
+      { new: true }
+    );
     res.status(200).json(project);
-  } catch(e) {
-    next(e)
+  } catch (e) {
+    next(e);
   }
-}
+};
 
 module.exports = {
   getProjectById,
@@ -177,5 +181,5 @@ module.exports = {
   deleteProject,
   updateStatus,
   getTeamComp,
-  editProject
+  editProject,
 };

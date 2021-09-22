@@ -6,6 +6,7 @@ import {
   getTasksByProject,
   getAsignedUsers,
   clearManagerView,
+  editProject,
 } from "../../redux/ManagerView/actions";
 
 import { fetchUsers } from "../../redux/Home/actions";
@@ -13,8 +14,10 @@ import { useDispatch, useSelector } from "react-redux";
 import TaskHolder from "../../components/TaskHolder/TaskHolder";
 import { FiUsers } from "react-icons/fi";
 import { FaFileCsv } from "react-icons/fa";
-import { AiFillEdit } from "react-icons/ai"
-import { GoPlus } from 'react-icons/go'
+import { AiFillEdit } from "react-icons/ai";
+import { GoPlus } from "react-icons/go";
+import { BsPencilSquare } from "react-icons/bs";
+import { TiTick } from "react-icons/ti";
 
 import TasksCrud from "../../components/TasksCrud/TasksCrud";
 import { BsTable } from "react-icons/bs";
@@ -32,7 +35,7 @@ export default function ManagerView() {
   const tasks = useSelector((state) => state.managerView.tasks);
 
   const { projectId } = useParams();
-  
+
   const [isEditProjectModal, setIsEditProjectModal] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalAddPartner, setModalAddPartner] = useState(false);
@@ -47,12 +50,23 @@ export default function ManagerView() {
   const { socket, loggedUser } = useSelector((state) => state.app);
   const allUsers = useSelector((state) => state.home.users);
 
+  const [isTitleOpen, setIsTitleOpen] = useState(false);
+  const [title, setTitle] = useState(project?.title);
+
   const switchTasksView = () => {
     if (tasksView === "boardsView") {
       setTasksView("crudView");
     } else {
       setTasksView("boardsView");
     }
+  };
+  const handleTitleChange = ({ target }) => {
+    setTitle(target.value);
+  };
+  
+  const handleTitleSubmit = () => {
+    setIsTitleOpen(false);
+    dispatch(editProject({ id: projectId, projectName: title }));
   };
 
   const handleSocketUpdate = useCallback(({ projectId: projectFromSocket }) => {
@@ -108,13 +122,6 @@ export default function ManagerView() {
           tasks={tasks}
         />
       )}
-      {isEditProjectModal && (
-        <EditProjectModal
-          isModalOpen={isEditProjectModal}
-          setIsModalOpen={setIsEditProjectModal}
-          projectId={projectId}
-        />
-      )}
       {importModal && (
         <ImportCsvModal
           assignedUsers={usersInProject()}
@@ -126,14 +133,35 @@ export default function ManagerView() {
       )}
       <div className={managerStyle.conteiner}>
         <header className={managerStyle.conteinerHeader}>
-          <h1 className="main-heading">
-            {project?.projectName || "Loading..."}
-            <AiFillEdit 
-              onClick={() => setIsEditProjectModal(true)}
-              size="17"
-              cursor="pointer"
-            />
-          </h1>
+          <div style={{ display: "flex", alignItems: "center" }}>
+            {!isTitleOpen ? (
+              <h1 className="main-heading">
+                {project?.projectName || "Loading..."}
+              </h1>
+            ) : (
+              <input
+                name="title"
+                value={title}
+                onChange={handleTitleChange}
+              ></input>
+            )}
+            {!isTitleOpen ? (
+              <BsPencilSquare
+                size={20}
+                onClick={() => setIsTitleOpen(true)}
+                style={{
+                  marginLeft: "10px",
+                  cursor: "pointer",
+                }}
+              />
+            ) : (
+              <TiTick
+                onClick={handleTitleSubmit}
+                size={24}
+                style={{ marginLeft: "10px", cursor: "pointer" }}
+              />
+            )}
+          </div>
           <div style={{ display: "flex", gap: "30px" }}>
             {modalAddPartner && (
               <AddPartnerModal

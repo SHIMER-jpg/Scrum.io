@@ -29,8 +29,7 @@ import EditTaskModal from "../EditTaskModal/EditTaskModal";
 import styles from "./TaskModal.module.css";
 
 function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
-  const { title, details, creationDate, _id, storyPoints, asignedTo } =
-    modalDetails;
+  const { details, creationDate, _id, storyPoints, asignedTo } = modalDetails;
   const loggedId = useSelector((state) => state.app.loggedUser._id);
   const assignedUsers = useSelector((state) => state.managerView.asignedUsers);
   const [isSelectUsersOpen, setIsSelectUsersOpen] = useState(false);
@@ -43,6 +42,7 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
     (state) => state.viewRouter.userRole === "scrumMaster"
   );
   const [statusDropdownIsOpen, setStatusDropdownIsOpen] = useState(false);
+
   const [dynamicFields, setDynamicFields] = useState({
     status: modalDetails.status,
     helpNeeded: modalDetails.helpNeeded,
@@ -51,10 +51,12 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
     user: modalDetails.user,
     sprintId: modalDetails.sprintId,
     details: modalDetails.details,
+    title: modalDetails.title,
   });
 
   const [isOpenSprint, setIsOpenSprintChange] = useState(false);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
+  const [isTitleOpen, setIsTitleOpen] = useState(false);
 
   const [colorMap, setColorMap] = useState(
     dynamicFields.priorization === "Easy Win"
@@ -178,6 +180,13 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
     dispatch(updateTask(change));
   }
 
+  function handleTitleChange({ target }) {
+    console.log("holi");
+    const change = { taskId: _id, field: "title", value: dynamicFields.title };
+    setIsTitleOpen(false);
+    dispatch(updateTask(change));
+  }
+
   function handleArea(e) {
     setNewNote({
       ...newNote,
@@ -243,14 +252,6 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
 
   return (
     <>
-      {isEditTaskModal && (
-        <EditTaskModal
-          assignedUsers={assignedUsers}
-          isModalOpen={isEditTaskModal}
-          setIsModalOpen={setIsEditTaskModal}
-          projectId={_id}
-        />
-      )}
       <Modal
         isOpen={isOpen}
         style={customStyles}
@@ -258,15 +259,36 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
         contentLabel="Task Card"
       >
         <header className={styles.modalHeader}>
-          <h2>
-            {title}
-            <AiFillEdit
-            onClick={() => setIsEditTaskModal(true)}
-            size="17"
-            cursor="pointer"
-          />
-            </h2>
-          <span className={styles.taskCard_StoryPoints}>{storyPoints} SP</span>
+          {!isTitleOpen ? (
+            <h2>{dynamicFields.title}</h2>
+          ) : (
+            <input
+              name="title"
+              value={dynamicFields.title}
+              onChange={handleFieldChange}
+            ></input>
+          )}
+          <div style={{ display: "flex", alignItems: "center" }}>
+            {!isTitleOpen ? (
+              <BsPencilSquare
+                size={20}
+                onClick={() => setIsTitleOpen(true)}
+                style={{
+                  marginLeft: "10px",
+                  cursor: "pointer",
+                }}
+              />
+            ) : (
+              <TiTick
+                onClick={handleTitleChange}
+                size={24}
+                style={{ marginLeft: "10px", cursor: "pointer" }}
+              />
+            )}
+            <span className={styles.taskCard_StoryPoints}>
+              {storyPoints} SP
+            </span>
+          </div>
           <button onClick={() => setIsModalOpen(false)}>
             <IoClose size={30} />
           </button>

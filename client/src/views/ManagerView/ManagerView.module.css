@@ -26,7 +26,20 @@
   gap: 30px;
   overflow-x: auto;
 }
+.conteinerHeader input {
+  all: unset;
+  border-radius: 8px;
+  display: flex;
+  padding: 10px;
+  border: 1px solid rgb(204, 204, 204);
+  transition: all 0.1s ease-in-out;
+  width: 100%;
+}
 
+.conteinerHeader input:focus {
+  border: 2px solid var(--violet);
+  box-shadow: 0 0 0 3px rgba(161, 36, 101, 0.4);
+}
 .userBlobs {
   display: flex;
   flex-wrap: wrap;
@@ -44,7 +57,6 @@
   color: white;
   user-select: none;
   border: 3px solid #f3f3f3;
-
 }
 
 .userBlobs img {
