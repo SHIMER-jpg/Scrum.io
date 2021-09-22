@@ -23,11 +23,10 @@ export default function Statistics(props) {
 
   // si no hay valores en los estados globales, ejecuta las acciones de ManagerView que los pedirian
   useEffect(() => {
-    dispatch(getProjectById(props.match.params.projectId));
-
-    dispatch(getAsignedUsers(props.match.params.projectId));
-
+    // dispatch(getProjectById(props.match.params.projectId));
+    // dispatch(getAsignedUsers(props.match.params.projectId));
     dispatch(getTasksByProject(props.match.params.projectId));
+
     const helpNeeded = tasks.filter((t) => t.helpNeeded).length;
     const totalTasks = tasks.length;
     const completedTasks = tasks.reduce((acc, val) => {
