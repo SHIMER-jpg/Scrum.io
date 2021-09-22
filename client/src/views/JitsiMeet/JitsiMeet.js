@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { useRouteMatch } from "react-router";
 import styles from "./JitsiMeet.module.css";
 import React from "react";
+import { SiSpectrum } from "react-icons/si";
 
 const JitsiMeet = () => {
   const { projectId } = useRouteMatch().params;
@@ -51,9 +52,15 @@ const JitsiMeet = () => {
 
   return (
     <div id={jitsiContainerId} style={{ height: "auto", width: "100%" }}>
-      {/* <button className={styles.jitsiButton} onClick={handleClose}>
-        CLOSE MEETING
-      </button> */}
+      <button className={styles.jitsiButton}>
+        <a
+          style={{ all: "unset" }}
+          href={`https://meet.jit.si/scrum.io-meeting-${projectId}`}
+          target="_blank"
+        >
+          OPEN IN NEW TAB
+        </a>
+      </button>
     </div>
   );
 };
