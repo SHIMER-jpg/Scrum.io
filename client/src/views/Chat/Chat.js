@@ -69,6 +69,10 @@ export function Chat({ buttonOpen, setButtonOpen, setAlert }) {
     container.current.scrollTop = 500000;
   }, [chatMap]);
 
+  useEffect(() => {
+    setAlert(false);
+  }, []);
+
   const handleNewMessage = (message) => {
     if (message.projectId === projectId && message.userId !== userId) {
       dispatch(updateMessage(message));
