@@ -17,6 +17,7 @@ const customStyles = {
     borderRadius: "8px",
     maxWidth: "650px",
     border: "3px solid red",
+    backgroundColor: "var(--white)"
   },
   overlay: {
     backgroundColor: "rgba(0,0,0,0.5)",
@@ -66,7 +67,7 @@ const DeleteModal = ({
       </div>
       <div className={styles.modalButtons}>
         <button disabled={disabled} onClick={handleClick} type="submit">
-          Confirm!
+          Confirm
         </button>
       </div>
     </Modal>
