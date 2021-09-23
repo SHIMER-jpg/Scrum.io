@@ -28,11 +28,11 @@ io.on("connection", (socket) => {
     const room = rooms.find((r) => r.id === projectId);
 
     // To do: si un usuario ya existe en otra room, borrarlo e insertarlo en la nueva.
-    if(room) {
+    if (room) {
       if (!room.users.find((u) => u._id === user._id)) {
         room.users.push(user);
       }
-  
+
       // en vez d emitir solo el usuario recien logueado, emito toda la room de vuelta con toda su info.
       io.to(projectId).emit("updateRoom", room);
       io.to(projectId).emit("roomInitialized");
@@ -67,25 +67,26 @@ io.on("connection", (socket) => {
 
     if (room) {
       if (isNaN(valueSet)) valueSet = "0";
-      const maxValue = Math.max(
-        ...room.users
-          .filter((u) => u.userRole === "developer")
-          .map((u) => u.settedValue)
-      );
-      const minValue = Math.min(
-        ...room.users
-          .filter((u) => u.userRole === "developer")
-          .map((u) => u.settedValue)
-      );
+      let aux = room.users
+        .filter((u) => u.userRole === "developer")
+        .map((u) => (u.settedValue ? u.settedValue : "-1000"));
+      console.log(aux);
+      const maxValue = Math.max(...aux);
 
-      if(valueSet.toString().includes(".")) {
+      aux = room.users
+        .filter((u) => u.userRole === "developer")
+        .map((u) => (u.settedValue ? u.settedValue : "1000"));
+      console.log(aux);
+
+      const minValue = Math.min(...aux);
+
+      if (valueSet.toString().includes(".")) {
         valueSet = Number(valueSet).toFixed(1);
       }
 
       room.totalValue = valueSet;
-      room.minValue = minValue;
       room.maxValue = maxValue;
-
+      room.minValue = maxValue === minValue ? null : minValue;
       io.to(projectId).emit("totalValueSent", room);
     }
   });

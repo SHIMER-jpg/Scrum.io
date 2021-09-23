@@ -161,6 +161,7 @@
 .board {
   width: 100%;
   max-width: 1000px;
+  max-height: 65vh;
   margin: 0 auto;
   padding: 0 50px;
   display: grid;
@@ -214,12 +215,16 @@
 
 .foreignCard {
   background: var(--red);
-  background:
-  linear-gradient(115deg, transparent 75%, rgba(255,255,255,.8) 75%) 0 0,
-  linear-gradient(245deg, transparent 75%, rgba(255,255,255,.8) 75%) 0 0,
-  linear-gradient(115deg, transparent 75%, rgba(255,255,255,.8) 75%) 7px -15px,
-  linear-gradient(245deg, transparent 75%, rgba(255,255,255,.8) 75%) 7px -15px,
-  var(--red);
+  background: linear-gradient(
+        115deg,
+        transparent 75%,
+        rgba(255, 255, 255, 0.8) 75%
+      )
+      0 0,
+    linear-gradient(245deg, transparent 75%, rgba(255, 255, 255, 0.8) 75%) 0 0,
+    linear-gradient(115deg, transparent 75%, rgba(255, 255, 255, 0.8) 75%) 7px -15px,
+    linear-gradient(245deg, transparent 75%, rgba(255, 255, 255, 0.8) 75%) 7px -15px,
+    var(--red);
   background-size: 15px 30px;
   color: var(--black);
 }
@@ -339,11 +344,10 @@
   flex-direction: column;
   align-items: center;
   border-radius: 8px;
-  transition: all .15s ease-in-out;
+  transition: all 0.15s ease-in-out;
   padding: 10px;
   border: 2px solid var(--red);
 }
-
 
 .storyPointsHovereable:hover {
   background: var(--red);
@@ -359,7 +363,6 @@
   font-size: 15px;
   color: var(--red);
 }
-
 
 :global(.darkMode) .storyPoints p {
   color: white !important;
@@ -397,7 +400,6 @@
   border: 2px solid var(--red);
   transition: all 0.15s ease-in-out;
   color: var(--black);
-
 }
 
 .buttons > button:hover,

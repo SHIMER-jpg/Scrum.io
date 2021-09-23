@@ -37,13 +37,11 @@ const getProjectById = async (req, res, next) => {
           sprint = index + 1;
           arr.splice(1);
         }
-
-        console.log(sprint);
         return sprint;
       },
       -1
     );
-    
+
     project.set("auxiliaryDates");
     project.save();
     res.status(200).json(project);
