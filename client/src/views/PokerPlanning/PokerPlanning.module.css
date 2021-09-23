@@ -320,7 +320,7 @@
   border-radius: 8px;
   align-self: center;
   transition: all 0.15s ease-in-out;
-  color: var(--black);
+  color: white;
 }
 
 .footerInfo > button:hover {
@@ -341,8 +341,9 @@
   border-radius: 8px;
   transition: all .15s ease-in-out;
   padding: 10px;
-  border: 1px solid var(--red);
+  border: 2px solid var(--red);
 }
+
 
 .storyPointsHovereable:hover {
   background: var(--red);
@@ -356,8 +357,12 @@
 .storyPoints p {
   margin: 0;
   font-size: 15px;
-  font-size: 15px;
   color: var(--red);
+}
+
+
+:global(.darkMode) .storyPoints p {
+  color: white !important;
 }
 
 .storyPoints > p:nth-child(2) {

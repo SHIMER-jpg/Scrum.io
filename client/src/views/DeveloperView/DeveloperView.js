@@ -9,6 +9,8 @@ import {
 } from "../../redux/DeveloperView/actions.js";
 import { getProjectById } from "../../redux/ManagerView/actions";
 import { useParams } from "react-router-dom";
+import { Helmet } from "react-helmet"
+
 import styles from "./DeveloperView.module.css";
 
 // components
@@ -47,6 +49,9 @@ export default function DeveloperView() {
 
   return (
     <div className={styles.DeveloperView}>
+      <Helmet>
+        <title>{project?.projectName || "Loading"} | Scrum.io</title>
+      </Helmet>
       <div className={styles.DeveloperView_Header}>
         <h1 className="main-heading">{project.projectName || "Loading..."}</h1>
       </div>

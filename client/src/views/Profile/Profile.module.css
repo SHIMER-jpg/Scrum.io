@@ -216,7 +216,10 @@
 }
 
 .softSkillsList ul {
-  list-style-type: none;
+  /* list-style-type: none; */
+  display: flex;
+  padding-left: 28px;
+  flex-direction: column;
 }
 
 .softSkillsList li {
@@ -228,6 +231,12 @@
   color: var(--violet);
   font-weight: 500;
   cursor: pointer;
+  align-self: flex-start;
+}
+
+:global(.darkMode) .softSkillsList li  {
+  background-color: var(--violet) !important;
+  color: white !important;
 }
 
 .softSkills p {
@@ -238,6 +247,12 @@
   color: var(--violet);
   font-weight: 500;
   cursor: pointer;
+}
+
+
+:global(.darkMode) .softSkills p {
+  background-color: var(--violet) !important;
+  color: white !important;
 }
 
 .editProfileSocialsFormGroup {

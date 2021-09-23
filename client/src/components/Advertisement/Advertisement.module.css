@@ -59,7 +59,7 @@
   color: white !important;
 }
 
-.teal p {
+.teal header h3, .teal p {
   color: white !important;
 }
 
@@ -89,17 +89,6 @@
 .description p {
   margin: 0;
   font-weight: 500;
-}
-
-.orange:hover,
-.pink:hover,
-.lightBlue:hover,
-.purple:hover {
-  /* transform: translateY(-8px); */
-}
-
-.icon:hover {
-  /* color: grey; */
 }
 
 .icon > button {
