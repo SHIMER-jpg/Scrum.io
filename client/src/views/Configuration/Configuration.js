@@ -4,6 +4,7 @@ import { useState } from "react";
 import styles from "./Configuration.module.css";
 import DeleteModal from "../../components/DeleteModal/DeleteModal";
 import { useHistory } from "react-router";
+import { editProject } from "../../redux/ManagerView/actions";
 
 export function Configuration() {
   const dispatch = useDispatch();
@@ -35,6 +36,8 @@ export function Configuration() {
     history.push("/");
   };
 
+  const handleCompleteProject = () => {};
+
   return (
     <div className={styles.conteiner}>
       <br></br>
@@ -44,6 +47,12 @@ export function Configuration() {
             <h1>Project Config</h1>
           </header>
 
+          <div className={`${styles.modalFormGroup}`}>
+            <div className={styles.Pair}>
+              <label>Mark Project as Completed</label>
+              <button onClick={null}>COMPLETE</button>
+            </div>
+          </div>
           <div className={`${styles.modalFormGroup} ${styles.delete}`}>
             <div className={styles.dangerPair}>
               <label>Delete Tasks</label>

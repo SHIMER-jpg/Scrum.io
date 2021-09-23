@@ -63,10 +63,12 @@ export default function ManagerView() {
   const handleTitleChange = ({ target }) => {
     setTitle(target.value);
   };
-  
+
   const handleTitleSubmit = () => {
     setIsTitleOpen(false);
-    dispatch(editProject({ id: projectId, projectName: title }));
+    dispatch(
+      editProject({ id: projectId, field: "projectName", value: title })
+    );
   };
 
   const handleSocketUpdate = useCallback(({ projectId: projectFromSocket }) => {
