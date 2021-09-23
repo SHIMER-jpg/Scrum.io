@@ -21,6 +21,7 @@ import { TiTick } from "react-icons/ti";
 
 import TasksCrud from "../../components/TasksCrud/TasksCrud";
 import { BsTable } from "react-icons/bs";
+import { BiCog } from "react-icons/bi";
 import { HiViewBoards } from "react-icons/hi";
 
 import managerStyle from "./ManagerView.module.css";
@@ -29,6 +30,7 @@ import { useParams } from "react-router-dom";
 import { AddPartnerModal } from "../../components/AddPartnerModal/AddPartnerModal";
 import ImportCsvModal from "../../components/ImportCsvModal/ImportCsvModal";
 import { StylesContext } from "@material-ui/styles";
+import { Configuration } from "../Configuration/Configuration";
 
 export default function ManagerView() {
   const tasks = useSelector((state) => state.managerView.tasks);
@@ -52,6 +54,7 @@ export default function ManagerView() {
   const [isTitleOpen, setIsTitleOpen] = useState(false);
   const [title, setTitle] = useState(project?.title);
   const [filterSprint, setFilterSprint] = useState(null);
+  const [openDelete, setOpenDelete] = useState(false); //deberia ser false
 
   const switchTasksView = () => {
     if (tasksView === "boardsView") {
@@ -182,7 +185,7 @@ export default function ManagerView() {
               />
             )}
           </div>
-          <div style={{ display: "flex", gap: "30px" }}>
+          <div style={{ display: "flex", gap: "30px", alignItems: "center" }}>
             {modalAddPartner && (
               <AddPartnerModal
                 allUsers={allUsers}
@@ -234,6 +237,13 @@ export default function ManagerView() {
             >
               <GoPlus /> Create Task
             </button>
+
+            <BiCog
+              onClick={() => setOpenDelete(!openDelete)}
+              style={{ color: "var(--violet)", cursor: "pointer" }}
+              size={30}
+            />
+            {openDelete && <Configuration setOpenDelete={setOpenDelete} />}
           </div>
         </header>
         <section className={managerStyle.projectDetails}>

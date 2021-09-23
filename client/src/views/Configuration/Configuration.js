@@ -6,7 +6,7 @@ import DeleteModal from "../../components/DeleteModal/DeleteModal";
 import { useHistory } from "react-router";
 import { editProject } from "../../redux/ManagerView/actions";
 
-export function Configuration() {
+export function Configuration({ setOpenDelete }) {
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -23,6 +23,7 @@ export function Configuration() {
   const handleDeleteProject = () => {
     setDeleteProjectModal(false);
     dispatch(deleteProject(project._id));
+    setOpenDelete(false);
     history.push("/");
   };
 
@@ -33,7 +34,7 @@ export function Configuration() {
   const handleDeleteTasks = () => {
     setIsModalOpen(false);
     dispatch(deleteTasks(project._id));
-    history.push("/");
+    setOpenDelete(false);
   };
 
   const handleCompleteProject = () => {
@@ -41,37 +42,27 @@ export function Configuration() {
       editProject({ id: project._id, field: "isCompleted", value: true })
     );
     dispatch(editProject({ id: project._id, field: "status", value: 100 }));
+    setOpenDelete(false);
   };
 
   return (
-    <div className={styles.conteiner}>
-      <br></br>
-      {userRole === "scrumMaster" ? (
-        <>
-          <header className={styles.header}>
-            <h1>Project Delete</h1>
-          </header>
-
-          <div className={`${styles.modalFormGroup}`}>
-            <div className={styles.Pair}>
-              <label>Mark Project as Completed</label>
-              <button onClick={handleCompleteProject}>COMPLETE</button>
-            </div>
-          </div>
-          <div className={`${styles.modalFormGroup} ${styles.delete}`}>
-            <div className={styles.dangerPair}>
-              <label>Delete Tasks</label>
-              <button onClick={handleClickTasks}>DELETE</button>
-            </div>
-            <div className={styles.dangerPair}>
-              <label>Delete Project</label>
-              <button onClick={handleClickProject}>DELETE</button>
-            </div>
-          </div>
-        </>
-      ) : (
-        <p>Nothing to see here yet...</p>
-      )}
+    <div className={styles.container}>
+      <div className={`${styles.modalFormGroup}`}>
+        <div className={styles.Pair}>
+          <label>Mark as Completed</label>
+          <button onClick={handleCompleteProject}>COMPLETE</button>
+        </div>
+      </div>
+      <div className={`${styles.modalFormGroup} ${styles.delete}`}>
+        <div className={styles.dangerPair}>
+          <label>Delete Tasks</label>
+          <button onClick={handleClickTasks}>DELETE</button>
+        </div>
+        <div className={styles.dangerPair}>
+          <label>Delete Project</label>
+          <button onClick={handleClickProject}>DELETE</button>
+        </div>
+      </div>
       {deleteProjectModal && (
         <DeleteModal
           isModalOpen={deleteProjectModal}

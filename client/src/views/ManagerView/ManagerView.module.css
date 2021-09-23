@@ -56,7 +56,7 @@
   font-weight: 600;
   color: white;
   user-select: none;
-  border: 3px solid var(--bgColor);;
+  border: 3px solid var(--bgColor);
 }
 
 .userBlobs img {
@@ -64,7 +64,7 @@
   width: 45px;
   border-radius: 50%;
   margin-right: -10px;
-  border: 3px solid var(--bgColor);;
+  border: 3px solid var(--bgColor);
 }
 
 .projectDetails {

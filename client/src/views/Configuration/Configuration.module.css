@@ -9,12 +9,15 @@
   flex-wrap: wrap;
   /* flex-direction: column; */
 }
-.conteiner {
-  padding: 25px 0 25px 30px;
-  width: 100%;
-  min-height: calc(100vh - 70px);
-  height: auto;
-  overflow-y: scroll;
+.container {
+  position: absolute;
+  top: 15%;
+  right: 10px;
+  background: var(--white);
+  border-radius: 8px;
+  border: 1px solid var(--violet);
+  /* gap: 30px; */
+  padding: 10px 15px;
 }
 
 .header {
@@ -81,7 +84,6 @@
 }
 
 .delete {
-  width: max-content;
   color: red;
   font-weight: 600;
   border-radius: 8px;
