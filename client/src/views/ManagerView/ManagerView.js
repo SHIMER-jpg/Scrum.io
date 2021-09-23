@@ -130,9 +130,9 @@ export default function ManagerView() {
 
   return (
     <>
-    <Helmet>
-      <title>{project?.projectName || "Loading..."} | Scrum.io</title>
-    </Helmet>
+      <Helmet>
+        <title>{project?.projectName || "Loading..."} | Scrum.io</title>
+      </Helmet>
       {isModalOpen && (
         <CreateTaskModal
           assignedUsers={assignedUsers}
@@ -242,11 +242,17 @@ export default function ManagerView() {
               <GoPlus /> Create Task
             </button>
 
-            <BiCog
+            <button
               onClick={() => setOpenDelete(!openDelete)}
-              style={{ color: "var(--violet)", cursor: "pointer" }}
-              size={30}
-            />
+              className={`${managerStyle.configButton} ${
+                openDelete && managerStyle.configButtonOpen
+              }`}
+            >
+              <BiCog
+                style={{ color: "var(--violet)", cursor: "pointer" }}
+                size={30}
+              />
+            </button>
             {openDelete && <Configuration setOpenDelete={setOpenDelete} />}
           </div>
         </header>

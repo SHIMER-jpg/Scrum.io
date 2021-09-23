@@ -11,11 +11,11 @@
 }
 .container {
   position: absolute;
-  top: 15%;
-  right: 10px;
+  top: 19%;
+  right: 35px;
   background: var(--white);
   border-radius: 8px;
-  border: 1px solid var(--violet);
+  border: 1px solid var(--separator);
   /* gap: 30px; */
   padding: 10px 15px;
 }
@@ -76,7 +76,7 @@
   background: var(--red);
   padding: 10px 15px;
   border-radius: 8px;
-  color: var(--white);
+  color: white;
   font-weight: 600;
   font-size: 15px;
   align-self: flex-end;
@@ -87,7 +87,7 @@
   color: red;
   font-weight: 600;
   border-radius: 8px;
-  border: 2px solid var(--red);
+  border: 1px solid var(--red);
   padding: 10px;
   display: flex;
   flex-direction: column;

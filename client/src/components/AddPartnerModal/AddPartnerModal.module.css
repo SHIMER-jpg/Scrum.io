@@ -45,6 +45,7 @@ textarea {
   padding: 10px;
   border: 1px solid rgb(204, 204, 204);
   transition: all 0.1s ease-in-out;
+  color: var(--black);
 }
 
 .modalFormGroup input:focus,
@@ -125,7 +126,7 @@ textarea:focus {
   align-items: center;
   border-radius: 8px;
   background: var(--white);
-  border: 1px solid rgb(238, 238, 238);
+  border: 1px solid var(--separator);
   overflow: hidden;
   gap: 10px;
   padding-right: 10px;
