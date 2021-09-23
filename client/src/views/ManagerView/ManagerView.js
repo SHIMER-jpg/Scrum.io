@@ -242,7 +242,11 @@ export default function ManagerView() {
               <p>Start date</p>
               <div>
                 <AiOutlineCalendar />
-                <p>{new Date(project.startDate).toLocaleDateString("es-ES")}</p>
+                <p>
+                  {new Date(project.startDate).toLocaleDateString("es-ES", {
+                    timeZone: "UTC",
+                  })}
+                </p>
               </div>
             </div>
             <div className={managerStyle.projectDetailsItem}>
@@ -250,7 +254,9 @@ export default function ManagerView() {
               <div>
                 <AiOutlineCalendar />
                 <p>
-                  {new Date(project.requiredDate).toLocaleDateString("es-ES")}
+                  {new Date(project.requiredDate).toLocaleDateString("es-ES", {
+                    timeZone: "UTC",
+                  })}
                 </p>
               </div>
             </div>
