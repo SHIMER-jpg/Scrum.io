@@ -12,8 +12,27 @@ connection.once("open", () => {
   const notificationChangeStream = connection
     .collection("notifications")
     .watch();
+  const userProjectsChangeStream = connection
+    .collection("userprojects")
+    .watch();
 
   const messagesChangeStream = connection.collection("messages").watch();
+
+  userProjectsChangeStream.on("change", async (change) => {
+    const userProject = connection.models.UserProjects.findOne({
+      _id: change?.documentKey._id
+    });
+
+    console.log("CHANGE: ", change)
+    console.log(userProject)
+
+    if(change.operationType === "insert") {
+      // io.emit("assignedProject", {
+      //   userId: userProject.userId,
+      //   projectId: userProject.projectId,
+      // });
+    }
+  })
 
   notificationChangeStream.on("change", async (change) => {
     console.log("NOTIFICATION CHANGE: ", change);

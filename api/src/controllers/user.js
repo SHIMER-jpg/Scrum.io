@@ -2,6 +2,8 @@ const User = require("../models/User");
 const UserProject = require("../models/UserProject");
 const UserInfo = require("../models/UserInfo");
 const Task = require("../models/Task");
+const Notification = require("../models/Notification");
+
 const mongoose = require("mongoose");
 const { topLanguagesQuery, userStats } = require("../utils.js");
 
@@ -141,6 +143,7 @@ const assignUsers = async (req, res, next) => {
       projectId: projectId,
       userId: userId,
     });
+    
     const newUser = userExists
       ? { error: "User already assigned" }
       : await UserProject.model.create({
@@ -148,6 +151,13 @@ const assignUsers = async (req, res, next) => {
           userId: userId,
           role: "developer",
         });
+
+    await Notification.model.create({
+      userId: newUser.userId,
+      projectId: newUser.projectId,
+      type: "assignedProject"
+    })
+
     res.status(201).json(newUser);
   } catch (error) {
     next(error);
