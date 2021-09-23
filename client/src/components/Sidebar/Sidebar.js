@@ -71,13 +71,6 @@ const Sidebar = () => {
           </NavLink>
         </div>
       )}
-      {userRole && (
-        <div className={styles.item}>
-          <NavLink to="/configuration">
-            <MdDelete size={23} /> Delete
-          </NavLink>
-        </div>
-      )}
       <div className={styles.item}>
         <NavLink to="/myProfile">
           <CgProfile size={23} /> My profile
