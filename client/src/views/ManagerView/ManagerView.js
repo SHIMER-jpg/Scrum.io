@@ -31,6 +31,7 @@ import { AddPartnerModal } from "../../components/AddPartnerModal/AddPartnerModa
 import ImportCsvModal from "../../components/ImportCsvModal/ImportCsvModal";
 import { StylesContext } from "@material-ui/styles";
 import { Configuration } from "../Configuration/Configuration";
+import { Helmet } from "react-helmet";
 
 export default function ManagerView() {
   const tasks = useSelector((state) => state.managerView.tasks);
@@ -129,6 +130,9 @@ export default function ManagerView() {
 
   return (
     <>
+    <Helmet>
+      <title>{project?.projectName || "Loading..."} | Scrum.io</title>
+    </Helmet>
       {isModalOpen && (
         <CreateTaskModal
           assignedUsers={assignedUsers}

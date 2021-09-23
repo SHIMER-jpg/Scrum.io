@@ -46,6 +46,8 @@
   display: flex;
   margin: auto;
   margin-right: 0;
+  white-space: nowrap;
+  margin-left: 10px;
 }
 
 .taskCard.easy_win {

@@ -25,7 +25,7 @@ const TeamCard = ({ userInfo, user }) => {
           <section className={styles.profile}>
             <div className={styles.userInfo}>
               <img src={user.picture} alt={user.name} />
-              <h2>{user.name}</h2>
+              <h2>{user.name.split(" ")[0]}</h2>
               <p>{userInfo.role}</p>
             </div>
           </section>

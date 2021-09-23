@@ -10,6 +10,10 @@
   --chartLabelColor: rgb(204, 0, 25, 0.5);
 }
 
+.Toastify__toast {
+  z-index: 10000000000;
+}
+
 *,
 *::after,
 *::before {
@@ -22,6 +26,7 @@
   --bgColor: #1F2123;
   --black: #FFFFFF;
   --separator: rgb(94, 94, 94);
+  --toastify-color-light: #181A1B !important;
 }
 
 body {

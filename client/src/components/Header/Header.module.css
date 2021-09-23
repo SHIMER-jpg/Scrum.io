@@ -99,7 +99,7 @@
   opacity: 0;
   border-radius: 8px;
   background-color: var(--white);
-  box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.35);
+  box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.2);
   z-index: 10000;
   transition: all 0.15s ease-in-out;
   display: flex;
@@ -123,7 +123,7 @@
   border-top: 1px solid var(--separator);
   border-left: 1px solid var(--separator);
   left: calc(50% - 10px);
-  box-shadow: -1px -1px 2px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: -1px -1px 2px 0 rgba(0, 0, 0, 0.1);
 }
 
 .notificationsDropdown header {
@@ -146,6 +146,11 @@
   color: gray;
   cursor: pointer;
   font-size: 12px;
+}
+
+.notificationsDropdown main {
+  max-height: 350px;
+  overflow-y: auto;
 }
 
 .notification {

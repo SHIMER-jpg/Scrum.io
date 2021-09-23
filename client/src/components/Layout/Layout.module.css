@@ -18,7 +18,7 @@
   border: 1px solid var(--separator);
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.15);
   position: fixed;
-  z-index: 100000;
+  /* z-index: 100000; */
   right: 30px;
   bottom: 20px;
 }
