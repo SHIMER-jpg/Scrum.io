@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { BsPlus } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
+import { Helmet } from "react-helmet";
 
 import { getProjectByUserId } from "../../redux/Home/actions";
 
@@ -35,6 +36,9 @@ const Home = () => {
 
   return (
     <section className={styles.container}>
+      <Helmet>
+        <title>Home | Scrum.io</title>
+      </Helmet>
       <header className={styles.header}>
         <h1>My projects</h1>
         <button onClick={() => setIsModalOpen(true)}>
