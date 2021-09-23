@@ -257,6 +257,7 @@ const CreateTaskModal = ({
                 name="priorization"
                 value={values.priorization}
                 onChange={handleChange}
+                style={{background: "var(--white)"}}
               >
                 <option value="Easy Win">Easy win</option>
                 <option value="Deprioritize">Deprioritize</option>

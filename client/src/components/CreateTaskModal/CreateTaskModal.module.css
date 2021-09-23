@@ -48,6 +48,11 @@ select {
   transition: all 0.1s ease-in-out;
 }
 
+.modalFormGroup select {
+  background: black !important;
+  color: red !important;
+}
+
 .modalFormGroup input:focus,
 .modalFormGroup textarea:focus,
 select:focus {

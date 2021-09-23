@@ -13,7 +13,7 @@ import useTimeAgo from "../../hooks/useTimeAgo";
 import {
   markNotificationsAsReaded,
   markOneNotificationAsReaded,
-  setDarkMode
+  setDarkMode,
 } from "../../redux/App/actions";
 
 import styles from "./Header.module.css";
@@ -31,7 +31,9 @@ const Header = () => {
   const user = useSelector((state) => state.app.loggedUser);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(Boolean(localStorage.getItem("darkMode")));
+  const [isDarkMode, setIsDarkMode] = useState(
+    Boolean(localStorage.getItem("darkMode"))
+  );
 
   const notifications = useSelector(({ app }) => app.notifications);
   const unreadNotifications = notifications.filter((n) => !n.readed);
@@ -62,15 +64,15 @@ const Header = () => {
   };
 
   const toggleDarkMode = () => {
-    document.body.classList.toggle("darkMode")
-    if(document.body.classList.contains("darkMode")) {
-      setIsDarkMode(true)
-      dispatch(setDarkMode(true))
-      localStorage.setItem("darkMode", "true")
+    document.body.classList.toggle("darkMode");
+    if (document.body.classList.contains("darkMode")) {
+      setIsDarkMode(true);
+      dispatch(setDarkMode(true));
+      localStorage.setItem("darkMode", "true");
     } else {
-      setIsDarkMode(false)
-      dispatch(setDarkMode(false))
-      localStorage.removeItem("darkMode")
+      setIsDarkMode(false);
+      dispatch(setDarkMode(false));
+      localStorage.removeItem("darkMode");
     }
   };
 
@@ -108,17 +110,13 @@ const Header = () => {
             </header>
             <main>
               {notifications.length ? (
-                notifications.map((notification, index) =>
-                  index < 15 ? (
-                    <Notification
-                      handleNotificationClick={handleNotificationClick}
-                      key={notification._id}
-                      {...notification}
-                    />
-                  ) : (
-                    <></>
-                  )
-                )
+                notifications.map((notification) => (
+                  <Notification
+                    handleNotificationClick={handleNotificationClick}
+                    key={notification._id}
+                    {...notification}
+                  />
+                ))
               ) : (
                 <div className={styles.noNotifications}>
                   <ImFileEmpty size={24} />
