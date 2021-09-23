@@ -79,7 +79,7 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
       borderRadius: "8px",
       maxWidth: "650px",
       borderTop: `8px solid #${colorMap}`,
-      backgroundColor: "var(--white)"
+      backgroundColor: "var(--white)",
     },
     overlay: {
       backgroundColor: "rgba(0,0,0,0.5)",
@@ -182,7 +182,6 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
   }
 
   function handleTitleChange({ target }) {
-    console.log("holi");
     const change = { taskId: _id, field: "title", value: dynamicFields.title };
     setIsTitleOpen(false);
     dispatch(updateTask(change));
@@ -214,7 +213,9 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
     dispatch(updateTask(change));
   }
 
-  const handleAddUser = (user) => {
+  const handleAddUser = (e, user) => {
+    e.preventDefault();
+    console.log(user);
     const change = {
       taskId: _id,
       field: "asignedTo",
@@ -269,22 +270,30 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
               onChange={handleFieldChange}
             ></input>
           )}
-          <div style={{ display: "flex", alignItems: "center", color: "var(--black)" }}>
-            {isManager ? !isTitleOpen ? (
-              <BsPencilSquare
-                size={20}
-                onClick={() => setIsTitleOpen(true)}
-                style={{
-                  marginLeft: "10px",
-                  cursor: "pointer",
-                }}
-              />
-            ) : (
-              <TiTick
-                onClick={handleTitleChange}
-                size={24}
-                style={{ marginLeft: "10px", cursor: "pointer" }}
-              />
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              color: "var(--black)",
+            }}
+          >
+            {isManager ? (
+              !isTitleOpen ? (
+                <BsPencilSquare
+                  size={20}
+                  onClick={() => setIsTitleOpen(true)}
+                  style={{
+                    marginLeft: "10px",
+                    cursor: "pointer",
+                  }}
+                />
+              ) : (
+                <TiTick
+                  onClick={handleTitleChange}
+                  size={24}
+                  style={{ marginLeft: "10px", cursor: "pointer" }}
+                />
+              )
             ) : null}
             <span className={styles.taskCard_StoryPoints}>
               {storyPoints} SP
@@ -311,7 +320,7 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
                 <p>{dynamicFields.user.name}</p>
               </div>
             )}
-            {isManager && isSelectUsersOpen && (
+            {
               <div
                 className={`${styles.modalSelectUser} ${
                   isSelectUsersOpen ? styles.visible : undefined
@@ -331,7 +340,7 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
                 {filteredUsers.length ? (
                   filteredUsers.map((user) => (
                     <article
-                      onClick={() => handleAddUser(user)}
+                      onClick={(e) => handleAddUser(e, user)}
                       key={user._id}
                       className={styles.modalUser}
                     >
@@ -343,7 +352,7 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
                   <p>There's no user with that name :(</p>
                 )}
               </div>
-            )}
+            }
           </div>
           <div className={styles.modalFormGroup}>
             <label className={styles.titles}>Created</label>
@@ -359,18 +368,20 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
               }}
             >
               <label>Sprint</label>
-              {isManager ? !isOpenSprint ? (
-                <BsPencilSquare
-                  size={20}
-                  onClick={() => setIsOpenSprintChange(true)}
-                  style={{ marginLeft: "10px", cursor: "pointer" }}
-                />
-              ) : (
-                <TiTick
-                  onClick={handleSprintChange}
-                  size={24}
-                  style={{ marginLeft: "10px", cursor: "pointer" }}
-                />
+              {isManager ? (
+                !isOpenSprint ? (
+                  <BsPencilSquare
+                    size={20}
+                    onClick={() => setIsOpenSprintChange(true)}
+                    style={{ marginLeft: "10px", cursor: "pointer" }}
+                  />
+                ) : (
+                  <TiTick
+                    onClick={handleSprintChange}
+                    size={24}
+                    style={{ marginLeft: "10px", cursor: "pointer" }}
+                  />
+                )
               ) : null}
             </div>
             {!isOpenSprint ? (
@@ -417,18 +428,20 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
               }}
             >
               <label className={styles.titles}>Details: </label>
-              {isManager ? !isDetailsOpen ? (
-                <BsPencilSquare
-                  size={20}
-                  onClick={() => setIsDetailsOpen(true)}
-                  style={{ marginLeft: "10px", cursor: "pointer" }}
-                />
-              ) : (
-                <TiTick
-                  onClick={handleDetailChange}
-                  size={24}
-                  style={{ marginLeft: "10px", cursor: "pointer" }}
-                />
+              {isManager ? (
+                !isDetailsOpen ? (
+                  <BsPencilSquare
+                    size={20}
+                    onClick={() => setIsDetailsOpen(true)}
+                    style={{ marginLeft: "10px", cursor: "pointer" }}
+                  />
+                ) : (
+                  <TiTick
+                    onClick={handleDetailChange}
+                    size={24}
+                    style={{ marginLeft: "10px", cursor: "pointer" }}
+                  />
+                )
               ) : null}
             </div>
             {!isDetailsOpen ? (

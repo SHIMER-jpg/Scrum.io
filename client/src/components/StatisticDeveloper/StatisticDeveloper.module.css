@@ -1,6 +1,6 @@
-.container{
-    background: var(--white);
-    padding: 20px;
+.container {
+  background: var(--white);
+  padding: 20px;
 
   box-shadow: 1px 1px 2px rgba(10, 10, 10, 0.17);
   border-radius: 8px;
@@ -11,7 +11,7 @@
   justify-content: center;
 }
 
-.header{
+.header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -20,19 +20,19 @@
   padding-bottom: 5px;
 }
 
-.header .title{
+.header .title {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 5px;
 }
 
-.header h2{
-    margin: 0 0 10px;
-    font-weight: 600;
+.header h2 {
+  margin: 0 0 10px;
+  font-weight: 600;
 }
 
-.header select{
+.header select {
   padding: 5px 10px;
   font-size: 15px;
   font-weight: 500;
@@ -40,16 +40,16 @@
   margin: 5px;
 }
 
-.header select:focus{
+.header select:focus {
   border: 2px solid var(--violet);
   box-shadow: 0 0 0 3px rgba(161, 36, 101, 0.4);
 }
 
-.header select:hover{
+.header select:hover {
   cursor: pointer;
 }
 
-.header .options{
+.header .options {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -57,24 +57,22 @@
   color: var(--black);
 }
 
-.body{
+.body {
   position: relative;
   display: flex;
   justify-content: space-between;
   gap: 10px;
 }
 
-.graph{
-    padding: 10px 0;
-    margin: 10px 0;
-    width: 75%;
+.graph {
+  padding: 10px 0;
+  margin: 10px 0;
+  width: 75%;
 }
 
 .modalSelectUser.visible {
   visibility: visible;
   opacity: 1;
-  position: absolute;
-  width: 280px;
   right: 0;
 }
 
@@ -86,13 +84,14 @@
 }
 
 .modalUser {
+  width: 280px;
   display: flex;
   align-items: center;
   gap: 15px;
   font-weight: 500;
   padding: 10px;
-
   transition: all 0.15s ease-in-out;
+  z-index: 10000000;
 }
 
 .modalUser:hover {
@@ -159,7 +158,6 @@
 }
 
 .modalFormGroup {
-
   flex-direction: column;
   position: relative;
 }
@@ -179,16 +177,10 @@
   width: 100%;
 }
 
-.modalFormGroup input {
-  width: 239px;
-}
-
-
-
 .modalSelectUser {
+  position: absolute;
   flex-direction: column;
   max-height: 145px;
-  width: 100%;
   border-radius: 8px;
   border: 1px solid rgb(204, 204, 204);
   background: var(--white);
@@ -215,18 +207,18 @@
   border: 1px solid rgb(204, 204, 204);
 }
 
-.stats{
+.stats {
   width: 25%;
 }
 
-.stat label{
+.stat label {
   margin: 0;
   padding: 10px;
   font-size: 12px;
   font-weight: 500;
 }
 
-.stat p{
+.stat p {
   margin: 0;
   padding: 10px;
   border-left: 1px solid var(--separator);
@@ -237,7 +229,7 @@
   font-weight: 500;
 }
 
-.stat{
+.stat {
   display: flex;
   justify-content: space-between;
   background: var(--white);

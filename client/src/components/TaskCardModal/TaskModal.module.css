@@ -84,10 +84,12 @@
 }
 
 .modalSelectUser {
+  position: absolute;
+  width: 88%;
+  top: 17%;
   display: flex;
   flex-direction: column;
   max-height: 145px;
-  width: 100%;
   border-radius: 8px;
   border: 1px solid rgb(204, 204, 204);
   background: var(--white);
@@ -95,7 +97,7 @@
   visibility: hidden;
   opacity: 0;
   transition: all 0.15s ease-in-out;
-  z-index: 1000;
+  z-index: 100000000;
 }
 
 .modalSelectUser.visible {
@@ -228,7 +230,7 @@
 }
 .taskCard_StoryPoints {
   background-color: #a12464;
-  color: var(--bgColor);;
+  color: var(--bgColor);
   font-size: 18px;
   font-weight: 600;
   padding: 5px 10px;

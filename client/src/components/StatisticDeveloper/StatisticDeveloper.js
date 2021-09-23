@@ -35,7 +35,7 @@ export default function StatisticDeveloper(props) {
   const labels = getLabels(project.requiredDate, project.startDate, view);
 
   const [query, setQuery, filteredUsers] = useSearch(selectedUsers);
-  const isDarkMode = useSelector(state => state.app.darkMode)
+  const isDarkMode = useSelector((state) => state.app.darkMode);
 
   function getSprintLine() {
     const firstDay = project.startDate
@@ -170,7 +170,7 @@ export default function StatisticDeveloper(props) {
                 )}
                 {user.name ? <p>{user.name}</p> : <p>Select user</p>}
               </div>
-              {isSelectUsersOpen && (
+              {
                 <div
                   className={`${styles.modalSelectUser} ${
                     isSelectUsersOpen ? styles.visible : undefined
@@ -202,7 +202,7 @@ export default function StatisticDeveloper(props) {
                     <p>There's no user with that name :(</p>
                   )}
                 </div>
-              )}
+              }
             </div>
             <select
               className={styles.view}
