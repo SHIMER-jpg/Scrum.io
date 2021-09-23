@@ -65,6 +65,27 @@ const Layout = ({ children }) => {
           });
         }
       });
+
+      socket.on("assignedProject", ({ projectId, userId }) => {
+        if (loggedUser._id === userId) {
+          dispatch(getUnreadNotificationsByUser(loggedUser._id));
+          toast.info("Yo have been assigned to a new project.", {
+            position: "bottom-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            onClick: () => {
+              history.push({
+                pathname: `/project/${projectId}`,
+                state: { projectId },
+              });
+            },
+          });
+        }
+      });
     }
   }, [loggedUser]);
 
