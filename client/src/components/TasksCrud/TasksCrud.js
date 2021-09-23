@@ -108,6 +108,7 @@ export default function TasksCrud({ tasks, customHandleClick }) {
     }
 
     setTasksArray(filteredTasks);
+    setPage(0);
   }, [tasksFilter, tasks]);
 
   // funcion para cambiar el orden de cierta propiedad
