@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { getCardStats } from "../../redux/TeamComposition/actions";
-import Loading from "../Loading/Loading";
+// import Loading from "../Loading/Loading";
 import { motion, useCycle } from "framer-motion";
 
 import styles from "./TeamCard.module.css";
@@ -51,7 +51,7 @@ const StatsTab = ({ userInfo }) => {
 
   useEffect(() => {
     userInfo?.github && dispatch(getCardStats(userInfo.github, setIsLoading));
-  }, []);
+  }, [userInfo]);
 
   useEffect(() => {
     if (userInfo.languages) {
@@ -80,13 +80,13 @@ const StatsTab = ({ userInfo }) => {
 
   return (
     <section className={styles.stats}>
-      {!userInfo?.languages?.length ? (
+      {!userInfo?.github ? (
         isLoading ? (
+          <p>Loading...</p>
+        ) : (
           <div id={styles.userNameError}>
             <p>No GITHUB username provided</p>
           </div>
-        ) : (
-          <Loading />
         )
       ) : (
         <section className={styles.statsContainer}>

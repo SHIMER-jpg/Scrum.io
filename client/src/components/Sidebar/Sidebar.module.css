@@ -5,6 +5,7 @@
   position: sticky;
   width: 100%;
   max-width: 240px;
+  min-width: 240px;
   top: 70px;
   z-index: 1000;
   display: flex;

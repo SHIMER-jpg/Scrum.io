@@ -22,6 +22,10 @@ export function getTasksByUser(projectId, userId) {
   };
 }
 
+export const clearDeveloperView = () => ({
+  type: "CLEAR_DEV_VIEW"
+})
+
 export function getHelpTasks(projectId) {
   return async function (dispatch) {
     // obtiene todas las tareas del projecto pasado por projectId

@@ -20,6 +20,19 @@
 
 .projectList {
   display: grid;
-  grid-template-columns: repeat(3, minmax(430px, 1fr));
+  grid-template-columns: repeat(3, 1fr);  
+  grid-auto-flow: row;
   gap: 30px;
+}
+
+@media screen and (max-width: 1000px) {
+  .projectList {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .projectList {
+    grid-template-columns: 1fr;
+  }
 }

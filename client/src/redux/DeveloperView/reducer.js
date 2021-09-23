@@ -30,7 +30,15 @@ export default function reducer(state = initialState, action) {
         helpTasks: [],
         taskDetails: {},
         note: [],
-      }
+      };
+    }
+    case "CLEAR_DEV_VIEW": {
+      return {
+        userTasks: [],
+        helpTasks: [],
+        taskDetails: {},
+        note: [],
+      };
     }
     default:
       return state;

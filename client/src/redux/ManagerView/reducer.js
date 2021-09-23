@@ -74,6 +74,7 @@ const managerViewReducer = (state = initialState, action) => {
         project: {},
         asignedUsers: [],
         tasks: [],
+        allUsers: [],
       };
     }
     case DELETE_PROJECT:

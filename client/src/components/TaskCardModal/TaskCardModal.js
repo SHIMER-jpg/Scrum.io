@@ -213,7 +213,6 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
 
   const handleAddUser = (e, user) => {
     e.preventDefault();
-    console.log(user);
     const change = {
       taskId: _id,
       field: "asignedTo",

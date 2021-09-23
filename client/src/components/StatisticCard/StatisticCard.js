@@ -39,7 +39,6 @@ export default function StatisticCard({ graphType, tasks, project }) {
     const sprintLineArray = project.sprintEndDates.map((date, index) => {
       const dateToMoment = moment(date.substring(0, 10));
       const value = dateToMoment.diff(firstDay, "days");
-      console.log(dateToMoment);
       const line = {
         type: "line",
         xMin: value,
@@ -179,7 +178,6 @@ export default function StatisticCard({ graphType, tasks, project }) {
         );
       }
     });
-    console.log(finalDate);
     return devStoryPointsCorrected;
     // for (let i = 0; i <= completedDates.length; i++) {
     //   for (let j = 0; j < completedTasks.length; j++) {
@@ -218,7 +216,7 @@ export default function StatisticCard({ graphType, tasks, project }) {
     var charData = [0, 0, 0, 0];
     const filteredTasks =
       charDataOption.projectOrSprint === "bySprint"
-        ? tasks.filter((t) => t.sprintId == charDataOption.sprintNumber)
+        ? tasks.filter((t) => t.sprintId === charDataOption.sprintNumber)
         : tasks;
     if (graphType === "Tasks Priorization Chart") {
       filteredTasks.forEach((t) => {
@@ -254,7 +252,7 @@ export default function StatisticCard({ graphType, tasks, project }) {
     var charData = [0, 0, 0, 0];
     const filteredTasks =
       charDataOption.projectOrSprint === "bySprint"
-        ? tasks.filter((t) => t.sprintId == charDataOption.sprintNumber)
+        ? tasks.filter((t) => t.sprintId === charDataOption.sprintNumber)
         : tasks;
     if (graphType === "Tasks Priorization Chart") {
       filteredTasks.forEach((t) => {

@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router";
+import { Redirect, useParams } from "react-router";
 
 import { getTeamComp } from "../../redux/TeamComposition/actions";
 
@@ -12,10 +12,15 @@ const TeamComposition = () => {
   const { projectId } = useParams();
   const dispatch = useDispatch();
   const teamCompData = useSelector((state) => state.teamCompReducer.teamComp);
+  const userRole = useSelector((state) => state.viewRouter.userRole);
 
   useEffect(() => {
     dispatch(getTeamComp(projectId));
   }, []);
+
+  if(!userRole) {
+    return <Redirect to={`/project/${projectId}`} />
+  }
 
   return (
     <div className={styles.container}>

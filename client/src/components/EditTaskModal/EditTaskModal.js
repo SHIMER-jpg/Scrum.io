@@ -33,7 +33,6 @@ export default function EditTaskModal ({isModalOpen, setIsModalOpen, _id}) {
    });
 
    const handleChange = (e) => {
-      console.log(e.target)
       setValues({
          ...values,
          [e.target.name]: e.target.value,

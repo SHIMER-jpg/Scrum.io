@@ -10,6 +10,8 @@ import CreateProjectModal from "../../components/CreateProjectModal/CreateProjec
 import ProjectHolder from "../../components/ProjectHolder/ProjectHolder";
 import Loading from "../../components/Loading/Loading";
 import { clearRole } from "../../redux/ViewRouter/actions";
+import { clearManagerView } from "../../redux/ManagerView/actions";
+import { clearDeveloperView } from "../../redux/DeveloperView/actions";
 import { clearMessages } from "../../redux/Chat/actions";
 
 import styles from "./Home.module.css";
@@ -31,6 +33,8 @@ const Home = () => {
 
   useEffect(() => {
     dispatch(clearRole());
+    dispatch(clearManagerView());
+    dispatch(clearDeveloperView());
     dispatch(clearMessages());
   }, []);
 

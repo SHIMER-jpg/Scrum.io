@@ -209,7 +209,6 @@ export default function ManagerView() {
                 onChange={handleTitleChange}
               ></input>
             )}
-            {console.log(title)}
             {!isTitleOpen ? (
               <BsPencilSquare
                 size={20}
@@ -244,12 +243,13 @@ export default function ManagerView() {
               {assignedUsers.map((user, index) => {
                 return index < 3 ? (
                   <img
+                    key={user._id}
                     src={user.user.picture}
                     alt={user.user.name}
                     title={user.user.name}
                   />
                 ) : (
-                  <></>
+                  null
                 );
               })}
               {assignedUsers.length > 3 ? (
