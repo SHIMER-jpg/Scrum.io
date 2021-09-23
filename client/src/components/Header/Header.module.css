@@ -103,6 +103,7 @@
   z-index: 10000;
   transition: all 0.15s ease-in-out;
   display: flex;
+  border: 1px solid var(--separator);
   flex-direction: column;
 }
 
@@ -119,6 +120,8 @@
   transform: rotate(45deg);
   top: -6px;
   background-color: var(--white);
+  border-top: 1px solid var(--separator);
+  border-left: 1px solid var(--separator);
   left: calc(50% - 10px);
   box-shadow: -1px -1px 2px 0 rgba(0, 0, 0, 0.2);
 }
@@ -250,7 +253,7 @@
   border-radius: 8px;
   position: absolute;
   background-color: var(--white);
-  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.4);
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
   right: 0;
   top: 170%;
   z-index: 500 !important;
@@ -258,6 +261,7 @@
   opacity: 0;
   transition: all 0.15s ease-in-out;
   cursor: alias;
+  border: 1px solid var(--separator);
 }
 
 .visible .dropDown {
