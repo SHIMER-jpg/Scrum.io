@@ -11,8 +11,41 @@ const User = require("../models/User");
 const getProjectById = async (req, res, next) => {
   try {
     const { projectId } = req.params;
-
     const project = await Project.model.findById(projectId);
+    project.currentSprint = project.sprintEndDates.reduce(
+      (sprint, date, index, arr) => {
+        const now = new Date();
+        var utcThis = Date.UTC(
+          now.getFullYear(),
+          now.getMonth(),
+          now.getDate(),
+          now.getHours(),
+          now.getMinutes(),
+          now.getSeconds(),
+          now.getMilliseconds()
+        );
+        var utcOther = Date.UTC(
+          date.getFullYear(),
+          date.getMonth(),
+          date.getDate(),
+          date.getHours(),
+          date.getMinutes(),
+          date.getSeconds(),
+          date.getMilliseconds()
+        );
+        if ((utcThis - utcOther) / 86400000 < 0) {
+          sprint = index + 1;
+          arr.splice(1);
+        }
+
+        console.log(sprint);
+        return sprint;
+      },
+      -1
+    );
+    
+    project.set("auxiliaryDates");
+    project.save();
     res.status(200).json(project);
   } catch (error) {
     next(error);
@@ -39,7 +72,6 @@ const getProjectByUserId = async (req, res, next) => {
         $unwind: "$projects",
       },
     ]);
-
     res.status(200).json(
       data.map((project) => {
         delete project.projects.taskIds;

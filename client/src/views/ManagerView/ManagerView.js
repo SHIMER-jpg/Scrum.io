@@ -324,6 +324,38 @@ export default function ManagerView() {
                 </p>
               </div>
             </div>
+            <div
+              className={managerStyle.projectDetailsItem}
+              style={{ alignItems: "center" }}
+            >
+              <p>Sprint qty.</p>
+              <div>
+                <p>{project.sprintCount}</p>
+              </div>
+            </div>
+            <div
+              className={managerStyle.projectDetailsItem}
+              style={{ alignItems: "center" }}
+            >
+              <p>Sprint duration</p>
+              <div>
+                <p>
+                  {project.sprintDuration}
+                  {project.sprintDuration > 1 ? " weeks" : " week"}
+                </p>
+              </div>
+            </div>
+            <div
+              className={managerStyle.projectDetailsItem}
+              style={{ alignItems: "center" }}
+            >
+              <p>Current sprint</p>
+              <div>
+                <p>
+                  {project.currentSprint > 0 ? project.currentSprint : "Done"}
+                </p>
+              </div>
+            </div>
           </div>
           {tasksView === "boardsView" ? (
             <div className={managerStyle.sprintDetails}>
