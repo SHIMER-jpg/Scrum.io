@@ -9,6 +9,11 @@
   width: 100%;
 }
 
+:global(.darkMode) .paper {
+  background-color: #181A1B;
+  color: white;
+}
+
 .paper select {
   font-size: 12px;
   padding: 5px;

@@ -11,6 +11,7 @@ import annotationPlugin from "chartjs-plugin-annotation";
 
 import styles from "./StatisticCard.module.css";
 import moment from "moment";
+import { useSelector } from "react-redux";
 moment().format();
 Chart.register(annotationPlugin);
 
@@ -19,6 +20,8 @@ export default function StatisticCard({ graphType, tasks, project }) {
     byStoryPoints: [],
     byTasks: [],
   });
+
+  const isDarkMode = useSelector(state => state.app.darkMode)
 
   // estado y funcion para cambiar la vista de los datos entre ver por story point o por tareas
   const [charDataOption, setCharDataOption] = useState({
@@ -40,13 +43,13 @@ export default function StatisticCard({ graphType, tasks, project }) {
         type: "line",
         xMin: value,
         xMax: value,
-        borderColor: "rgb(204, 0, 25, 0.5)",
+        borderColor: `${isDarkMode ? "#e6697a" : "#cc001a"}`,
         borderWidth: 2,
         label: {
           enabled: true,
           content: "Sprint " + (index + 1),
           backgroundColor: "rgb(255,255,255,0)",
-          color: "rgb(204, 0, 25, 1)",
+          color: `${isDarkMode ? "#e6697a" : "#cc001a"}`,
           position: "end",
           rotation: "270",
           xAdjust: -10,

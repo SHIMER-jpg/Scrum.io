@@ -109,4 +109,6 @@ export const markOneNotificationAsReaded = (userId, notificationId) => {
   };
 };
 
+export const setDarkMode = (value) => ({ type: "SET_DARK_MODE", payload: value })
+
 export const setSocket = (socket) => ({ type: SET_SOCKET, payload: socket });

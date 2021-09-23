@@ -13,6 +13,7 @@ import useTimeAgo from "../../hooks/useTimeAgo";
 import {
   markNotificationsAsReaded,
   markOneNotificationAsReaded,
+  setDarkMode
 } from "../../redux/App/actions";
 
 import styles from "./Header.module.css";
@@ -63,9 +64,11 @@ const Header = () => {
     document.body.classList.toggle("darkMode")
     if(document.body.classList.contains("darkMode")) {
       setIsDarkMode(true)
+      dispatch(setDarkMode(true))
       localStorage.setItem("darkMode", "true")
     } else {
       setIsDarkMode(false)
+      dispatch(setDarkMode(false))
       localStorage.removeItem("darkMode")
     }
   };

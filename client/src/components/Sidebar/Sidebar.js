@@ -67,7 +67,7 @@ const Sidebar = () => {
       {userRole && (
         <div className={styles.item}>
           <NavLink to={`/teamComp/${projectId}`}>
-            <RiTeamFill size={23} /> Team Comp
+            <RiTeamFill size={23} /> Team comp
           </NavLink>
         </div>
       )}

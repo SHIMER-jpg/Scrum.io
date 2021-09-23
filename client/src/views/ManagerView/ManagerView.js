@@ -12,10 +12,10 @@ import {
 import { fetchUsers } from "../../redux/Home/actions";
 import { useDispatch, useSelector } from "react-redux";
 import TaskHolder from "../../components/TaskHolder/TaskHolder";
-import { FiUsers } from "react-icons/fi";
 import { FaFileCsv } from "react-icons/fa";
-import { AiFillEdit } from "react-icons/ai";
+import { AiOutlineCalendar } from "react-icons/ai";
 import { GoPlus } from "react-icons/go";
+import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import { BsPencilSquare } from "react-icons/bs";
 import { TiTick } from "react-icons/ti";
 
@@ -28,8 +28,7 @@ import CreateTaskModal from "../../components/CreateTaskModal/CreateTaskModal";
 import { useParams } from "react-router-dom";
 import { AddPartnerModal } from "../../components/AddPartnerModal/AddPartnerModal";
 import ImportCsvModal from "../../components/ImportCsvModal/ImportCsvModal";
-import EditProjectModal from "../../components/EditProjectModal/EditProjectModal";
-import EditTaskModal from "../../components/EditTaskModal/EditTaskModal";
+import { StylesContext } from "@material-ui/styles";
 
 export default function ManagerView() {
   const tasks = useSelector((state) => state.managerView.tasks);
@@ -52,6 +51,7 @@ export default function ManagerView() {
 
   const [isTitleOpen, setIsTitleOpen] = useState(false);
   const [title, setTitle] = useState(project?.title);
+  const [filterSprint, setFilterSprint] = useState(null);
 
   const switchTasksView = () => {
     if (tasksView === "boardsView") {
@@ -63,7 +63,7 @@ export default function ManagerView() {
   const handleTitleChange = ({ target }) => {
     setTitle(target.value);
   };
-  
+
   const handleTitleSubmit = () => {
     setIsTitleOpen(false);
     dispatch(editProject({ id: projectId, projectName: title }));
@@ -110,6 +110,18 @@ export default function ManagerView() {
     return array;
   }
 
+  const handleSetSprint = (value) => {
+    if (value === "increment") {
+      setFilterSprint((prevVal) =>
+        !prevVal ? 1 : prevVal + 1 > project.sprintCount ? prevVal : prevVal + 1
+      );
+    } else {
+      setFilterSprint((prevVal) =>
+        !prevVal ? null : prevVal - 1 === 0 ? null : prevVal - 1
+      );
+    }
+  };
+
   return (
     <>
       {isModalOpen && (
@@ -133,7 +145,13 @@ export default function ManagerView() {
       )}
       <div className={managerStyle.conteiner}>
         <header className={managerStyle.conteinerHeader}>
-          <div style={{ display: "flex", alignItems: "center", color: "var(--black)" }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              color: "var(--black)",
+            }}
+          >
             {!isTitleOpen ? (
               <h1 className="main-heading">
                 {project?.projectName || "Loading..."}
@@ -216,31 +234,74 @@ export default function ManagerView() {
             </button>
           </div>
         </header>
+        <section className={managerStyle.projectDetails}>
+          <div className={managerStyle.dateDetails}>
+            <div className={managerStyle.projectDetailsItem}>
+              <p>Start date</p>
+              <div>
+                <AiOutlineCalendar />
+                <p>{new Date(project.startDate).toLocaleDateString("es-ES")}</p>
+              </div>
+            </div>
+            <div className={managerStyle.projectDetailsItem}>
+              <p>Required date</p>
+              <div>
+                <AiOutlineCalendar />
+                <p>
+                  {new Date(project.requiredDate).toLocaleDateString("es-ES")}
+                </p>
+              </div>
+            </div>
+          </div>
+          {tasksView === "boardsView" ? (
+            <div className={managerStyle.sprintDetails}>
+              <p>Sprint</p>
+              <div>
+                <button onClick={() => handleSetSprint("decrement")}>
+                  <FiChevronLeft size={22} />
+                </button>
+                <p>{filterSprint ? filterSprint : "All sprints"}</p>
+                <button onClick={() => handleSetSprint("increment")}>
+                  <FiChevronRight size={22} />
+                </button>
+              </div>
+            </div>
+          ) : null}
+        </section>
+
         {tasksView === "boardsView" ? (
           <div className={managerStyle.conteinerBody}>
             {/* Pending Tasks */}
             <TaskHolder
               isLoading={isLoadingTasks}
               status={"Pending"}
-              taskList={tasks.filter((task) => task.status === "Pending")}
+              taskList={tasks
+                .filter((t) => (filterSprint ? t.sprintId === filterSprint : t))
+                .filter((task) => task.status === "Pending")}
             />
             {/* In progress Tasks */}
             <TaskHolder
               isLoading={isLoadingTasks}
               status={"In progress"}
-              taskList={tasks.filter((task) => task.status === "In progress")}
+              taskList={tasks
+                .filter((t) => (filterSprint ? t.sprintId === filterSprint : t))
+                .filter((task) => task.status === "In progress")}
             />
             {/* Testing Tasks */}
             <TaskHolder
               isLoading={isLoadingTasks}
               status={"Testing"}
-              taskList={tasks.filter((task) => task.status === "Testing")}
+              taskList={tasks
+                .filter((t) => (filterSprint ? t.sprintId === filterSprint : t))
+                .filter((task) => task.status === "Testing")}
             />
             {/* Completed Tasks */}
             <TaskHolder
               isLoading={isLoadingTasks}
               status={"Completed"}
-              taskList={tasks.filter((task) => task.status === "Completed")}
+              taskList={tasks
+                .filter((t) => (filterSprint ? t.sprintId === filterSprint : t))
+                .filter((task) => task.status === "Completed")}
             />
           </div>
         ) : (
