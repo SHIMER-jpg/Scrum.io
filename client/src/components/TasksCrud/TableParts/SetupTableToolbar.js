@@ -485,8 +485,7 @@ export default function SetupTableToolbar({
                   <p>All Users</p>
                 )}
               </div>
-
-              {isManager && isSelectUsersOpen && (
+              {
                 <div
                   className={`${styles.modalSelectUser} ${
                     isSelectUsersOpen ? styles.visible : undefined
@@ -529,7 +528,7 @@ export default function SetupTableToolbar({
                     <p>There's no user with that name :(</p>
                   )}
                 </div>
-              )}
+              }
             </div>
             <select
               name="status"

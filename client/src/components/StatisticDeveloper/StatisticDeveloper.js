@@ -27,7 +27,7 @@ export default function StatisticDeveloper(props) {
   const userTasks = tasks.filter((t) => t.asignedTo === user._id);
   const completedUserTasks = userTasks.filter((t) => t.status === "Completed");
   const userData = getData(
-    project.creationDate,
+    project.startDate,
     moment(),
     completedUserTasks,
     view
@@ -285,7 +285,9 @@ export default function StatisticDeveloper(props) {
                 </div>
                 <div className={styles.stat}>
                   <label>Story Points Achieved</label>
-                  <p>{userData.total.sp ? userData.total.sp : "-"}</p>
+                  <p>
+                    {userData.total.sp ? userData.total.sp.toFixed(2) : "-"}
+                  </p>
                 </div>
                 <div className={styles.stat}>
                   <label>Helped Tasks</label>

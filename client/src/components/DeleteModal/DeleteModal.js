@@ -17,6 +17,7 @@ const customStyles = {
     borderRadius: "8px",
     maxWidth: "650px",
     border: "3px solid red",
+    background: "var(--white)",
   },
   overlay: {
     backgroundColor: "rgba(0,0,0,0.5)",

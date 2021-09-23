@@ -18,6 +18,7 @@ import { GoPlus } from "react-icons/go";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import { BsPencilSquare } from "react-icons/bs";
 import { TiTick } from "react-icons/ti";
+import { CSVLink } from "react-csv";
 
 import TasksCrud from "../../components/TasksCrud/TasksCrud";
 import { BsTable } from "react-icons/bs";
@@ -32,17 +33,17 @@ import ImportCsvModal from "../../components/ImportCsvModal/ImportCsvModal";
 import { StylesContext } from "@material-ui/styles";
 import { Configuration } from "../Configuration/Configuration";
 import { Helmet } from "react-helmet";
+import moment from "moment";
+moment().format();
 
 export default function ManagerView() {
   const tasks = useSelector((state) => state.managerView.tasks);
 
   const { projectId } = useParams();
 
-  const [isEditProjectModal, setIsEditProjectModal] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalAddPartner, setModalAddPartner] = useState(false);
   const [importModal, setImportModal] = useState(false);
-  const [flag, setFlag] = useState(false);
   const [tasksView, setTasksView] = useState("boardsView");
 
   const dispatch = useDispatch();
@@ -53,9 +54,44 @@ export default function ManagerView() {
   const allUsers = useSelector((state) => state.home.users);
 
   const [isTitleOpen, setIsTitleOpen] = useState(false);
-  const [title, setTitle] = useState(project?.title);
+  const [title, setTitle] = useState(project.projectName);
   const [filterSprint, setFilterSprint] = useState(null);
   const [openDelete, setOpenDelete] = useState(false); //deberia ser false
+
+  const makeCsvReport = () => {
+    const header = [
+      { label: "Title", key: "title" },
+      { label: "Creation Date", key: "creationDate" },
+      { label: "Assigned To", key: "asignedTo" },
+      { label: "Completed Date", key: "completedDate" },
+      { label: "Status", key: "status" },
+      { label: "Story Points", key: "storyPoints" },
+      { label: "Prioritization", key: "priorization" },
+      { label: "Sprint Number", key: "sprintId" },
+      { label: "Details", key: "details" },
+    ];
+
+    return {
+      data: tasks.map((task) => {
+        return {
+          title: task.title,
+          creationDate: task.creationDate,
+          asignedTo: task.asignedTo,
+          completedDate: task.completedDate,
+          status: task.status,
+          storyPoints: task.storyPoints,
+          priorization: task.priorization,
+          sprintId: task.sprintId,
+          details: task.details,
+        };
+      }),
+      header: header,
+      filename: `Scrum.io-project-${project.projectName}-${moment().format(
+        "DD-MM-YYYY"
+      )}.csv`,
+      separator: ";",
+    };
+  };
 
   const switchTasksView = () => {
     if (tasksView === "boardsView") {
@@ -130,9 +166,9 @@ export default function ManagerView() {
 
   return (
     <>
-    <Helmet>
-      <title>{project?.projectName || "Loading..."} | Scrum.io</title>
-    </Helmet>
+      <Helmet>
+        <title>{project?.projectName || "Loading..."} | Scrum.io</title>
+      </Helmet>
       {isModalOpen && (
         <CreateTaskModal
           assignedUsers={assignedUsers}
@@ -158,6 +194,7 @@ export default function ManagerView() {
             style={{
               display: "flex",
               alignItems: "center",
+              width: "auto",
               color: "var(--black)",
             }}
           >
@@ -172,6 +209,7 @@ export default function ManagerView() {
                 onChange={handleTitleChange}
               ></input>
             )}
+            {console.log(title)}
             {!isTitleOpen ? (
               <BsPencilSquare
                 size={20}
@@ -233,6 +271,12 @@ export default function ManagerView() {
             >
               <FaFileCsv size={18} />
               Import CSV
+            </button>
+            <button className="btn-primary" onClick={null}>
+              <CSVLink style={{ all: "unset" }} {...makeCsvReport()}>
+                <FaFileCsv size={18} />
+                Export CSV
+              </CSVLink>
             </button>
 
             <button

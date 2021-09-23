@@ -10,8 +10,8 @@ import { Chart, Pie, Line, Bar } from "react-chartjs-2";
 import annotationPlugin from "chartjs-plugin-annotation";
 
 import styles from "./StatisticCard.module.css";
-import moment from "moment";
 import { useSelector } from "react-redux";
+import moment from "moment";
 moment().format();
 Chart.register(annotationPlugin);
 
@@ -39,6 +39,7 @@ export default function StatisticCard({ graphType, tasks, project }) {
     const sprintLineArray = project.sprintEndDates.map((date, index) => {
       const dateToMoment = moment(date.substring(0, 10));
       const value = dateToMoment.diff(firstDay, "days");
+      console.log(dateToMoment);
       const line = {
         type: "line",
         xMin: value,
@@ -47,7 +48,8 @@ export default function StatisticCard({ graphType, tasks, project }) {
         borderWidth: 2,
         label: {
           enabled: true,
-          content: "Sprint " + (index + 1),
+          content:
+            "Sprint " + (index + 1) + " - " + dateToMoment.format("Do MMM YY"),
           backgroundColor: "rgb(255,255,255,0)",
           color: `${isDarkMode ? "#e6697a" : "#cc001a"}`,
           position: "end",
@@ -125,8 +127,9 @@ export default function StatisticCard({ graphType, tasks, project }) {
 
   function burnDownProgress() {
     //CALCULATIONS FOR ACTUAL PROGRESS
-    let firstDay =
-      project.creationDate && moment(project.creationDate.substring(0, 10));
+    const firstDay = project.startDate
+      ? project.startDate && moment(project.startDate.substring(0, 10))
+      : project.creationDate && moment(project.creationDate.substring(0, 10));
     let completedTasks = tasks
       .filter((t) => t.status === "Completed")
       .sort(function (a, b) {
@@ -176,6 +179,7 @@ export default function StatisticCard({ graphType, tasks, project }) {
         );
       }
     });
+    console.log(finalDate);
     return devStoryPointsCorrected;
     // for (let i = 0; i <= completedDates.length; i++) {
     //   for (let j = 0; j < completedTasks.length; j++) {

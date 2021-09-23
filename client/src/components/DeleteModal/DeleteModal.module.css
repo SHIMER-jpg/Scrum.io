@@ -20,6 +20,7 @@
   align-items: flex-end;
   position: absolute;
   right: 5%;
+  color: var(--black);
 }
 
 .modalButtons {
@@ -48,6 +49,8 @@
 }
 
 .modalFormGroup {
+  color: var(--black);
+
   display: flex;
   flex-direction: column;
   margin-bottom: 20px;
@@ -67,6 +70,7 @@ textarea {
   padding: 10px;
   border: 1px solid rgb(204, 204, 204);
   transition: all 0.1s ease-in-out;
+  color: var(--black);
 }
 
 .modalFormGroup input:focus,

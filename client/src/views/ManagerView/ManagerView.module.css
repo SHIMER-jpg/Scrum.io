@@ -29,6 +29,7 @@
 .conteinerHeader input {
   all: unset;
   border-radius: 8px;
+  background-color: var(--white);
   display: flex;
   padding: 10px;
   border: 1px solid rgb(204, 204, 204);
