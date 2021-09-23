@@ -1,4 +1,3 @@
-const { transporter } = require("../nodemailer/nodemailer");
 
 const Task = require("../models/Task");
 const Note = require("../models/Note");
@@ -55,17 +54,6 @@ const postTask = async (req, res, next) => {
 
     await newTask.save();
     updateStatus(req.body.projectId);
-    const user = await User.model.findOne({
-      _id: req.body.assignedTo,
-    });
-
-    await transporter.sendMail({
-      from: '"Scrum.io" <scrumio64@gmail.com>',
-      to: user.email,
-      subject: "Scrumio",
-      html: `<b>Greetings ${user.name}, through this email we inform you that your scrum master has assigned you a new task, please enter Scrum.io to view it.\n 
-      Nice day</b>`,
-    });
 
     res.status(201).json(newTask);
   } catch (error) {
