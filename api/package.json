@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon -L",
+    "start:dev": "nodemon -L",
     "test": "mocha -w ./tests/**/*.spec.js"
   },
   "author": "Henry",
@@ -15,6 +15,7 @@
     "npm": ">=6.14.6"
   },
   "dependencies": {
+    "axios": "^0.21.4",
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",

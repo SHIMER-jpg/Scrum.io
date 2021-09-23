@@ -5,7 +5,7 @@
 }
 
 .header {
-  border-bottom: 1px solid rgb(179, 179, 179);
+  border-bottom: 1px solid var(--separator);
   padding-bottom: 20px;
   margin-bottom: 30px;
   display: flex;
@@ -23,17 +23,77 @@
   justify-content: center;
 }
 
+.initRoom {
+  height: calc(100% - 94px);
+  display: grid;
+  place-items: center;
+}
+
+.initRoom > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 25px;
+}
+
+.initRoom p {
+  margin: 0;
+  font-weight: 500;
+  font-size: 27px;
+  color: var(--black);
+}
+
+.initRoom div button {
+  font-size: 20px;
+}
+
+.scrumMasterSection {
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+}
+
+.scrumMasterSection > p {
+  font-weight: 400;
+  font-size: 16px;
+  margin: 0;
+  color: var(--black);
+}
+
+.scrumMasterSection > div {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin: 0px 0 30px;
+}
+
+.scrumMasterSection > div img {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+}
+
+.scrumMasterSection > div p {
+  margin: 0;
+  font-weight: 600;
+  font-size: 18px;
+  color: var(--black);
+}
+
 .generalBoard {
   display: grid;
   grid-template-columns: 1fr auto;
   height: 100%;
-  max-height: 500px;
+  min-height: 450px;
+  height: auto;
 }
 
 .sidebar {
   align-self: flex-start;
-  background-color: white;
-  padding: 20px ;
+  background-color: var(--white);
+  box-shadow: 2px 2px 1px 0 rgba(0, 0, 0, 0.15);
+  padding: 20px;
   border-radius: 8px;
 }
 
@@ -67,10 +127,13 @@
   padding: 10px;
   border: 1px solid rgb(204, 204, 204);
   transition: all 0.1s ease-in-out;
+  color: var(--black);
+  background-color: var(--white);
 }
 
 .filter > label {
   font-weight: 600;
+  color: var(--black);
 }
 
 .filterTaskInput {
@@ -85,8 +148,9 @@
   border-radius: 8px;
   border: 1px solid rgb(204, 204, 204);
   transition: all 0.1s ease-in-out;
-  background-color: white;
+  background-color: var(--white);
   box-sizing: border-box;
+  color: var(--black);
 }
 
 .filterTaskInput input:focus {
@@ -119,6 +183,7 @@
   padding: 20px;
   display: flex;
   align-items: center;
+  color: var(--black);
 }
 
 .taskPlace div {
@@ -148,9 +213,15 @@
 }
 
 .foreignCard {
-  background-image: url("../../static/img/card_texture.jpg");
-  background-size: cover;
-  color: white;
+  background: var(--red);
+  background:
+  linear-gradient(115deg, transparent 75%, rgba(255,255,255,.8) 75%) 0 0,
+  linear-gradient(245deg, transparent 75%, rgba(255,255,255,.8) 75%) 0 0,
+  linear-gradient(115deg, transparent 75%, rgba(255,255,255,.8) 75%) 7px -15px,
+  linear-gradient(245deg, transparent 75%, rgba(255,255,255,.8) 75%) 7px -15px,
+  var(--red);
+  background-size: 15px 30px;
+  color: var(--black);
 }
 
 .userVote {
@@ -164,6 +235,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  color: var(--black);
 }
 
 .userInfo {
@@ -180,6 +252,7 @@
 
 .user p {
   margin: 0;
+  color: var(--black);
 }
 
 .user:nth-child(1) {
@@ -243,10 +316,11 @@
   border: 2px solid var(--red);
   font-size: 16px;
   font-weight: 600;
-  color: white;
+  color: var(--white);
   border-radius: 8px;
   align-self: center;
   transition: all 0.15s ease-in-out;
+  color: white;
 }
 
 .footerInfo > button:hover {
@@ -255,20 +329,44 @@
   color: var(--red);
 }
 
+.footerInfoScores {
+  display: flex;
+  gap: 25px;
+}
+
 .storyPoints {
   display: flex;
   flex-direction: column;
   align-items: center;
   border-radius: 8px;
+  transition: all .15s ease-in-out;
+  padding: 10px;
+  border: 2px solid var(--red);
+}
+
+
+.storyPointsHovereable:hover {
+  background: var(--red);
+  cursor: pointer;
+}
+
+.storyPointsHovereable:hover p {
+  color: var(--white);
 }
 
 .storyPoints p {
   margin: 0;
+  font-size: 15px;
   color: var(--red);
 }
 
+
+:global(.darkMode) .storyPoints p {
+  color: white !important;
+}
+
 .storyPoints > p:nth-child(2) {
-  font-size: 42px;
+  font-size: 32px;
   font-weight: 600;
 }
 
@@ -298,12 +396,14 @@
   font-weight: 600;
   border: 2px solid var(--red);
   transition: all 0.15s ease-in-out;
+  color: var(--black);
+
 }
 
 .buttons > button:hover,
 .buttons > button.active {
   background-color: var(--red);
-  color: white;
+  color: var(--white);
 }
 
 .footer button[disabled] {

@@ -1,0 +1,7 @@
+const GET_CARD_STATS = "GET_CARD_STATS";
+const GET_TEAMCOMP = "GET_TEAMCOMP";
+
+module.exports = {
+  GET_CARD_STATS,
+  GET_TEAMCOMP,
+};

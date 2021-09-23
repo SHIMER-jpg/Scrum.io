@@ -2,6 +2,7 @@ const { transporter } = require("../nodemailer/nodemailer");
 
 const Task = require("../models/Task");
 const Note = require("../models/Note");
+const Notification = require("../models/Notification");
 const Project = require("../models/Project");
 const { updateStatus } = require("./project");
 const User = require("../models/User");
@@ -27,11 +28,6 @@ const getTasksByProjectId = async (req, res, next) => {
         $unwind: "$user",
       },
     ]);
-
-    // const data = await Task.model
-    //   .find({ projectId })
-    //   .populate("project")
-    //   .exec();
     res.status(200).json(data);
   } catch (error) {
     next(error);
@@ -40,6 +36,12 @@ const getTasksByProjectId = async (req, res, next) => {
 
 const postTask = async (req, res, next) => {
   try {
+    await Notification.model.create({
+      userId: req.body.assignedTo,
+      projectId: req.body.projectId,
+      type: "assignedTask"
+    })
+
     var newTask = new Task.model({
       title: req.body.title,
       asignedTo: req.body.assignedTo,
@@ -48,6 +50,7 @@ const postTask = async (req, res, next) => {
       priorization: req.body.priorization,
       details: req.body.details,
       projectId: req.body.projectId,
+      sprintId: req.body.sprintId,
     });
 
     await newTask.save();
@@ -72,6 +75,7 @@ const postTask = async (req, res, next) => {
 
 const modifyTask = async (req, res, next) => {
   try {
+    
     const { taskId } = req.body;
     const update = {};
     update[req.body.field] =
@@ -79,13 +83,65 @@ const modifyTask = async (req, res, next) => {
         ? mongoose.Types.ObjectId(req.body.value)
         : req.body.value;
 
+    if (req.body.field === "status") {
+      if (req.body.value === "Completed") {
+        update.completedDate = Date.now();
+      } else {
+        update.completedDate = null;
+      }
+    }
+
+    if (req.body.field === "asignedTo") {
+      const toUpdate = await Task.model.findOne({
+        _id: taskId
+      })
+
+      await Notification.model.create({
+        userId: req.body.value,
+        projectId: toUpdate.projectId,
+        type: "assignedTask"
+      })
+    }
+    
     const updated = await Task.model.findOneAndUpdate(
       { _id: mongoose.Types.ObjectId(taskId) },
       update
     );
+
     updateStatus(updated.projectId);
 
     res.status(200).send("Successfully modified task");
+  } catch (error) {
+    next(error);
+  }
+};
+
+const modifyManyTasks = async (req, res, next) => {
+  try {
+    const manyTasksId = req.body.tasksId.map((taskId) =>
+      mongoose.Types.ObjectId(taskId)
+    );
+    const update = req.body.fieldsToChange;
+    update.asigedTo
+      ? (update.asigedTo = mongoose.Types.ObjectId(update.asigedTo))
+      : null;
+
+    if (update.status) {
+      if (update.status === "Completed") {
+        update.completedDate = Date.now();
+      } else {
+        update.completedDate = null;
+      }
+    }
+
+    const updated = await Task.model.updateMany(
+      { _id: manyTasksId },
+      { $set: update }
+    );
+
+    updateStatus(updated.projectId);
+
+    res.status(200).send("Successfully modified tasks");
   } catch (error) {
     next(error);
   }
@@ -121,8 +177,27 @@ const getUserTasks = async (req, res, next) => {
 const deleteTask = async (req, res, next) => {
   try {
     const taskId = mongoose.Types.ObjectId(req.params.taskId);
-    await Task.model.remove({ _id: taskId });
+    const updated = await Task.model.remove({ _id: taskId });
     await Note.model.remove({ taskId: taskId });
+
+    updateStatus(updated.projectId);
+
+    res.status(200).json("success");
+  } catch (error) {
+    next(error);
+  }
+};
+
+const deleteSelectedTasks = async (req, res, next) => {
+  try {
+    const manyTasksId = req.body.tasksIdArray.map((taskId) =>
+      mongoose.Types.ObjectId(taskId)
+    );
+    const updated = await Task.model.deleteMany({ _id: manyTasksId });
+    await Note.model.deleteMany({ taskId: manyTasksId });
+
+    updateStatus(updated.projectId);
+
     res.status(200).json("success");
   } catch (error) {
     next(error);
@@ -152,6 +227,7 @@ const bulkImport = async (req, res, next) => {
         storyPoints: doc.storyPoints,
         priorization: doc.priorization,
         details: doc.details,
+        sprintId: doc.sprint,
       };
       if (doc.completedDate == "") delete task.completedDate;
       return task;
@@ -183,7 +259,9 @@ module.exports = {
   postTask,
   getTasksByProjectId,
   modifyTask,
+  modifyManyTasks,
   getUserTasks,
+  deleteSelectedTasks,
   deleteTask,
   bulkImport,
   bulkRemove,

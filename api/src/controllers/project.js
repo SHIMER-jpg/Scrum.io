@@ -11,8 +11,41 @@ const User = require("../models/User");
 const getProjectById = async (req, res, next) => {
   try {
     const { projectId } = req.params;
-
     const project = await Project.model.findById(projectId);
+    project.currentSprint = project.sprintEndDates.reduce(
+      (sprint, date, index, arr) => {
+        const now = new Date();
+        var utcThis = Date.UTC(
+          now.getFullYear(),
+          now.getMonth(),
+          now.getDate(),
+          now.getHours(),
+          now.getMinutes(),
+          now.getSeconds(),
+          now.getMilliseconds()
+        );
+        var utcOther = Date.UTC(
+          date.getFullYear(),
+          date.getMonth(),
+          date.getDate(),
+          date.getHours(),
+          date.getMinutes(),
+          date.getSeconds(),
+          date.getMilliseconds()
+        );
+        if ((utcThis - utcOther) / 86400000 < 0) {
+          sprint = index + 1;
+          arr.splice(1);
+        }
+
+        console.log(sprint);
+        return sprint;
+      },
+      -1
+    );
+    
+    project.set("auxiliaryDates");
+    project.save();
     res.status(200).json(project);
   } catch (error) {
     next(error);
@@ -39,7 +72,6 @@ const getProjectByUserId = async (req, res, next) => {
         $unwind: "$projects",
       },
     ]);
-
     res.status(200).json(
       data.map((project) => {
         delete project.projects.taskIds;
@@ -53,16 +85,17 @@ const getProjectByUserId = async (req, res, next) => {
 
 const createProject = async (req, res, next) => {
   try {
-    const newProject = new Project.model({
+    const newProject = await new Project.model({
       projectName: req.body.projectName,
       creationDate: req.body.creationDate,
+      startDate: req.body.startDate,
       requiredDate: req.body.requiredDate,
       description: req.body.description,
       sprintCount: req.body.sprintCount,
-      currentSprint: req.body.currentSprint,
       sprintDuration: req.body.sprintDuration,
     });
 
+    newProject.set("auxiliaryDates");
     newProject.asignUsersToNewProject(
       req.body.Users,
       req.body.scrumMaster,
@@ -82,7 +115,6 @@ const createProject = async (req, res, next) => {
       text: `<b>Greetings ${user.name}, through this email we inform you that you have been assigned a new project, please enter Scrum.io to view it.\n
       Have a nice day<b>`,
     });
-
     res.status(201).json(newProject);
   } catch (error) {
     next(error);
@@ -119,9 +151,58 @@ const updateStatus = async (projectId) => {
     return parseInt(acc) + flag;
   }, 0);
   project.status = Math.trunc((completedSum / tasks.length) * 100);
-
+  project.isCompleted = project.status === 100 ? true : false;
   project.save();
-  console.log("STATUS OF", project._id, "UPDATED TO", project.status);
+};
+
+const getTeamComp = async (req, res, next) => {
+  try {
+    const projectId = mongoose.Types.ObjectId(req.params.projectId);
+    const users = await UserProject.model.aggregate([
+      { $match: { projectId: projectId } },
+      {
+        $lookup: {
+          from: "users",
+          localField: "userId",
+          foreignField: "_id",
+          as: "user",
+        },
+      },
+      {
+        $lookup: {
+          from: "userinfos",
+          localField: "userId",
+          foreignField: "userId",
+          as: "userInfo",
+        },
+      },
+      {
+        $unwind: "$userInfo",
+      },
+    ]);
+
+    res.status(200).json(
+      users.map((item) => {
+        return { userInfo: item.userInfo, user: item.user[0] };
+      })
+    );
+  } catch (error) {
+    next(error);
+  }
+};
+
+const editProject = async (req, res, next) => {
+  try {
+    const id = req.body.id;
+    const update = {};
+    update[req.body.field] = req.body.value;
+    const project = await Project.model.findOneAndUpdate({ _id: id }, update, {
+      new: true,
+    });
+    res.status(200).json(project);
+  } catch (e) {
+    next(e);
+  }
 };
 
 module.exports = {
@@ -130,4 +211,6 @@ module.exports = {
   getProjectByUserId,
   deleteProject,
   updateStatus,
+  getTeamComp,
+  editProject,
 };

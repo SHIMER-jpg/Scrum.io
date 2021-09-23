@@ -1,1 +1,2 @@
-"title";"creationDate";"asignedTo";"completedDate";"status";"storyPoints";"priorization";"details"
+"title";"creationDate";"asignedTo";"completedDate";"status";"storyPoints";"priorization";"sprint";"details"
+"Import data by CSV";"2021/08/10";"61326ee7757f3e2669dd4704";"2021/08/17";"Completed";"50";"Worth Pursuing";"3";"Los detalles son pra gente con tiempo"

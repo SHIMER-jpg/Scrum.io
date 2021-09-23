@@ -22,6 +22,7 @@ const customStyles = {
     maxHeight: "90vh",
     borderRadius: "8px",
     maxWidth: "650px",
+    backgroundColor: "var(--white)"
   },
   overlay: {
     backgroundColor: "rgba(0,0,0,0.5)",
@@ -31,10 +32,7 @@ const customStyles = {
   },
 };
 
-const CreateProjectModal = ({
-  isModalOpen,
-  setIsModalOpen,
-}) => {
+const CreateProjectModal = ({ isModalOpen, setIsModalOpen }) => {
   const dispatch = useDispatch();
   const [isSelectUsersOpen, setIsSelectUsersOpen] = useState(false);
   const [usersError, setUsersError] = useState(null);
@@ -44,8 +42,8 @@ const CreateProjectModal = ({
 
   const [values, setValues] = useState({
     projectName: "",
-    // startDate: "",
-    requiredDate: "",
+    startDate: "",
+    // requiredDate: "",
     sprintCount: "",
     sprintDuration: "",
     Users: [],
@@ -112,7 +110,7 @@ const CreateProjectModal = ({
           //         "The required date cannot be before start date."
           //       )
           //   ),
-          requiredDate: Yup.date().required("You must provide a finish date"),
+          startDate: Yup.date().required("You must provide a start date"),
           sprintCount: Yup.number().required(
             "You must provide the amount of sprints."
           ),
@@ -130,8 +128,8 @@ const CreateProjectModal = ({
 
             setValues({
               projectName: "",
-              requiredDate: "",
-              // startDate: "",
+              // requiredDate: "",
+              startDate: "",
               sprintCount: "",
               sprintDuration: "",
               Users: [],
@@ -146,7 +144,12 @@ const CreateProjectModal = ({
           <Form styles={styles.modalBody}>
             <Field as="div" className={styles.modalFormGroup}>
               <label>Project name</label>
-              <Field placeholder="Type the name of the project" name="projectName" type="text" onChange={handleChange} />
+              <Field
+                placeholder="Type the name of the project"
+                name="projectName"
+                type="text"
+                onChange={handleChange}
+              />
               <ErrorMessage name="projectName" component="div">
                 {(msg) => (
                   <p className={styles.errorMessage} style={{ color: "red" }}>
@@ -155,7 +158,7 @@ const CreateProjectModal = ({
                 )}
               </ErrorMessage>
             </Field>
-            {/* <Field as="div" className={styles.modalFormGroup}>
+            <Field as="div" className={styles.modalFormGroup}>
               <label>Start Date</label>
               <Field name="startDate" type="date" onChange={handleChange} />
               <ErrorMessage name="startDate" component="div">
@@ -165,8 +168,8 @@ const CreateProjectModal = ({
                   </p>
                 )}
               </ErrorMessage>
-            </Field> */}
-            <Field as="div" className={styles.modalFormGroup}>
+            </Field>
+            {/* <Field as="div" className={styles.modalFormGroup}>
               <label>Required Date</label>
               <Field name="requiredDate" type="date" onChange={handleChange} />
               <ErrorMessage name="requiredDate" component="div">
@@ -176,7 +179,7 @@ const CreateProjectModal = ({
                   </p>
                 )}
               </ErrorMessage>
-            </Field>
+            </Field> */}
             <Field as="div" className={styles.modalFormGroup}>
               <label>Amount of Sprints</label>
               <Field

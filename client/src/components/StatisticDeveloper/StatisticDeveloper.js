@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
-import { Bar } from "react-chartjs-2";
+import { Bar, Chart } from "react-chartjs-2";
+import annotationPlugin from "chartjs-plugin-annotation";
 import moment from "moment";
 import styles from "./StatisticDeveloper.module.css";
 
@@ -10,6 +11,7 @@ import PopperHelp from "../PopperHelp/PopperHelp.js";
 import { FaUserCircle } from "react-icons/fa";
 
 import { useSearch } from "../../hooks/useSearch";
+Chart.register(annotationPlugin);
 
 export default function StatisticDeveloper(props) {
   //---STATES----------------------------------------
@@ -25,14 +27,47 @@ export default function StatisticDeveloper(props) {
   const userTasks = tasks.filter((t) => t.asignedTo === user._id);
   const completedUserTasks = userTasks.filter((t) => t.status === "Completed");
   const userData = getData(
-    project.creationDate,
+    project.startDate,
     moment(),
     completedUserTasks,
     view
   );
-  const labels = getLabels(project.requiredDate, project.creationDate, view);
+  const labels = getLabels(project.requiredDate, project.startDate, view);
 
   const [query, setQuery, filteredUsers] = useSearch(selectedUsers);
+  const isDarkMode = useSelector((state) => state.app.darkMode);
+
+  function getSprintLine() {
+    const firstDay = project.startDate
+      ? project.startDate && moment(project.startDate.substring(0, 10))
+      : project.creationDate && moment(project.creationDate.substring(0, 10));
+    const sprintLineArray = project.sprintEndDates.map((date, index) => {
+      const dateToMoment = moment(date.substring(0, 10));
+      const value = dateToMoment.diff(firstDay, "days");
+      const line = {
+        type: "line",
+        xMin: value,
+        xMax: value,
+        borderColor: `${isDarkMode ? "#e6697a" : "#cc001a"}`,
+        borderWidth: 2,
+        label: {
+          enabled: true,
+          content: "Sprint " + (index + 1),
+          backgroundColor: "rgb(255,255,255,0)",
+          color: `${isDarkMode ? "#e6697a" : "#cc001a"}`,
+          position: "end",
+          rotation: "270",
+          xAdjust: -10,
+        },
+      };
+      return line;
+    });
+    const annotations = {};
+    sprintLineArray.forEach((line) => {
+      annotations[`line${line.xMax}`] = line;
+    });
+    return annotations;
+  }
 
   function calculateDays(required, created, view) {
     //dinamically calculates the difference between two periods of time
@@ -45,7 +80,7 @@ export default function StatisticDeveloper(props) {
     //creates an array with the calculated values to be set as labels
     var days = calculateDays(finalDate, initialDate, view);
     var labelArray = [];
-    for (let i = 0; i <= days; i++) {
+    for (let i = 0; i < days; i++) {
       labelArray.push(i + 1);
     }
     return labelArray;
@@ -125,7 +160,7 @@ export default function StatisticDeveloper(props) {
               <div
                 className={styles.userBox}
                 onClick={() => {
-                  setIsSelectUsersOpen(true);
+                  setIsSelectUsersOpen(!isSelectUsersOpen);
                 }}
               >
                 {user.picture ? (
@@ -135,7 +170,7 @@ export default function StatisticDeveloper(props) {
                 )}
                 {user.name ? <p>{user.name}</p> : <p>Select user</p>}
               </div>
-              {isSelectUsersOpen && (
+              {
                 <div
                   className={`${styles.modalSelectUser} ${
                     isSelectUsersOpen ? styles.visible : undefined
@@ -167,7 +202,7 @@ export default function StatisticDeveloper(props) {
                     <p>There's no user with that name :(</p>
                   )}
                 </div>
-              )}
+              }
             </div>
             <select
               className={styles.view}
@@ -190,7 +225,7 @@ export default function StatisticDeveloper(props) {
                   {
                     type: "bar",
                     label: "Completed Tasks",
-                    yAxisID: "A",
+                    yAxisID: "Completed-Tasks",
                     borderColor: "#8eff7b",
                     borderWidth: 2,
                     backgroundColor: "#8eff7b",
@@ -199,7 +234,7 @@ export default function StatisticDeveloper(props) {
                   {
                     type: "line",
                     label: "Story Points",
-                    yAxisID: "B",
+                    yAxisID: "Story-Points",
                     backgroundColor: "#7befff",
                     data: userData.storyPoints,
                     borderColor: "#7befff",
@@ -207,27 +242,34 @@ export default function StatisticDeveloper(props) {
                   },
                 ],
               }}
-              option={{
+              options={{
                 maintainAspectRatio: false,
                 scales: {
-                  yAxis: [
-                    {
-                      id: "A",
-                      type: "linear",
-                      position: "right",
-                      ticks: {
-                        beginAtZero: true,
-                      },
+                  "Completed-Tasks": {
+                    grid: {
+                      display: false,
                     },
-                    {
-                      id: "B",
-                      type: "linear",
-                      position: "left",
-                      ticks: {
-                        beginAtZero: true,
-                      },
+                    title: {
+                      display: true,
+                      text: "Tasks",
                     },
-                  ],
+                    type: "linear",
+                    position: "right",
+                  },
+                  "Story-Points": {
+                    title: {
+                      display: true,
+                      text: "Story Points",
+                    },
+                    type: "linear",
+                    position: "left",
+                  },
+                },
+                plugins: {
+                  annotation: {
+                    drawTime: "afterDatasetsDraw",
+                    annotations: getSprintLine(),
+                  },
                 },
               }}
               height={100}
@@ -243,7 +285,9 @@ export default function StatisticDeveloper(props) {
                 </div>
                 <div className={styles.stat}>
                   <label>Story Points Achieved</label>
-                  <p>{userData.total.sp ? userData.total.sp : "-"}</p>
+                  <p>
+                    {userData.total.sp ? userData.total.sp.toFixed(2) : "-"}
+                  </p>
                 </div>
                 <div className={styles.stat}>
                   <label>Helped Tasks</label>

@@ -1,0 +1,44 @@
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 20px;
+  margin-bottom: 25px;
+}
+
+.modalHeader > h2 {
+  margin: 0;
+  font-weight: 600;
+  font-size: 32px;
+}
+
+.modalHeader > button {
+  all: unset;
+  display: flex;
+  align-items: center;
+}
+
+.modalFormGroup {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.modalButtons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+button[type="submit"] {
+  all: unset;
+  background: var(--violet);
+  padding: 10px 15px;
+  border-radius: 8px;
+  color: var(--white);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  font-size: 17px;
+  align-self: flex-end;
+  height: 15px;
+}

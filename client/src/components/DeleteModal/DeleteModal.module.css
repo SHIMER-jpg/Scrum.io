@@ -12,6 +12,7 @@
   margin: 0;
   font-weight: 600;
   font-size: 32px;
+  color: var(--black);
 }
 
 .modalHeader > button {
@@ -20,6 +21,7 @@
   align-items: flex-end;
   position: absolute;
   right: 5%;
+  color: var(--black);
 }
 
 .modalButtons {
@@ -34,23 +36,27 @@
   background: var(--red);
   padding: 10px 40px;
   border-radius: 8px;
-  color: white;
+  color: var(--white);
   font-weight: 600;
   font-size: 18px;
   width: 100%;
   text-align: center;
   /* align-self: flex-end; */
   user-select: none;
+  color: white;
 }
 .modalButtons button:disabled {
-  background: rgb(204, 204, 204);
-  color: white;
+  opacity: .5;
+  color: var(--white);
 }
 
 .modalFormGroup {
+  color: var(--black);
+
   display: flex;
   flex-direction: column;
   margin-bottom: 20px;
+  color: var(--black);
 }
 
 .modalFormGroup label {
@@ -67,6 +73,7 @@ textarea {
   padding: 10px;
   border: 1px solid rgb(204, 204, 204);
   transition: all 0.1s ease-in-out;
+  color: var(--black);
 }
 
 .modalFormGroup input:focus,

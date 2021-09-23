@@ -1,5 +1,5 @@
 .taskCard {
-  background-color: #f3f3f3;
+  background-color: var(--bgColor);;
   padding: 12px;
   /* margin: 20px 0; */
   border-radius: 8px;
@@ -32,11 +32,12 @@
 
 .taskCard_Body p {
   margin: 0;
+  color: var(--black);
 }
 
 .taskCard_StoryPoints {
   background-color: #a12464;
-  color: #f3f3f3;
+  color: white;
   font-size: 12px;
   font-weight: 600;
   padding: 3px 10px;
@@ -45,6 +46,8 @@
   display: flex;
   margin: auto;
   margin-right: 0;
+  white-space: nowrap;
+  margin-left: 10px;
 }
 
 .taskCard.easy_win {

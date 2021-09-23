@@ -34,6 +34,14 @@
   font-size: 22px;
 }
 
+:global(.darkMode) .login p {
+  color: white;
+}
+
+:global(.darkMode) .login h1 {
+  color: #ec2741;
+}
+
 .login button {
   all: unset;
   margin-top: 35px;
@@ -43,11 +51,12 @@
   gap: 10px;
   font-size: 20px;
   background-color: var(--violet);
-  color: white;
+  color: var(--white);
   border-radius: 1000px;
   font-weight: 500;
   transition: all 0.25s ease-in-out;
   cursor: pointer;
+  color: white;
 }
 
 .login button:hover {

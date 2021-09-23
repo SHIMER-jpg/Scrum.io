@@ -5,7 +5,7 @@
   justify-content: space-between;
   align-items: center;
   padding-bottom: 20px;
-  border-bottom: 1px solid rgb(204, 204, 204);
+  border-bottom: 1px solid var(--separator);
   margin-bottom: 25px;
 }
 
@@ -19,6 +19,7 @@
   all: unset;
   display: flex;
   align-items: center;
+  color: var(--black);
 }
 
 .modalBody {
@@ -35,6 +36,7 @@
   font-weight: 600;
   font-size: 18px;
   margin-bottom: 8px;
+  color: var(--black);
 }
 
 .modalFormGroup input,
@@ -46,6 +48,7 @@
   padding: 10px;
   border: 1px solid rgb(204, 204, 204);
   transition: all 0.1s ease-in-out;
+  color: var(--black);
 }
 
 .modalFormGroup input:focus,
@@ -72,7 +75,7 @@
   width: 100%;
   border-radius: 8px;
   border: 1px solid rgb(204, 204, 204);
-  background: white;
+  background: var(--white);
   overflow-y: auto;
   visibility: hidden;
   opacity: 0;
@@ -98,6 +101,7 @@
   font-weight: 500;
   padding: 10px;
   transition: all 0.15s ease-in-out;
+  background-color: var(--bgColor);
 }
 
 .modalUser:hover {
@@ -109,11 +113,12 @@
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  border: 1px solid rgb(204, 204, 204);
+  border: 1px solid var(--white);
 }
 
 .modalUser p {
   margin: 0;
+  color: var(--black);
 }
 
 .addedUsers:not(:empty) {
@@ -129,17 +134,18 @@
   display: flex;
   align-items: center;
   border-radius: 8px;
-  background: rgb(238, 238, 238);
-  border: 1px solid rgb(238, 238, 238);
+  background: var(--bgColor);
+  border: 1px solid var(--bgColor);
   overflow: hidden;
   gap: 10px;
   padding-right: 10px;
+  color: var(--black)
 }
 
 .addedUsersCard img {
   width: 32px;
   height: 32px;
-  background: white;
+  background: var(--white);
 }
 
 .addedUsersCard p {
@@ -158,10 +164,11 @@
   background: var(--violet);
   padding: 10px 15px;
   border-radius: 8px;
-  color: white;
+  color: var(--white);
   font-weight: 600;
   font-size: 18px;
   align-self: flex-end;
+  color: white;
 }
 
 .modalFormGroup button[disabled] {
@@ -172,9 +179,9 @@
   background-color: rgb(255, 93, 93);
   padding: 15px;
   border-radius: 12px;
-  color: white;
+  color: var(--white);
   font-weight: 600;
-  color: white;
+  color: var(--white);
   font-size: 16px;
   margin-bottom: 20px;
   display: flex;

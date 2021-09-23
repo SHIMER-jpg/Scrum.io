@@ -1,20 +1,23 @@
 .select {
   display: flex;
   justify-content: space-evenly;
-  background: white;
-  color: black;
+  background: var(--white);
+  color: var(--black);
   height: 20px;
   /* width: 150px; */
   align-content: center;
   flex-wrap: wrap;
   /* flex-direction: column; */
 }
-.conteiner {
-  padding: 25px 0 25px 30px;
-  width: 100%;
-  min-height: calc(100vh - 70px);
-  height: auto;
-  overflow-y: scroll;
+.container {
+  position: absolute;
+  top: 19%;
+  right: 35px;
+  background: var(--white);
+  border-radius: 8px;
+  border: 1px solid var(--separator);
+  /* gap: 30px; */
+  padding: 10px 15px;
 }
 
 .header {
@@ -22,7 +25,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid rgb(179, 179, 179);
+  border-bottom: 1px solid var(--separator);
   padding-bottom: 20px;
 }
 
@@ -37,9 +40,9 @@
   flex-direction: row;
   margin-top: 20px;
   margin-bottom: 20px;
+  color: var(--black);
 }
-.column {
-}
+
 .dangerPair {
   width: 100%;
   display: flex;
@@ -56,6 +59,18 @@
   margin-right: 20px;
 }
 
+.modalFormGroup button {
+  all: unset;
+  background: var(--violet);
+  padding: 10px 15px;
+  border-radius: 8px;
+  color: white;
+  font-weight: 600;
+  font-size: 15px;
+  align-self: flex-end;
+  border: 0.5px solid var(--violet);
+}
+
 .delete button {
   all: unset;
   background: var(--red);
@@ -69,11 +84,10 @@
 }
 
 .delete {
-  width: max-content;
   color: red;
   font-weight: 600;
   border-radius: 8px;
-  border: 2px solid var(--red);
+  border: 1px solid var(--red);
   padding: 10px;
   display: flex;
   flex-direction: column;

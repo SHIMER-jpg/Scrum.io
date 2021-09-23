@@ -1,0 +1,73 @@
+.container {
+  width: 100%;
+  height: auto;
+  overflow-y: scroll;
+  background-color: var(--white);
+}
+
+
+.notificationsContainer {
+  /* max-width: 650px; */
+  border: 1px solid var(--separator);
+  background-color: var(--white);
+  border-radius: 12px;
+  box-shadow: 0px 0px 3px 0 rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  max-height: 420px;
+  overflow-y: auto;
+}
+
+.container h1 {
+  font-size: 23px;
+  margin-bottom: 20px;
+}
+
+
+.notificationItem {
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  transition: all .15s ease-in-out;
+  cursor: pointer;
+}
+
+.notificationItemReaded {
+  background-color: rgb(243, 243, 243);
+}
+
+:global(.darkMode) .notificationItemReaded {
+  background-color: rgb(39, 39, 39);
+}
+
+.notificationItem:hover {
+  background-color: rgba(161, 36, 101, 0.1);
+}
+
+.notificationItem:not(:last-child) {
+  border-bottom: 1px solid var(--separator);
+}
+
+.notificationItemHeader {
+  display: flex;
+  justify-content: space-between;
+}
+
+.notificationItemHeader p:nth-child(1) {
+  margin: 0;
+  font-weight: 600;
+  font-size: 21px;
+  color: var(--violet);
+}
+
+.notificationItemHeader p:nth-child(2) {
+  margin: 0 !important;
+  font-weight: 500;
+  font-size: 16px;
+  color: gray;
+}
+
+.notificationMain p {
+  margin: 7px 0 0 0 !important;
+  font-weight: 400;
+  font-size: 16px;
+}

@@ -7,12 +7,12 @@
 }
 
 .conteinerHeader {
-  margin-bottom: 50px;
+  margin-bottom: 25px;
   width: calc(100% - 30px);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid rgb(179, 179, 179);
+  border-bottom: 1px solid var(--separator);
   padding-bottom: 20px;
 }
 
@@ -25,4 +25,128 @@
   flex-wrap: nowrap;
   gap: 30px;
   overflow-x: auto;
+}
+.conteinerHeader input {
+  all: unset;
+  border-radius: 8px;
+  background-color: var(--white);
+  display: flex;
+  padding: 10px;
+  border: 1px solid rgb(204, 204, 204);
+  transition: all 0.1s ease-in-out;
+  width: 100%;
+}
+
+.conteinerHeader input:focus {
+  border: 2px solid var(--violet);
+  box-shadow: 0 0 0 3px rgba(161, 36, 101, 0.4);
+}
+.userBlobs {
+  display: flex;
+  flex-wrap: wrap;
+  cursor: pointer;
+}
+.more {
+  background-color: var(--violet);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 45px;
+  width: 45px;
+  border-radius: 50%;
+  font-weight: 600;
+  color: white;
+  user-select: none;
+  border: 3px solid var(--bgColor);
+}
+
+.userBlobs img {
+  height: 45px;
+  width: 45px;
+  border-radius: 50%;
+  margin-right: -10px;
+  border: 3px solid var(--bgColor);
+}
+
+.projectDetails {
+  margin-bottom: 20px;
+  color: var(--black);
+  display: flex;
+  justify-content: space-between;
+  margin-right: 25px;
+}
+
+.dateDetails {
+  display: flex;
+}
+
+.projectDetailsItem {
+  display: flex;
+  flex-direction: column;
+  font-size: 18px;
+  gap: 4px;
+}
+
+.projectDetailsItem:not(:first-child) {
+  border-left: 1px solid var(--separator);
+  padding-left: 20px;
+  margin-left: 20px;
+}
+
+.projectDetailsItem p {
+  margin: 0;
+}
+
+.projectDetailsItem > p {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.projectDetailsItem > div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 17px;
+}
+
+.sprintDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sprintDetails p {
+  margin: 0;
+}
+
+.sprintDetails > p {
+  font-size: 14px;
+  font-weight: 600;
+  margin-left: 5px;
+}
+
+.sprintDetails > div {
+  display: flex;
+  gap: 10px;
+}
+
+.sprintDetails > div button {
+  all: unset;
+  color: var(--black);
+}
+
+.configButton {
+  all: unset;
+  height: 45px;
+  width: 45px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--white);
+  transition: all .15s ease-in-out;
+}
+
+.configButtonOpen {
+  background-color: rgba(161, 36, 101, 0.2);
 }

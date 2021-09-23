@@ -3,9 +3,11 @@ const { Router } = require("express");
 const {
   getTasksByProjectId,
   modifyTask,
+  modifyManyTasks,
   postTask,
   getUserTasks,
   deleteTask,
+  deleteSelectedTasks,
   bulkImport,
   bulkRemove,
 } = require("../controllers/task.js");
@@ -22,8 +24,12 @@ task.post("/bulkCreate", bulkImport);
 
 task.put("/update", modifyTask);
 
+task.put("/updateMany", modifyManyTasks);
+
 // Obtiene las tareas de un usuario
 task.get("/user", getUserTasks);
+
+task.put("/deleteSelectedTasks", deleteSelectedTasks); // es una ruta 'put' porque en la 'delete' se ignora el body y nunca recibe el array con tareas a borrar
 
 task.delete("/:taskId", deleteTask);
 

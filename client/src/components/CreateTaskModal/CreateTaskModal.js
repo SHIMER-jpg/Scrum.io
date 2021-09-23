@@ -12,8 +12,6 @@ import { createTask } from "../../redux/ManagerView/actions";
 
 import styles from "../CreateProjectModal/CreateProjectModal.module.css";
 
-
-
 Modal.setAppElement("#root");
 
 const customStyles = {
@@ -24,6 +22,7 @@ const customStyles = {
     maxHeight: "90vh",
     borderRadius: "8px",
     maxWidth: "650px",
+    background: "var(--white)"
   },
   overlay: {
     backgroundColor: "rgba(0,0,0,0.5)",
@@ -38,6 +37,8 @@ const CreateTaskModal = ({
   setIsModalOpen,
   assignedUsers,
   projectId,
+  sprintCount,
+  tasks,
 }) => {
   const dispatch = useDispatch();
   const [isSelectUsersOpen, setIsSelectUsersOpen] = useState(false);
@@ -51,6 +52,7 @@ const CreateTaskModal = ({
     title: "",
     assignedTo: "",
     storyPoints: "",
+    sprintId: "",
     priorization: "Easy Win",
     details: "",
   });
@@ -113,6 +115,10 @@ const CreateTaskModal = ({
           details: Yup.string().required(
             "You must write a description for the task"
           ),
+          sprintId: Yup.number()
+            .required("You must assign this task to a sprint")
+            .min(0, "Min value 0.")
+            .max(sprintCount, "Max value " + sprintCount),
         })}
         onSubmit={(_, actions) => {
           if (!values.assignedTo) {
@@ -126,6 +132,7 @@ const CreateTaskModal = ({
             setValues({
               title: "",
               assignedTo: "",
+              sprintId: "",
               storyPoints: "",
               priorization: "",
               details: "",
@@ -212,6 +219,22 @@ const CreateTaskModal = ({
                 ))}
             </Field>
             <Field className={styles.modalFormGroup} as="div">
+              <label>Sprint</label>
+              <Field
+                placeholder="Which Sprint is this task going to be completed in?"
+                name="sprintId"
+                type="number"
+                onChange={handleChange}
+              />
+              <ErrorMessage name="sprintId" component="div">
+                {(msg) => (
+                  <p className={styles.errorMessage} style={{ color: "red" }}>
+                    {msg}
+                  </p>
+                )}
+              </ErrorMessage>
+            </Field>
+            <Field className={styles.modalFormGroup} as="div">
               <label>Story points</label>
               <Field
                 placeholder="Type the amount of story points"
@@ -234,6 +257,7 @@ const CreateTaskModal = ({
                 name="priorization"
                 value={values.priorization}
                 onChange={handleChange}
+                style={{background: "var(--white)"}}
               >
                 <option value="Easy Win">Easy win</option>
                 <option value="Deprioritize">Deprioritize</option>

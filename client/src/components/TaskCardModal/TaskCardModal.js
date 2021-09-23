@@ -7,6 +7,9 @@ import { useSearch } from "../../hooks/useSearch";
 import useTimeAgo from "../../hooks/useTimeAgo";
 import Swal from "sweetalert2";
 
+import { BsPencilSquare } from "react-icons/bs";
+import { TiTick } from "react-icons/ti";
+
 // redux actions
 import {
   getNotesDetails,
@@ -24,28 +27,34 @@ import Dropdown from "../Dropdown/Dropdown";
 import styles from "./TaskModal.module.css";
 
 function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
-  const { title, details, creationDate, _id, storyPoints, asignedTo } =
-    modalDetails;
+  const { creationDate, _id, storyPoints, asignedTo } = modalDetails;
   const loggedId = useSelector((state) => state.app.loggedUser._id);
   const assignedUsers = useSelector((state) => state.managerView.asignedUsers);
   const [isSelectUsersOpen, setIsSelectUsersOpen] = useState(false);
   const [usersInProject, setUsersInProject] = useState([]);
   const [query, setQuery, filteredUsers] = useSearch(usersInProject);
-  // const [clickDeleteCount, setClickDeleteCount] = useState(0);
-
-  console.log({ modalDetails });
+  const maxSprint = useSelector(
+    (state) => state.managerView.project.sprintCount
+  );
   const isManager = useSelector(
     (state) => state.viewRouter.userRole === "scrumMaster"
   );
-
   const [statusDropdownIsOpen, setStatusDropdownIsOpen] = useState(false);
+
   const [dynamicFields, setDynamicFields] = useState({
     status: modalDetails.status,
     helpNeeded: modalDetails.helpNeeded,
     priorization: modalDetails.priorization,
     asignedTo: modalDetails.asignedTo,
     user: modalDetails.user,
+    sprintId: modalDetails.sprintId,
+    details: modalDetails.details,
+    title: modalDetails.title,
   });
+
+  const [isOpenSprint, setIsOpenSprintChange] = useState(false);
+  const [isDetailsOpen, setIsDetailsOpen] = useState(false);
+  const [isTitleOpen, setIsTitleOpen] = useState(false);
 
   const [colorMap, setColorMap] = useState(
     dynamicFields.priorization === "Easy Win"
@@ -68,6 +77,7 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
       borderRadius: "8px",
       maxWidth: "650px",
       borderTop: `8px solid #${colorMap}`,
+      backgroundColor: "var(--white)",
     },
     overlay: {
       backgroundColor: "rgba(0,0,0,0.5)",
@@ -114,6 +124,7 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
 
     dispatch(updateTask(change));
   }
+
   function handlePrioritizationChange({ target }) {
     const change = {
       taskId: _id,
@@ -138,6 +149,39 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
         : ""
     );
 
+    dispatch(updateTask(change));
+  }
+
+  function handleFieldChange({ target }) {
+    setDynamicFields({
+      ...dynamicFields,
+      [target.name]: target.value,
+    });
+  }
+
+  function handleSprintChange({ target }) {
+    const change = {
+      taskId: _id,
+      field: "sprintId",
+      value: dynamicFields.sprintId,
+    };
+    setIsOpenSprintChange(false);
+    dispatch(updateTask(change));
+  }
+
+  function handleDetailChange({ target }) {
+    const change = {
+      taskId: _id,
+      field: "details",
+      value: dynamicFields.details,
+    };
+    setIsDetailsOpen(false);
+    dispatch(updateTask(change));
+  }
+
+  function handleTitleChange({ target }) {
+    const change = { taskId: _id, field: "title", value: dynamicFields.title };
+    setIsTitleOpen(false);
     dispatch(updateTask(change));
   }
 
@@ -167,7 +211,8 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
     dispatch(updateTask(change));
   }
 
-  const handleAddUser = (user) => {
+  const handleAddUser = (e, user) => {
+    e.preventDefault();
     const change = {
       taskId: _id,
       field: "asignedTo",
@@ -213,8 +258,44 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
         contentLabel="Task Card"
       >
         <header className={styles.modalHeader}>
-          <h2>{title}</h2>
-          <span className={styles.taskCard_StoryPoints}>{storyPoints} SP</span>
+          {!isTitleOpen ? (
+            <h2>{dynamicFields.title}</h2>
+          ) : (
+            <input
+              name="title"
+              value={dynamicFields.title}
+              onChange={handleFieldChange}
+            ></input>
+          )}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              color: "var(--black)",
+            }}
+          >
+            {isManager ? (
+              !isTitleOpen ? (
+                <BsPencilSquare
+                  size={20}
+                  onClick={() => setIsTitleOpen(true)}
+                  style={{
+                    marginLeft: "10px",
+                    cursor: "pointer",
+                  }}
+                />
+              ) : (
+                <TiTick
+                  onClick={handleTitleChange}
+                  size={24}
+                  style={{ marginLeft: "10px", cursor: "pointer" }}
+                />
+              )
+            ) : null}
+            <span className={styles.taskCard_StoryPoints}>
+              {storyPoints} SP
+            </span>
+          </div>
           <button onClick={() => setIsModalOpen(false)}>
             <IoClose size={30} />
           </button>
@@ -236,7 +317,7 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
                 <p>{dynamicFields.user.name}</p>
               </div>
             )}
-            {isManager && isSelectUsersOpen && (
+            {
               <div
                 className={`${styles.modalSelectUser} ${
                   isSelectUsersOpen ? styles.visible : undefined
@@ -256,7 +337,7 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
                 {filteredUsers.length ? (
                   filteredUsers.map((user) => (
                     <article
-                      onClick={() => handleAddUser(user)}
+                      onClick={(e) => handleAddUser(e, user)}
                       key={user._id}
                       className={styles.modalUser}
                     >
@@ -268,13 +349,51 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
                   <p>There's no user with that name :(</p>
                 )}
               </div>
-            )}
+            }
           </div>
           <div className={styles.modalFormGroup}>
             <label className={styles.titles}>Created</label>
             <span>
               {new Date(creationDate).toLocaleDateString()} ({timeAgo})
             </span>
+          </div>
+          <div className={styles.modalFormGroup}>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+              }}
+            >
+              <label>Sprint</label>
+              {isManager ? (
+                !isOpenSprint ? (
+                  <BsPencilSquare
+                    size={20}
+                    onClick={() => setIsOpenSprintChange(true)}
+                    style={{ marginLeft: "10px", cursor: "pointer" }}
+                  />
+                ) : (
+                  <TiTick
+                    onClick={handleSprintChange}
+                    size={24}
+                    style={{ marginLeft: "10px", cursor: "pointer" }}
+                  />
+                )
+              ) : null}
+            </div>
+            {!isOpenSprint ? (
+              <span>{dynamicFields.sprintId || "Not assigned yet"}</span>
+            ) : (
+              <input
+                onChange={handleFieldChange}
+                onKeyDown={(e) => e.preventDefault()}
+                type="number"
+                name="sprintId"
+                max={maxSprint}
+                min={1}
+                value={dynamicFields.sprintId}
+              />
+            )}
           </div>
           <div className={styles.modalFormGroup}>
             <label className={styles.titles}>Priorization: </label>
@@ -299,8 +418,38 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
             )}
           </div>
           <div className={styles.modalFormGroup}>
-            <label className={styles.titles}>Details: </label>
-            <span>{details}</span>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+              }}
+            >
+              <label className={styles.titles}>Details: </label>
+              {isManager ? (
+                !isDetailsOpen ? (
+                  <BsPencilSquare
+                    size={20}
+                    onClick={() => setIsDetailsOpen(true)}
+                    style={{ marginLeft: "10px", cursor: "pointer" }}
+                  />
+                ) : (
+                  <TiTick
+                    onClick={handleDetailChange}
+                    size={24}
+                    style={{ marginLeft: "10px", cursor: "pointer" }}
+                  />
+                )
+              ) : null}
+            </div>
+            {!isDetailsOpen ? (
+              <span>{dynamicFields.details}</span>
+            ) : (
+              <textarea
+                name="details"
+                value={dynamicFields.details}
+                onChange={handleFieldChange}
+              ></textarea>
+            )}
           </div>
 
           <div className={styles.modalFormGroup}>
@@ -315,13 +464,17 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
               ></textarea>
               <div className={styles.modalButtons}>
                 <button type="submit">Add Note</button>
-                  <button
-                    className={`${styles[dynamicFields.helpNeeded]}`}
-                    type="submit"
-                    onClick={(e) => (loggedId === asignedTo || isManager) ? handleOnClick(e) : () => {}}
-                  >
-                    {dynamicFields.helpNeeded ? "Help Asked" : "Ask for help"}
-                  </button>
+                <button
+                  className={`${styles[dynamicFields.helpNeeded]}`}
+                  type="submit"
+                  onClick={(e) =>
+                    loggedId === asignedTo || isManager
+                      ? handleOnClick(e)
+                      : () => {}
+                  }
+                >
+                  {dynamicFields.helpNeeded ? "Help Asked" : "Ask for help"}
+                </button>
               </div>
             </form>
           </div>
@@ -348,7 +501,6 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
                 type="submit"
                 onClick={(e) => {
                   handleDelete(_id);
-                  // setClickDeleteCount(clickDeleteCount + 1);
                 }}
               >
                 Delete Task
@@ -369,13 +521,6 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
               />
             )}
           </div>
-          {/* {clickDeleteCount > 0 ? (
-            <span className={styles.danger}>
-              Please confirm, this action is not reversible
-            </span>
-          ) : (
-            ""
-          )} */}
         </div>
       </Modal>
     </>

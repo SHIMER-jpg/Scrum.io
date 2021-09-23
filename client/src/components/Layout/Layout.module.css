@@ -1,0 +1,50 @@
+.show {
+  visibility: visible;
+}
+
+.hidden {
+  visibility: hidden;
+  opacity: 0;
+}
+
+
+.buttonMessage button {
+  border-radius: 32px;
+  padding: 12px;
+  height: 64px;
+  width: 64px;
+  background-color: var(--white);
+  color: #a12464;
+  border: 1px solid var(--separator);
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.15);
+  position: fixed;
+  /* z-index: 100000; */
+  right: 30px;
+  bottom: 20px;
+}
+
+.alertButton .button {
+  border-radius: 32px;
+  padding: 12px;
+  height: 64px;
+  width: 64px;
+  background-color: var(--white);
+  color: #a12464;
+  border: none;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.15);
+  position: fixed;
+  z-index: 100000;
+  right: 30px;
+  bottom: 20px;
+}
+
+.alertButton .dot {
+  background-color: #a12464;
+  width: 27%;
+  height: 27%;
+  border-radius: 20px;
+  margin: -5px;
+  right: 4%;
+  position: absolute;
+  top: 7%;
+}
