@@ -10,7 +10,6 @@ export function Configuration({ setOpenDelete }) {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const userRole = useSelector((state) => state.viewRouter.userRole);
   const project = useSelector((state) => state.managerView.project);
 
   const [deleteProjectModal, setDeleteProjectModal] = useState(false);

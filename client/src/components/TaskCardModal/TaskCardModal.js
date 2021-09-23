@@ -23,13 +23,11 @@ import { createNote } from "../../redux/NoteDetail/actions";
 import { IoClose } from "react-icons/io5";
 import NoteDetail from "../NoteDetail/NoteDetail";
 import Dropdown from "../Dropdown/Dropdown";
-import { AiFillEdit } from "react-icons/ai";
-import EditTaskModal from "../EditTaskModal/EditTaskModal";
 
 import styles from "./TaskModal.module.css";
 
 function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
-  const { details, creationDate, _id, storyPoints, asignedTo } = modalDetails;
+  const { creationDate, _id, storyPoints, asignedTo } = modalDetails;
   const loggedId = useSelector((state) => state.app.loggedUser._id);
   const assignedUsers = useSelector((state) => state.managerView.asignedUsers);
   const [isSelectUsersOpen, setIsSelectUsersOpen] = useState(false);

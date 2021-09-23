@@ -6,7 +6,6 @@ import { AiOutlineBarChart } from "react-icons/ai";
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { BsFillExclamationCircleFill } from "react-icons/bs";
-import { MdDelete } from "react-icons/md";
 
 import styles from "./Sidebar.module.css";
 import { SiGooglehangoutsmeet } from "react-icons/si";

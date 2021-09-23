@@ -53,6 +53,7 @@ const JitsiMeet = () => {
           style={{ all: "unset" }}
           href={`https://meet.jit.si/scrum.io-meeting-${projectId}`}
           target="_blank"
+          rel="noreferrer"
         >
           OPEN IN NEW TAB
         </a>

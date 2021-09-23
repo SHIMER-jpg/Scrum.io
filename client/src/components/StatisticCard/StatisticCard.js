@@ -21,7 +21,7 @@ export default function StatisticCard({ graphType, tasks, project }) {
     byTasks: [],
   });
 
-  const isDarkMode = useSelector(state => state.app.darkMode)
+  const isDarkMode = useSelector((state) => state.app.darkMode);
 
   // estado y funcion para cambiar la vista de los datos entre ver por story point o por tareas
   const [charDataOption, setCharDataOption] = useState({
@@ -253,7 +253,7 @@ export default function StatisticCard({ graphType, tasks, project }) {
         ? tasks.filter((t) => t.sprintId == charDataOption.sprintNumber)
         : tasks;
     if (graphType === "Tasks Priorization Chart") {
-      tasks.forEach((t) => {
+      filteredTasks.forEach((t) => {
         if (t.priorization === "Easy Win") {
           charData[0] += 1;
         } else if (t.priorization === "Strategic Initiative") {
@@ -265,7 +265,7 @@ export default function StatisticCard({ graphType, tasks, project }) {
         }
       });
     } else if (graphType === "Project Report") {
-      tasks.forEach((t) => {
+      filteredTasks.forEach((t) => {
         if (t.status === "Pending") {
           charData[0] += 1;
         } else if (t.status === "In progress") {

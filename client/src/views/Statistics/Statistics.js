@@ -6,9 +6,9 @@ import styles from "./Statistics.module.css";
 
 // acciones
 import {
-  getProjectById,
+  // getProjectById,
+  // getAsignedUsers,
   getTasksByProject,
-  getAsignedUsers,
 } from "../../redux/ManagerView/actions";
 
 // components
