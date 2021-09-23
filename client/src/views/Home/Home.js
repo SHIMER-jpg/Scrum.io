@@ -19,7 +19,7 @@ const Home = () => {
 
   const userLogged = useSelector((state) => state.app.loggedUser);
   const projectList = useSelector((state) => state.home.projectList);
-  
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -46,7 +46,31 @@ const Home = () => {
         {isLoadingProjects ? (
           <Loading isCentered={false} />
         ) : (
-          <ProjectHolder projectList={projectList} finished={false} />
+          <>
+            <ProjectHolder
+              projectList={projectList.filter(
+                ({ projects: { isCompleted } }) => !isCompleted
+              )}
+              finished={false}
+            />
+          </>
+        )}
+      </main>
+      <main className={styles.projects}>
+        {/* Proyectos en curso */}
+        {isLoadingProjects ||
+        projectList.filter(({ projects: { isCompleted } }) => isCompleted)
+          .length < 1 ? (
+          <></>
+        ) : (
+          <>
+            <ProjectHolder
+              projectList={projectList.filter(
+                ({ projects: { isCompleted } }) => isCompleted
+              )}
+              finished={true}
+            />
+          </>
         )}
       </main>
       {isModalOpen && (

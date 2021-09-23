@@ -50,6 +50,7 @@ export function AddPartnerModal({
 
   const handleAddUser = (user, userId) => {
     if (!mapState.find((e) => e._id === user._id)) {
+      setQuery("");
       setMapState([...mapState, user]);
       dispatch(assignUser(projectId, userId));
     }
@@ -70,7 +71,9 @@ export function AddPartnerModal({
           <IoClose size={30} />
         </button>
       </header>
-      <h3 style={{ fontWeight: "600", fontSize: "20px" }}>Current users in project</h3>
+      <h3 style={{ fontWeight: "600", fontSize: "20px" }}>
+        Current users in project
+      </h3>
       <div
         style={{
           maxHeight: "100px",
@@ -94,7 +97,7 @@ export function AddPartnerModal({
               );
             })
           ) : (
-            <h3 style={{fontWeight: "500"}}>No users assigned yet.</h3>
+            <h3 style={{ fontWeight: "500" }}>No users assigned yet.</h3>
           )}
         </div>
       </div>
@@ -114,7 +117,7 @@ export function AddPartnerModal({
           className={`${styles.modalSelectUser} ${
             isSelectUsersOpen ? styles.visible : undefined
           }`}
-          style={{zIndex: "190000"}}
+          style={{ zIndex: "190000" }}
         >
           {filteredUsers.length ? (
             filteredUsers

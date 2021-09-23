@@ -15,7 +15,7 @@ const projectSchema = new mongoose.Schema({
   currentSprint: { type: Number },
   sprintDuration: { type: Number, required: true },
   status: { type: Number, min: 0, max: 100 },
-  // tasks: [Task.schema], //quiza sacamos esto,
+  isCompleted: { type: Boolean, default: false },
   taskIds: [{ type: Schema.Types.ObjectId, ref: "Task" }], //quiza sacamos esto,
 });
 

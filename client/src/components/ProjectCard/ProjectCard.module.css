@@ -35,7 +35,7 @@
   color: rgb(85, 85, 85);
   margin: 0;
   white-space: nowrap;
-  margin-left: 8px ;
+  margin-left: 8px;
   font-weight: 500;
 }
 
@@ -62,7 +62,7 @@
 }
 
 :global(.darkMode) .title div {
-  background:rgba(218, 218, 218, 0.212);
+  background: rgba(218, 218, 218, 0.212);
 }
 
 .body p {

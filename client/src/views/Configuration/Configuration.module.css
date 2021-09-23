@@ -37,9 +37,9 @@
   flex-direction: row;
   margin-top: 20px;
   margin-bottom: 20px;
+  color: var(--black);
 }
-.column {
-}
+
 .dangerPair {
   width: 100%;
   display: flex;
@@ -54,6 +54,18 @@
   font-weight: 500;
   font-size: 18px;
   margin-right: 20px;
+}
+
+.modalFormGroup button {
+  all: unset;
+  background: var(--violet);
+  padding: 10px 15px;
+  border-radius: 8px;
+  color: white;
+  font-weight: 600;
+  font-size: 15px;
+  align-self: flex-end;
+  border: 0.5px solid var(--violet);
 }
 
 .delete button {
