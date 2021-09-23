@@ -270,7 +270,7 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
             ></input>
           )}
           <div style={{ display: "flex", alignItems: "center", color: "var(--black)" }}>
-            {!isTitleOpen ? (
+            {isManager ? !isTitleOpen ? (
               <BsPencilSquare
                 size={20}
                 onClick={() => setIsTitleOpen(true)}
@@ -285,7 +285,7 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
                 size={24}
                 style={{ marginLeft: "10px", cursor: "pointer" }}
               />
-            )}
+            ) : null}
             <span className={styles.taskCard_StoryPoints}>
               {storyPoints} SP
             </span>
@@ -359,7 +359,7 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
               }}
             >
               <label>Sprint</label>
-              {!isOpenSprint ? (
+              {isManager ? !isOpenSprint ? (
                 <BsPencilSquare
                   size={20}
                   onClick={() => setIsOpenSprintChange(true)}
@@ -371,7 +371,7 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
                   size={24}
                   style={{ marginLeft: "10px", cursor: "pointer" }}
                 />
-              )}
+              ) : null}
             </div>
             {!isOpenSprint ? (
               <span>{dynamicFields.sprintId || "Not assigned yet"}</span>
@@ -417,7 +417,7 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
               }}
             >
               <label className={styles.titles}>Details: </label>
-              {!isDetailsOpen ? (
+              {isManager ? !isDetailsOpen ? (
                 <BsPencilSquare
                   size={20}
                   onClick={() => setIsDetailsOpen(true)}
@@ -429,7 +429,7 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
                   size={24}
                   style={{ marginLeft: "10px", cursor: "pointer" }}
                 />
-              )}
+              ) : null}
             </div>
             {!isDetailsOpen ? (
               <span>{dynamicFields.details}</span>
