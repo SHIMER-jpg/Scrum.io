@@ -14,6 +14,7 @@ import {
 // components
 import StatisticCard from "../../components/StatisticCard/StatisticCard";
 import StatisticDeveloper from "../../components/StatisticDeveloper/StatisticDeveloper";
+import { Redirect } from "react-router";
 
 export default function Statistics(props) {
   const project = useSelector((state) => state.managerView.project);
@@ -25,37 +26,43 @@ export default function Statistics(props) {
   useEffect(() => {
     // dispatch(getProjectById(props.match.params.projectId));
     // dispatch(getAsignedUsers(props.match.params.projectId));
-    dispatch(getTasksByProject(props.match.params.projectId));
-
-    const helpNeeded = tasks.filter((t) => t.helpNeeded).length;
-    const totalTasks = tasks.length;
-    const completedTasks = tasks.reduce((acc, val) => {
-      if (val.status === "Completed") {
-        return acc + 1;
-      } else {
-        return acc + 0;
-      }
-    }, 0);
-    const totalStoryPoints = tasks.reduce((acc, val) => {
-      return acc + val.storyPoints;
-    }, 0);
-    const completedStoryPoints = tasks.reduce((acc, val) => {
-      if (val.status === "Completed") {
+    if(project._id) {
+      dispatch(getTasksByProject(props.match.params.projectId));
+  
+      const helpNeeded = tasks.filter((t) => t.helpNeeded).length;
+      const totalTasks = tasks.length;
+      const completedTasks = tasks.reduce((acc, val) => {
+        if (val.status === "Completed") {
+          return acc + 1;
+        } else {
+          return acc + 0;
+        }
+      }, 0);
+      const totalStoryPoints = tasks.reduce((acc, val) => {
         return acc + val.storyPoints;
-      } else {
-        return acc + 0;
-      }
-    }, 0);
-
-    setMainIndicators({
-      ...mainIndicators,
-      helpNeeded: helpNeeded,
-      totalTasks: totalTasks,
-      completedTasks: completedTasks,
-      totalStoryPoints: totalStoryPoints,
-      completedStoryPoints: completedStoryPoints,
-    });
+      }, 0);
+      const completedStoryPoints = tasks.reduce((acc, val) => {
+        if (val.status === "Completed") {
+          return acc + val.storyPoints;
+        } else {
+          return acc + 0;
+        }
+      }, 0);
+  
+      setMainIndicators({
+        ...mainIndicators,
+        helpNeeded: helpNeeded,
+        totalTasks: totalTasks,
+        completedTasks: completedTasks,
+        totalStoryPoints: totalStoryPoints,
+        completedStoryPoints: completedStoryPoints,
+      });
+    }
   }, []);
+
+  if(!project._id) {
+    return <Redirect to={`/project/${props.match.params.projectId}`} />
+  }
 
   return (
     <div className={styles.container}>

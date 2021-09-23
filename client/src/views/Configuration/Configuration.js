@@ -48,7 +48,7 @@ export function Configuration({ setOpenDelete }) {
     <div className={styles.container}>
       <div className={`${styles.modalFormGroup}`}>
         <div className={styles.Pair}>
-          <label>Mark as Completed</label>
+          <label>Mark as completed</label>
           <button onClick={handleCompleteProject}>COMPLETE</button>
         </div>
       </div>

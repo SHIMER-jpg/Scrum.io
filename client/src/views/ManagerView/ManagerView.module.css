@@ -134,3 +134,19 @@
   all: unset;
   color: var(--black);
 }
+
+.configButton {
+  all: unset;
+  height: 45px;
+  width: 45px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--white);
+  transition: all .15s ease-in-out;
+}
+
+.configButtonOpen {
+  background-color: rgba(161, 36, 101, 0.2);
+}
