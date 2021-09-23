@@ -34,7 +34,7 @@
   background: var(--red);
   padding: 10px 40px;
   border-radius: 8px;
-  color: white;
+  color: var(--white);
   font-weight: 600;
   font-size: 18px;
   width: 100%;
@@ -44,7 +44,7 @@
 }
 .modalButtons button:disabled {
   background: rgb(204, 204, 204);
-  color: white;
+  color: var(--white);
 }
 
 .modalFormGroup {

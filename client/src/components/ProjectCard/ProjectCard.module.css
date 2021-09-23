@@ -4,7 +4,7 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  background: white;
+  background: var(--white);
   box-shadow: 1px 1px 2px rgba(10, 10, 10, 0.17);
   border-radius: 8px;
   transition: all ease 0.15s;
@@ -35,7 +35,7 @@
   color: rgb(85, 85, 85);
   margin: 0;
   white-space: nowrap;
-  margin-left: 8px ;
+  margin-left: 8px;
   font-weight: 500;
 }
 
@@ -45,6 +45,7 @@
   font-weight: 600;
   height: 100%;
   font-size: 20px;
+  color: var(--black);
 }
 
 .title {
@@ -57,6 +58,15 @@
   background: rgb(212, 212, 212);
   height: 1px;
   width: 100%;
+  color: var(--black);
+}
+
+:global(.darkMode) .title div {
+  background: rgba(218, 218, 218, 0.212);
+}
+
+.body p {
+  color: var(--black);
 }
 
 .progressBar {
@@ -64,6 +74,10 @@
   height: 13px;
   border-radius: 1000px;
   background: rgb(214, 214, 214);
+}
+
+:global(.darkMode) .progressBar {
+  background: rgb(54, 54, 54);
 }
 
 .progress {
@@ -77,6 +91,7 @@ h4 {
   display: block;
   text-align: right;
   font-weight: 600;
+  color: var(--black);
 }
 
 .projectItem {
@@ -96,8 +111,8 @@ h4 {
   border-radius: 8px;
   background: var(--violet);
   font-size: 17px;
-  color: white;
   font-weight: 600;
   text-align: center;
   justify-self: end;
+  color: white;
 }

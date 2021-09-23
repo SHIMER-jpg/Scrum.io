@@ -13,7 +13,7 @@
 }
 
 .profile {
-  background-color: white;
+  background-color: var(--white);
   height: auto;
   display: flex;
   flex-direction: column;
@@ -29,7 +29,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  border-right: 1px solid rgb(199, 199, 199);
+  border-right: 1px solid var(--separator);
   height: 100%;
   white-space: nowrap;
 }
@@ -39,7 +39,7 @@
   width: 135px;
   height: 135px;
   border-radius: 50%;
-  border: 8px solid white;
+  border: 8px solid var(--white);
   margin-top: -95px;
 }
 
@@ -52,13 +52,14 @@
 .userInfo p {
   font-size: 18px;
   margin-top: 10px;
+  color: var(--black);
 }
 
 .socials {
   width: 90%;
   padding-top: 25px;
   margin-top: 15px;
-  border-top: 2px dashed rgb(201, 201, 201);
+  border-top: 2px dashed var(--separator);
   color: var(--violet);
   display: flex;
   justify-content: center;
@@ -76,7 +77,7 @@
   display: flex;
   gap: 15px;
   margin-bottom: 25px;
-  border-bottom: 1px solid rgb(199, 199, 199);
+  border-bottom: 1px solid var(--separator);
 }
 
 .nav button {
@@ -91,6 +92,7 @@
 
 .content p {
   margin: 0;
+  color: var(--black);
 }
 
 .nav button.active {
@@ -137,7 +139,7 @@
 .editProfileForm button:hover {
   color: var(--violet);
   border: 2px solid var(--violet);
-  background-color: white;
+  background-color: var(--white);
 }
 
 .modalFormGroup {
@@ -151,6 +153,7 @@
   font-weight: 600;
   font-size: 16px;
   margin-bottom: 8px;
+  color: var(--black);
 }
 
 .modalFormGroup input,
@@ -161,6 +164,11 @@
   padding: 8px;
   border: 1px solid rgb(204, 204, 204);
   transition: all 0.1s ease-in-out;
+  color: var(--black);
+}
+
+.modalFormGroup textarea {
+  color: var(--black);
 }
 
 .modalFormGroup input:focus,
@@ -178,6 +186,7 @@
   width: 100%;
   border-radius: 8px 0 0 8px;
   border-right: none !important;
+  color: var(--black);
 }
 
 .addSoftSkill > div > input:focus {
@@ -192,6 +201,7 @@
   width: 20px;
   display: flex;
   justify-content: center;
+  border: 2px solid var(--violet);
 }
 
 .softSkills {
@@ -240,6 +250,7 @@
   font-weight: 600;
   font-size: 16px;
   margin-bottom: 8px !important;
+  color: var(--black);
 }
 
 .editProfileSocialInput {
@@ -249,6 +260,7 @@
   padding: 7px;
   border: 1px solid rgb(204, 204, 204);
   transition: all 0.1s ease-in-out;
+  color: var(--black);
 }
 
 .editProfileSocialInput input {

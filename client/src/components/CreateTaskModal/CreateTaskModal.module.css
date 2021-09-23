@@ -68,7 +68,7 @@ select:focus {
   width: 100%;
   border-radius: 8px;
   border: 1px solid rgb(204, 204, 204);
-  background: white;
+  background: var(--white);
   overflow-y: auto;
   visibility: hidden;
   opacity: 0;
@@ -135,7 +135,7 @@ select:focus {
 .addedUsersCard img {
   width: 32px;
   height: 32px;
-  background: white;
+  background: var(--white);
 }
 
 .addedUsersCard p {
@@ -154,7 +154,7 @@ button[type="submit"] {
   background: var(--violet);
   padding: 10px 15px;
   border-radius: 8px;
-  color: white;
+  color: var(--white);
   font-weight: 600;
   font-size: 18px;
   align-self: flex-end;

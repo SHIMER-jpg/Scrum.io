@@ -19,6 +19,7 @@ const customStyles = {
     maxHeight: "90vh",
     borderRadius: "8px",
     maxWidth: "650px",
+    backgroundColor: "#000000"
   },
   overlay: {
     backgroundColor: "rgba(0,0,0,0.5)",

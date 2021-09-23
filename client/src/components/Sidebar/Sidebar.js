@@ -1,12 +1,12 @@
 import { RiHomeLine, RiTeamFill } from "react-icons/ri";
-import { BsGear } from "react-icons/bs";
 import { FaTasks } from "react-icons/fa";
 import { CgCardDiamonds, CgProfile } from "react-icons/cg";
 import { HiViewBoards } from "react-icons/hi";
 import { AiOutlineBarChart } from "react-icons/ai";
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
-import {BsFillExclamationCircleFill} from "react-icons/bs";
+import { BsFillExclamationCircleFill } from "react-icons/bs";
+import { MdDelete } from "react-icons/md";
 
 import styles from "./Sidebar.module.css";
 import { SiGooglehangoutsmeet } from "react-icons/si";
@@ -67,14 +67,14 @@ const Sidebar = () => {
       {userRole && (
         <div className={styles.item}>
           <NavLink to={`/teamComp/${projectId}`}>
-            <RiTeamFill size={23} /> Team Comp
+            <RiTeamFill size={23} /> Team comp
           </NavLink>
         </div>
       )}
       {userRole && (
         <div className={styles.item}>
           <NavLink to="/configuration">
-            <BsGear size={23} /> Configuration
+            <MdDelete size={23} /> Delete
           </NavLink>
         </div>
       )}

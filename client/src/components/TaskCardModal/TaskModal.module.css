@@ -5,7 +5,7 @@
   justify-content: space-between;
   align-items: center;
   padding-bottom: 20px;
-  border-bottom: 1px solid rgb(204, 204, 204);
+  border-bottom: 1px solid var(--separator);
 }
 
 .modalHeader > h2 {
@@ -15,16 +15,19 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+  color: var(--black);
 }
 
 .modalHeader > button {
   all: unset;
   position: absolute;
   right: 2%;
+  color: var(--black);
 }
 
 .modalBody {
   margin-top: 25px;
+  color: var(--black);
 }
 
 .modalButtons {
@@ -68,6 +71,7 @@
   border: 1px solid rgb(204, 204, 204);
   transition: all 0.1s ease-in-out;
   width: 100%;
+  color: var(--black);
 }
 
 .modalHeader input:focus {
@@ -80,18 +84,20 @@
 }
 
 .modalSelectUser {
+  position: absolute;
+  width: 88%;
+  top: 17%;
   display: flex;
   flex-direction: column;
   max-height: 145px;
-  width: 100%;
   border-radius: 8px;
   border: 1px solid rgb(204, 204, 204);
-  background: white;
+  background: var(--white);
   overflow-y: auto;
   visibility: hidden;
   opacity: 0;
   transition: all 0.15s ease-in-out;
-  z-index: 1000;
+  z-index: 100000000;
 }
 
 .modalSelectUser.visible {
@@ -153,7 +159,7 @@
 .addedUsersCard img {
   width: 32px;
   height: 32px;
-  background: white;
+  background: var(--white);
 }
 
 .addedUsersCard p {
@@ -172,22 +178,23 @@
   background: var(--violet);
   padding: 10px 15px;
   border-radius: 8px;
-  color: white;
+  color: var(--white);
   font-weight: 600;
   font-size: 15px;
   align-self: flex-end;
   margin-top: 10px;
   border: 0.5px solid var(--violet);
+  color: white;
 }
 
 .modalFormGroup button[type="submit"]:hover {
-  background: white;
+  background: var(--white);
   border: 0.5px solid var(--violet);
   color: var(--violet);
 }
 
 .modalButtons button[type="submit"].true {
-  background: white;
+  background: var(--white);
   border: 0.5px solid var(--violet);
   color: var(--violet);
 }
@@ -223,7 +230,7 @@
 }
 .taskCard_StoryPoints {
   background-color: #a12464;
-  color: #f3f3f3;
+  color: var(--bgColor);
   font-size: 18px;
   font-weight: 600;
   padding: 5px 10px;
@@ -234,7 +241,9 @@
   margin-right: 10px;
   white-space: nowrap;
   margin-left: 15px;
+  color: white;
 }
+
 .danger {
   color: red;
   font-weight: 500;

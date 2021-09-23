@@ -39,6 +39,7 @@ const getProjectByUserId = async (req, res, next) => {
         $unwind: "$projects",
       },
     ]);
+
     res.status(200).json(
       data.map((project) => {
         delete project.projects.taskIds;
@@ -118,7 +119,7 @@ const updateStatus = async (projectId) => {
     return parseInt(acc) + flag;
   }, 0);
   project.status = Math.trunc((completedSum / tasks.length) * 100);
-
+  project.isCompleted = project.status === 100 ? true : false;
   project.save();
 };
 
@@ -161,13 +162,11 @@ const getTeamComp = async (req, res, next) => {
 const editProject = async (req, res, next) => {
   try {
     const id = req.body.id;
-    const newProjectName = req.body.projectName;
-
-    const project = await Project.model.findOneAndUpdate(
-      { _id: id },
-      { projectName: newProjectName },
-      { new: true }
-    );
+    const update = {};
+    update[req.body.field] = req.body.value;
+    const project = await Project.model.findOneAndUpdate({ _id: id }, update, {
+      new: true,
+    });
     res.status(200).json(project);
   } catch (e) {
     next(e);

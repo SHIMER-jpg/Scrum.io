@@ -1,8 +1,9 @@
 import { React, useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styles from "./TasksCrud.module.css";
 
 // material-ui componentes para la tabla
+import { createTheme, ThemeProvider } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -183,121 +184,138 @@ export default function TasksCrud({ tasks, customHandleClick }) {
     });
   };
 
+  const darkMode = useSelector(state => state.app.darkMode)
+
   return (
     <div className={styles.container}>
-      <Paper className={styles.paper}>
-        <SetupTableToolbar
-          tasksSelected={selected}
-          setTasksFilter={setTasksFilter}
-          tasksFilter={tasksFilter}
-        />
-        <TableContainer>
-          <Table
-            className={styles.table}
-            aria-labelledby="tableTitle"
-            aria-label="enhanced table"
-          >
-            <SetupTableHead
-              styles={styles}
-              numSelected={selected.length}
-              order={order}
-              orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
-              onRequestSort={handleRequestSort}
-              rowCount={tasksArray.length}
-            />
-            <TableBody>
-              {stableSort(tasksArray, getComparator(order, orderBy))
-                .slice(page * tasksPerPage, page * tasksPerPage + tasksPerPage)
-                .map((task, index) => {
-                  const isItemSelected = isSelected(task._id);
-                  const labelId = `enhanced-table-checkbox-${index}`;
+      <ThemeProvider theme={createTheme({
+        palette: {
+          type: darkMode ? "dark" : "light",
+        },
+      })}>
+        <Paper className={styles.paper}>
+          <SetupTableToolbar
+            tasksSelected={selected}
+            setTasksFilter={setTasksFilter}
+            tasksFilter={tasksFilter}
+          />
+          <TableContainer>
+            <Table
+              className={styles.table}
+              aria-labelledby="tableTitle"
+              aria-label="enhanced table"
+            >
+              <SetupTableHead
+                styles={styles}
+                numSelected={selected.length}
+                order={order}
+                orderBy={orderBy}
+                onSelectAllClick={handleSelectAllClick}
+                onRequestSort={handleRequestSort}
+                rowCount={tasksArray.length}
+              />
+              <TableBody>
+                {stableSort(tasksArray, getComparator(order, orderBy))
+                  .slice(
+                    page * tasksPerPage,
+                    page * tasksPerPage + tasksPerPage
+                  )
+                  .map((task, index) => {
+                    const isItemSelected = isSelected(task._id);
+                    const labelId = `enhanced-table-checkbox-${index}`;
 
-                  return (
-                    <TableRow
-                      hover
-                      role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={task._id}
-                      selected={isItemSelected}
-                    >
-                      <TableCell padding="checkbox">
-                        <Checkbox
-                          onClick={(event) => handleClick(event, task._id)}
-                          checked={isItemSelected}
-                          inputProps={{ "aria-labelledby": labelId }}
-                        />
-                      </TableCell>
-                      <TableCell
-                        component="th"
-                        id={labelId}
-                        scope="row"
-                        padding="none"
-                        className={styles.titleField}
-                        onClick={() => {
-                          if (customHandleClick) customHandleClick(task);
-                          else {
-                            setModalDetails(task);
-                            setIsModalOpen(true);
-                          }
-                        }}
+                    return (
+                      <TableRow
+                        hover
+                        role="checkbox"
+                        aria-checked={isItemSelected}
+                        tabIndex={-1}
+                        key={task._id}
+                        selected={isItemSelected}
                       >
-                        {task.title}
-                      </TableCell>
-                      <TableCell align="center">{task.storyPoints}</TableCell>
-                      <SetupTableCellInput
-                        property={"priorization"}
-                        task={task}
-                      />
-
-                      <SetupTableCellInput property={"sprintId"} task={task} />
-                      <SetupTableCellInput property={"asignedTo"} task={task} />
-                      <SetupTableCellInput property={"status"} task={task} />
-                      <TableCell align="center">
-                        {new Date(task.creationDate).toLocaleDateString()}
-                      </TableCell>
-                      <TableCell align="center">
-                        {task.completedDate && task.completedDate !== null
-                          ? new Date(task.completedDate).toLocaleDateString()
-                          : "---"}
-                      </TableCell>
-                      <SetupTableCellInput
-                        property={"helpNeeded"}
-                        task={task}
-                        taskId={task._id}
-                      />
-                      <TableCell align="center">
-                        <BsTrashFill
-                          className={styles.tableRowDelete}
-                          size={25}
-                          onClick={() => handleDelete(task._id)}
+                        <TableCell padding="checkbox">
+                          <Checkbox
+                            onClick={(event) => handleClick(event, task._id)}
+                            checked={isItemSelected}
+                            inputProps={{ "aria-labelledby": labelId }}
+                          />
+                        </TableCell>
+                        <TableCell
+                          component="th"
+                          id={labelId}
+                          scope="row"
+                          padding="none"
+                          className={styles.titleField}
+                          onClick={() => {
+                            if (customHandleClick) customHandleClick(task);
+                            else {
+                              setModalDetails(task);
+                              setIsModalOpen(true);
+                            }
+                          }}
+                        >
+                          {task.title}
+                        </TableCell>
+                        <TableCell align="center">{task.storyPoints}</TableCell>
+                        <SetupTableCellInput
+                          property={"priorization"}
+                          task={task}
                         />
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          count={tasksArray.length}
-          rowsPerPage={tasksPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeTasksPerPage}
-        />
-      </Paper>
 
-      {modalIsOpen && (
-        <TaskCardModal
-          isOpen={modalIsOpen}
-          setIsModalOpen={setIsModalOpen}
-          modalDetails={modalDetails}
-        />
-      )}
+                        <SetupTableCellInput
+                          property={"sprintId"}
+                          task={task}
+                        />
+                        <SetupTableCellInput
+                          property={"asignedTo"}
+                          task={task}
+                        />
+                        <SetupTableCellInput property={"status"} task={task} />
+                        <TableCell align="center">
+                          {new Date(task.creationDate).toLocaleDateString()}
+                        </TableCell>
+                        <TableCell align="center">
+                          {task.completedDate && task.completedDate !== null
+                            ? new Date(task.completedDate).toLocaleDateString()
+                            : "---"}
+                        </TableCell>
+                        <SetupTableCellInput
+                          property={"helpNeeded"}
+                          task={task}
+                          taskId={task._id}
+                        />
+                        <TableCell align="center">
+                          <BsTrashFill
+                            className={styles.tableRowDelete}
+                            size={25}
+                            onClick={() => handleDelete(task._id)}
+                          />
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <TablePagination
+            rowsPerPageOptions={[5, 10, 25]}
+            component="div"
+            count={tasksArray.length}
+            rowsPerPage={tasksPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeTasksPerPage}
+          />
+        </Paper>
+
+        {modalIsOpen && (
+          <TaskCardModal
+            isOpen={modalIsOpen}
+            setIsModalOpen={setIsModalOpen}
+            modalDetails={modalDetails}
+          />
+        )}
+      </ThemeProvider>
     </div>
   );
 }

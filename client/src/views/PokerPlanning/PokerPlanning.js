@@ -301,7 +301,7 @@ const PokerPlanning = () => {
             <div className={styles.scrumMasterSection}>
               {room?.users?.find((u) => u.userRole === "scrumMaster") && (
                 <>
-                  <p>Scrum manager</p>
+                  <p>Scrum master</p>
                   <div>
                     <img
                       src={
