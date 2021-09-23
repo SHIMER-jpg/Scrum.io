@@ -12,8 +12,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid rgb(179, 179, 179);
+  border-bottom: 1px solid var(--separator);
   padding-bottom: 20px;
+  color: var(--black);
 }
 
 .body {
@@ -23,4 +24,5 @@
   justify-content: flex-start;
   align-items: flex-start;
   gap: 30px;
+  color: var(--black);
 }

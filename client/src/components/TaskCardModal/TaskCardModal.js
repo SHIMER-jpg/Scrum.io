@@ -79,6 +79,7 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
       borderRadius: "8px",
       maxWidth: "650px",
       borderTop: `8px solid #${colorMap}`,
+      backgroundColor: "var(--white)"
     },
     overlay: {
       backgroundColor: "rgba(0,0,0,0.5)",
@@ -268,8 +269,8 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
               onChange={handleFieldChange}
             ></input>
           )}
-          <div style={{ display: "flex", alignItems: "center" }}>
-            {!isTitleOpen ? (
+          <div style={{ display: "flex", alignItems: "center", color: "var(--black)" }}>
+            {isManager ? !isTitleOpen ? (
               <BsPencilSquare
                 size={20}
                 onClick={() => setIsTitleOpen(true)}
@@ -284,7 +285,7 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
                 size={24}
                 style={{ marginLeft: "10px", cursor: "pointer" }}
               />
-            )}
+            ) : null}
             <span className={styles.taskCard_StoryPoints}>
               {storyPoints} SP
             </span>
@@ -358,7 +359,7 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
               }}
             >
               <label>Sprint</label>
-              {!isOpenSprint ? (
+              {isManager ? !isOpenSprint ? (
                 <BsPencilSquare
                   size={20}
                   onClick={() => setIsOpenSprintChange(true)}
@@ -370,7 +371,7 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
                   size={24}
                   style={{ marginLeft: "10px", cursor: "pointer" }}
                 />
-              )}
+              ) : null}
             </div>
             {!isOpenSprint ? (
               <span>{dynamicFields.sprintId || "Not assigned yet"}</span>
@@ -416,7 +417,7 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
               }}
             >
               <label className={styles.titles}>Details: </label>
-              {!isDetailsOpen ? (
+              {isManager ? !isDetailsOpen ? (
                 <BsPencilSquare
                   size={20}
                   onClick={() => setIsDetailsOpen(true)}
@@ -428,7 +429,7 @@ function TaskCardModal({ isOpen, setIsModalOpen, modalDetails }) {
                   size={24}
                   style={{ marginLeft: "10px", cursor: "pointer" }}
                 />
-              )}
+              ) : null}
             </div>
             {!isDetailsOpen ? (
               <span>{dynamicFields.details}</span>

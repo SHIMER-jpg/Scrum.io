@@ -7,7 +7,7 @@
     justify-content: space-between;
     align-items: center;
     padding-bottom: 20px;
-    border-bottom: 1px solid rgb(204, 204, 204);
+    border-bottom: 1px solid var(--separator);
     margin-bottom: 25px;
   }
   
@@ -21,6 +21,7 @@
     all: unset;
     display: flex;
     align-items: center;
+    color: var(--black);
   }
 .modalFormGroup {
     display: flex;
@@ -42,6 +43,7 @@
     font-weight: 600;
     font-size: 18px;
     margin-bottom: 8px;
+    color: var(--black);
 }
 
 .modalFormGroup input,
@@ -52,6 +54,11 @@
     padding: 10px;
     border: 1px solid rgb(204, 204, 204);
     transition: all 0.1s ease-in-out;
+    color: var(--black);
+}
+
+:global(.darkMode) .modalFormGroup select {
+    background-color: var(--white);
 }
 
 .modalFormGroup input:focus,
@@ -66,8 +73,9 @@
     background: var(--violet);
     padding: 10px 15px;
     border-radius: 8px;
-    color: white;
+    color: var(--white);
     font-weight: 600;
     font-size: 18px;
     align-self: flex-end;
+    color: white;
 }

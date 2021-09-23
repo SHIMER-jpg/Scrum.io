@@ -14,6 +14,7 @@ const initialState = {
   notifications: [], // unread notifications
   allNotifications: [],
   userInfo: {},
+  darkMode: Boolean(localStorage.getItem("darkMode"))
 };
 
 export default function reducer(state = initialState, action) {
@@ -67,6 +68,12 @@ export default function reducer(state = initialState, action) {
           (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
         ),
       };
+    }
+    case "SET_DARK_MODE": {
+      return {
+        ...state,
+        darkMode: action.payload
+      }
     }
     default:
       return state;

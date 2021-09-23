@@ -6,7 +6,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid rgb(179, 179, 179);
+  border-bottom: 1px solid var(--separator);
   padding-bottom: 20px;
 }
 h1{
@@ -21,15 +21,15 @@ h1{
 .helpNeeded{
   display: flex;
   justify-content: space-between;
-
-  background: white;
-  border: 1px solid #d4d4d4;
+  background: var(--white);
+  border: 1px solid var(--separator);
   box-shadow: 1px 1px 2px rgba(10, 10, 10, 0.17);
   border-radius: 8px;
 }
+
 .helpNeeded div{
-  background: #d4d4d4;
-  width: 2px;
+  background: var(--separator);
+  width: 1px;
   height: 40px;
 }
 

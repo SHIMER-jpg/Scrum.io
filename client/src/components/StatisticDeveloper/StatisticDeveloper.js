@@ -35,6 +35,7 @@ export default function StatisticDeveloper(props) {
   const labels = getLabels(project.requiredDate, project.startDate, view);
 
   const [query, setQuery, filteredUsers] = useSearch(selectedUsers);
+  const isDarkMode = useSelector(state => state.app.darkMode)
 
   function getSprintLine() {
     const firstDay = project.startDate
@@ -47,13 +48,13 @@ export default function StatisticDeveloper(props) {
         type: "line",
         xMin: value,
         xMax: value,
-        borderColor: "rgb(204, 0, 25, 0.25)",
+        borderColor: `${isDarkMode ? "#e6697a" : "#cc001a"}`,
         borderWidth: 2,
         label: {
           enabled: true,
           content: "Sprint " + (index + 1),
           backgroundColor: "rgb(255,255,255,0)",
-          color: "rgb(204, 0, 25, 0.5)",
+          color: `${isDarkMode ? "#e6697a" : "#cc001a"}`,
           position: "end",
           rotation: "270",
           xAdjust: -10,

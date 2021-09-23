@@ -29,6 +29,7 @@ export function AddPartnerModal({
       overflowY: "unset",
       overflowX: "unset",
       maxWidth: "650px",
+      background: "var(--white)"
     },
     overlay: {
       backgroundColor: "rgba(0,0,0,0.5)",

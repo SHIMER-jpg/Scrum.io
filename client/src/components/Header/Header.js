@@ -5,19 +5,22 @@ import { FiChevronDown } from "react-icons/fi";
 import { ImFileEmpty } from "react-icons/im";
 import { useSelector, useDispatch } from "react-redux";
 import { IoMdNotificationsOutline } from "react-icons/io";
+import { BiMoon } from "react-icons/bi";
+import { FiSun } from "react-icons/fi";
 import { useHistory } from "react-router-dom";
 
 import useTimeAgo from "../../hooks/useTimeAgo";
 import {
   markNotificationsAsReaded,
   markOneNotificationAsReaded,
+  setDarkMode
 } from "../../redux/App/actions";
 
 import styles from "./Header.module.css";
 
 const mapTypeToText = {
   assignedTask: "You have a new task assigned",
-  ad: "Your scrum master has written an important ad."
+  ad: "Your scrum master has written an important ad.",
 };
 
 const Header = () => {
@@ -27,6 +30,7 @@ const Header = () => {
   const user = useSelector((state) => state.app.loggedUser);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(Boolean(localStorage.getItem("darkMode")));
 
   const notifications = useSelector(({ app }) => app.notifications);
   const unreadNotifications = notifications.filter((n) => !n.readed);
@@ -56,6 +60,19 @@ const Header = () => {
     });
   };
 
+  const toggleDarkMode = () => {
+    document.body.classList.toggle("darkMode")
+    if(document.body.classList.contains("darkMode")) {
+      setIsDarkMode(true)
+      dispatch(setDarkMode(true))
+      localStorage.setItem("darkMode", "true")
+    } else {
+      setIsDarkMode(false)
+      dispatch(setDarkMode(false))
+      localStorage.removeItem("darkMode")
+    }
+  };
+
   return (
     <header className={styles.container}>
       <section className={styles.header}>
@@ -64,6 +81,9 @@ const Header = () => {
         </Link>
       </section>
       <div className={styles.user}>
+        <button onClick={toggleDarkMode} className={styles.darkModeButton}>
+          {!isDarkMode ? <BiMoon size={22} /> : <FiSun size={22} />}
+        </button>
         <div className={styles.notificationContainer}>
           <button
             onBlur={() => setIsNotificationsOpen(false)}
