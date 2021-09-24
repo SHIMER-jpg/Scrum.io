@@ -216,7 +216,9 @@ export default function StatisticCard({ graphType, tasks, project }) {
     var charData = [0, 0, 0, 0];
     const filteredTasks =
       charDataOption.projectOrSprint === "bySprint"
-        ? tasks.filter((t) => t.sprintId === charDataOption.sprintNumber)
+        ? tasks.filter(
+            (t) => t.sprintId === parseInt(charDataOption.sprintNumber)
+          )
         : tasks;
     if (graphType === "Tasks Priorization Chart") {
       filteredTasks.forEach((t) => {
@@ -243,7 +245,7 @@ export default function StatisticCard({ graphType, tasks, project }) {
         }
       });
     } else if (graphType === "BurnDown Chart") charData = burnDownProgress();
-
+    console.log(charDataOption.sprintNumber);
     return charData;
   }
 
@@ -252,7 +254,9 @@ export default function StatisticCard({ graphType, tasks, project }) {
     var charData = [0, 0, 0, 0];
     const filteredTasks =
       charDataOption.projectOrSprint === "bySprint"
-        ? tasks.filter((t) => t.sprintId === charDataOption.sprintNumber)
+        ? tasks.filter(
+            (t) => t.sprintId === parseInt(charDataOption.sprintNumber)
+          )
         : tasks;
     if (graphType === "Tasks Priorization Chart") {
       filteredTasks.forEach((t) => {
