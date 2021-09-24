@@ -88,7 +88,7 @@ export default function StatisticCard({ graphType, tasks, project }) {
         byTasks: charDataByTasks(),
       });
     }
-  }, [tasks, charDataOption.sprintNumber]);
+  }, [tasks, charDataOption]);
 
   useEffect(() => {
     let firstDay = project.startDate
@@ -245,7 +245,7 @@ export default function StatisticCard({ graphType, tasks, project }) {
         }
       });
     } else if (graphType === "BurnDown Chart") charData = burnDownProgress();
-    console.log(charDataOption.sprintNumber);
+    console.log(filteredTasks, charDataOption.projectOrSprint);
     return charData;
   }
 
