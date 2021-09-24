@@ -48,7 +48,7 @@ const Layout = ({ children }) => {
       socket.on("newAd", ({ projectId, users }) => {
         if (users.includes(loggedUser._id)) {
           dispatch(getUnreadNotificationsByUser(loggedUser._id));
-          toast.info("New important advertisement.", {
+          toast.info("New important advertisement posted.", {
             position: "bottom-right",
             autoClose: 3000,
             hideProgressBar: false,
@@ -69,7 +69,7 @@ const Layout = ({ children }) => {
       socket.on("assignedProject", ({ projectId, userId }) => {
         if (loggedUser._id === userId) {
           dispatch(getUnreadNotificationsByUser(loggedUser._id));
-          toast.info("Yo have been assigned to a new project.", {
+          toast.info("You have been assigned to a new project.", {
             position: "bottom-right",
             autoClose: 3000,
             hideProgressBar: false,
