@@ -3,17 +3,14 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import {
-  AiOutlineDisconnect,
-  AiOutlineCloseCircle,
-} from "react-icons/ai";
+import { AiOutlineDisconnect, AiOutlineCloseCircle } from "react-icons/ai";
 import { Redirect, useParams } from "react-router-dom";
 
 import TaskHolder from "../../components/TaskHolder/TaskHolder";
 import TaskCard from "../../components/TaskCard/TaskCard";
 import { changeTask } from "../../redux/PokerPlanning/actions";
 import { getTasksByProject } from "../../redux/ManagerView/actions";
-import Loading from "../../components/Loading/Loading"
+import Loading from "../../components/Loading/Loading";
 
 import styles from "./PokerPlanning.module.css";
 
@@ -106,12 +103,12 @@ const PokerPlanning = () => {
   useEffect(() => {
     socket.on("roomInitialized", () => {
       setIsRoomInitialized(true);
-      setIsLoading(false)
+      setIsLoading(false);
     });
 
     socket.on("roomUninitialized", () => {
       setIsRoomInitialized(false);
-      setIsLoading(false)
+      setIsLoading(false);
     });
   }, []);
 
@@ -427,7 +424,7 @@ const PokerPlanning = () => {
                 </button>
               )}
               <div className={styles.footerInfoScores}>
-                {room.minValue ? (
+                {room.minValue.toString() ? (
                   <div
                     onClick={
                       userRole === "scrumMaster" &&
