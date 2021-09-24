@@ -424,7 +424,7 @@ const PokerPlanning = () => {
                 </button>
               )}
               <div className={styles.footerInfoScores}>
-                {room.minValue.toString() ? (
+                {room.minValue?.toString() ? (
                   <div
                     onClick={
                       userRole === "scrumMaster" &&
